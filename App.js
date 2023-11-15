@@ -15,10 +15,14 @@ function HomeScreen() {
 }
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     'Lato-Regular': require('./assets/fonts/Lato-Regular.ttf'),
     'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf')
   });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
     <NavigationContainer>

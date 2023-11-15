@@ -10,7 +10,7 @@ import { dimensions } from "../style"
 export default WelcomeScreen = ({ navigation }) => {
     return (
         <View style={styles.page}>
-            <View style={{gap: 5 * vmin}}>
+            <View style={styles.buttonGroup}>
                 <Button mode='outlined' theme={themes.buttonAlt} style={styles.button}>Sign in to account</Button>
                 <Button mode='contained' theme={themes.buttonAlt} style={styles.button}>Create account</Button>
             </View>
@@ -23,7 +23,10 @@ const styles = StyleSheet.create({
         backgroundColor: palette.purple,
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-between'
+    },
+    buttonGroup: {
+        gap: 5 * vmin
     },
     button: {
         width: 70 * vmin
