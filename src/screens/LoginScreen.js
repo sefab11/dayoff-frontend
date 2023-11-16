@@ -20,6 +20,14 @@ export default LoginScreen = ({ navigation }) => {
                         >
                             Forgot your password?
                         </Button>
+                        <Button
+                            onPress={() => navigation.navigate('profile')}
+                            mode='text'
+                            theme={themes.button}
+                            style={styles.forgotButton}
+                        >
+                            TEST
+                        </Button>
                     </View>
                     
                 </View>
