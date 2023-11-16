@@ -1,18 +1,30 @@
+import React, {useLayoutEffect} from 'react';
 import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { Button, HeaderBack, Image, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 
 export default FinishProfile = ({ navigation }) => {
+    useLayoutEffect(() => {
+        navigation.setOptions({
+          headerLeft: () => null, // This hides the back arrow
+        });
+      }, [navigation]);
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <HeaderBack>Finish Profile</HeaderBack>
                       {/* Add photo section */}
                       <View style={styles.profileImageContainer}>
-                    <Image
-                        style={styles.profileImage}
-                    />
+                      <Button
+                    onPress={()=>{}}
+                    mode="contained"
+                    theme={themes.button}
+                    style={styles.addPhotoButton}
+                >
+                    Add Photo
+                </Button>
                 </View>
                 <View style={styles.inputGroup}>
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Country of Residence" placeholder='United States'/>
@@ -40,15 +52,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: palette.white
     },
-    profileImageContainer: {
-        borderRadius: 50, // Make it circular
-        overflow: 'hidden',
-        marginVertical: 20,
-    },
-    profileImage: {
-        width: 100,
-        height: 100,
-        borderRadius: 50, // Make it circular
+    addPhotoButton: {
+        width: 200,
+        height: 40,
+        justifyContent: 'center',
+        marginBottom: 20,
     },
     inputGroup: {
         gap: 3.5 * vh
