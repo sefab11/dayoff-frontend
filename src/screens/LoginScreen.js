@@ -1,11 +1,11 @@
 import { View } from "react-native";
 import { StyleSheet } from "react-native";
-import { Header } from "../components";
+import { HeaderBack } from "../components";
 
 export default LoginScreen = ({ navigation }) => {
     return (
         <View style={styles.page}>
-            <Header>Login</Header>
+            <HeaderBack>Login</HeaderBack>
         </View>
     );
 }

@@ -15,6 +15,7 @@ const Header = (props) => {
 
 const styles = StyleSheet.create({
     header: {
+        flexDirection: 'row',
         paddingLeft: 4 * vmin,
         width: 100 * vw
     },
