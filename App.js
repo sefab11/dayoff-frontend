@@ -17,6 +17,7 @@ function HomeScreen() {
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     'Lato-Regular': require('./assets/fonts/Lato-Regular.ttf'),
+    'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
     'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf')
   });
 
