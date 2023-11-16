@@ -1,9 +1,9 @@
-import { Image as ImageRNP } from "react-native-paper"
+import { Image as ImageRNP } from "react-native"
 
 const Image = (props) => {
     const {style, children, ...rest} = props
     return (
-        <ImageRNP style={{...style}} {...rest}>
+        <ImageRNP resizeMode='center' style={{...style}} {...rest}>
             {children}
         </ImageRNP>
     )

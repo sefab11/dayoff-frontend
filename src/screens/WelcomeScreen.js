@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native"
+import { ImageBackground, StyleSheet } from "react-native"
 import { View, Text } from "react-native"
-import { Button } from "../components"
+import { Button, Image } from "../components"
 import { palette } from "../style"
 import { themes } from "../style"
 import { dimensions } from "../style"
@@ -10,6 +10,17 @@ import { dimensions } from "../style"
 export default WelcomeScreen = ({ navigation }) => {
     return (
         <View style={styles.page}>
+            <Image style={styles.logo} source={require('../../assets/logo.png')}></Image>
+            <View style={styles.photoGroup}>
+                <View style={{alignItems: 'flex-end', paddingTop: 5 * vh, ...styles.photoColumn}}>
+                    <ImageBackground style={styles.photoContainerA} source={require('../../assets/images/welcome_screen/photo1.png')} />
+                    <ImageBackground style={styles.photoContainerB} source={require('../../assets/images/welcome_screen/photo3.png')} />
+                </View>
+                <View style={styles.photoColumn}>
+                    <ImageBackground style={styles.photoContainerB} source={require('../../assets/images/welcome_screen/photo2.png')} />
+                    <ImageBackground style={styles.photoContainerA} source={require('../../assets/images/welcome_screen/photo4.png')} />
+                </View>
+            </View>
             <View style={styles.buttonGroup}>
                 <Button mode='outlined' theme={themes.buttonAlt} style={styles.button}>Sign in to account</Button>
                 <Button mode='contained' theme={themes.buttonAlt} style={styles.button}>Create account</Button>
@@ -25,10 +36,35 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between'
     },
+    logo: {
+        marginTop: 5 * vh,
+        height: 30 * vmin,
+    },
+    photoGroup: {
+        flexDirection: 'row',
+        gap: 3 * vmin,
+    },
+    photoColumn: {
+        flexDirection: 'column',
+        gap: 3 * vmin,
+    },
+    photoContainerA: {
+        width: 18 * vh,
+        height: 25 * vh
+    },
+    photoContainerB: {
+        width: 25 * vh,
+        height: 20 * vh
+    },
     buttonGroup: {
-        gap: 5 * vmin
+        gap: 5 * vmin,
+        marginTop: 5 * vh,
+        marginBottom: 5 * vh
     },
     button: {
-        width: 70 * vmin
+        width: 70 * vmin,
+        height: 14 * vmin,
+        justifyContent: 'center',
+        paddingBottom: 0.5 * vmin
     }
 })
