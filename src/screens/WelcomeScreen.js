@@ -22,8 +22,22 @@ export default WelcomeScreen = ({ navigation }) => {
                 </View>
             </View>
             <View style={styles.buttonGroup}>
-                <Button mode='outlined' theme={themes.buttonAlt} style={styles.button}>Sign in to account</Button>
-                <Button mode='contained' theme={themes.buttonAlt} style={styles.button}>Create account</Button>
+                <Button
+                    onPress={() => navigation.navigate('Login')}
+                    mode='outlined'
+                    theme={themes.buttonAlt}
+                    style={styles.button}
+                >
+                    Sign in to account
+                </Button>
+                <Button
+                    onPress={() => navigation.navigate('Register')}
+                    mode='contained'
+                    theme={themes.buttonAlt}
+                    style={styles.button}
+                >
+                    Create account
+                </Button>
             </View>
         </View>
     );
