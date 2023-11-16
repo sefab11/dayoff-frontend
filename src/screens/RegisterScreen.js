@@ -15,7 +15,7 @@ export default RegisterScreen = ({ navigation }) => {
                     <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Repeat password" />
                 </View>
                 <Button
-                    onPress={() => {}}
+                    onPress={() => navigation.replace('Verification')}
                     mode='contained'
                     theme={themes.button}
                     style={styles.button}
