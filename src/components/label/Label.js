@@ -16,6 +16,7 @@ const Label = (props) => {
 const styles = StyleSheet.create({
     label: {
         fontFamily: 'Lato-Bold',
+        marginTop: 1 * vh,
         marginBottom: 0.5 * vh
     }
 })

@@ -17,7 +17,7 @@ const PasswordInput = (props) => {
                 {...rest}
                 right={
                     <TextInput.Icon
-                        icon={secureTextEntry ? 'eye' : 'eye-off'}
+                        icon={secureTextEntry ? 'eye-off' : 'eye'}
                         onPress={() => setSecureTextEntry(!secureTextEntry)}
                     />
                 }
