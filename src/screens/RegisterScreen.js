@@ -7,8 +7,8 @@ export default RegisterScreen = ({ navigation }) => {
     return (
         <View style={styles.page}>
             <HeaderBack>Register</HeaderBack>
-            <TextInput style={styles.textInput} mode='outlined' placeholder='John Doe'/>
-            <TextInput style={styles.textInput} mode='outlined' placeholder='name@workmail.com'/>
+            <TextInput style={styles.textInput} mode='outlined' label="Full name" placeholder='John Doe'/>
+            <TextInput style={styles.textInput} mode='outlined' label="Work email" placeholder='name@workmail.com'/>
             <Button
                 onPress={() => {}}
                 mode='contained'

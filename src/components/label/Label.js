@@ -1,5 +1,8 @@
 import { Text } from "react-native-paper"
 import { StyleSheet } from "react-native"
+import { dimensions } from "../../style"
+
+[vw, vh, vmin, vmax] = dimensions
 
 const Label = (props) => {
     const {style, children, ...rest} = props
@@ -12,7 +15,8 @@ const Label = (props) => {
 
 const styles = StyleSheet.create({
     label: {
-        fontFamily: 'Lato-Bold'
+        fontFamily: 'Lato-Bold',
+        marginBottom: 0.5 * vh
     }
 })
 
