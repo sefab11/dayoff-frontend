@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { Button, HeaderBack, TextInput } from "../components";
+import { Button, HeaderBack, PasswordInput, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { themes } from "../style";
 
@@ -9,6 +9,8 @@ export default RegisterScreen = ({ navigation }) => {
             <HeaderBack>Register</HeaderBack>
             <TextInput style={styles.textInput} mode='outlined' label="Full name" placeholder='John Doe'/>
             <TextInput style={styles.textInput} mode='outlined' label="Work email" placeholder='name@workmail.com'/>
+            <PasswordInput style={styles.textInput} mode='outlined' label="Password" />
+            <PasswordInput style={styles.textInput} mode='outlined' label="Repeat password" />
             <Button
                 onPress={() => {}}
                 mode='contained'
