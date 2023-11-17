@@ -1,6 +1,6 @@
 import React, {useLayoutEffect} from 'react';
-import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { Button, HeaderBack, Image, TextInput } from "../components";
+import { View, Keyboard, TouchableWithoutFeedback, Image } from "react-native";
+import { Button, HeaderBack, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 
@@ -17,14 +17,20 @@ export default FinishProfile = ({ navigation }) => {
                 <HeaderBack>Finish Profile</HeaderBack>
                       {/* Add photo section */}
                       <View style={styles.profileImageContainer}>
-                      <Button
-                    onPress={()=>{}}
-                    mode="contained"
-                    theme={themes.button}
-                    style={styles.addPhotoButton}
-                >
-                    Add Photo
-                </Button>
+                       {/* Add photo section */}
+        
+          <Button
+            onPress={() => {
+              // Add your logic for handling the camera button press here
+              console.log('Camera button pressed');
+            }}
+            mode="contained"
+            theme={themes.button}
+           
+          >
+          
+         
+          </Button>
                 </View>
                 <View style={styles.inputGroup}>
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Country of Residence" placeholder='United States'/>
@@ -52,12 +58,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: palette.white
     },
-    addPhotoButton: {
-        width: 200,
-        height: 40,
-        justifyContent: 'center',
-        marginBottom: 20,
-    },
+    profileImageContainer: {
+   
+      },
+      icon: {
+        width: 20, 
+        height: 20, 
+        marginRight: 10, 
+      },
     inputGroup: {
         gap: 3.5 * vh
     },
