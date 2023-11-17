@@ -1,8 +1,10 @@
 import React, {useLayoutEffect} from 'react';
-import { View, Keyboard, TouchableWithoutFeedback, Image } from "react-native";
+import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from "react-native";
 import { Button, HeaderBack, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
+
+
 
 export default FinishProfile = ({ navigation }) => {
     useLayoutEffect(() => {
@@ -15,21 +17,19 @@ export default FinishProfile = ({ navigation }) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <HeaderBack>Finish Profile</HeaderBack>
-                      {/* Add photo section */}
+                    
                       <View style={styles.profileImageContainer}>
-                       {/* Add photo section */}
         
           <Button
             onPress={() => {
-              // Add your logic for handling the camera button press here
               console.log('Camera button pressed');
             }}
-            mode="contained"
-            theme={themes.button}
-           
+            style={styles.addPhotoButton}
+    
           >
-          
          
+         <Image style={styles.icon} source={require('../../assets/images/welcome_screen/camera.png')} />
+          <Text> Add Photo</Text>
           </Button>
                 </View>
                 <View style={styles.inputGroup}>
@@ -59,12 +59,19 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white
     },
     profileImageContainer: {
+
    
       },
       icon: {
-        width: 20, 
-        height: 20, 
+        width: 30, 
+        height:30, 
         marginRight: 10, 
+        
+      },
+      addPhotoButton:{
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'center',
       },
     inputGroup: {
         gap: 3.5 * vh
