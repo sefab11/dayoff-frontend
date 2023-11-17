@@ -12,12 +12,13 @@ export default VerificationScreen = ({ navigation }) => {
                     <Text style={styles.message}>We’ve sent a verification code to your work email. It’s our aim to provide a safe space for everyone.</Text>
                 </View>
                 <SegmentedInput
-                    number={5}
+                    length={5}
                     style={styles.segmentedInput}
                     segmentStyle={styles.segment}
                     theme={themes.textInput}
                     mode='outlined'
-                    label="Enter code"
+                    label='Enter code'
+                    keyboardType='numeric'
                 />
                 <View style={styles.buttonGroup}>
                     <Button
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     segment: {
         height: 17 * vmin,
         backgroundColor: palette.white,
-        fontSize: 7.2 * vmin
+        fontSize: 5 * vmin
     },
     buttonGroup: {
         gap: 2 * vmin,
