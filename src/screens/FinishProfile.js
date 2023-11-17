@@ -9,7 +9,7 @@ import { palette, themes } from "../style";
 export default FinishProfile = ({ navigation }) => {
     useLayoutEffect(() => {
         navigation.setOptions({
-          headerLeft: () => null, // This hides the back arrow
+          headerLeft: () => null,
         });
       }, [navigation]);
 
@@ -59,19 +59,17 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white
     },
     profileImageContainer: {
-
+    
    
       },
       icon: {
-        width: 30, 
-        height:30, 
+        width: 20, 
+        height:20, 
         marginRight: 10, 
         
       },
       addPhotoButton:{
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'center',
+    
       },
     inputGroup: {
         gap: 3.5 * vh
