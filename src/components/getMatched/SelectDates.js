@@ -6,6 +6,7 @@ import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
 const SelectDates = () => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [startDate,setStartDate] = useState(null);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -24,7 +25,9 @@ const SelectDates = () => {
         </Text>
       </View>
       <View>
-        <View>
+        <View style={styles.calenderIconContainer}>
+            <Text>10 - 18 Aug</Text>
+            <Text>2 - 10 Oct</Text>
           <TouchableOpacity onPress={toggleModal}>
             <Image
               style={styles.icon}
@@ -87,20 +90,28 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingBottom: 0.5 * vmin,
   },
+  calenderIconContainer:{
+    flexDirection: 'row',
+    borderColor:'#D7D7D7',
+    borderWidth:1,
+    padding:10,
+    marginTop:15,
+    borderRadius:5,
+    justifyContent:'space-between'
+  },
 
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height: "100%", // Adjust the height of the modal container
-    width: "100%", // Adjust the width of the modal container
+    height: "100%",
+    width: "100%",
   },
 
-  // Additional style for the calendar container
   calendarContainer: {
-    backgroundColor: "white", // Set a background color if needed
-    borderRadius: 10, // Optional: add border radius for rounded corners
-    padding: 20, // Optional: add padding for inner content
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 20,
   },
 });
 
