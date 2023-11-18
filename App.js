@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FinishProfile, RegisterScreen, WelcomeScreen } from './src/screens';
-import { RegisterScreen, VerificationScreen, WelcomeScreen } from './src/screens';
+import { FinishProfile, RegisterScreen, WelcomeScreen, VerificationScreen } from './src/screens';
 import { useFonts } from 'expo-font';
 
 const Stack = createNativeStackNavigator();

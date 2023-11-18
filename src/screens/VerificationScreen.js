@@ -30,7 +30,7 @@ export default VerificationScreen = ({ navigation }) => {
                         Resend verification code
                     </Button>
                     <Button
-                        onPress={() => {}}
+                        onPress={() => navigation.replace('profile')}
                         mode='contained'
                         theme={themes.button}
                         style={styles.button}
