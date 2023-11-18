@@ -26,8 +26,8 @@ const SelectDates = () => {
       </View>
       <View>
         <View style={styles.calenderIconContainer}>
-            <Text>10 - 18 Aug</Text>
-            <Text>2 - 10 Oct</Text>
+            <Text style={styles.textContainer}>10 - 18 Aug</Text>
+            <Text style={styles.textContainer}>02 - 10 Oct</Text>
           <TouchableOpacity onPress={toggleModal}>
             <Image
               style={styles.icon}
@@ -95,11 +95,21 @@ const styles = StyleSheet.create({
     borderColor:'#D7D7D7',
     borderWidth:1,
     padding:10,
+    paddingLeft:15,
+    paddingRight:15,
     marginTop:15,
     borderRadius:5,
-    justifyContent:'space-between'
+    justifyContent:'space-between',
+    lineHeight:'27px',
   },
-
+  textContainer:{
+    color:'#A9A9A9',
+    backgroundColor:'#D7D7D7',
+    padding:5,
+    borderRadius:5,
+    paddingLeft:15,
+    paddingRight:15,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
