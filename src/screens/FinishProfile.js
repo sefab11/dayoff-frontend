@@ -7,7 +7,7 @@ import { palette, themes } from '../style';
 const FinishProfile = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => null,
+        headerShown: false,
     });
   }, [navigation]);
 
@@ -15,12 +15,13 @@ const FinishProfile = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.page}>
         <HeaderBack>Finish Profile</HeaderBack>
-        <View style={styles.profileImageContainer}>
+        <Text style={styles.heading}>Your profile helps us verify you and also builds trust among other DayOff members.</Text>
+       
           <View style={styles.addPhotoButton} onPress={() => console.log('Camera button pressed')}>
               <Image style={styles.icon} source={require('../../assets/images/welcome_screen/camera.png')} />
               <Text style={styles.addPhotoText}>Add Photo</Text>
           </View>
-        </View>
+        
         <View style={styles.inputGroup}>
           <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Country of Residence' placeholder='United States' />
           <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Job Title & Company' placeholder='eg.Software Developer @ Google' />
@@ -42,20 +43,33 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: palette.white,
   },
+  heading:{
+    
+  },
   profileImageContainer: {
-    alignItems: 'center', // Center the contents horizontally
+    alignItems: 'center',
+   
+    
   },
-  buttonContent: {
-    alignItems: 'center', 
-  },
+
   icon: {
-    width: 20,
-    height: 20,
-    marginRight: 10,
+    width: 40,
+    height: 35,
   },
-  addPhotoButton: {},
+  addPhotoButton: {
+    alignItems:'center',
+    justifyContent:'center',
+    width: 40 * vmin,
+    height: 40 * vmin,
+    backgroundColor:'#EDEBFA',
+    borderRadius: 20 * vmin,
+  
+  },
   addPhotoText: {
-    marginTop: 5, // Adjust the margin or padding as needed
+    marginTop: 15,
+    fontSize:18,
+    color:'#503CC8',
+    fontWeight:'700'
   },
   inputGroup: {
     gap: 3.5 * vh,
