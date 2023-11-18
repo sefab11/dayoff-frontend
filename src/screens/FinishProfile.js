@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { Button, Header, TextInput } from '../components';
 import { StyleSheet } from 'react-native';
