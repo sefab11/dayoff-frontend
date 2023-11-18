@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     fontSize: 4 * vmin,
     fontWeight: "600",
     color: "#000000",
-    letterSpacing:2
+    letterSpacing: 1.5
   }
 });
 

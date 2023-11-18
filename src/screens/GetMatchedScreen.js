@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { Button, Header, TextInput } from '../components';
 import SelectDates from '../components/getMatched/SelectDates';
+import SelectCountries from '../components/getMatched/SelectCountries';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 
@@ -24,6 +25,7 @@ const GetMatchedScreen = ({ navigation }) => {
         
         </View>
         <SelectDates/>
+        <SelectCountries/>
         <View style={styles.buttonGroup}>
         <Button onPress={() => {}} mode='contained' theme={themes.button} style={styles.button}>
           Done
