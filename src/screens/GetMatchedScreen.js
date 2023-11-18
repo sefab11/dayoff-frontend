@@ -1,6 +1,7 @@
 
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { Button, Header, TextInput } from '../components';
+import SelectDates from '../components/getMatched/SelectDates';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 
@@ -12,7 +13,8 @@ const GetMatchedScreen = ({ navigation }) => {
         <View>
         <Header>Get Matched</Header>
         <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
-        </View> 
+        </View>
+        <SelectDates/>
         <View style={styles.buttonGroup}>
         <Button onPress={() => {}} mode='contained' theme={themes.button} style={styles.button}>
           Done
