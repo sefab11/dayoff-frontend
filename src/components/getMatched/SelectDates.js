@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { View, Keyboard, Image, Text, TouchableOpacity } from "react-native";
+import { View, Image, Text, TouchableOpacity } from "react-native";
+import Checkbox from 'expo-checkbox';
 import { palette, themes } from "../../style";
 import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
+import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 const SelectDates = () => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [startDate,setStartDate] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [isChecked, setChecked] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -26,8 +29,8 @@ const SelectDates = () => {
       </View>
       <View>
         <View style={styles.calenderIconContainer}>
-            <Text style={styles.textContainer}>10 - 18 Aug</Text>
-            <Text style={styles.textContainer}>02 - 10 Oct</Text>
+          <Text style={styles.textContainer}>10 - 18 Aug</Text>
+          <Text style={styles.textContainer}>02 - 10 Oct</Text>
           <TouchableOpacity onPress={toggleModal}>
             <Image
               style={styles.icon}
@@ -46,7 +49,7 @@ const SelectDates = () => {
               <CalendarPicker
                 startFromMonday={true}
                 allowRangeSelection={true}
-                onDateChange={this.onDateChange} 
+                onDateChange={this.onDateChange}
                 selectedDayColor="#503cc8"
                 selectedDayTextColor="#ffffff"
               />
@@ -56,6 +59,10 @@ const SelectDates = () => {
             </View>
           </View>
         </Modal>
+      </View>
+      <View style={styles.checkboxContainer}>
+      <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? '#4630EB' : undefined}/>
+        <Text style={styles.checkText}>I’m flexible with my dates</Text>
       </View>
     </View>
   );
@@ -90,25 +97,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingBottom: 0.5 * vmin,
   },
-  calenderIconContainer:{
-    flexDirection: 'row',
-    borderColor:'#D7D7D7',
-    borderWidth:1,
-    padding:10,
-    paddingLeft:15,
-    paddingRight:15,
-    marginTop:15,
-    borderRadius:5,
-    justifyContent:'space-between',
-    lineHeight:'27px',
+  calenderIconContainer: {
+    flexDirection: "row",
+    borderColor: "#D7D7D7",
+    borderWidth: 1,
+    padding: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginTop: 15,
+    borderRadius: 5,
+    justifyContent: "space-between",
+    lineHeight: "27px",
   },
-  textContainer:{
-    color:'#A9A9A9',
-    backgroundColor:'#D7D7D7',
-    padding:5,
-    borderRadius:5,
-    paddingLeft:15,
-    paddingRight:15,
+  textContainer: {
+    color: "#A9A9A9",
+    backgroundColor: "#D7D7D7",
+    padding: 5,
+    borderRadius: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   modalContainer: {
     flex: 1,
@@ -123,6 +130,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
   },
+  checkboxContainer:{
+    flexDirection:'row',
+    alignItems:'center',
+    marginTop:15,
+  },
+  checkText:{
+    paddingLeft:10,
+    fontFamily: "Lato-Regular",
+    fontSize: 4 * vmin,
+    fontWeight: "600",
+    color: "#000000",
+    letterSpacing:2
+  }
 });
 
 export default SelectDates;
