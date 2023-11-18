@@ -44,6 +44,10 @@ const styles = StyleSheet.create({
     backgroundColor: palette.white,
   },
   heading:{
+    fontSize:16,
+    fontWeight:'400',
+    lineHeight:22.5,
+    color:'#8A8A8A',
     
   },
   profileImageContainer: {
