@@ -11,19 +11,53 @@ const GetMatchedScreen = ({ navigation }) => {
       <View style={styles.page}>
         <View>
         <Header>Get Matched</Header>
-        <Text style={styles.headingMessage}>This enables us to match you with others going to the same country at the same dates as you.</Text>
+        <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
         </View> 
-     
+        <View style={styles.buttonGroup}>
         <Button onPress={() => {}} mode='contained' theme={themes.button} style={styles.button}>
           Done
         </Button>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-
-});
+    page: {
+        marginTop: 5 * vh,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: palette.white
+    },
+    message: {
+        marginTop: 3 * vh,
+        alignSelf: 'center',
+        width: 85 * vmin,
+        fontFamily: 'Lato-Regular',
+        fontSize: 3.8 * vmin,
+        color: palette.grey
+    },
+    segmentedInput: {
+        width: 80 * vmin
+    },
+    segment: {
+        height: 17 * vmin,
+        backgroundColor: palette.white,
+        fontSize: 5 * vmin
+    },
+    buttonGroup: {
+        gap: 2 * vmin,
+        marginTop: 5 * vh,
+        marginBottom: 5 * vh
+    },
+    button: {
+        width: 80 * vmin,
+        height: 14 * vmin,
+        justifyContent: 'center',
+        paddingBottom: 0.5 * vmin
+    }
+})
 
 export default GetMatchedScreen;
