@@ -16,7 +16,7 @@ const SelectDates = () => {
   };
 
   return (
-    <View>
+    <View style={styles.selectDateWrap}>
       <View>
         <Text style={styles.headingText}>
           Select all your days off for the year
@@ -68,6 +68,12 @@ const SelectDates = () => {
   );
 };
 const styles = StyleSheet.create({
+  selectDateWrap:{
+    paddingTop:5,
+    paddingBottom:35,
+    borderBottomWidth:1,
+    borderBottomColor:'#D7D7D7'
+  },
   headingText: {
     marginTop: 3 * vh,
     alignSelf: "center",
@@ -111,7 +117,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     color: "#A9A9A9",
-    backgroundColor: "#D7D7D7",
+    backgroundColor: "#F2F0F0",
     padding: 5,
     borderRadius: 5,
     paddingLeft: 15,

@@ -21,9 +21,6 @@ const GetMatchedScreen = ({ navigation }) => {
         <Header>Get Matched</Header>
         <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
         </View>
-        <View>
-        
-        </View>
         <SelectDates/>
         <SelectCountries/>
         <View style={styles.buttonGroup}>
