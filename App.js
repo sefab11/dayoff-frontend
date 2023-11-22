@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FinishProfile, RegisterScreen, WelcomeScreen, VerificationScreen , GetMatchedScreen} from './src/screens';
+import { FinishProfile, RegisterScreen, WelcomeScreen, VerificationScreen , GetMatchedScreen, MyProfileScreen} from './src/screens';
 import { useFonts } from 'expo-font';
 
 const Stack = createNativeStackNavigator();
@@ -33,6 +33,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="profile" component={FinishProfile}/>
         <Stack.Screen name="GetMatched" component={GetMatchedScreen}/>
+        <Stack.Screen name="MyProfile" component={MyProfileScreen}/>
         <Stack.Screen name="Verification" component={VerificationScreen} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,9 +1,11 @@
-import { View } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
-export default MyProfileScreen=()=>{
+export default MyProfileScreen=({navigation})=>{
     return(
-        <View>Profile</View>
-    )
+        <View>
+            <Text>Profile</Text>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
