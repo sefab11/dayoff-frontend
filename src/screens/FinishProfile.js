@@ -1,22 +1,18 @@
-import React, { useLayoutEffect } from 'react';
+
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-native';
-import { Button, HeaderBack, TextInput } from '../components';
+import { Button, Header, TextInput } from '../components';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 
 const FinishProfile = ({ navigation }) => {
-  useLayoutEffect(() => {
-    navigation.setOptions({
-        headerShown: false,
-    });
-  }, [navigation]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.page}>
-        <HeaderBack>Finish Profile</HeaderBack>
-        <Text style={styles.heading}>Your profile helps us verify you and also builds trust among other DayOff members.</Text>
-       
+        <View>
+        <Header>Finish Profile</Header>
+        <Text style={styles.headingMessage}>Your profile helps us verify you and also builds trust among other DayOff members.</Text>
+        </View> 
           <View style={styles.addPhotoButton} onPress={() => console.log('Camera button pressed')}>
               <Image style={styles.icon} source={require('../../assets/images/welcome_screen/camera.png')} />
               <Text style={styles.addPhotoText}>Add Photo</Text>
@@ -27,7 +23,7 @@ const FinishProfile = ({ navigation }) => {
           <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Job Title & Company' placeholder='eg.Software Developer @ Google' />
           <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='LinkedIn Profile URL' placeholder='' />
         </View>
-        <Button onPress={() => {}} mode='contained' theme={themes.button} style={styles.button}>
+        <Button  onPress={() => navigation.replace('GetMatched')} mode='contained' theme={themes.button} style={styles.button}>
           Done
         </Button>
       </View>
@@ -43,11 +39,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: palette.white,
   },
-  heading:{
-    fontSize:16,
-    fontWeight:'400',
-    lineHeight:22.5,
-    color:'#8A8A8A',
+  headingMessage:{
+    marginTop: 3 * vh,
+    alignSelf: 'center',
+    width: 85 * vmin,
+    fontFamily: 'Lato-Regular',
+    fontSize: 3.8 * vmin,
+    color: palette.grey
     
   },
   profileImageContainer: {
