@@ -8,9 +8,9 @@ export default ProfileInfo = () => {
     <View>
       <View style={styles.infoContainer}>
         <View>
-        <Text style={styles.headingText}>Country of Residence</Text>
+          <Text style={styles.headingText}>Country of Residence</Text>
         </View>
-   
+
         <View style={styles.countryContainer}>
           <Text style={styles.message}>United States</Text>
           <Image
@@ -21,24 +21,27 @@ export default ProfileInfo = () => {
       <View style={styles.infoContainer}>
         <Text style={styles.headingText}>Job Title & Company</Text>
         <View style={styles.countryContainer}>
-        <Text style={styles.message}>Product Designer, Facebook</Text>
-        <Image
+          <Text style={styles.message}>Product Designer, Facebook</Text>
+          <Image
             source={require("../../../assets/images/welcome_screen/edit.png")}
           />
         </View>
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.headingText}>My LinkedIn URL</Text>
-        <Text style={styles.message}>Linkedin.com/jessss</Text>
+        <View style={styles.countryContainer}>
+          <Text style={styles.message}>Linkedin.com/jessss</Text>
+          <Image
+            source={require("../../../assets/images/welcome_screen/edit.png")}
+          />
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  infoContainer: {
-    
-  },
+  infoContainer: {},
   headingText: {
     marginTop: 3 * vh,
     alignSelf: "center",
@@ -56,9 +59,8 @@ const styles = StyleSheet.create({
     fontSize: 3.8 * vmin,
     color: palette.grey,
   },
-  countryContainer:{
-    flexDirection:'row',
-    marginLeftLeft:5,
-
+  countryContainer: {
+    flexDirection: "row",
+    marginLeftLeft: 5,
   },
 });
