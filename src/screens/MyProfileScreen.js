@@ -2,6 +2,7 @@ import { View, StyleSheet, Text, Image } from "react-native";
 import { palette } from "../style";
 import { themes } from "../style";
 import { dimensions } from "../style";
+import ProfileInfo from "../components/myProfile/ProfileInfo";
 
 export default MyProfileScreen = ({ navigation }) => {
   return (
@@ -16,21 +17,28 @@ export default MyProfileScreen = ({ navigation }) => {
           <Text style={styles.profileEmail}>jessica@facebook.com</Text>
         </View>
       </View>
+      <ProfileInfo/>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   page: {
-    marginTop: 20 * vh,
     flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: palette.white,
+
   },
   profilePicContainer:{
+    marginTop: 20 * vh,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+      paddingTop:5,
+      paddingBottom:35,
+      borderBottomWidth:1,
+      borderBottomColor:'#D7D7D7'
+  
   },
   profilePic: {
     width: 140,
