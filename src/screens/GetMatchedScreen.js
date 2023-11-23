@@ -24,7 +24,7 @@ const GetMatchedScreen = ({ navigation }) => {
         <SelectDates/>
         <SelectCountries/>
         <View style={styles.buttonGroup}>
-        <Button onPress={() => {}} mode='contained' theme={themes.button} style={styles.button}>
+        <Button onPress={() => navigation.replace('Home')} mode='contained' theme={themes.button} style={styles.button}>
           Done
         </Button>
         </View>
