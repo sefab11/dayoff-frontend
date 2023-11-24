@@ -1,11 +1,13 @@
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image, ScrollView} from "react-native";
 import { palette } from "../style";
 import { themes } from "../style";
 import { dimensions } from "../style";
 import ProfileInfo from "../components/myProfile/ProfileInfo";
+import EditDates from "../components/myProfile/EditDates";
 
 export default MyProfileScreen = ({ navigation }) => {
   return (
+    <ScrollView>
     <View style={styles.page}>
       <View style={styles.profilePicContainer}>
         <Image
@@ -18,7 +20,10 @@ export default MyProfileScreen = ({ navigation }) => {
         </View>
       </View>
       <ProfileInfo/>
+      <EditDates/>
+      
     </View>
+    </ScrollView>
   );
 };
 

@@ -36,6 +36,7 @@ export default ProfileInfo = () => {
           />
         </View>
       </View>
+      
     </View>
   );
 };
