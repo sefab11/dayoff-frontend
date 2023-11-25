@@ -34,7 +34,7 @@ const SelectDates = () => {
           <TouchableOpacity onPress={toggleModal}>
             <Image
               style={styles.icon}
-              source={require("../../../assets/images/welcome_screen/calender.png")}
+              source={require("../../../assets/images/welcome_screen/blackCalender.png")}
             />
           </TouchableOpacity>
         </View>
