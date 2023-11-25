@@ -2,7 +2,7 @@ import { StyleSheet, View, Text } from 'react-native'
 import { Button } from '../button';
 import { Image } from '../image';
 import CountryCodes from '../../../assets/CountryCodes.json'
-import { themes } from '../../style';
+import { themes, flags } from '../../style';
 
 const TripView = (props) => {
     const {style, label, children, ...rest} = props;
@@ -14,7 +14,11 @@ const TripView = (props) => {
     return (
         <View style={styles.trip}>
             <View>
-                {/* <Image style={styles.icon} source={require(`../../../assets/flags/${country.code.toLocaleLowerCase()}.png`)} /> */}
+                {
+                    flags[country.code] ?
+                    <Image style={styles.icon} source={flags[country.code]} /> :
+                    <Text>{country.code}</Text>
+                }
                 <Text>{country.name}</Text>
                 <Text>11 - 18 Aug</Text>
             </View>
