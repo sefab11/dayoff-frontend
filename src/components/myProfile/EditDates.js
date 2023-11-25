@@ -1,16 +1,22 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet,Image } from "react-native";
 
 export default EditDates = () => {
   return (
     <View>
       <Text style={styles.headingText}>Edit days off calendar</Text>
-      <View>
+      <View style={styles.dateContainer}>
         <View>
-            <Text>11 -18 Nov</Text>
+            <Text>11 - 18 Nov</Text>
         </View>
         <View>
-            <Text></Text>
+            <Text>02 - 10 Jan</Text>
         </View>
+        <View>
+            <Image
+            
+              source={require("../../../assets/images/welcome_screen/calender.png")}
+            />
+          </View>
       </View>
     </View>
   );
@@ -26,4 +32,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#000000",
   },
+  dateContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between'
+  }
 });
