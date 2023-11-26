@@ -11,9 +11,8 @@ const Tab = createMaterialTopTabNavigator();
 const ForYouScreen = () => {
     return (
         <View style={styles.page}>
-            <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
+            <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
-                <TripView />
                 <TripViewMatch />
                 <TripViewMatch />
                 <TripViewMatch />
@@ -25,7 +24,11 @@ const ForYouScreen = () => {
 const ExploreScreen = () => {
     return (
         <View style={styles.page}>
-            <Text>Explore</Text>
+            <Text style={styles.message}>Find or create trips that match your style</Text>
+            <ScrollView contentContainerStyle={styles.scroll}>
+                <TripView />
+                <TripView />
+            </ScrollView>
         </View>
     )
 }
