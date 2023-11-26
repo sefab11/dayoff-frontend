@@ -13,9 +13,9 @@ const TripView = (props) => {
     const {style, label, children, ...rest} = props;
 
     let trip = {};
-    trip.going = 9;
+    trip.limit = 9;
     trip.country = 'AU';
-    trip.matched = [
+    trip.going = [
         {
             name: 'Sefa',
             profilePic: null
@@ -48,7 +48,8 @@ const TripView = (props) => {
             name: 'Mary',
             profilePic: null
         }
-    ]
+    ];
+
     country = CountryCodes.filter(c => c.code == trip.country)[0];    
     
     return (
@@ -64,31 +65,31 @@ const TripView = (props) => {
                 </View>
                 <Text style={styles.dateText}>11 - 18 Aug</Text>
             </View>
-            <Text style={styles.matchedText}>Matched with 8 people:</Text>
+            <Text style={styles.groupText}>Going:</Text>
             <View style={styles.middleGroup}>
                 <View style={styles.profilePicsGroup}>
                     {(() => {
                         const profilePics = [];
-                        for(let i = 0; i < trip.matched.length; i++) {
+                        for(let i = 0; i < trip.going.length; i++) {
                             if(i == 6) break;
 
-                            if(trip.matched[i].profilePic)
+                            if(trip.going[i].profilePic)
                                 profilePics.push(<Image style={styles.profilePic} key={i}></Image>);
                             else
-                                profilePics.push(<Text style={styles.profilePic} key={i}>{trip.matched[i].name[0]}</Text>);
+                                profilePics.push(<Text style={styles.profilePic} key={i}>{trip.going[i].name[0]}</Text>);
                         }
                         return profilePics;
                     })()}
                 </View>
                 {
-                    trip.matched.length > 6 ?
+                    trip.going.length > 6 ?
                     <Button
                         mode="text"
                         labelStyle={{marginHorizontal: 0}}
                         style={styles.showGroupButton}
                         theme={themes.button}
                     >
-                        +{trip.matched.length - 6}
+                        +{trip.going.length - 6}
                     </Button> :
                     null
                 }
@@ -105,7 +106,7 @@ const TripView = (props) => {
                 </Button>
                 <View style={styles.goingGroup}>
                     <Image style={styles.goingIcon} source={require('../../../assets/icons/people.png')} />
-                    <Text style={styles.goingText}>{trip.going} going</Text>
+                    <Text style={styles.goingText}>{trip.going.length}/{trip.limit}</Text>
                 </View>
             </View>
         </View>
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato-Regular',
         fontSize: 2 * vh
     },
-    matchedText: {
+    groupText: {
         color: palette.grey,
         fontFamily: 'Lato-Regular',
         fontSize: 1.8 * vh

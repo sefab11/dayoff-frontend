@@ -1,5 +1,5 @@
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView } from "react-native";
-import { Button, TripView } from "../components";
+import { Button, TripViewMatch, TripView } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -14,9 +14,9 @@ const ForYouScreen = () => {
             <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <TripView />
-                <TripView />
-                <TripView />
-                <TripView />
+                <TripViewMatch />
+                <TripViewMatch />
+                <TripViewMatch />
             </ScrollView>
         </View>
     )
