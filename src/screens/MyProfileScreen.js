@@ -4,6 +4,8 @@ import { themes } from "../style";
 import { dimensions } from "../style";
 import ProfileInfo from "../components/myProfile/ProfileInfo";
 import EditDates from "../components/myProfile/EditDates";
+import SelecCountries from "../components/getMatched/SelectCountries";
+import VisitedCountries from "../components/myProfile/VisitedCountries";
 
 export default MyProfileScreen = ({ navigation }) => {
   return (
@@ -21,7 +23,8 @@ export default MyProfileScreen = ({ navigation }) => {
       </View>
       <ProfileInfo/>
       <EditDates/>
-      
+      <SelecCountries/>
+      <VisitedCountries/>
     </View>
     </ScrollView>
   );
