@@ -1,4 +1,4 @@
-import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar } from "react-native";
+import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView } from "react-native";
 import { Button, TripView } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
@@ -11,7 +11,13 @@ const Tab = createMaterialTopTabNavigator();
 const ForYouScreen = () => {
     return (
         <View style={styles.page}>
-            <TripView />
+            <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
+            <ScrollView contentContainerStyle={styles.scroll}>
+                <TripView />
+                <TripView />
+                <TripView />
+                <TripView />
+            </ScrollView>
         </View>
     )
 }
@@ -47,10 +53,10 @@ export default HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     page: {
-        paddingTop: 5 * vh,
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'top',
+        gap: 3 * vh,
         backgroundColor: palette.white
     },
     tabBar: {
@@ -82,5 +88,19 @@ const styles = StyleSheet.create({
         backgroundColor: palette.yellow,
         width: 22 * vmin,
         height: 5
+    },
+    scroll: {
+        width: 100 * vmin,
+        alignItems: 'center',
+        gap: 3 * vh,
+        paddingBottom: 18 * vh
+    },
+    message: {
+        marginTop: 3 * vh,
+        alignSelf: 'center',
+        width: 85 * vmin,
+        fontFamily: 'Lato-Regular',
+        fontSize: 3.8 * vmin,
+        color: palette.grey
     }
 })
