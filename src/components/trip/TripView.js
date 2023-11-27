@@ -65,6 +65,10 @@ const TripView = (props) => {
                 </View>
                 <Text style={styles.dateText}>11 - 18 Aug</Text>
             </View>
+            <Text style={styles.details}>
+                Let’s explore the tombs of the pharaohs, pyramids and cruise on the nile river.
+                We will also take an hour to volunteer :)
+            </Text>
             <Text style={styles.groupText}>Going:</Text>
             <View style={styles.middleGroup}>
                 <View style={styles.profilePicsGroup}>
@@ -144,6 +148,11 @@ const styles = StyleSheet.create({
         resizeMode: 'contain'
     },
     dateText: {
+        fontFamily: 'Lato-Regular',
+        fontSize: 2 * vh
+    },
+    details: {
+        color: palette.black,
         fontFamily: 'Lato-Regular',
         fontSize: 2 * vh
     },
