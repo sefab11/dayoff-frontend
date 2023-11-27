@@ -25,6 +25,7 @@ const ExploreScreen = () => {
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Find or create trips that match your style</Text>
+            <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton}>Create trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <TripView />
                 <TripView />
@@ -105,5 +106,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato-Regular',
         fontSize: 3.8 * vmin,
         color: palette.grey
+    },
+    createTripButton: {
+        width: 35 * vmin,
+        height: 12 * vmin,
+        justifyContent: 'center',
+        alignContent: 'center',
+        marginLeft: 7.5 * vmin,
+        alignSelf: 'flex-start'
     }
 })
