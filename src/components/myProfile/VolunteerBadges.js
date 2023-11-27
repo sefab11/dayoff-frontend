@@ -20,8 +20,149 @@ const VolunteerBadges = () => {
           />
   
         </View>
-        <View style={styles.badgeText}>
-          <Text>Planted a tree</Text>
+        <View >
+          <Text style={styles.badgeText}>Planted a tree</Text>
+          <Text>100 pts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+          </Text>
         </View>
       </View>
     </View>
@@ -46,8 +187,10 @@ const styles = StyleSheet.create({
     borderColor: "#D7D7D7",
     borderWidth: 1,
     padding: 10,
+    paddingLeft:25,
+    paddingRight:25,
     marginTop: 15,
-    borderRadius: 5,
+    borderRadius: 10,
     width: "50%",
   },
   badgeWrapper: {
@@ -57,9 +200,14 @@ const styles = StyleSheet.create({
   badgeText:{
     alignSelf: "center",
     fontFamily: "Lato-Regular",
-    fontSize: 4.5 * vmin,
-    fontWeight: "700",
-    color: "#000000",
+    fontSize: 3.5 * vmin,
+    fontWeight: "600",
+    color: "#494949",
+    paddingTop:10,
+  },
+  badgeFlag:{
+    justifyContent:'flex-end',
+    alignItems:'flex-end'
   }
 });
 
