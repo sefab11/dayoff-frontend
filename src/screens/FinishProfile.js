@@ -32,7 +32,7 @@ const FinishProfile = ({ navigation }) => {
         </View>
           <TouchableWithoutFeedback onPress={() => openImagePicker()}>
             <View style={styles.addPhotoButton}>
-                <Image style={styles.icon} source={require('../../assets/images/welcome_screen/camera.png')} />
+                <Image tintColor={palette.purple} style={styles.icon} source={require('../../assets/icons/camera.png')} />
                 <Text style={styles.addPhotoText}>Add Photo</Text>
             </View>
           </TouchableWithoutFeedback>
