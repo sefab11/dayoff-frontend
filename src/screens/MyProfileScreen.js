@@ -6,6 +6,7 @@ import ProfileInfo from "../components/myProfile/ProfileInfo";
 import EditDates from "../components/myProfile/EditDates";
 import SelecCountries from "../components/getMatched/SelectCountries";
 import VisitedCountries from "../components/myProfile/VisitedCountries";
+import VolunteerBadges from "../components/myProfile/VolunteerBadges";
 
 export default MyProfileScreen = ({ navigation }) => {
   return (
@@ -25,6 +26,7 @@ export default MyProfileScreen = ({ navigation }) => {
       <EditDates/>
       <SelecCountries/>
       <VisitedCountries/>
+      <VolunteerBadges/>
     </View>
     </ScrollView>
   );

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
     headingText: {
         marginTop: 3 * vh,
-        marginBottom: 3 * vh,
+        marginBottom: 2.5 * vh,
         alignSelf: "center",
         width: 85 * vmin,
         fontFamily: "Lato-Regular",
