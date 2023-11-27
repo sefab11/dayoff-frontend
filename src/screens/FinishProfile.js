@@ -3,8 +3,25 @@ import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-nat
 import { Button, Header, TextInput } from '../components';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
+import * as ImagePicker from 'expo-image-picker';
+import { useState } from 'react';
 
 const FinishProfile = ({ navigation }) => {
+  [image, setImage] = useState(null);
+  const openImagePicker = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+      height: 256,
+      width: 256
+    });
+  
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -12,12 +29,13 @@ const FinishProfile = ({ navigation }) => {
         <View>
         <Header>Finish Profile</Header>
         <Text style={styles.headingMessage}>Your profile helps us verify you and also builds trust among other DayOff members.</Text>
-        </View> 
-          <View style={styles.addPhotoButton} onPress={() => console.log('Camera button pressed')}>
-              <Image style={styles.icon} source={require('../../assets/images/welcome_screen/camera.png')} />
-              <Text style={styles.addPhotoText}>Add Photo</Text>
-          </View>
-        
+        </View>
+          <TouchableWithoutFeedback onPress={() => openImagePicker()}>
+            <View style={styles.addPhotoButton}>
+                <Image style={styles.icon} source={require('../../assets/images/welcome_screen/camera.png')} />
+                <Text style={styles.addPhotoText}>Add Photo</Text>
+            </View>
+          </TouchableWithoutFeedback>
         <View style={styles.inputGroup}>
           <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Country of Residence' placeholder='United States' />
           <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Job Title & Company' placeholder='eg.Software Developer @ Google' />
