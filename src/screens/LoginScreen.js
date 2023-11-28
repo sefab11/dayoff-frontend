@@ -2,8 +2,38 @@ import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { Button, HeaderBack, PasswordInput, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
+import { useState } from "react";
 
 export default LoginScreen = ({ navigation }) => {
+    [username, setUsername] = useState("");
+    [password, setPassword] = useState("");
+
+    const log_in = () => {
+        fetch('', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
+        })
+        .then(response => {
+            if (response.statusCode === '200')
+                navigation.replace('Home')
+            else
+                return response.json();
+        })
+        .then(json => {
+            // display error
+        })
+        .catch(error => {
+            // display error
+        });
+    }
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
