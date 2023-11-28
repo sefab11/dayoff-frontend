@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 
 export default EditDates = () => {
   return (
-    <View>
+    <View style={styles.editDatesContainer}>
       <Text style={styles.headingText}>Edit days off calendar</Text>
       <View style={styles.dateContainer}>
         <Text style={styles.textContainer}>11 - 18 Nov</Text>
@@ -21,6 +21,9 @@ export default EditDates = () => {
 };
 
 const styles = StyleSheet.create({
+  editDatesContainer:{
+    marginBottom:20,
+  },
   headingText: {
     marginTop: 3 * vh,
     alignSelf: "center",

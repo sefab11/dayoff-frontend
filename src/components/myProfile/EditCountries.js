@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     paddingBottom: 35,
     borderBottomWidth: 1,
     borderBottomColor: "#D7D7D7",
+    marginBottom:20,
   },
   headingText: {
     marginTop: 3 * vh,

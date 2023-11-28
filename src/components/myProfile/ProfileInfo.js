@@ -5,7 +5,7 @@ import { palette } from "../../style";
 
 export default ProfileInfo = () => {
   return (
-    <View>
+    <View style={styles.profileInfoContainer}>
       <View style={styles.infoContainer}>
         <View>
           <Text style={styles.headingText}>Country of Residence</Text>
@@ -42,7 +42,17 @@ export default ProfileInfo = () => {
 };
 
 const styles = StyleSheet.create({
-  infoContainer: {},
+  profileInfoContainer: {
+    paddingTop: 5,
+    width: 85 * vmin,
+    paddingBottom: 35,
+    borderBottomWidth: 1,
+    borderBottomColor: "#D7D7D7",
+    marginBottom:20,
+  },
+  infoContainer:{
+    marginBottom:15
+  },
   headingText: {
     marginTop: 3 * vh,
     alignSelf: "center",
