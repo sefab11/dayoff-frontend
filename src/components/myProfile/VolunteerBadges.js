@@ -10,7 +10,7 @@ const VolunteerBadges = () => {
       <View></View>
       <View style={styles.badgeContainer}>
         <View style={styles.badgeFlag}>
-        <Image
+          <Image
             source={require("../../../assets/images/profileScreen/BrazilFlag.png")}
           />
         </View>
@@ -18,12 +18,11 @@ const VolunteerBadges = () => {
           <Image
             source={require("../../../assets/images/profileScreen/badge.png")}
           />
-  
         </View>
         <View>
           <Text style={styles.badgeText}>Planted a tree</Text>
           <View style={styles.badgeWrapper}>
-          <Text style={styles.spanContent}>100 pts</Text>
+            <Text style={styles.spanContent}>100 pts</Text>
           </View>
         </View>
       </View>
@@ -45,35 +44,35 @@ const styles = StyleSheet.create({
   spanContent: {
     color: "#503cc8",
   },
-  badgeContainer:{
+  badgeContainer: {
     borderColor: "#D7D7D7",
     borderWidth: 1,
     padding: 10,
-    paddingLeft:25,
-    paddingRight:25,
+    paddingLeft: 25,
+    paddingRight: 25,
     marginTop: 15,
     borderRadius: 10,
     width: "50%",
   },
   badgeWrapper: {
     flexDirection: "row",
-    justifyContent:'center'
+    justifyContent: "center",
   },
-  badgeText:{
+  badgeText: {
     alignSelf: "center",
     fontFamily: "Lato-Regular",
     fontSize: 3.5 * vmin,
     fontWeight: "600",
     color: "#494949",
-    paddingTop:10,
+    paddingTop: 10,
   },
-  badgeFlag:{
-    justifyContent:'flex-end',
-    alignItems:'flex-end'
+  badgeFlag: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
-  VolunteerBadgesContainer:{
-    marginBottom:35
-  }
+  VolunteerBadgesContainer: {
+    marginBottom: 35,
+  },
 });
 
 export default VolunteerBadges;
