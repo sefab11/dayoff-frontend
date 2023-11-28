@@ -47,8 +47,10 @@ const styles = StyleSheet.create({
     width: 85 * vmin,
     paddingBottom: 35,
     borderBottomWidth: 1,
-    borderBottomColor: "#D7D7D7",
+    borderTopWidth:1,
+    borderColor: "#D7D7D7",
     marginBottom:20,
+    paddingTop:25
   },
   infoContainer:{
     marginBottom:15
