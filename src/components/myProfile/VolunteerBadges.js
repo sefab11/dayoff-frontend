@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 
 const VolunteerBadges = () => {
   return (
-    <View>
+    <View style={styles.VolunteerBadgesContainer}>
       <Text style={styles.headingText}>
         Volunteer Badges | <Text style={styles.spanContent}>100pts</Text>
       </Text>
@@ -20,149 +20,11 @@ const VolunteerBadges = () => {
           />
   
         </View>
-        <View >
+        <View>
           <Text style={styles.badgeText}>Planted a tree</Text>
-          <Text>100 pts
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-          </Text>
+          <View style={styles.badgeWrapper}>
+          <Text style={styles.spanContent}>100 pts</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -208,6 +70,9 @@ const styles = StyleSheet.create({
   badgeFlag:{
     justifyContent:'flex-end',
     alignItems:'flex-end'
+  },
+  VolunteerBadgesContainer:{
+    marginBottom:35
   }
 });
 
