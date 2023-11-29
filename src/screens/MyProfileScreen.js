@@ -1,35 +1,58 @@
-import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
-import { palette } from "../style";
-import { themes } from "../style";
-import { dimensions } from "../style";
+import { View, StyleSheet, Text, Image, ScrollView , Button} from "react-native";
+import { palette, themes, dimensions } from "../style";
 import ProfileInfo from "../components/myProfile/ProfileInfo";
 import EditDates from "../components/myProfile/EditDates";
-import SelecCountries from "../components/getMatched/SelectCountries";
 import VisitedCountries from "../components/myProfile/VisitedCountries";
 import VolunteerBadges from "../components/myProfile/VolunteerBadges";
 import EditCountries from "../components/myProfile/EditCountries";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+const Tab = createMaterialTopTabNavigator();
+
+
+const EditProfile = () => {
+  return (
+      <View style={styles.page}>
+        <ScrollView>
+      <View style={styles.profilePicContainer}>
+        <Image
+          style={styles.profilePic}
+          source={require("../../assets/images/welcome_screen/profile-pic.png")}
+        />
+        <View style={styles.profileTextContainer}>
+          <Text style={styles.profileName}>Jessica Wang</Text>
+          <Text style={styles.profileEmail}>jessica@facebook.com</Text>
+        </View>
+      </View>
+      <ProfileInfo />
+      <EditDates />
+      <EditCountries />
+      <VisitedCountries />
+      <VolunteerBadges />
+      </ScrollView>
+      </View>
+  )
+}
 
 export default MyProfileScreen = ({ navigation }) => {
-  return (
-    <ScrollView>
-      <View style={styles.page}>
-        <View style={styles.profilePicContainer}>
-          <Image
-            style={styles.profilePic}
-            source={require("../../assets/images/welcome_screen/profile-pic.png")}
-          />
-          <View style={styles.profileTextContainer}>
-            <Text style={styles.profileName}>Jessica Wang</Text>
-            <Text style={styles.profileEmail}>jessica@facebook.com</Text>
-          </View>
-        </View>
-        <ProfileInfo />
-        <EditDates />
-        <EditCountries />
-        <VisitedCountries />
-        <VolunteerBadges />
-      </View>
-    </ScrollView>
+  return (<>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarLabel: ({ tintColor, focused, item }) => {
+          return focused ? (
+            <Text style={styles.tabLabelActive}>{route.name}</Text>
+          ) : (
+            <Text style={styles.tabLabelInactive}>{route.name}</Text>
+          );
+        },
+        tabBarItemStyle: styles.tab,
+        tabBarStyle: styles.tabBar,
+        tabBarIndicatorStyle: styles.tabIndicator,
+      })}
+    >
+      <Tab.Screen name="My Profile" component={EditProfile} />
+      <Tab.Screen name="Settings" component={EditProfile} />
+    </Tab.Navigator>
+    </>
   );
 };
 
@@ -40,6 +63,37 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: palette.white,
   },
+  tabBar: {
+    elevation: 0,
+    paddingTop: 2 * vh,
+    paddingLeft: 6 * vmin,
+    backgroundColor: palette.white,
+},
+tab: {
+    width: 28 * vmin,
+},
+tabLabelInactive: {
+    paddingHorizontal: 0,
+    width: 28 * vmin,
+    fontSize: 5.6 * vmin,
+    textTransform: 'none',
+    fontFamily: 'Montserrat-Medium',
+    color: palette.grey
+},
+tabLabelActive: {
+    width: 28 * vmin,
+    fontSize: 5.6 * vmin,
+    textTransform: 'none',
+    fontFamily: 'Montserrat-SemiBold',
+    color: palette.black
+},
+tabIndicator: {
+    marginLeft: 6 * vmin,
+    backgroundColor: palette.yellow,
+    width: 22 * vmin,
+    height: 5
+},
+
   profilePicContainer: {
     marginTop: 20 * vh,
     justifyContent: "center",
