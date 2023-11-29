@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import { palette, themes, dimensions } from "../style";
 import ProfileInfo from "../components/myProfile/ProfileInfo";
@@ -42,7 +43,49 @@ const EditProfile = () => {
 const Settings = () => {
   return (
     <View style={styles.page}>
-      <Text>This is settings screen</Text>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../../assets/images/settingScreen/dayoffLogo.png")}
+        />
+        <Text style={styles.message}>Version 1.0</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.headingText}>Change Work Email</Text>
+        </View>
+
+        <View style={styles.countryContainer}>
+          <Text style={styles.message}>jessica@facebook.com</Text>
+        </View>
+      </View>
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.headingText}>Change password</Text>
+        </View>
+      </View>
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.headingText}>Send Feedback or Report Bug</Text>
+        </View>
+      </View>
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.headingText}>Share App with Coworkers or Friends</Text>
+        </View>
+
+        <View style={styles.countryContainer}>
+          <Text style={styles.message}>dayoff.space/mylink</Text>
+        </View>
+      </View>
+
+      <View style={styles.logoutContainer}>
+       <TouchableOpacity onPress={()=>{}}>
+       <Image source={require('../../assets/images/settingScreen/logout.png')}/>
+       </TouchableOpacity>
+     
+      </View>
+  
+
     </View>
   );
 };
@@ -110,7 +153,7 @@ const styles = StyleSheet.create({
   },
 
   profilePicContainer: {
-    marginTop: 20 * vh,
+    marginTop: 8 * vh,
     justifyContent: "center",
     alignItems: "center",
     paddingTop: 5,
@@ -137,4 +180,31 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     fontWeight: "600",
   },
+  logoContainer: {
+    marginTop: 6 * vh,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+   infoContainer:{
+    marginBottom:15
+  },
+  headingText: {
+    alignSelf: "center",
+    width: 85 * vmin,
+    fontFamily: "Lato-Regular",
+    fontSize: 4.5 * vmin,
+    fontWeight: "700",
+    color: "#000000",
+  },
+  message: {
+    marginTop: 2 * vh,
+    fontFamily: "Lato-Regular",
+    fontSize: 4 * vmin,
+    color: palette.grey,
+  },
+  logoutContainer:{
+    alignSelf: "center",
+    width: 85 * vmin,
+    marginBottom:15
+  }
 });
