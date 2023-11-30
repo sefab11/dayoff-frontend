@@ -7,7 +7,7 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-import { palette, themes, dimensions } from "../style";
+import { palette } from "../style";
 import ProfileInfo from "../components/myProfile/ProfileInfo";
 import EditDates from "../components/myProfile/EditDates";
 import VisitedCountries from "../components/myProfile/VisitedCountries";
