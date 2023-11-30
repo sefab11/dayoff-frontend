@@ -4,7 +4,6 @@ import {
   Text,
   Image,
   ScrollView,
-  Button,
   TouchableOpacity,
 } from "react-native";
 import { palette } from "../style";

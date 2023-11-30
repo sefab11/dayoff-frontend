@@ -1,4 +1,4 @@
-import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView } from "react-native";
+import { View, Text, StatusBar, ScrollView } from "react-native";
 import { Button, TripViewMatch, TripView } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
