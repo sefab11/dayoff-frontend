@@ -1,6 +1,4 @@
 import { View, StyleSheet, Text, Image } from "react-native";
-import { themes } from "../../style";
-import { dimensions } from "../../style";
 import { palette } from "../../style";
 
 export default ProfileInfo = () => {
