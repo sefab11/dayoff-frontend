@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { palette } from "../style";
 import ProfileInfo from "../components/myProfile/ProfileInfo";
@@ -69,7 +70,9 @@ const Settings = () => {
       </View>
       <View style={styles.infoContainer}>
         <View>
-          <Text style={styles.headingText}>Share App with Coworkers or Friends</Text>
+          <Text style={styles.headingText}>
+            Share App with Coworkers or Friends
+          </Text>
         </View>
 
         <View style={styles.countryContainer}>
@@ -78,13 +81,12 @@ const Settings = () => {
       </View>
 
       <View style={styles.logoutContainer}>
-       <TouchableOpacity onPress={()=>{}}>
-       <Image source={require('../../assets/images/settingScreen/logout.png')}/>
-       </TouchableOpacity>
-     
+        <TouchableOpacity onPress={() => {}}>
+          <Image
+            source={require("../../assets/images/settingScreen/logout.png")}
+          />
+        </TouchableOpacity>
       </View>
-  
-
     </View>
   );
 };
@@ -92,6 +94,7 @@ const Settings = () => {
 export default MyProfileScreen = ({ navigation }) => {
   return (
     <>
+      <StatusBar></StatusBar>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarLabel: ({ tintColor, focused, item }) => {
@@ -119,6 +122,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: palette.white,
+    gap: 3 * vh,
   },
   tabBar: {
     elevation: 0,
@@ -184,8 +188,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-   infoContainer:{
-    marginBottom:15
+  infoContainer: {
+    
   },
   headingText: {
     alignSelf: "center",
@@ -201,9 +205,9 @@ const styles = StyleSheet.create({
     fontSize: 4 * vmin,
     color: palette.grey,
   },
-  logoutContainer:{
+  logoutContainer: {
     alignSelf: "center",
     width: 85 * vmin,
-    marginBottom:15
-  }
+    marginBottom: 10 * vh,
+  },
 });
