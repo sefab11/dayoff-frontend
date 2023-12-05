@@ -1,8 +1,9 @@
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView } from "react-native";
-import { Button, TripViewMatch, TripView } from "../components";
+import { Button, TripViewMatch, TripView, BottomNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -53,7 +54,8 @@ export default HomeScreen = ({ navigation }) => {
             <Tab.Screen name='For You' component={ForYouScreen} />
             <Tab.Screen name='Explore' children={() => <ExploreScreen navigation={navigation} />} />
         </Tab.Navigator>
-    </>);
+        <BottomNav active={"Home"}/>
+    </>);  
 }
 
 const styles = StyleSheet.create({

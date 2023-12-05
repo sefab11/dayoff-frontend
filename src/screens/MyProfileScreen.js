@@ -8,9 +8,10 @@ import SelecCountries from "../components/getMatched/SelectCountries";
 import VisitedCountries from "../components/myProfile/VisitedCountries";
 import VolunteerBadges from "../components/myProfile/VolunteerBadges";
 import EditCountries from "../components/myProfile/EditCountries";
+import { BottomNav } from "../components";
 
 export default MyProfileScreen = ({ navigation }) => {
-  return (
+  return (<>
     <ScrollView>
       <View style={styles.page}>
         <View style={styles.profilePicContainer}>
@@ -30,7 +31,8 @@ export default MyProfileScreen = ({ navigation }) => {
         <VolunteerBadges />
       </View>
     </ScrollView>
-  );
+    <BottomNav active='MyProfile' />
+  </>);
 };
 
 const styles = StyleSheet.create({
