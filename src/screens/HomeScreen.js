@@ -8,7 +8,7 @@ const Tab = createMaterialTopTabNavigator();
 
 [vw, vh, vmin, vmax] = dimensions;
 
-const ForYouScreen = () => {
+const ForYouScreen = (navigation) => {
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
@@ -21,11 +21,12 @@ const ForYouScreen = () => {
     )
 }
 
-const ExploreScreen = () => {
+const ExploreScreen = (props) => {
+    const { navigation } = props;
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Find or create trips that match your style</Text>
-            <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton}>Create trip</Button>
+            <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <TripView />
                 <TripView />
@@ -50,7 +51,7 @@ export default HomeScreen = ({ navigation }) => {
             })}
         >
             <Tab.Screen name='For You' component={ForYouScreen} />
-            <Tab.Screen name='Explore' component={ExploreScreen} />
+            <Tab.Screen name='Explore' children={() => <ExploreScreen navigation={navigation} />} />
         </Tab.Navigator>
     </>);
 }
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
         color: palette.grey
     },
     createTripButton: {
-        width: 35 * vmin,
+        width: 40 * vmin,
         height: 12 * vmin,
         justifyContent: 'center',
         alignContent: 'center',
