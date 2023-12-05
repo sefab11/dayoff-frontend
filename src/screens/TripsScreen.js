@@ -3,13 +3,17 @@ import { Button, TripViewMatch, TripView, BottomNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { useEffect } from "react";
+import { useNavigation, useNavigationState } from "@react-navigation/native";
 
 
 const Tab = createMaterialTopTabNavigator();
 
 [vw, vh, vmin, vmax] = dimensions;
 
+
 const MyTripsScreen = (navigation) => {
+
     return (
         <View style={styles.page}>
             <ScrollView contentContainerStyle={styles.scroll}>
@@ -21,6 +25,7 @@ const MyTripsScreen = (navigation) => {
 
 const PastScreen = (props) => {
     const { navigation } = props;
+
     return (
         <View style={styles.page}>
             <ScrollView contentContainerStyle={styles.scroll}>
@@ -31,10 +36,13 @@ const PastScreen = (props) => {
 }
 
 export default TripsScreen = ({ navigation }) => {
+
     return (<>
         <StatusBar></StatusBar>
         <Tab.Navigator
             screenOptions={({ route }) => ({
+                tabBarScrollEnabled: true,
+                tabBarGap: 5 * vmin,
                 tabBarLabel: ({ tintColor, focused, item }) => {
                     return focused
                         ? (<Text style={styles.tabLabelActive}>{route.name}</Text>)
@@ -42,11 +50,19 @@ export default TripsScreen = ({ navigation }) => {
                 },
                 tabBarItemStyle: styles.tab,
                 tabBarStyle: styles.tabBar,
-                tabBarIndicatorStyle: styles.tabIndicator
+                tabBarIndicatorStyle: styles.tabIndicator,
             })}
         >
-            <Tab.Screen name='My Trips' component={MyTripsScreen} />
-            <Tab.Screen name='Past' children={() => <PastScreen navigation={navigation} />} />
+            <Tab.Screen name='My Trips' component={MyTripsScreen}
+                listeners={{
+                    tabPress: e => {}
+                }}
+            />
+            <Tab.Screen name='Past' children={() => <PastScreen navigation={navigation} />}
+                listeners={{
+                    tabPress: e => {}
+                }}
+            />
         </Tab.Navigator>
         <BottomNav active={"Trips"}/>
     </>);  
@@ -67,27 +83,31 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white,
     },
     tab: {
-        width: 28 * vmin,
+        width: 'auto',
+        marginHorizontal: 0,
+        paddingHorizontal: 0,
+        overflow: 'visible'
     },
     tabLabelInactive: {
-        paddingHorizontal: 0,
-        width: 28 * vmin,
+        width: 'auto',
+        marginHorizontal: 0,
+        paddingRight: 0.5 * vmin,
         fontSize: 5.6 * vmin,
         textTransform: 'none',
         fontFamily: 'Montserrat-Medium',
-        color: palette.grey
+        color: palette.grey,
+        overflow: 'visible'
     },
     tabLabelActive: {
-        width: 28 * vmin,
         fontSize: 5.6 * vmin,
         textTransform: 'none',
         fontFamily: 'Montserrat-SemiBold',
-        color: palette.black
+        color: palette.black,
+        overflow: 'visible'
     },
     tabIndicator: {
-        marginLeft: 6 * vmin,
+        marginLeft: 5.75  * vmin,
         backgroundColor: palette.yellow,
-        width: 22 * vmin,
         height: 5
     },
     scroll: {

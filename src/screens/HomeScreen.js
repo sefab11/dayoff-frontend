@@ -41,6 +41,8 @@ export default HomeScreen = ({ navigation }) => {
         <StatusBar></StatusBar>
         <Tab.Navigator
             screenOptions={({ route }) => ({
+                tabBarScrollEnabled: true,
+                tabBarGap: 5 * vmin,
                 tabBarLabel: ({ tintColor, focused, item }) => {
                     return focused
                         ? (<Text style={styles.tabLabelActive}>{route.name}</Text>)
@@ -73,27 +75,31 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white,
     },
     tab: {
-        width: 28 * vmin,
+        width: 'auto',
+        marginHorizontal: 0,
+        paddingHorizontal: 0,
+        overflow: 'visible'
     },
     tabLabelInactive: {
-        paddingHorizontal: 0,
-        width: 28 * vmin,
+        width: 'auto',
+        marginHorizontal: 0,
+        paddingRight: 0.5 * vmin,
         fontSize: 5.6 * vmin,
         textTransform: 'none',
         fontFamily: 'Montserrat-Medium',
-        color: palette.grey
+        color: palette.grey,
+        overflow: 'visible'
     },
     tabLabelActive: {
-        width: 28 * vmin,
         fontSize: 5.6 * vmin,
         textTransform: 'none',
         fontFamily: 'Montserrat-SemiBold',
-        color: palette.black
+        color: palette.black,
+        overflow: 'visible'
     },
     tabIndicator: {
-        marginLeft: 6 * vmin,
+        marginLeft: 5.75  * vmin,
         backgroundColor: palette.yellow,
-        width: 22 * vmin,
         height: 5
     },
     scroll: {
