@@ -1,5 +1,5 @@
 import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput, DateInput } from "../components";
+import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 

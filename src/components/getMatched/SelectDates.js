@@ -6,14 +6,27 @@ import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
+
 const SelectDates = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [isChecked, setChecked] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+
+  function onDateChange(props){
+    const startDate = props.START_DATE;
+    const endDate = props.END_DATE;
+    console.log(startDate);
+    console.log(endDate);
+
+    setStartDate(startDate);
+    setEndDate(endDate);
+  }
 
   return (
     <View style={styles.selectDateWrap}>
@@ -29,7 +42,7 @@ const SelectDates = () => {
       </View>
       <View>
         <View style={styles.calenderIconContainer}>
-          <Text style={styles.textContainer}>10 - 18 Aug</Text>
+          <Text style={styles.textContainer}>{startDate} - {endDate}</Text>
           <Text style={styles.textContainer}>02 - 10 Oct</Text>
           <TouchableOpacity onPress={toggleModal}>
             <Image
@@ -49,7 +62,7 @@ const SelectDates = () => {
               <CalendarPicker
                 startFromMonday={true}
                 allowRangeSelection={true}
-                onDateChange={this.onDateChange}
+                onDateChange={onDateChange()}
                 selectedDayColor="#503cc8"
                 selectedDayTextColor="#ffffff"
               />
