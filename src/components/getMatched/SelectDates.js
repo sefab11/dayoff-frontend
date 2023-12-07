@@ -6,27 +6,50 @@ import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
-import { format } from "date-fns";
+//import { format } from "date-fns";
 
 const SelectDates = () => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date("2023-11-07T12:00:00.000Z"));
+  const [endDate, setEndDate] = useState(new Date("2023-11-10T12:00:00.000Z"));
   const [isChecked, setChecked] = useState(false);
+
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+
+    console.log("start: " , startDate);
+    console.log("end: " , endDate);
   };
 
   //dateSelected parameter will have the date
   //dateType parameter will have either "START_DATE" or "END_DATE"
   function onDateSelected(dateSelected, dateType){
+    console.log(dateSelected);
+    console.log(dateType);
     //on start date changed null will be returned after the date so ignore those calls
     if (dateSelected == null || dateType == null) return;
 
     if (dateType == "START_DATE") setStartDate(dateSelected);
-    else setEndDate(dateSelected);
+    else if (dateType == "END_DATE") setEndDate(dateSelected);
   }
+
+
+  //for formatting the string in the Text components
+  function formatDate(startDate, endDate){
+    var start = startDate.toString().split(" ");
+    var end = endDate.toString().split(" ");
+
+    var startDay = start[2];
+    var startMonth = start[1];
+    var endDay = end[2];
+    var endMonth = end[1];
+
+    if (startMonth == endMonth){
+        return (startDay + " - " + endDay + " " + startMonth);
+    }
+    else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
+    }
 
 
   return (
@@ -43,7 +66,7 @@ const SelectDates = () => {
       </View>
       <View>
         <View style={styles.calenderIconContainer}>
-          <Text style={styles.textContainer}>{format(startDate, "dd MM")} - {format(endDate, "dd MM")}</Text>
+          <Text style={styles.textContainer}>{formatDate(startDate, endDate)}</Text>
           <Text style={styles.textContainer}>02 - 10 Oct</Text>
           <TouchableOpacity onPress={toggleModal}>
             <Image
