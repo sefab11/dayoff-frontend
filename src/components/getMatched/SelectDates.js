@@ -6,9 +6,13 @@ import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
-//import { format } from "date-fns";
 
-const SelectDates = () => {
+
+const SelectDates = (props) => {
+  const title = props.title;
+  const subtitle = props.subtitle;
+  const isFlexibleOptionEnabled = props.isFlexible;
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date("2023-11-07T12:00:00.000Z"));
   const [endDate, setEndDate] = useState(new Date("2023-11-10T12:00:00.000Z"));
@@ -17,16 +21,11 @@ const SelectDates = () => {
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
-
-    console.log("start: " , startDate);
-    console.log("end: " , endDate);
   };
 
   //dateSelected parameter will have the date
   //dateType parameter will have either "START_DATE" or "END_DATE"
   function onDateSelected(dateSelected, dateType){
-    console.log(dateSelected);
-    console.log(dateType);
     //on start date changed null will be returned after the date so ignore those calls
     if (dateSelected == null || dateType == null) return;
 
@@ -49,21 +48,50 @@ const SelectDates = () => {
         return (startDay + " - " + endDay + " " + startMonth);
     }
     else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
-    }
+  }
+
+  function enableHeader(headerOpt){
+    if (headerOpt == null) return;
+
+    return (
+    <View>
+        <Text style={styles.headingText}>
+            {title}
+        </Text>
+    </View>
+    );
+
+  }
+
+  function enableSubheader(subheaderOpt){
+    if (subheaderOpt == null) return;
+
+    return (
+    <View>
+        <Text style={styles.message}>
+            {subtitle}
+        </Text>
+    </View>
+    );
+  }
+
+  //to either render or not render the flexible option checkbox
+  function enableFlexibleOption(flexibleOpt){
+    if (!flexibleOpt) return;
+
+    return (
+    <View style={styles.checkboxContainer}>
+    <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? '#4630EB' : undefined} />
+        <Text style={styles.checkText}>I’m flexible with my dates</Text>
+    </View>
+    );
+  }
 
 
   return (
     <View style={styles.selectDateWrap}>
-      <View>
-        <Text style={styles.headingText}>
-          Select all your days off for the year
-        </Text>
-      </View>
-      <View>
-        <Text style={styles.message}>
-          Which weeks of the months are you taking days off to go on a trip
-        </Text>
-      </View>
+      {enableHeader(title)}
+      {enableSubheader(subtitle)}
       <View>
         <View style={styles.calenderIconContainer}>
           <Text style={styles.textContainer}>{formatDate(startDate, endDate)}</Text>
@@ -97,10 +125,7 @@ const SelectDates = () => {
           </View>
         </Modal>
       </View>
-      <View style={styles.checkboxContainer}>
-      <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? '#4630EB' : undefined}/>
-        <Text style={styles.checkText}>I’m flexible with my dates</Text>
-      </View>
+      {enableFlexibleOption(isFlexibleOptionEnabled)}
     </View>
   );
 };

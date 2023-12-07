@@ -21,7 +21,7 @@ const GetMatchedScreen = ({ navigation }) => {
         <Header>Get Matched</Header>
         <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
         </View>
-        <SelectDates/>
+        <SelectDates title={"Select all your days off for the year"} subtitle={"Which weeks of the months are you taking days off to go on a trip"} isFlexible={true}/>
         <SelectCountries/>
         <View style={styles.buttonGroup}>
         <Button onPress={() => navigation.replace('Home')} mode='contained' theme={themes.button} style={styles.button}>
