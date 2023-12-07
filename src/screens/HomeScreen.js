@@ -119,11 +119,72 @@ const ForYouScreen = (navigation) => {
 
 const ExploreScreen = (props) => {
     const { navigation } = props;
+
+    const trips = [
+        {
+            id: 0,
+            country: 'EG',
+            limit: 9,
+            details: 'Let’s explore the tombs of the pharaohs, pyramids and cruise on the nile river. We will also take an hour to volunteer :)',
+            going: [
+                {
+                    name: 'Sefa',
+                    profilePic: null
+                },
+                {
+                    name: 'Puspita',
+                    profilePic: null
+                },
+                {
+                    name: 'Nandini',
+                    profilePic: null
+                },
+                {
+                    name: 'Devarshi',
+                    profilePic: null
+                },
+                {
+                    name: 'Lee',
+                    profilePic: null
+                },
+                {
+                    name: 'Bruno',
+                    profilePic: null
+                },
+                {
+                    name: 'Craig',
+                    profilePic: null
+                },
+                {
+                    name: 'Mary',
+                    profilePic: null
+                }
+            ]
+        },
+        {
+            id: 1,
+            country: 'NL',
+            limit: 6,
+            details: 'Join me and lets go experience the culture and arty vibe of Amsterdam.',
+            going: [
+                {
+                    name: 'John',
+                    profilePic: null
+                },
+                {
+                    name: 'Amy',
+                    profilePic: null
+                }
+            ]
+        },
+    ]
+
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Find or create trips that match your style</Text>
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
+                { trips.map(trip => <TripView key={trip.id} trip={trip} />) }
             </ScrollView>
         </View>
     )

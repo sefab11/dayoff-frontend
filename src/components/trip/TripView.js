@@ -28,15 +28,14 @@ const TripView = (props) => {
                 <Text style={styles.dateText}>11 - 18 Aug</Text>
             </View>
             <Text style={styles.details}>
-                Let’s explore the tombs of the pharaohs, pyramids and cruise on the nile river.
-                We will also take an hour to volunteer :)
+                {trip.details}
             </Text>
             <Text style={styles.groupText}>Going:</Text>
             <View style={styles.middleGroup}>
                 <View style={styles.profilePicsGroup}>
                     {(() => {
                         const profilePics = [];
-                        for(let i = 0; i < trip.going.length; i++) {
+                        for(let i = 0; trip.going && i < trip.going.length; i++) {
                             if(i == 6) break;
 
                             if(trip.going[i].profilePic)
@@ -48,7 +47,7 @@ const TripView = (props) => {
                     })()}
                 </View>
                 {
-                    trip.going.length > 6 ?
+                    trip.going && trip.going.length > 6 ?
                     <Button
                         mode="text"
                         labelStyle={{marginHorizontal: 0}}
@@ -72,7 +71,7 @@ const TripView = (props) => {
                 </Button>
                 <View style={styles.goingGroup}>
                     <Image style={styles.goingIcon} source={require('../../../assets/icons/people.png')} />
-                    <Text style={styles.goingText}>{trip.going.length}/{trip.limit}</Text>
+                    <Text style={styles.goingText}>{trip.going ? trip.going.length : 0}/{trip.limit}</Text>
                 </View>
             </View>
         </View>
