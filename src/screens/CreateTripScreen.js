@@ -3,6 +3,9 @@ import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput, DateInput
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 
+import { SelectDates } from "../components";
+
+
 
 
 export default CreateTripScreen = ({ navigation }) => {
@@ -12,8 +15,8 @@ export default CreateTripScreen = ({ navigation }) => {
                 <HeaderBack>Create a trip</HeaderBack>
                 <View style={styles.inputGroup}>
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Select country" />
-                    //TODO: add in dateinput that prompts calender on press
-                    <DateInput />
+                    {/*TODO: ass in dateinput that prompts calender on press*/}
+                    <SelectDates />
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Select dates" />
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />
                     <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />
