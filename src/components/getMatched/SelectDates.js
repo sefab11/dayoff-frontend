@@ -6,27 +6,28 @@ import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
+import { format } from "date-fns";
 
 const SelectDates = () => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [isChecked, setChecked] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
+  //dateSelected parameter will have the date
+  //dateType parameter will have either "START_DATE" or "END_DATE"
+  function onDateSelected(dateSelected, dateType){
+    //on start date changed null will be returned after the date so ignore those calls
+    if (dateSelected == null || dateType == null) return;
 
-  function onDateChange(props){
-    const startDate = props.START_DATE;
-    const endDate = props.END_DATE;
-    console.log(startDate);
-    console.log(endDate);
-
-    setStartDate(startDate);
-    setEndDate(endDate);
+    if (dateType == "START_DATE") setStartDate(dateSelected);
+    else setEndDate(dateSelected);
   }
+
 
   return (
     <View style={styles.selectDateWrap}>
@@ -42,7 +43,7 @@ const SelectDates = () => {
       </View>
       <View>
         <View style={styles.calenderIconContainer}>
-          <Text style={styles.textContainer}>{startDate} - {endDate}</Text>
+          <Text style={styles.textContainer}>{format(startDate, "dd MM")} - {format(endDate, "dd MM")}</Text>
           <Text style={styles.textContainer}>02 - 10 Oct</Text>
           <TouchableOpacity onPress={toggleModal}>
             <Image
@@ -62,7 +63,7 @@ const SelectDates = () => {
               <CalendarPicker
                 startFromMonday={true}
                 allowRangeSelection={true}
-                onDateChange={onDateChange()}
+                onDateChange={onDateSelected}
                 selectedDayColor="#503cc8"
                 selectedDayTextColor="#ffffff"
               />

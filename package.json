@@ -16,6 +16,7 @@
     "@react-navigation/material-top-tabs": "^6.6.5",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
+    "date-fns": "^2.30.0",
     "expo": "~49.0.15",
     "expo-checkbox": "~2.4.0",
     "expo-font": "~11.4.0",
