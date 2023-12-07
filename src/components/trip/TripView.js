@@ -10,45 +10,7 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 [vw, vh, vmin, vmax] = dimensions
 
 const TripView = (props) => {
-    const {style, label, children, ...rest} = props;
-
-    let trip = {};
-    trip.limit = 9;
-    trip.country = 'AU';
-    trip.going = [
-        {
-            name: 'Sefa',
-            profilePic: null
-        },
-        {
-            name: 'Puspita',
-            profilePic: null
-        },
-        {
-            name: 'Nandini',
-            profilePic: null
-        },
-        {
-            name: 'Devarshi',
-            profilePic: null
-        },
-        {
-            name: 'Lee',
-            profilePic: null
-        },
-        {
-            name: 'Bruno',
-            profilePic: null
-        },
-        {
-            name: 'Craig',
-            profilePic: null
-        },
-        {
-            name: 'Mary',
-            profilePic: null
-        }
-    ];
+    const {style, label, children, trip, ...rest} = props;
 
     country = CountryCodes.filter(c => c.code == trip.country)[0];    
     

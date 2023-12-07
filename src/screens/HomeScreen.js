@@ -10,13 +10,108 @@ const Tab = createMaterialTopTabNavigator();
 [vw, vh, vmin, vmax] = dimensions;
 
 const ForYouScreen = (navigation) => {
+    const matched = [
+        {
+            id: 0,
+            country: 'AU',
+            limit: 9,
+            matched: [
+                {
+                    name: 'Sefa',
+                    profilePic: null
+                },
+                {
+                    name: 'Puspita',
+                    profilePic: null
+                },
+                {
+                    name: 'Nandini',
+                    profilePic: null
+                },
+                {
+                    name: 'Devarshi',
+                    profilePic: null
+                },
+                {
+                    name: 'Lee',
+                    profilePic: null
+                },
+                {
+                    name: 'Bruno',
+                    profilePic: null
+                },
+                {
+                    name: 'Craig',
+                    profilePic: null
+                },
+                {
+                    name: 'Mary',
+                    profilePic: null
+                }
+            ],
+            going: [
+                {
+                    name: 'Sefa',
+                    profilePic: null
+                },
+                {
+                    name: 'Puspita',
+                    profilePic: null
+                },
+                {
+                    name: 'Nandini',
+                    profilePic: null
+                },
+                {
+                    name: 'Devarshi',
+                    profilePic: null
+                },
+                {
+                    name: 'Lee',
+                    profilePic: null
+                },
+                {
+                    name: 'Bruno',
+                    profilePic: null
+                },
+                {
+                    name: 'Craig',
+                    profilePic: null
+                },
+                {
+                    name: 'Mary',
+                    profilePic: null
+                }
+            ]
+        },
+        {
+            id: 1,
+            country: 'BR',
+            limit: 6,
+            matched: [
+                {
+                    name: 'John',
+                    profilePic: null
+                }
+            ],
+            going: [
+                {
+                    name: 'John',
+                    profilePic: null
+                },
+                {
+                    name: 'Amy',
+                    profilePic: null
+                }
+            ]
+        },
+    ]
+
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
-                <TripViewMatch />
-                <TripViewMatch />
-                <TripViewMatch />
+                { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} />) }
             </ScrollView>
         </View>
     )
@@ -29,8 +124,6 @@ const ExploreScreen = (props) => {
             <Text style={styles.message}>Find or create trips that match your style</Text>
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
-                <TripView />
-                <TripView />
             </ScrollView>
         </View>
     )
