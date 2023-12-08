@@ -16,7 +16,13 @@ export default CreateTripScreen = ({ navigation }) => {
                 <View style={styles.inputGroup}>
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Select country" />
                     {/*TODO: ass in dateinput that prompts calender on press*/}
-                    <SelectDates title={null} subtitle={"Select dates"} isFlexible={false} />
+                    <SelectDates
+                        title={null}
+                        subtitle={"Select dates"}
+                        subtitleStyle={2}
+                        isFlexible={false}
+                        showLine={false}
+                    />
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />
                     <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />
                 </View>

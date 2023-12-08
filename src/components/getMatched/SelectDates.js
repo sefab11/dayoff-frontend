@@ -7,11 +7,23 @@ import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 
+import { Label } from "..";
+
 
 const SelectDates = (props) => {
+  //passed in properties
   const title = props.title;
   const subtitle = props.subtitle;
   const isFlexibleOptionEnabled = props.isFlexible;
+  const showLine = props.showLine;
+
+  const subtitleStyle = props.subtitleStyle;
+  var subtitleType;
+  if (subtitleStyle == null || subtitleStyle == 1) subtitleType = styles.message;
+  else if (subtitleStyle == 2) subtitleType = styles.message2;
+
+  var dates = [];
+
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date("2023-11-07T12:00:00.000Z"));
@@ -50,6 +62,15 @@ const SelectDates = (props) => {
     else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
   }
 
+  //for enabling or disabling the line underneath the component
+  //the line is due to the selectDateWrap container and is changed to
+  //null style when there shouldn't be a checkbox
+  function enableUnderLine(showLine){
+    if (!showLine) return null;
+
+    return (styles.selectDateWrap);
+  }
+
   function enableHeader(headerOpt){
     if (headerOpt == null) return;
 
@@ -66,13 +87,22 @@ const SelectDates = (props) => {
   function enableSubheader(subheaderOpt){
     if (subheaderOpt == null) return;
 
-    return (
-    <View>
-        <Text style={styles.message}>
-            {subtitle}
-        </Text>
-    </View>
-    );
+    if (subtitleStyle == 1){
+        return (
+        <View>
+            <Text style={styles.message}>
+                {subtitle}
+            </Text>
+        </View>
+        );
+    }
+    else if (subtitleStyle == 2){
+        return (
+        <View>
+            <Label>{subtitle}</Label>
+        </View>
+        );
+    };
   }
 
   //to either render or not render the flexible option checkbox
@@ -85,11 +115,13 @@ const SelectDates = (props) => {
         <Text style={styles.checkText}>I’m flexible with my dates</Text>
     </View>
     );
+
+
   }
 
 
   return (
-    <View style={styles.selectDateWrap}>
+    <View style={enableUnderLine(showLine)}>
       {enableHeader(title)}
       {enableSubheader(subtitle)}
       <View>
@@ -129,6 +161,8 @@ const SelectDates = (props) => {
     </View>
   );
 };
+
+
 const styles = StyleSheet.create({
   selectDateWrap:{
     paddingTop:5,
@@ -145,7 +179,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#000000",
   },
-
   message: {
     marginTop: 1.5 * vh,
     alignSelf: "center",

@@ -7,8 +7,13 @@ export default EditDates = () => {
       <Text style={styles.headingText}>Edit days off calendar</Text>
       <View style={styles.dateContainer}>
         {/*TODO: ass in dateinput that prompts calender on press*/}
-        {/*<SelectDates title={null} subtitle={null} isFlexible={false} />*/}
-        <Text style={styles.textContainer}>11 - 18 Nov</Text>
+        <SelectDates
+            title={null}
+            subtitle={null}
+            isFlexible={false}
+            showLine={false}
+        />
+        {/*<Text style={styles.textContainer}>11 - 18 Nov</Text>
 
         <Text style={styles.textContainer}>02 - 10 Jan</Text>
         <Text style={styles.textContainer}>02 - 10 Jan</Text>
@@ -18,7 +23,7 @@ export default EditDates = () => {
             style={styles.icon}
             source={require("../../../assets/images/welcome_screen/calender.png")}
           />
-        </View>
+        </View>*/}
       </View>
     </View>
   );
