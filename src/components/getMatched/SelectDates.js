@@ -16,6 +16,7 @@ const SelectDates = (props) => {
   const subtitle = props.subtitle;
   const isFlexibleOptionEnabled = props.isFlexible;
   const showLine = props.showLine;
+  const allowMultipleDates = props.multipleDates;
 
   const subtitleStyle = props.subtitleStyle;
   var subtitleType;
@@ -26,10 +27,18 @@ const SelectDates = (props) => {
   //called array but more like list as items are added dynamically
   const [dates, setDates] = useState([]);
 
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date("2023-11-07T12:00:00.000Z"));
   const [endDate, setEndDate] = useState(new Date("2023-11-10T12:00:00.000Z"));
   const [isChecked, setChecked] = useState(false);
+
+  //either pushes a new date or makes the 0th index the new date
+  //depending on whether the multipleDates property is passed as true or false
+  function updateDates(newDate){
+    if (allowMultipleDates) setDates(dates => [...dates, newDate]);
+    else setDates([newDate]);
+  }
 
 
   const toggleModal = () => {
@@ -40,7 +49,7 @@ const SelectDates = (props) => {
 
     //add new date when calender is closed
     const newDate = formatDate(startDate, endDate);
-    setDates(dates => [...dates, newDate]);
+    updateDates(newDate);
 
     setStartDate(new Date("2023-11-07T12:00:00.000Z"));
     setEndDate(new Date("2023-11-10T12:00:00.000Z"))
@@ -49,6 +58,8 @@ const SelectDates = (props) => {
   };
 
   function deliverDateLabels(){
+    if (dates == null) return;
+
     const dateComponents = dates.map((date) =>
         <Text style={styles.textContainer}>{date}</Text>);
 

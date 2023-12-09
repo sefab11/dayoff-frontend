@@ -12,6 +12,7 @@ export default EditDates = () => {
             subtitle={null}
             isFlexible={false}
             showLine={false}
+            multipleDates={true}
         />
         {/*<Text style={styles.textContainer}>11 - 18 Nov</Text>
 

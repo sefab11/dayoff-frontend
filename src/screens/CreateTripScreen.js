@@ -22,6 +22,7 @@ export default CreateTripScreen = ({ navigation }) => {
                         subtitleStyle={2}
                         isFlexible={false}
                         showLine={false}
+                        multipleDates={false}
                     />
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />
                     <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />

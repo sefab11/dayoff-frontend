@@ -27,6 +27,7 @@ const GetMatchedScreen = ({ navigation }) => {
             subtitleStyle={1}
             isFlexible={true}
             showLine={true}
+            multipleDates={true}
         />
         <SelectCountries/>
         <View style={styles.buttonGroup}>
