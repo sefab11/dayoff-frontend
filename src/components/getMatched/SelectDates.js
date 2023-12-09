@@ -22,8 +22,9 @@ const SelectDates = (props) => {
   if (subtitleStyle == null || subtitleStyle == 1) subtitleType = styles.message;
   else if (subtitleStyle == 2) subtitleType = styles.message2;
 
-  var dates = [];
-
+  //track the array of dates that are added
+  //called array but more like list as items are added dynamically
+  const [dates, setDates] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date("2023-11-07T12:00:00.000Z"));
@@ -33,7 +34,26 @@ const SelectDates = (props) => {
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+
+    //when disabling the calender, add a new date to dates
+    if (!isModalVisible) return;
+
+    //add new date when calender is closed
+    const newDate = formatDate(startDate, endDate);
+    setDates(dates => [...dates, newDate]);
+
+    setStartDate(new Date("2023-11-07T12:00:00.000Z"));
+    setEndDate(new Date("2023-11-10T12:00:00.000Z"))
+
+    console.log(dates);
   };
+
+  function deliverDateLabels(){
+    const dateComponents = dates.map((date) =>
+        <Text style={styles.textContainer}>{date}</Text>);
+
+    return dateComponents;
+  }
 
   //dateSelected parameter will have the date
   //dateType parameter will have either "START_DATE" or "END_DATE"
@@ -126,8 +146,10 @@ const SelectDates = (props) => {
       {enableSubheader(subtitle)}
       <View>
         <View style={styles.calenderIconContainer}>
-          <Text style={styles.textContainer}>{formatDate(startDate, endDate)}</Text>
-          <Text style={styles.textContainer}>02 - 10 Oct</Text>
+          {/*<Text style={styles.textContainer}>{formatDate(startDate, endDate)}</Text>
+          <Text style={styles.textContainer}>02 - 10 Oct</Text>*/}
+          {/*{dates}*/}
+          {deliverDateLabels()}
           <TouchableOpacity onPress={toggleModal}>
             <Image
               style={styles.icon}
@@ -151,7 +173,7 @@ const SelectDates = (props) => {
                 selectedDayTextColor="#ffffff"
               />
               <TouchableOpacity onPress={toggleModal}>
-                <Text>Close Modal</Text>
+                <Text>Confirm</Text>
               </TouchableOpacity>
             </View>
           </View>
