@@ -25,7 +25,7 @@ const SelectDates = (props) => {
 
   //track the array of dates that are added
   //called array but more like list as items are added dynamically
-  const [dates, setDates] = useState([]);
+  const [dates, setDates] = useState(["07 - 10 Nov", "02 - 05 Oct"]);
 
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -53,15 +53,24 @@ const SelectDates = (props) => {
 
     setStartDate(new Date("2023-11-07T12:00:00.000Z"));
     setEndDate(new Date("2023-11-10T12:00:00.000Z"))
-
-    console.log(dates);
   };
+
+  //removes the date clicked on and updates the dates array state
+  function removeDate(date){
+    dates.splice(dates.indexOf(date), 1);
+    setDates(dates => [...dates]);
+  }
 
   function deliverDateLabels(){
     if (dates == null) return;
 
     const dateComponents = dates.map((date) =>
-        <Text style={styles.textContainer}>{date}</Text>);
+        <View>
+            <TouchableOpacity onPress={() => removeDate(date)}>
+                <Text style={styles.textContainer}>{date}</Text>
+            </TouchableOpacity>
+        </View>
+        );
 
     return dateComponents;
   }
@@ -157,9 +166,6 @@ const SelectDates = (props) => {
       {enableSubheader(subtitle)}
       <View>
         <View style={styles.calenderIconContainer}>
-          {/*<Text style={styles.textContainer}>{formatDate(startDate, endDate)}</Text>
-          <Text style={styles.textContainer}>02 - 10 Oct</Text>*/}
-          {/*{dates}*/}
           {deliverDateLabels()}
           <TouchableOpacity onPress={toggleModal}>
             <Image
