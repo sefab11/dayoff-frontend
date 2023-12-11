@@ -38,6 +38,14 @@ const SelectDates = (props) => {
   function updateDates(newDate){
     if (allowMultipleDates) setDates(dates => [...dates, newDate]);
     else setDates([newDate]);
+
+    //makes it so that whenever theres a first date added, the default date is removed
+    //and replaced by the new date
+    //default date comes back once theres no dates added
+    if (dates[0] == ""){
+        dates.shift();
+        setDates(dates => [...dates]);
+    }
   }
 
 
@@ -63,6 +71,11 @@ const SelectDates = (props) => {
 
   function deliverDateLabels(){
     if (dates == null) return;
+    //ensures that theres always at least one element so that the calender icon is fixed to
+    //the right of the label
+    if (dates.length <= 0){
+        setDates(dates => [...dates, ""]);
+    }
 
     const dateComponents = dates.map((date) =>
         <View>
@@ -148,6 +161,9 @@ const SelectDates = (props) => {
   //to either render or not render the flexible option checkbox
   function enableFlexibleOption(flexibleOpt){
     if (!flexibleOpt) return;
+
+    //if checked then grey out the label and box
+    //if (isChecked) continue;
 
     return (
     <View style={styles.checkboxContainer}>
