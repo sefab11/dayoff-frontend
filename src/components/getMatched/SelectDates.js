@@ -173,6 +173,19 @@ const SelectDates = (props) => {
   };
 
 
+  //FOR TESTING, REMOVE FOR FINAL BUILD
+  function testFunc(){
+    const newDate = "07 - 10 Nov";
+    setDates(dates => [...dates, newDate]);
+  }
+
+  function testFuncB(){
+    dates.shift()
+    setDates(dates => [...dates])
+  }
+  //END OF TEST METHODS
+
+
 
   return (
     <View style={enableUnderLine(showLine)}>
@@ -211,6 +224,17 @@ const SelectDates = (props) => {
         </Modal>
       </View>
       {enableFlexibleOption(isFlexibleOptionEnabled)}
+
+      {/*TEST COMPONENTS, MAKES TESTING EASIER*/}
+      <View>
+        <TouchableOpacity onPress={testFunc}>
+            <Text>Add test</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={testFuncB}>
+            <Text>Remove test</Text>
+        </TouchableOpacity>
+      </View>
+      {/*END OF TEST COMPONENTS*/}
     </View>
   );
 };
