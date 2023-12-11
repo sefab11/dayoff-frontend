@@ -1,5 +1,5 @@
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView } from "react-native";
-import { Button, TripViewMatch, TripView, BottomNav } from "../components";
+import { Button, TripViewMatch, TripView, BottomNav, TripChatView } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -14,10 +14,17 @@ const Tab = createMaterialTopTabNavigator();
 
 const MyTripsScreen = (navigation) => {
 
+    const chats = Array(5).fill(0)
+
     return (
         <View style={styles.page}>
             <ScrollView contentContainerStyle={styles.scroll}>
-
+                {
+                    chats.length > 0 ?
+                    <TripChatView style={{borderTopWidth: 0}} /> :
+                    null
+                }
+                { chats.slice(1).map((chat, i) => <TripChatView key={i} />) }
             </ScrollView>
         </View>
     )
@@ -112,9 +119,7 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: 100 * vmin,
-        alignItems: 'center',
-        gap: 3 * vh,
-        paddingBottom: 18 * vh
+        alignItems: 'center'
     },
     message: {
         marginTop: 3 * vh,
