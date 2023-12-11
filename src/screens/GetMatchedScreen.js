@@ -28,6 +28,7 @@ const GetMatchedScreen = ({ navigation }) => {
             isFlexible={true}
             showLine={true}
             multipleDates={true}
+            showBorder={true}
         />
         <SelectCountries/>
         <View style={styles.buttonGroup}>

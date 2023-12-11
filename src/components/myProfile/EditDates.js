@@ -13,18 +13,8 @@ export default EditDates = () => {
             isFlexible={false}
             showLine={false}
             multipleDates={true}
+            showBorder={false}
         />
-        {/*<Text style={styles.textContainer}>11 - 18 Nov</Text>
-
-        <Text style={styles.textContainer}>02 - 10 Jan</Text>
-        <Text style={styles.textContainer}>02 - 10 Jan</Text>
-
-        <View>
-          <Image
-            style={styles.icon}
-            source={require("../../../assets/images/welcome_screen/calender.png")}
-          />
-        </View>*/}
       </View>
     </View>
   );
