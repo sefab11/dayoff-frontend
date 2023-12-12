@@ -38,14 +38,6 @@ const SelectDates = (props) => {
   function updateDates(newDate){
     if (allowMultipleDates) setDates(dates => [...dates, newDate]);
     else setDates([newDate]);
-
-    //makes it so that whenever theres a first date added, the default date is removed
-    //and replaced by the new date
-    //default date comes back once theres no dates added
-    if (dates[0] == ""){
-        dates.shift();
-        setDates(dates => [...dates]);
-    }
   };
 
   //removes the date clicked on and updates the dates array state
@@ -73,10 +65,6 @@ const SelectDates = (props) => {
     if (dates == null) return;
     //ensures that theres always at least one element so that the calender icon is fixed to
     //the right of the label
-
-    if (dates.length <= 0){
-        setDates(dates => [""]);
-    }
 
     const dateComponents = dates.map((date) =>
         <View>
@@ -165,9 +153,6 @@ const SelectDates = (props) => {
   function enableFlexibleOption(flexibleOpt){
     if (!flexibleOpt) return;
 
-    //if checked then grey out the label and box
-    console.log(isChecked);
-
     return (
     <View style={styles.checkboxContainer}>
     <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? palette.purple : undefined} />
@@ -196,7 +181,7 @@ const SelectDates = (props) => {
       <View>
         <View style={styles.calenderIconContainer} borderWidth={boxBorderSize}>
           {deliverDateLabels()}
-          <TouchableOpacity onPress={toggleModal}>
+          <TouchableOpacity onPress={toggleModal} style={{marginLeft: 'auto'}}>
             <Image
               style={styles.icon}
               tintColor={!isChecked ? palette.purple : palette.grey}
@@ -298,18 +283,28 @@ const styles = StyleSheet.create({
   textContainerActive: {
     color: palette.purple,
     fontWeight: 'bold',
+    fontSize: 3.5 * vmin,
     padding: 5,
     borderRadius: 5,
     paddingLeft: 10,
     paddingRight: 10,
+    width: 25 * vmin,
+    height: 10 * vmin,
+    textAlign: 'center',
+    textAlignVertical: 'center',
   },
   textContainerInactive: {
     color: palette.grey,
     fontWeight: 'bold',
+    fontSize: 3.5 * vmin,
     padding: 5,
     borderRadius: 5,
     paddingLeft: 10,
     paddingRight: 10,
+    width: 25 * vmin,
+    height: 10 * vmin,
+    textAlign: 'center',
+    textAlignVertical: 'center',
   },
   modalContainer: {
     flex: 1,
