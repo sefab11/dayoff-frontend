@@ -73,6 +73,7 @@ const SelectDates = (props) => {
     if (dates == null) return;
     //ensures that theres always at least one element so that the calender icon is fixed to
     //the right of the label
+
     if (dates.length <= 0){
         setDates(dates => [""]);
     }
@@ -80,7 +81,10 @@ const SelectDates = (props) => {
     const dateComponents = dates.map((date) =>
         <View>
             <TouchableOpacity onPress={() => removeDate(date)}>
-                <Text style={styles.textContainer}>{date}</Text>
+                <Text style={!isChecked ? styles.textContainerActive : styles.textContainerInactive}
+                backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}>
+                    {date}
+                </Text>
             </TouchableOpacity>
         </View>
         );
@@ -166,7 +170,7 @@ const SelectDates = (props) => {
 
     return (
     <View style={styles.checkboxContainer}>
-    <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? '#4630EB' : undefined} />
+    <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? palette.purple : undefined} />
         <Text style={styles.checkText}>I’m flexible with my dates</Text>
     </View>
     );
@@ -175,13 +179,11 @@ const SelectDates = (props) => {
 
   //FOR TESTING, REMOVE FOR FINAL BUILD
   function testFunc(){
-    const newDate = "07 - 10 Nov";
-    setDates(dates => [...dates, newDate]);
+    updateDates("07 - 10 Nov");
   }
 
   function testFuncB(){
-    dates.shift()
-    setDates(dates => [...dates])
+    removeDate(dates[0]);
   }
   //END OF TEST METHODS
 
@@ -197,6 +199,7 @@ const SelectDates = (props) => {
           <TouchableOpacity onPress={toggleModal}>
             <Image
               style={styles.icon}
+              tintColor={!isChecked ? palette.purple : palette.grey}
               source={require("../../../assets/images/welcome_screen/blackCalender.png")}
             />
           </TouchableOpacity>
@@ -280,8 +283,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: "row",
     flexWrap: 'wrap',
-    rowGap: 20,
-    columnGap: 20,
+    rowGap: 10,
+    columnGap: 10,
     borderColor: "#D7D7D7",
     borderWidth: 1,
     padding: 10,
@@ -292,13 +295,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     lineHeight: "27px",
   },
-  textContainer: {
-    color: "#A9A9A9",
-    backgroundColor: "#F2F0F0",
+  textContainerActive: {
+    color: palette.purple,
+    fontWeight: 'bold',
     padding: 5,
     borderRadius: 5,
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  textContainerInactive: {
+    color: palette.grey,
+    fontWeight: 'bold',
+    padding: 5,
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   modalContainer: {
     flex: 1,
@@ -311,7 +322,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    alignItems: 'end',
+    alignSelf: 'flex-end',
   },
   checkboxContainer:{
     flexDirection:'row',

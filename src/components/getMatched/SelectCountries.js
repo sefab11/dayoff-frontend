@@ -3,7 +3,7 @@ import { View, Image, Text, TouchableOpacity } from "react-native";
 import { palette, themes } from "../../style";
 import { StyleSheet } from "react-native";
 
-const SelecCountries = () => {
+const SelectCountries = () => {
   const countries = [
     {
       id: "1",
@@ -39,7 +39,7 @@ const SelecCountries = () => {
           You can add more countries later in profile setting
         </Text>
       </View>
-      <View style={styles.countriesCContainer}>
+      <View style={styles.countriesContainer}>
         
           {countries.map((country) => (
             <View style={styles.country}   key={country.id}>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  countriesCContainer: {
+  countriesContainer: {
     flexDirection: "row",
     flexWrap:'wrap',
     borderColor: "#D7D7D7",
@@ -129,4 +129,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default SelecCountries;
+export default SelectCountries;
