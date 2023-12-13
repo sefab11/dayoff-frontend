@@ -30,13 +30,15 @@ const SelectDates = (props) => {
 
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [startDate, setStartDate] = useState(new Date("2023-11-07T12:00:00.000Z"));
-  const [endDate, setEndDate] = useState(new Date("2023-11-10T12:00:00.000Z"));
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [isChecked, setChecked] = useState(false);
 
   //either pushes a new date or makes the 0th index the new date
   //depending on whether the multipleDates property is passed as true or false
   function updateDates(newDate){
+    //makes sure no repeat dates are added
+    if (dates.includes(newDate) || newDate.includes("undefined")) return;
     if (allowMultipleDates) setDates(dates => [...dates, newDate]);
     else setDates([newDate]);
   };
@@ -58,8 +60,8 @@ const SelectDates = (props) => {
     const newDate = formatDate(startDate, endDate);
     updateDates(newDate);
 
-    setStartDate(new Date("2023-11-07T12:00:00.000Z"));
-    setEndDate(new Date("2023-11-10T12:00:00.000Z"))
+    setStartDate("");
+    setEndDate("")
   };
 
   function deliverDateLabels(){
@@ -67,12 +69,12 @@ const SelectDates = (props) => {
     //ensures that theres always at least one element so that the calender icon is fixed to
     //the right of the label
 
-    const dateComponents = dates.map((date) =>
-        <View>
+    const dateComponents = dates.map((date, index) =>
+        <View key={index}>
             <TouchableOpacity onPress={() => removeDate(date)}>
                 <Text style={!isChecked ? styles.textContainerActive : styles.textContainerInactive}
                 backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}>
-                    {date}
+                {date}
                 </Text>
             </TouchableOpacity>
         </View>
@@ -122,9 +124,7 @@ const SelectDates = (props) => {
 
     return (
     <View>
-        <Text style={styles.headingText}>
-            {title}
-        </Text>
+        <Text style={styles.headingText}>{title}</Text>
     </View>
     );
   };
@@ -135,9 +135,7 @@ const SelectDates = (props) => {
     if (subtitleStyle == 1){
         return (
         <View>
-            <Text style={styles.message}>
-                {subtitle}
-            </Text>
+            <Text style={styles.message}>{subtitle}</Text>
         </View>
         );
     }
@@ -161,18 +159,6 @@ const SelectDates = (props) => {
     </View>
     );
   };
-
-
-  //FOR TESTING, REMOVE FOR FINAL BUILD
-  function testFunc(){
-    updateDates("07 - 10 Nov");
-  }
-
-  function testFuncB(){
-    removeDate(dates[0]);
-  }
-  //END OF TEST METHODS
-
 
 
   return (
@@ -219,17 +205,6 @@ const SelectDates = (props) => {
         </Modal>
       </View>
       {enableFlexibleOption(isFlexibleOptionEnabled)}
-
-      {/*TEST COMPONENTS, MAKES TESTING EASIER*/}
-      <View>
-        <TouchableOpacity onPress={testFunc}>
-            <Text>Add test</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={testFuncB}>
-            <Text>Remove test</Text>
-        </TouchableOpacity>
-      </View>
-      {/*END OF TEST COMPONENTS*/}
     </View>
   );
 };
