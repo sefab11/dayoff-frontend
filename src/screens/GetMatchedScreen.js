@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback, Image, Text, ScrollView } from 'react-native';
 import { Button, Header, TextInput } from '../components';
 import SelectDates from '../components/getMatched/SelectDates';
 import SelectCountries from '../components/getMatched/SelectCountries';
@@ -15,6 +15,7 @@ const GetMatchedScreen = ({ navigation }) => {
     };
 
   return (
+  <ScrollView>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.page}>
         <View>
@@ -29,6 +30,7 @@ const GetMatchedScreen = ({ navigation }) => {
             showLine={true}
             multipleDates={true}
             showBorder={true}
+            boxWidth={95 * vmin}
         />
         <SelectCountries/>
         <View style={styles.buttonGroup}>
@@ -38,6 +40,7 @@ const GetMatchedScreen = ({ navigation }) => {
         </View>
       </View>
     </TouchableWithoutFeedback>
+    </ScrollView>
   );
 };
 

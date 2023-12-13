@@ -14,6 +14,7 @@ export default EditDates = () => {
             showLine={false}
             multipleDates={true}
             showBorder={false}
+            boxWidth={95 * vmin}
         />
       </View>
     </View>

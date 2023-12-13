@@ -17,6 +17,7 @@ const SelectDates = (props) => {
   const showLine = props.showLine;
   const allowMultipleDates = props.multipleDates;
   const boxBorderSize = props.showBorder ? 1 : 0;
+  const boxWidth = props.boxWidth;
 
   const subtitleStyle = props.subtitleStyle;
   var subtitleType;
@@ -179,9 +180,15 @@ const SelectDates = (props) => {
       {enableHeader(title)}
       {enableSubheader(subtitle)}
       <View>
-        <View style={styles.calenderIconContainer} borderWidth={boxBorderSize}>
+        <View style={styles.calenderIconContainer}
+        borderWidth={boxBorderSize}
+        marginTop={subtitleStyle == 2 ? 0 : 15}
+        width={boxWidth}>
           {deliverDateLabels()}
-          <TouchableOpacity onPress={toggleModal} style={{marginLeft: 'auto'}}>
+          {/*marginLeft keeps it as the last component in the flexbox, padding makes it
+            slightly bigger so that flexbox doesn't expand on a new date on a new row
+          */}
+          <TouchableOpacity onPress={toggleModal} style={{marginLeft: 'auto', padding: allowMultipleDates ? 5 : 0}}>
             <Image
               style={styles.icon}
               tintColor={!isChecked ? palette.purple : palette.grey}
@@ -277,18 +284,19 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     marginTop: 15,
     borderRadius: 5,
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     lineHeight: "27px",
   },
   textContainerActive: {
     color: palette.purple,
     fontWeight: 'bold',
-    fontSize: 3.5 * vmin,
+    fontSize: 3.8 * vmin,
     padding: 5,
     borderRadius: 5,
     paddingLeft: 10,
     paddingRight: 10,
-    width: 25 * vmin,
+    display: 'flex',
+    flexDirection: 'row',
     height: 10 * vmin,
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -296,13 +304,13 @@ const styles = StyleSheet.create({
   textContainerInactive: {
     color: palette.grey,
     fontWeight: 'bold',
-    fontSize: 3.5 * vmin,
+    fontSize: 3.8 * vmin,
     padding: 5,
     borderRadius: 5,
     paddingLeft: 10,
     paddingRight: 10,
-    width: 25 * vmin,
-    height: 10 * vmin,
+    display: 'flex',
+    flexDirection: 'row',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
@@ -317,7 +325,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    alignSelf: 'flex-end',
   },
   checkboxContainer:{
     flexDirection:'row',
