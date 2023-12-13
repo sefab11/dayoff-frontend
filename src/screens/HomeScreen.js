@@ -1,34 +1,190 @@
 import { View, Text, StatusBar, ScrollView } from "react-native";
-import { Button, TripViewMatch, TripView } from "../components";
+import { Button, TripViewMatch, TripView, BottomNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 
 const Tab = createMaterialTopTabNavigator();
 
 [vw, vh, vmin, vmax] = dimensions;
 
-const ForYouScreen = () => {
+const ForYouScreen = (navigation) => {
+    const matched = [
+        {
+            id: 0,
+            country: 'AU',
+            limit: 9,
+            matched: [
+                {
+                    name: 'Sefa',
+                    profilePic: null
+                },
+                {
+                    name: 'Puspita',
+                    profilePic: null
+                },
+                {
+                    name: 'Nandini',
+                    profilePic: null
+                },
+                {
+                    name: 'Devarshi',
+                    profilePic: null
+                },
+                {
+                    name: 'Lee',
+                    profilePic: null
+                },
+                {
+                    name: 'Bruno',
+                    profilePic: null
+                },
+                {
+                    name: 'Craig',
+                    profilePic: null
+                },
+                {
+                    name: 'Mary',
+                    profilePic: null
+                }
+            ],
+            going: [
+                {
+                    name: 'Sefa',
+                    profilePic: null
+                },
+                {
+                    name: 'Puspita',
+                    profilePic: null
+                },
+                {
+                    name: 'Nandini',
+                    profilePic: null
+                },
+                {
+                    name: 'Devarshi',
+                    profilePic: null
+                },
+                {
+                    name: 'Lee',
+                    profilePic: null
+                },
+                {
+                    name: 'Bruno',
+                    profilePic: null
+                },
+                {
+                    name: 'Craig',
+                    profilePic: null
+                },
+                {
+                    name: 'Mary',
+                    profilePic: null
+                }
+            ]
+        },
+        {
+            id: 1,
+            country: 'BR',
+            limit: 6,
+            matched: [
+                {
+                    name: 'John',
+                    profilePic: null
+                }
+            ],
+            going: [
+                {
+                    name: 'John',
+                    profilePic: null
+                },
+                {
+                    name: 'Amy',
+                    profilePic: null
+                }
+            ]
+        },
+    ]
+
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
-                <TripViewMatch />
-                <TripViewMatch />
-                <TripViewMatch />
+                { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} />) }
             </ScrollView>
         </View>
     )
 }
 
-const ExploreScreen = () => {
+const ExploreScreen = (props) => {
+    const { navigation } = props;
+
+    const trips = [
+        {
+            id: 0,
+            country: 'EG',
+            limit: 9,
+            details: 'Let’s explore the tombs of the pharaohs, pyramids and cruise on the nile river. We will also take an hour to volunteer :)',
+            going: [
+                {
+                    name: 'Sefa',
+                    profilePic: null
+                },
+                {
+                    name: 'Puspita',
+                    profilePic: null
+                },
+                {
+                    name: 'Nandini',
+                    profilePic: null
+                },
+                {
+                    name: 'Devarshi',
+                    profilePic: null
+                },
+                {
+                    name: 'Lee',
+                    profilePic: null
+                },
+                {
+                    name: 'Bruno',
+                    profilePic: null
+                },
+                {
+                    name: 'Craig',
+                    profilePic: null
+                },
+                {
+                    name: 'Mary',
+                    profilePic: null
+                }
+            ]
+        },
+        {
+            id: 1,
+            country: 'NL',
+            limit: 6,
+            details: 'Join me and lets go experience the culture and arty vibe of Amsterdam.',
+            going: [
+                {
+                    name: 'John',
+                    profilePic: null
+                },
+                {
+                    name: 'Amy',
+                    profilePic: null
+                }
+            ]
+        },
+    ]
+
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Find or create trips that match your style</Text>
-            <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton}>Create trip</Button>
+            <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
-                <TripView />
-                <TripView />
+                { trips.map(trip => <TripView key={trip.id} trip={trip} />) }
             </ScrollView>
         </View>
     )
@@ -39,6 +195,8 @@ export default HomeScreen = ({ navigation }) => {
         <StatusBar></StatusBar>
         <Tab.Navigator
             screenOptions={({ route }) => ({
+                tabBarScrollEnabled: true,
+                tabBarGap: 5 * vmin,
                 tabBarLabel: ({ tintColor, focused, item }) => {
                     return focused
                         ? (<Text style={styles.tabLabelActive}>{route.name}</Text>)
@@ -50,9 +208,10 @@ export default HomeScreen = ({ navigation }) => {
             })}
         >
             <Tab.Screen name='For You' component={ForYouScreen} />
-            <Tab.Screen name='Explore' component={ExploreScreen} />
+            <Tab.Screen name='Explore' children={() => <ExploreScreen navigation={navigation} />} />
         </Tab.Navigator>
-    </>);
+        <BottomNav active={"Home"}/>
+    </>);  
 }
 
 const styles = StyleSheet.create({
@@ -70,27 +229,31 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white,
     },
     tab: {
-        width: 28 * vmin,
+        width: 'auto',
+        marginHorizontal: 0,
+        paddingHorizontal: 0,
+        overflow: 'visible'
     },
     tabLabelInactive: {
-        paddingHorizontal: 0,
-        width: 28 * vmin,
+        width: 'auto',
+        marginHorizontal: 0,
+        paddingRight: 0.5 * vmin,
         fontSize: 5.6 * vmin,
         textTransform: 'none',
         fontFamily: 'Montserrat-Medium',
-        color: palette.grey
+        color: palette.grey,
+        overflow: 'visible'
     },
     tabLabelActive: {
-        width: 28 * vmin,
         fontSize: 5.6 * vmin,
         textTransform: 'none',
         fontFamily: 'Montserrat-SemiBold',
-        color: palette.black
+        color: palette.black,
+        overflow: 'visible'
     },
     tabIndicator: {
-        marginLeft: 6 * vmin,
+        marginLeft: 5.75  * vmin,
         backgroundColor: palette.yellow,
-        width: 22 * vmin,
         height: 5
     },
     scroll: {
@@ -108,7 +271,7 @@ const styles = StyleSheet.create({
         color: palette.grey
     },
     createTripButton: {
-        width: 35 * vmin,
+        width: 40 * vmin,
         height: 12 * vmin,
         justifyContent: 'center',
         alignContent: 'center',

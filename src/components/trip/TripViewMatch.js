@@ -10,45 +10,8 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 [vw, vh, vmin, vmax] = dimensions
 
 const TripViewMatch = (props) => {
-    const {style, label, children, ...rest} = props;
+    const {style, label, trip, children, ...rest} = props;
 
-    let trip = {};
-    trip.going = 9;
-    trip.country = 'AU';
-    trip.matched = [
-        {
-            name: 'Sefa',
-            profilePic: null
-        },
-        {
-            name: 'Puspita',
-            profilePic: null
-        },
-        {
-            name: 'Nandini',
-            profilePic: null
-        },
-        {
-            name: 'Devarshi',
-            profilePic: null
-        },
-        {
-            name: 'Lee',
-            profilePic: null
-        },
-        {
-            name: 'Bruno',
-            profilePic: null
-        },
-        {
-            name: 'Craig',
-            profilePic: null
-        },
-        {
-            name: 'Mary',
-            profilePic: null
-        }
-    ]
     country = CountryCodes.filter(c => c.code == trip.country)[0];    
     
     return (
@@ -64,12 +27,22 @@ const TripViewMatch = (props) => {
                 </View>
                 <Text style={styles.dateText}>11 - 18 Aug</Text>
             </View>
-            <Text style={styles.groupText}>Matched with 8 people:</Text>
+            <Text style={styles.groupText}>
+                {
+                    trip.matched && trip.matched.length > 0 ?
+                    (
+                        trip.matched.length > 1 ? 
+                        `Matched with ${trip.matched.length} people:` :
+                        'Matched with 1 person:'
+                    ) :
+                    null
+                }
+            </Text>
             <View style={styles.middleGroup}>
                 <View style={styles.profilePicsGroup}>
                     {(() => {
                         const profilePics = [];
-                        for(let i = 0; i < trip.matched.length; i++) {
+                        for(let i = 0; trip.matched && i < trip.matched.length; i++) {
                             if(i == 6) break;
 
                             if(trip.matched[i].profilePic)
@@ -81,7 +54,7 @@ const TripViewMatch = (props) => {
                     })()}
                 </View>
                 {
-                    trip.matched.length > 6 ?
+                    trip.matched && trip.matched.length > 6 ?
                     <Button
                         mode="text"
                         labelStyle={{marginHorizontal: 0}}
@@ -105,7 +78,7 @@ const TripViewMatch = (props) => {
                 </Button>
                 <View style={styles.goingGroup}>
                     <Image style={styles.goingIcon} source={require('../../../assets/icons/people.png')} />
-                    <Text style={styles.goingText}>{trip.going} going</Text>
+                    <Text style={styles.goingText}>{trip.going ? trip.going.length : 0} going</Text>
                 </View>
             </View>
         </View>

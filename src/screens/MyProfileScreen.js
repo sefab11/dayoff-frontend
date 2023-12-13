@@ -13,13 +13,15 @@ import EditDates from "../components/myProfile/EditDates";
 import VisitedCountries from "../components/myProfile/VisitedCountries";
 import VolunteerBadges from "../components/myProfile/VolunteerBadges";
 import EditCountries from "../components/myProfile/EditCountries";
+import { BottomNav } from "../components";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 const Tab = createMaterialTopTabNavigator();
 
 const EditProfile = () => {
   return (
-    <View style={styles.page}>
-      <ScrollView>
+
+    <ScrollView>
+      <View style={styles.page}>
         <View style={styles.profilePicContainer}>
           <Image
             style={styles.profilePic}
@@ -35,8 +37,9 @@ const EditProfile = () => {
         <EditCountries />
         <VisitedCountries />
         <VolunteerBadges />
+        </View>
       </ScrollView>
-    </View>
+  
   );
 };
 
@@ -112,8 +115,8 @@ export default MyProfileScreen = ({ navigation }) => {
         <Tab.Screen name="My Profile" component={EditProfile} />
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
-    </>
-  );
+    <BottomNav active='MyProfile' />
+  </>);
 };
 
 const styles = StyleSheet.create({
