@@ -174,7 +174,10 @@ const SelectDates = (props) => {
           {/*marginLeft keeps it as the last component in the flexbox, padding makes it
             slightly bigger so that flexbox doesn't expand on a new date on a new row
           */}
-          <TouchableOpacity onPress={toggleModal} style={{marginLeft: 'auto', padding: allowMultipleDates ? 5 : 0}}>
+          <TouchableOpacity onPress={toggleModal}
+          style={{marginLeft: 'auto',
+          padding: allowMultipleDates ? 5 : 0,
+          alignSelf: 'center'}}>
             <Image
               style={styles.icon}
               tintColor={!isChecked ? palette.purple : palette.grey}
