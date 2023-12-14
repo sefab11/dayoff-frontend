@@ -3,6 +3,11 @@ import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "..
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 
+import { SelectDates } from "../components";
+
+
+
+
 export default CreateTripScreen = ({ navigation }) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -10,7 +15,17 @@ export default CreateTripScreen = ({ navigation }) => {
                 <HeaderBack>Create a trip</HeaderBack>
                 <View style={styles.inputGroup}>
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Select country" />
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Select dates" />
+                    {/*TODO: ass in dateinput that prompts calender on press*/}
+                    <SelectDates
+                        title={null}
+                        subtitle={"Select dates"}
+                        subtitleStyle={2}
+                        isFlexible={false}
+                        showLine={false}
+                        multipleDates={false}
+                        showBorder={true}
+                        boxWidth={80 * vmin}
+                    />
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />
                     <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />
                 </View>

@@ -5,5 +5,8 @@ export const palette = {
     lightGrey2: '#EDEDED',
     grey: '#8A8A8A',
     purple: '#503CC8',
-    yellow: '#FFB900'
+    yellow: '#FFB900',
+
+    //taken from SelectCountries stylesheet
+    lightPurple: '#EEECFA',
 }
