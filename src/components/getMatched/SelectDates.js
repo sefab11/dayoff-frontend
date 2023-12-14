@@ -6,34 +6,181 @@ import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
-const SelectDates = () => {
+import { Label } from "..";
+
+
+const SelectDates = (props) => {
+  //passed in properties
+  const title = props.title;
+  const subtitle = props.subtitle;
+  const isFlexibleOptionEnabled = props.isFlexible;
+  const showLine = props.showLine;
+  const allowMultipleDates = props.multipleDates;
+  const boxBorderSize = props.showBorder ? 1 : 0;
+  const boxWidth = props.boxWidth;
+
+  const subtitleStyle = props.subtitleStyle;
+  var subtitleType;
+  if (subtitleStyle == null || subtitleStyle == 1) subtitleType = styles.message;
+  else if (subtitleStyle == 2) subtitleType = styles.message2;
+
+  //track the array of dates that are added
+  //called array but more like list as items are added dynamically
+  const [dates, setDates] = useState([]);
+
+
   const [isModalVisible, setModalVisible] = useState(false);
-  const [startDate, setStartDate] = useState(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [isChecked, setChecked] = useState(false);
+
+  //either pushes a new date or makes the 0th index the new date
+  //depending on whether the multipleDates property is passed as true or false
+  function updateDates(newDate){
+    //makes sure no repeat dates are added
+    if (dates.includes(newDate) || newDate.includes("undefined")) return;
+    if (allowMultipleDates) setDates(dates => [...dates, newDate]);
+    else setDates([newDate]);
+  };
+
+  //removes the date clicked on and updates the dates array state
+  function removeDate(date){
+    dates.splice(dates.indexOf(date), 1);
+    setDates(dates => [...dates]);
+  };
+
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+
+    //when disabling the calender, add a new date to dates
+    if (!isModalVisible) return;
+
+    //add new date when calender is closed
+    const newDate = formatDate(startDate, endDate);
+    updateDates(newDate);
+
+    setStartDate("");
+    setEndDate("")
   };
 
+  function deliverDateLabels(){
+    if (dates == null) return;
+    //ensures that theres always at least one element so that the calender icon is fixed to
+    //the right of the label
+
+    const dateComponents = dates.map((date, index) =>
+        <View key={index}>
+            <TouchableOpacity onPress={() => removeDate(date)}>
+                <Text style={!isChecked ? styles.textContainerActive : styles.textContainerInactive}
+                backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}>
+                {date}
+                </Text>
+            </TouchableOpacity>
+        </View>
+        );
+
+    return dateComponents;
+  };
+
+  //dateSelected parameter will have the date
+  //dateType parameter will have either "START_DATE" or "END_DATE"
+  function onDateSelected(dateSelected, dateType){
+    //on start date changed null will be returned after the date so ignore those calls
+    if (dateSelected == null || dateType == null) return;
+
+    if (dateType == "START_DATE") setStartDate(dateSelected);
+    else if (dateType == "END_DATE") setEndDate(dateSelected);
+  };
+
+
+  //for formatting the string in the Text components
+  function formatDate(startDate, endDate){
+    var start = startDate.toString().split(" ");
+    var end = endDate.toString().split(" ");
+
+    var startDay = start[2];
+    var startMonth = start[1];
+    var endDay = end[2];
+    var endMonth = end[1];
+
+    if (startMonth == endMonth){
+        return (startDay + " - " + endDay + " " + startMonth);
+    }
+    else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
+  };
+
+  //for enabling or disabling the line underneath the component
+  //the line is due to the selectDateWrap container and is changed to
+  //null style when there shouldn't be a checkbox
+  function enableUnderLine(showLine){
+    if (!showLine) return null;
+
+    return (styles.selectDateWrap);
+  };
+
+  function enableHeader(headerOpt){
+    if (headerOpt == null) return;
+
+    return (
+    <View>
+        <Text style={styles.headingText}>{title}</Text>
+    </View>
+    );
+  };
+
+  function enableSubheader(subheaderOpt){
+    if (subheaderOpt == null) return;
+
+    if (subtitleStyle == 1){
+        return (
+        <View>
+            <Text style={styles.message}>{subtitle}</Text>
+        </View>
+        );
+    }
+    else if (subtitleStyle == 2){
+        return (
+        <View>
+            <Label>{subtitle}</Label>
+        </View>
+        );
+    };
+  };
+
+  //to either render or not render the flexible option checkbox
+  function enableFlexibleOption(flexibleOpt){
+    if (!flexibleOpt) return;
+
+    return (
+    <View style={styles.checkboxContainer}>
+    <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? palette.purple : undefined} />
+        <Text style={styles.checkText}>I’m flexible with my dates</Text>
+    </View>
+    );
+  };
+
+
   return (
-    <View style={styles.selectDateWrap}>
+    <View style={enableUnderLine(showLine)}>
+      {enableHeader(title)}
+      {enableSubheader(subtitle)}
       <View>
-        <Text style={styles.headingText}>
-          Select all your days off for the year
-        </Text>
-      </View>
-      <View>
-        <Text style={styles.message}>
-          Which weeks of the months are you taking days off to go on a trip
-        </Text>
-      </View>
-      <View>
-        <View style={styles.calenderIconContainer}>
-          <Text style={styles.textContainer}>10 - 18 Aug</Text>
-          <Text style={styles.textContainer}>02 - 10 Oct</Text>
-          <TouchableOpacity onPress={toggleModal}>
+        <View style={styles.calenderIconContainer}
+        borderWidth={boxBorderSize}
+        marginTop={subtitleStyle == 2 ? 0 : 15}
+        width={boxWidth}>
+          {deliverDateLabels()}
+          {/*marginLeft keeps it as the last component in the flexbox, padding makes it
+            slightly bigger so that flexbox doesn't expand on a new date on a new row
+          */}
+          <TouchableOpacity onPress={toggleModal}
+          style={{marginLeft: 'auto',
+          padding: allowMultipleDates ? 5 : 0,
+          alignSelf: 'center'}}>
             <Image
               style={styles.icon}
+              tintColor={!isChecked ? palette.purple : palette.grey}
               source={require("../../../assets/images/welcome_screen/blackCalender.png")}
             />
           </TouchableOpacity>
@@ -49,30 +196,29 @@ const SelectDates = () => {
               <CalendarPicker
                 startFromMonday={true}
                 allowRangeSelection={true}
-                onDateChange={this.onDateChange}
+                onDateChange={onDateSelected}
                 selectedDayColor="#503cc8"
                 selectedDayTextColor="#ffffff"
               />
               <TouchableOpacity onPress={toggleModal}>
-                <Text>Close Modal</Text>
+                <Text>Confirm</Text>
               </TouchableOpacity>
             </View>
           </View>
         </Modal>
       </View>
-      <View style={styles.checkboxContainer}>
-      <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? '#4630EB' : undefined}/>
-        <Text style={styles.checkText}>I’m flexible with my dates</Text>
-      </View>
+      {enableFlexibleOption(isFlexibleOptionEnabled)}
     </View>
   );
 };
+
+
 const styles = StyleSheet.create({
-  selectDateWrap:{
+  selectDateWrap: {
     paddingTop:5,
     paddingBottom:35,
     borderBottomWidth:1,
-    borderBottomColor:'#D7D7D7'
+    borderBottomColor:'#D7D7D7',
   },
   headingText: {
     marginTop: 3 * vh,
@@ -83,7 +229,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#000000",
   },
-
   message: {
     marginTop: 1.5 * vh,
     alignSelf: "center",
@@ -104,7 +249,12 @@ const styles = StyleSheet.create({
     paddingBottom: 0.5 * vmin,
   },
   calenderIconContainer: {
+    width: 90 * vmin,
+    display: 'flex',
     flexDirection: "row",
+    flexWrap: 'wrap',
+    rowGap: 10,
+    columnGap: 10,
     borderColor: "#D7D7D7",
     borderWidth: 1,
     padding: 10,
@@ -112,16 +262,35 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     marginTop: 15,
     borderRadius: 5,
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     lineHeight: "27px",
   },
-  textContainer: {
-    color: "#A9A9A9",
-    backgroundColor: "#F2F0F0",
+  textContainerActive: {
+    color: palette.purple,
+    fontWeight: 'bold',
+    fontSize: 3.8 * vmin,
     padding: 5,
     borderRadius: 5,
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    height: 10 * vmin,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  textContainerInactive: {
+    color: palette.grey,
+    fontWeight: 'bold',
+    fontSize: 3.8 * vmin,
+    padding: 5,
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    textAlign: 'center',
+    textAlignVertical: 'center',
   },
   modalContainer: {
     flex: 1,
@@ -130,7 +299,6 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
   },
-
   calendarContainer: {
     backgroundColor: "white",
     borderRadius: 10,
@@ -147,7 +315,7 @@ const styles = StyleSheet.create({
     fontSize: 4 * vmin,
     fontWeight: "600",
     color: "#000000",
-    letterSpacing: 1.5
+    letterSpacing: 1.5,
   }
 });
 
