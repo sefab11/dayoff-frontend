@@ -6,7 +6,7 @@ const CountryMultiSelector = (props) => {
     
     return (
         <SectionedMultiSelect
-            items={}
+            items={{}}
         />
     )
 }
