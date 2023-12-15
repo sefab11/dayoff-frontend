@@ -197,12 +197,14 @@ const SelectDates = (props) => {
                 startFromMonday={true}
                 allowRangeSelection={true}
                 onDateChange={onDateSelected}
-                selectedDayColor="#503cc8"
-                selectedDayTextColor="#ffffff"
+                selectedDayColor={palette.purple}
+                selectedDayTextColor={palette.white}
               />
-              <TouchableOpacity onPress={toggleModal}>
-                <Text>Confirm</Text>
-              </TouchableOpacity>
+              <View style={styles.calenderBottom}>
+                <TouchableOpacity onPress={toggleModal} style={styles.confirmButton}>
+                    <Label style={styles.confirmText}>Confirm</Label>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
@@ -248,6 +250,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingBottom: 0.5 * vmin,
   },
+  calenderBottom: {
+    display: 'flex',
+    flexDirection: 'row',
+    rowGap: 10,
+  },
+  confirmButton: {
+    backgroundColor: palette.yellow,
+    width: "30%",
+    height: "100%",
+    borderRadius: 5,
+  },
+  confirmText: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    fontSize: 3.8 * vmin,
+    color: palette.black,
+  },
   calenderIconContainer: {
     width: 90 * vmin,
     display: 'flex',
@@ -289,6 +308,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     display: 'flex',
     flexDirection: 'row',
+    height: 10 * vmin,
     textAlign: 'center',
     textAlignVertical: 'center',
   },

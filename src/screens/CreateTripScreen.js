@@ -15,7 +15,6 @@ export default CreateTripScreen = ({ navigation }) => {
                 <HeaderBack>Create a trip</HeaderBack>
                 <View style={styles.inputGroup}>
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Select country" />
-                    {/*TODO: ass in dateinput that prompts calender on press*/}
                     <SelectDates
                         title={null}
                         subtitle={"Select dates"}

@@ -6,7 +6,6 @@ export default EditDates = () => {
     <View style={styles.editDatesContainer}>
       <Text style={styles.headingText}>Edit days off calendar</Text>
       <View style={styles.dateContainer}>
-        {/*TODO: ass in dateinput that prompts calender on press*/}
         <SelectDates
             title={null}
             subtitle={null}
