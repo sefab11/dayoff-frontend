@@ -256,16 +256,16 @@ const styles = StyleSheet.create({
     rowGap: 10,
   },
   confirmButton: {
-    backgroundColor: palette.yellow,
-    width: "30%",
-    height: "100%",
+    backgroundColor: palette.purple,
+    width: 40 * vmin,
+    height: 10 * vmin,
     borderRadius: 5,
   },
   confirmText: {
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 3.8 * vmin,
-    color: palette.black,
+    color: palette.white,
   },
   calenderIconContainer: {
     width: 90 * vmin,

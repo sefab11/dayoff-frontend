@@ -25,8 +25,6 @@ export default MyProfileScreen = ({ navigation }) => {
           </View>
         </View>
         <ProfileInfo />
-        <EditDates />
-        <EditCountries />
         <VisitedCountries />
         <VolunteerBadges />
       </View>
