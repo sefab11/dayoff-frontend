@@ -70,13 +70,22 @@ const SelectDates = (props) => {
     //the right of the label
 
     const dateComponents = dates.map((date, index) =>
-        <View key={index}>
+        <View key={index}
+        style={styles.dateContainer}
+        backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}>
+            <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
+            {date}
+            </Text>
+
             <TouchableOpacity onPress={() => removeDate(date)}>
-                <Text style={!isChecked ? styles.textContainerActive : styles.textContainerInactive}
-                backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}>
-                {date}
-                </Text>
+                <Image
+                    style={styles.xIcon}
+                    //image size should be around 32x32
+                    //TODO: ADD IN X ICON AND REPLACE THIS SOURCE
+                    source={require("../../../assets/images/welcome_screen/xIcon.png")}
+                />
             </TouchableOpacity>
+
         </View>
         );
 
@@ -284,33 +293,31 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     lineHeight: "27px",
   },
-  textContainerActive: {
-    color: palette.purple,
-    fontWeight: 'bold',
-    fontSize: 3.8 * vmin,
-    padding: 5,
-    borderRadius: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
+  dateContainer: {
     display: 'flex',
     flexDirection: 'row',
+    padding: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 5,
     height: 10 * vmin,
+  },
+  dateTextActive: {
+    color: palette.purple,
+    fontSize: 3.8 * vmin,
+    fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
-  textContainerInactive: {
+  dateTextInactive: {
     color: palette.grey,
-    fontWeight: 'bold',
     fontSize: 3.8 * vmin,
-    padding: 5,
-    borderRadius: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    height: 10 * vmin,
+    fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
+  },
+  xIcon: {
+    resizeMode: 'center',
   },
   modalContainer: {
     flex: 1,
