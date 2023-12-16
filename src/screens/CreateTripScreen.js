@@ -29,7 +29,7 @@ export default CreateTripScreen = ({ navigation }) => {
                     <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />
                 </View>
                 <Button
-                    onPress={() => {}}
+                    onPress={() => navigation.replace('Home')}
                     mode='contained'
                     theme={themes.button}
                     style={styles.button}

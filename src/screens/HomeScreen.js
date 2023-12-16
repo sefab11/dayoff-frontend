@@ -1,9 +1,9 @@
-import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView } from "react-native";
+import { React } from "react";
+import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
 import { Button, TripViewMatch, TripView, BottomNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -190,7 +190,20 @@ const ExploreScreen = (props) => {
     )
 }
 
+const NullScreen = (props) => {
+    const { navigation } = props;
+
+    navigation.replace('GetMatched');
+
+    return (
+        <View style={styles.page}>
+        </View>
+    )
+}
+
 export default HomeScreen = ({ navigation }) => {
+    {/*TODO: add in image1 navigation back to GetMatched screen*/}
+    {/*TODO: add in image2 navigation to (empty for now) MyCreatedTrips screen*/}
     return (<>
         <StatusBar></StatusBar>
         <Tab.Navigator
@@ -204,11 +217,17 @@ export default HomeScreen = ({ navigation }) => {
                 },
                 tabBarItemStyle: styles.tab,
                 tabBarStyle: styles.tabBar,
-                tabBarIndicatorStyle: styles.tabIndicator
+                tabBarIndicatorStyle: styles.tabIndicator,
+                tabBarOptions: { showIcon: true },
+                tabBarIcon: () => {
+                    return (<Image source={require("../../assets/images/welcome_screen/blackCalender.png")} />)
+                }
             })}
         >
             <Tab.Screen name='For You' component={ForYouScreen} />
             <Tab.Screen name='Explore' children={() => <ExploreScreen navigation={navigation} />} />
+            <Tab.Screen name='Test' component={NullScreen} />
+
         </Tab.Navigator>
         <BottomNav active={"Home"}/>
     </>);  

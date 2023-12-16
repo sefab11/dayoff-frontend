@@ -81,7 +81,6 @@ const SelectDates = (props) => {
                 <Image
                     style={styles.xIcon}
                     //image size should be around 32x32
-                    //TODO: ADD IN X ICON AND REPLACE THIS SOURCE
                     source={require("../../../assets/images/welcome_screen/xIcon.png")}
                 />
             </TouchableOpacity>
