@@ -22,7 +22,6 @@ const SelectDates = (props) => {
   const subtitleStyle = props.subtitleStyle;
   var subtitleType;
   if (subtitleStyle == null || subtitleStyle == 1) subtitleType = styles.message;
-  else if (subtitleStyle == 2) subtitleType = styles.message2;
 
   //track the array of dates that are added
   //called array but more like list as items are added dynamically

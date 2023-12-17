@@ -3,7 +3,7 @@ import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "..
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 
-import { SelectDates } from "../components";
+import { SelectDates, SelectCountries } from "../components";
 
 
 
@@ -14,10 +14,17 @@ export default CreateTripScreen = ({ navigation }) => {
             <View style={styles.page}>
                 <HeaderBack>Create a trip</HeaderBack>
                 <View style={styles.inputGroup}>
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Select country" />
+                    <SelectCountries
+                        title={null}
+                        subtitle={"Select country"}
+                        subtitleStyle={2}
+                        editable={true}
+                        multipleCountries={false}
+                        boxWidth={80 * vmin}
+                    />
                     <SelectDates
                         title={null}
-                        subtitle={"Select dates"}
+                        subtitle={"Select date"}
                         subtitleStyle={2}
                         isFlexible={false}
                         showLine={false}
@@ -25,6 +32,7 @@ export default CreateTripScreen = ({ navigation }) => {
                         showBorder={true}
                         boxWidth={80 * vmin}
                     />
+
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />
                     <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />
                 </View>

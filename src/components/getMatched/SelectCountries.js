@@ -2,10 +2,16 @@ import { useState } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { palette, themes, flags } from "../../style";
 import { StyleSheet } from "react-native";
+import { Label } from "..";
 
 
-const SelectCountries = () => {
-  const [canEdit, setCanEdit] = useState(true);
+const SelectCountries = (props) => {
+  const [canEdit, setCanEdit] = useState(props.editable);
+  const boxWidth = props.boxWidth;
+  const allowMultipleCountries = props.multipleCountries;
+  const title = props.title;
+  const subtitle = props.subtitle;
+  const subtitleStyle = props.subtitleStyle;
 
   const [newCountries, setCountries] = useState([
     {code: 'ES', name: 'Spain'},
@@ -22,6 +28,11 @@ const SelectCountries = () => {
 
   function removeCountry(countryCode){
     return;
+  }
+
+  function updateCountries(newCountry){
+    if (allowMultipleCountries) setCountries(countries => [...countries, newCountry]);
+    else setCountries([newCountry]);
   }
 
   function deliverCountryLabels(){
@@ -52,20 +63,44 @@ const SelectCountries = () => {
     return countryComponents;
   }
 
+  function enableHeader(headerOpt){
+    if (headerOpt == null) return;
+
+    return (
+        <View>
+            <Text style={styles.headingText}>{title}</Text>
+        </View>
+    );
+  }
+
+  function enableSubheader(subheaderOpt){
+    if (subheaderOpt == null) return;
+
+    if (subtitleStyle == 1){
+        return (
+        <View>
+            <Text style={styles.message}>{subtitle}</Text>
+        </View>
+        );
+    }
+    else if (subtitleStyle == 2){
+        return (
+        <View>
+            <Label>{subtitle}</Label>
+        </View>
+        );
+    };
+  }
+
+
   return (
     <View>
-      <View>
-        <Text style={styles.headingText}>
-          Select all countries you wish to visit
-        </Text>
-      </View>
-      <View>
-        <Text style={styles.message}>
-          You can add more countries later in profile setting
-        </Text>
-      </View>
+      {enableHeader(title)}
+      {enableSubheader(subtitle)}
 
-      <View style={styles.countriesContainer}>
+      <View style={styles.countriesContainer}
+      width={boxWidth}
+      marginTop={subtitleStyle == 2 ? 0 : 15}>
           {deliverCountryLabels()}
 
           <TouchableOpacity onPress={toggleModal}
@@ -111,14 +146,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingBottom: 0.5 * vmin,
   },
-  textContainer: {
-    color: "#A9A9A9",
-    backgroundColor: "#D7D7D7",
-    padding: 5,
-    borderRadius: 5,
-    paddingLeft: 15,
-    paddingRight: 15,
-  },
   countriesContainer: {
     display: 'flex',
     flexDirection: "row",
@@ -126,21 +153,10 @@ const styles = StyleSheet.create({
     borderColor: "#D7D7D7",
     borderWidth: 1,
     padding: 10,
-    marginTop: 25,
     borderRadius: 5,
-    alignItems:'center',
-    margin:10,
+    alignItems: 'center',
     columnGap: 10,
     rowGap: 10,
-  },
-  country: {
-    backgroundColor: "#EEECFA",
-    width:'30%',
-    padding:10,
-    paddingLeft:15,
-    paddingRight:25,
-    alignItems:'center',
-    margin:5
   },
 
   countryContainer: {

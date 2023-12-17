@@ -190,16 +190,6 @@ const ExploreScreen = (props) => {
     )
 }
 
-const NullScreen = (props) => {
-    const { navigation } = props;
-
-    navigation.replace('GetMatched');
-
-    return (
-        <View style={styles.page}>
-        </View>
-    )
-}
 
 export default HomeScreen = ({ navigation }) => {
     {/*TODO: add in image1 navigation back to GetMatched screen*/}
@@ -218,16 +208,10 @@ export default HomeScreen = ({ navigation }) => {
                 tabBarItemStyle: styles.tab,
                 tabBarStyle: styles.tabBar,
                 tabBarIndicatorStyle: styles.tabIndicator,
-                tabBarOptions: { showIcon: true },
-                tabBarIcon: () => {
-                    return (<Image source={require("../../assets/images/welcome_screen/blackCalender.png")} />)
-                }
             })}
         >
             <Tab.Screen name='For You' component={ForYouScreen} />
             <Tab.Screen name='Explore' children={() => <ExploreScreen navigation={navigation} />} />
-            <Tab.Screen name='Test' component={NullScreen} />
-
         </Tab.Navigator>
         <BottomNav active={"Home"}/>
     </>);  
