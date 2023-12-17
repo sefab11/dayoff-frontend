@@ -13,6 +13,7 @@ const SelectCountries = () => {
     {code: 'MA', name: 'Morocco'},
     {code: 'JP', name: 'Japan'},
     {code: 'AU', name: 'Australia'},
+    {code: 'GB', name: 'United Kingdom'}
   ]);
 
   function toggleModal(){
@@ -28,13 +29,15 @@ const SelectCountries = () => {
 
     const countryComponents = newCountries.map((country) =>
         <View key={country.code} style={styles.countryContainer}
-        backgroundColor={canEdit ? palette.lightPurple : palette.lightGrey2}>
+        backgroundColor={canEdit ? palette.lightPurple : palette.lightGrey2}
+        borderColor={canEdit ? palette.lightPurple : palette.lightGrey2}>
             <Image
                 style={styles.countryIcon}
                 source={flags[country.code]}
             />
 
-            <Text style={styles.countryText}>{country.name}</Text>
+            <Text style={canEdit ? styles.countryTextActive : styles.countryTextInactive}>
+            {country.name}</Text>
 
             <TouchableOpacity onPress={() => removeCountry(country.code)}>
                 <Image
@@ -127,6 +130,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems:'center',
     margin:10,
+    columnGap: 10,
+    rowGap: 10,
   },
   country: {
     backgroundColor: "#EEECFA",
@@ -142,11 +147,27 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    borderRadius: 5,
+    borderWidth: 1,
   },
   countryIcon: {
     resizeMode: 'center',
+    width: 8 * vmin,
+    height: 10 * vmin,
   },
-  countryText: {
+  countryTextActive: {
+    color: palette.purple,
+    fontSize: 3.8 * vmin,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  countryTextInactive: {
+    color: palette.grey,
+    fontSize: 3.8 * vmin,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textAlignVertical: 'center',
   },
   xIcon: {
     resizeMode: 'center',
