@@ -1,31 +1,53 @@
 import { useState } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
-import { palette, themes } from "../../style";
+import { palette, themes, flags } from "../../style";
 import { StyleSheet } from "react-native";
 
+
 const SelectCountries = () => {
-  const countries = [
-    {
-      id: "1",
-      image: require("../../../assets/images/welcome_screen/Spain.png"),
-    },
-    {
-      id: "2",
-      image: require("../../../assets/images/welcome_screen/Brazil.png"),
-    },
-    {
-      id: "3",
-      image: require("../../../assets/images/welcome_screen/Morocco.png"),
-    },
-    {
-        id: "4",
-        image: require("../../../assets/images/welcome_screen/Japan.png"),
-      },
-      {
-        id: "5",
-        image: require("../../../assets/images/welcome_screen/Australia.png"),
-      },
-  ];
+  const [canEdit, setCanEdit] = useState(true);
+
+  const [newCountries, setCountries] = useState([
+    {code: 'ES', name: 'Spain'},
+    {code: 'BR', name: 'Brazil'},
+    {code: 'MA', name: 'Morocco'},
+    {code: 'JP', name: 'Japan'},
+    {code: 'AU', name: 'Australia'},
+  ]);
+
+  function toggleModal(){
+    console.log("edit pressed");
+  }
+
+  function removeCountry(countryCode){
+    return;
+  }
+
+  function deliverCountryLabels(){
+    if (newCountries == null) return;
+
+    const countryComponents = newCountries.map((country) =>
+        <View key={country.code} style={styles.countryContainer}
+        backgroundColor={canEdit ? palette.lightPurple : palette.lightGrey2}>
+            <Image
+                style={styles.countryIcon}
+                source={flags[country.code]}
+            />
+
+            <Text style={styles.countryText}>{country.name}</Text>
+
+            <TouchableOpacity onPress={() => removeCountry(country.code)}>
+                <Image
+                    style={styles.xIcon}
+                    //image should be around 32 x 32
+                    source={require("../../../assets/images/welcome_screen/xIcon.png")}
+                />
+            </TouchableOpacity>
+        </View>
+    );
+
+    return countryComponents;
+  }
 
   return (
     <View>
@@ -39,17 +61,20 @@ const SelectCountries = () => {
           You can add more countries later in profile setting
         </Text>
       </View>
+
       <View style={styles.countriesContainer}>
-        
-          {countries.map((country) => (
-            <View style={styles.country}   key={country.id}>
+          {deliverCountryLabels()}
+
+          <TouchableOpacity onPress={toggleModal}
+          style={{marginLeft: 'auto',
+          padding: 10,
+          alignSelf: 'center' }}>
             <Image
-              style={styles.icon}
-              source={country.image}
+                style={styles.icon}
+                tintColor={canEdit ? palette.purple : palette.grey}
+                source={require("../../../assets/images/welcome_screen/edit.png")}
             />
-             </View>
-          ))}
-       
+          </TouchableOpacity>
       </View>
     </View>
   );
@@ -64,7 +89,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#000000",
   },
-
   message: {
     marginTop: 1.5 * vh,
     alignSelf: "center",
@@ -84,18 +108,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingBottom: 0.5 * vmin,
   },
-  calenderIconContainer: {
-    flexDirection: "row",
-    borderColor: "#D7D7D7",
-    borderWidth: 1,
-    padding: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginTop: 15,
-    borderRadius: 5,
-    justifyContent: "space-between",
-    lineHeight: "27px",
-  },
   textContainer: {
     color: "#A9A9A9",
     backgroundColor: "#D7D7D7",
@@ -105,6 +117,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   countriesContainer: {
+    display: 'flex',
     flexDirection: "row",
     flexWrap:'wrap',
     borderColor: "#D7D7D7",
@@ -114,7 +127,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems:'center',
     margin:10,
-
   },
   country: {
     backgroundColor: "#EEECFA",
@@ -124,6 +136,20 @@ const styles = StyleSheet.create({
     paddingRight:25,
     alignItems:'center',
     margin:5
+  },
+
+  countryContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  countryIcon: {
+    resizeMode: 'center',
+  },
+  countryText: {
+  },
+  xIcon: {
+    resizeMode: 'center',
   },
   
 

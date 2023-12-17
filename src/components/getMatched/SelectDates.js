@@ -86,7 +86,7 @@ const SelectDates = (props) => {
             </TouchableOpacity>
 
         </View>
-        );
+    );
 
     return dateComponents;
   };
