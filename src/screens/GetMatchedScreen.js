@@ -47,7 +47,7 @@ const GetMatchedScreen = ({ navigation }) => {
         </View>
       </View>
     </TouchableWithoutFeedback>
-    </ScrollView>
+  </ScrollView>
   );
 };
 

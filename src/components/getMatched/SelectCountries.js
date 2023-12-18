@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
+import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { palette, themes, flags } from "../../style";
-import { StyleSheet } from "react-native";
+import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
 import { Label } from "..";
 
 
@@ -13,32 +13,41 @@ const SelectCountries = (props) => {
   const subtitle = props.subtitle;
   const subtitleStyle = props.subtitleStyle;
 
-  const [newCountries, setCountries] = useState([
-    {code: 'ES', name: 'Spain'},
-    {code: 'BR', name: 'Brazil'},
-    {code: 'MA', name: 'Morocco'},
-    {code: 'JP', name: 'Japan'},
-    {code: 'AU', name: 'Australia'},
-    {code: 'GB', name: 'United Kingdom'}
-  ]);
 
+  //TODO: for triggering the dropdown/multiselect to be visible/invisible
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  //for keeping track of which countries the user has added
+  //each element should be a dictionary in format {'code': x, 'name': y}
+  const [selectedCountries, setSelectedCountries] = useState([]);
+
+
+  //TODO: toggle the dropdown/multiselect to be visible/invisible
   function toggleModal(){
     console.log("edit pressed");
+    setIsDropdownVisible(!isDropdownVisible);
   }
 
+  //TODO: remove the country from selectedCountries based on the code passed
   function removeCountry(countryCode){
     return;
   }
 
   function updateCountries(newCountry){
-    if (allowMultipleCountries) setCountries(countries => [...countries, newCountry]);
-    else setCountries([newCountry]);
+    if (newCountry == null) return;
+    //TODO: add in vertification to prevent adding in the same country
+    //when adding a newCountry, a generated index is added so can't check
+    //if array.includes(newCountry), need to check the codes and values
+
+    if (allowMultipleCountries) setSelectedCountries(countries => [...countries, newCountry]);
+    else setSelectedCountries([newCountry]);
+
+    console.log(selectedCountries);
   }
 
   function deliverCountryLabels(){
-    if (newCountries == null) return;
+    if (selectedCountries == null) return;
 
-    const countryComponents = newCountries.map((country) =>
+    const countryComponents = selectedCountries.map((country) =>
         <View key={country.code} style={styles.countryContainer}
         backgroundColor={canEdit ? palette.lightPurple : palette.lightGrey2}
         borderColor={canEdit ? palette.lightPurple : palette.lightGrey2}>
@@ -92,6 +101,43 @@ const SelectCountries = (props) => {
     };
   }
 
+  //either return a multiselect or dropdown depending on allowMultipleCountries
+  //TODO: add option to change the language + verification that language is supported
+  function deliverDropdown(){
+    var codes = require("i18n-iso-countries");
+    codes.registerLocale(require("i18n-iso-countries/langs/en.json"));
+
+    //array of dictionaries that contain {'code': code, 'name': name}
+    var countryCodes = [];
+    for (const [key, value] of Object.entries(codes.getNames('en', {select: 'official'}))){
+        const newEntry = {'code': key, 'name': value};
+        countryCodes.push(newEntry);
+    }
+
+    if (allowMultipleCountries){
+        return (
+        <View>
+            <SelectCountry
+            data={countryCodes}
+            labelField="name"
+            valueField="code"
+            onChange={item => updateCountries(item)} />
+        </View>
+        )
+    }
+    else{
+        return (
+        <View>
+            <Dropdown
+            data={countryCodes}
+            labelField="name"
+            valueField="code"
+            onChange={item => updateCountries(item)} />
+        </View>
+        )
+    }
+  }
+
 
   return (
     <View>
@@ -114,6 +160,7 @@ const SelectCountries = (props) => {
             />
           </TouchableOpacity>
       </View>
+      {deliverDropdown()}
     </View>
   );
 };
