@@ -15,7 +15,7 @@ const SelectCountries = (props) => {
 
 
   //TODO: for triggering the dropdown/multiselect to be visible/invisible
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   //for keeping track of which countries the user has added
   //each element should be a dictionary in format {'code': x, 'name': y}
   const [selectedCountries, setSelectedCountries] = useState([]);
@@ -24,7 +24,7 @@ const SelectCountries = (props) => {
   //TODO: toggle the dropdown/multiselect to be visible/invisible
   function toggleModal(){
     console.log("edit pressed");
-    setIsDropdownVisible(!isDropdownVisible);
+    setModalVisible(!isModalVisible);
   }
 
   //TODO: remove the country from selectedCountries based on the code passed
@@ -114,28 +114,20 @@ const SelectCountries = (props) => {
         countryCodes.push(newEntry);
     }
 
-    if (allowMultipleCountries){
-        return (
-        <View>
-            <SelectCountry
-            data={countryCodes}
-            labelField="name"
-            valueField="code"
-            onChange={item => updateCountries(item)} />
-        </View>
-        )
-    }
-    else{
-        return (
-        <View>
-            <Dropdown
-            data={countryCodes}
-            labelField="name"
-            valueField="code"
-            onChange={item => updateCountries(item)} />
-        </View>
-        )
-    }
+    //TODO: try using dropdown-picker instead
+    return (
+    <View>
+        <Dropdown
+        mode={'modal'}
+        data={countryCodes}
+        labelField='name'
+        valueField='code'
+        searchField='name'
+        onChange={item => updateCountries(item)}
+        disable={canEdit ? false : true}
+        search={true} />
+    </View>
+    )
   }
 
 
@@ -164,6 +156,8 @@ const SelectCountries = (props) => {
     </View>
   );
 };
+
+
 const styles = StyleSheet.create({
   headingText: {
     marginTop: 3 * vh,
