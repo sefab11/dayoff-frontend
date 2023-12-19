@@ -15,29 +15,38 @@ const SelectCountries = (props) => {
   const subtitleStyle = props.subtitleStyle;
 
 
-  //TODO: for triggering the dropdown/multiselect to be visible/invisible
   const [isModalVisible, setModalVisible] = useState(false);
   //for keeping track of which countries the user has added
   //each element should be a dictionary in format {'code': x, 'name': y}
   const [selectedCountries, setSelectedCountries] = useState([]);
 
 
-  //TODO: toggle the dropdown/multiselect to be visible/invisible
   function toggleModal(){
-    console.log("edit pressed");
     setModalVisible(!isModalVisible);
   }
 
-  //TODO: remove the country from selectedCountries based on the code passed
+
   function removeCountry(countryCode){
-    return;
+    const index = indexOfCode(countryCode);
+    if (index < selectedCountries.length && index > -1){
+        selectedCountries.splice(index, 1);
+        setSelectedCountries(countries => [...countries]);
+    }
+  }
+
+  //return the index of the code, otherwise return -1 if code doesn't exist
+  function indexOfCode(code){
+    for (let i = 0; i < selectedCountries.length; i++){
+        if (code == selectedCountries[i]['code']) return i;
+    }
+    return -1;
   }
 
   function updateCountries(newCountry){
-    if (newCountry == null) return;
-    //TODO: add in vertification to prevent adding in the same country
     //when adding a newCountry, a generated index is added so can't check
     //if array.includes(newCountry), need to check the codes and values
+    if (newCountry == null) return;
+    else if (indexOfCode(newCountry['code']) != -1) return;
 
     if (allowMultipleCountries) setSelectedCountries(countries => [...countries, newCountry]);
     else setSelectedCountries([newCountry]);
@@ -125,7 +134,7 @@ const SelectCountries = (props) => {
 
     const [value, setValue] = useState(null);
 
-    //TODO: try using dropdown-picker instead
+
     return (
     <Modal
         visible={isModalVisible}
