@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Image, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import { palette, themes, flags } from "../../style";
 import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
 import { Label } from "..";
@@ -116,17 +116,27 @@ const SelectCountries = (props) => {
 
     //TODO: try using dropdown-picker instead
     return (
-    <View>
-        <Dropdown
-        mode={'modal'}
-        data={countryCodes}
-        labelField='name'
-        valueField='code'
-        searchField='name'
-        onChange={item => updateCountries(item)}
-        disable={canEdit ? false : true}
-        search={true} />
-    </View>
+    <Modal
+        visible={isModalVisible}
+        animationIn='slideInUp'
+        animationOut='slideOutDown'
+        transparent={true}
+    >
+        <View style={styles.modalContainer}>
+            <Dropdown
+            mode={'modal'}
+            data={countryCodes}
+            labelField='name'
+            valueField='code'
+            searchField='name'
+            onChange={item => {
+                updateCountries(item);
+                toggleModal();
+            }}
+            disable={canEdit ? false : true}
+            search={true} />
+        </View>
+    </Modal>
     )
   }
 
@@ -229,7 +239,13 @@ const styles = StyleSheet.create({
   xIcon: {
     resizeMode: 'center',
   },
-  
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    width: "100%",
+    height: "100%",
+  },
 
 });
 
