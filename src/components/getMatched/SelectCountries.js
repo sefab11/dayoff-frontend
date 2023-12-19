@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import { palette, themes, flags } from "../../style";
 import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { Label } from "..";
 
 
@@ -114,6 +115,16 @@ const SelectCountries = (props) => {
         countryCodes.push(newEntry);
     }
 
+    function formatSelected(code){
+        if (allowMultipleCountries){
+            const newElement = code.pop();
+            return {'code': newElement, 'name': codes.getName(newElement, 'en')};
+        }
+        else return {'code': code, 'name': codes.getName(code, 'en')};
+    }
+
+    const [value, setValue] = useState(null);
+
     //TODO: try using dropdown-picker instead
     return (
     <Modal
@@ -123,18 +134,24 @@ const SelectCountries = (props) => {
         transparent={true}
     >
         <View style={styles.modalContainer}>
-            <Dropdown
-            mode={'modal'}
-            data={countryCodes}
-            labelField='name'
-            valueField='code'
-            searchField='name'
-            onChange={item => {
-                updateCountries(item);
+            <DropDownPicker
+            open={true}
+            items={countryCodes}
+            schema={{
+                label: "name",
+                value: "code",
+            }}
+            multiple={allowMultipleCountries}
+            min={0}
+            max={5}
+            value={value}
+            setValue={setValue}
+            onChangeValue={(item) => {
+                updateCountries(formatSelected(item));
                 toggleModal();
             }}
-            disable={canEdit ? false : true}
-            search={true} />
+            maxHeight={"80%"}
+            />
         </View>
     </Modal>
     )
@@ -242,7 +259,6 @@ const styles = StyleSheet.create({
 
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
     width: "100%",
     height: "100%",
   },
