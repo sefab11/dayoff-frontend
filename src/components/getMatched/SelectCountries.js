@@ -147,22 +147,59 @@ const SelectCountries = (props) => {
     >
         <View style={styles.modalContainer}>
             <DropDownPicker
+
+            placeholder='Select a country'
+            showArrowIcon={false}
+            showTickIcon={true}
+            searchable={true}
+            searchPlaceholder='Search...'
+
             open={true}
             items={countryCodes}
             schema={{
                 label: "name",
                 value: "code",
             }}
+            mode="SIMPLE"
+            listMode="FLATLIST"
+
             multiple={allowMultipleCountries}
             min={0}
-            max={5}
+            max={10}
+
             value={value}
             setValue={setValue}
             onChangeValue={(item) => {
                 updateCountries(formatSelected(item));
                 toggleModal();
             }}
-            maxHeight={"80%"}
+
+            //if make maxHeight 100% then it disables the scroll functionality
+            //max height possible is 99%, don't make it 100%
+            maxHeight="80%"
+            placeholderStyle={{
+              color: palette.grey,
+              fontWeight: 'bold',
+              borderRadius: 0,
+              borderWidth: 0,
+            }}
+            searchContainerStyle={{
+              borderColor: palette.black,
+            }}
+            searchTextInputStyle={{
+              color: palette.purple,
+              borderColor: palette.black,
+              fontWeight: 'bold',
+            }}
+            listItemContainer={{
+              height: 50,
+            }}
+            listItemLabelStyle={{
+              color: palette.purple,
+              fontWeight: 'bold',
+            }}
+
+
             />
         </View>
     </Modal>
