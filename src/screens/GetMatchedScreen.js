@@ -15,33 +15,39 @@ const GetMatchedScreen = ({ navigation }) => {
     };
 
   return (
-    <ScrollView>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View style={styles.page}>
-          <View>
-          <Header>Get Matched</Header>
-          <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
-          </View>
-          <SelectDates
-              title={"Select all your days off for the year"}
-              subtitle={"Which weeks of the months are you taking days off to go on a trip"}
-              subtitleStyle={1}
-              isFlexible={true}
-              showLine={true}
-              multipleDates={true}
-              showBorder={true}
-              boxWidth={95 * vmin}
-          />
-          <SelectCountries/>
-          <CountryMultiSelector />
-          <View style={styles.buttonGroup}>
-          <Button onPress={() => navigation.replace('Home')} mode='contained' theme={themes.button} style={styles.button}>
-            Done
-          </Button>
-          </View>
+  <ScrollView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.page}>
+        <View>
+        <Header>Get Matched</Header>
+        <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
         </View>
-      </TouchableWithoutFeedback>
-      </ScrollView>
+        <SelectDates
+            title={"Select all your days off for the year"}
+            subtitle={"Which weeks of the months are you taking days off to go on a trip"}
+            subtitleStyle={1}
+            isFlexible={true}
+            showLine={true}
+            multipleDates={true}
+            showBorder={true}
+            boxWidth={95 * vmin}
+        />
+        <SelectCountries
+            title={"Select all countries you wish to visit"}
+            subtitle={"You can add more countries later in profile settings"}
+            subtitleStyle={1}
+            editable={true}
+            multipleCountries={true}
+            boxWidth={95 * vmin}
+        />
+        <View style={styles.buttonGroup}>
+        <Button onPress={() => navigation.replace('Home')} mode='contained' theme={themes.button} style={styles.button}>
+          Done
+        </Button>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  </ScrollView>
   );
 };
 

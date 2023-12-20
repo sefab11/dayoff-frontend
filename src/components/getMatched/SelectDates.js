@@ -22,7 +22,6 @@ const SelectDates = (props) => {
   const subtitleStyle = props.subtitleStyle;
   var subtitleType;
   if (subtitleStyle == null || subtitleStyle == 1) subtitleType = styles.message;
-  else if (subtitleStyle == 2) subtitleType = styles.message2;
 
   //track the array of dates that are added
   //called array but more like list as items are added dynamically
@@ -45,12 +44,16 @@ const SelectDates = (props) => {
 
   //removes the date clicked on and updates the dates array state
   function removeDate(date){
+    if (isChecked) return;
+
     dates.splice(dates.indexOf(date), 1);
     setDates(dates => [...dates]);
   };
 
 
   const toggleModal = () => {
+    if (isChecked) return;
+
     setModalVisible(!isModalVisible);
 
     //when disabling the calender, add a new date to dates
@@ -80,13 +83,14 @@ const SelectDates = (props) => {
             <TouchableOpacity onPress={() => removeDate(date)}>
                 <Image
                     style={styles.xIcon}
+                    tintColor={!isChecked ? palette.black : palette.grey}
                     //image size should be around 32x32
                     source={require("../../../assets/images/welcome_screen/xIcon.png")}
                 />
             </TouchableOpacity>
 
         </View>
-        );
+    );
 
     return dateComponents;
   };
