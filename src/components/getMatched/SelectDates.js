@@ -79,6 +79,7 @@ const SelectDates = (props) => {
             <TouchableOpacity onPress={() => removeDate(date)}>
                 <Image
                     style={styles.xIcon}
+                    tintColor={!isChecked ? palette.black : palette.grey}
                     //image size should be around 32x32
                     source={require("../../../assets/images/welcome_screen/xIcon.png")}
                 />

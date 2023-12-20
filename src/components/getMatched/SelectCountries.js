@@ -50,8 +50,6 @@ const SelectCountries = (props) => {
 
     if (allowMultipleCountries) setSelectedCountries(countries => [...countries, newCountry]);
     else setSelectedCountries([newCountry]);
-
-    console.log(selectedCountries);
   }
 
   function deliverCountryLabels(){
@@ -72,6 +70,7 @@ const SelectCountries = (props) => {
             <TouchableOpacity onPress={() => removeCountry(country.code)}>
                 <Image
                     style={styles.xIcon}
+                    tintColor={canEdit ? palette.black : palette.grey}
                     //image should be around 32 x 32
                     source={require("../../../assets/images/welcome_screen/xIcon.png")}
                 />
