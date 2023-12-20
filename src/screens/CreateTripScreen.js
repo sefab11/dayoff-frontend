@@ -14,14 +14,6 @@ export default CreateTripScreen = ({ navigation }) => {
             <View style={styles.page}>
                 <HeaderBack>Create a trip</HeaderBack>
                 <View style={styles.inputGroup}>
-                    <SelectCountries
-                        title={null}
-                        subtitle={"Select country"}
-                        subtitleStyle={2}
-                        editable={true}
-                        multipleCountries={false}
-                        boxWidth={80 * vmin}
-                    />
                     <SelectDates
                         title={null}
                         subtitle={"Select date"}
@@ -30,6 +22,14 @@ export default CreateTripScreen = ({ navigation }) => {
                         showLine={false}
                         multipleDates={false}
                         showBorder={true}
+                        boxWidth={80 * vmin}
+                    />
+                    <SelectCountries
+                        title={null}
+                        subtitle={"Select country"}
+                        subtitleStyle={2}
+                        editable={true}
+                        multipleCountries={false}
                         boxWidth={80 * vmin}
                     />
 

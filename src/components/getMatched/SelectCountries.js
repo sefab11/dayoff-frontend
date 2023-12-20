@@ -22,11 +22,15 @@ const SelectCountries = (props) => {
 
 
   function toggleModal(){
+    if (!canEdit) return;
+
     setModalVisible(!isModalVisible);
   }
 
 
   function removeCountry(countryCode){
+    if (!canEdit) return;
+
     const index = indexOfCode(countryCode);
     if (index < selectedCountries.length && index > -1){
         selectedCountries.splice(index, 1);

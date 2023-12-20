@@ -44,12 +44,16 @@ const SelectDates = (props) => {
 
   //removes the date clicked on and updates the dates array state
   function removeDate(date){
+    if (isChecked) return;
+
     dates.splice(dates.indexOf(date), 1);
     setDates(dates => [...dates]);
   };
 
 
   const toggleModal = () => {
+    if (isChecked) return;
+
     setModalVisible(!isModalVisible);
 
     //when disabling the calender, add a new date to dates
