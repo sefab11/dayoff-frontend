@@ -32,7 +32,14 @@ const GetMatchedScreen = ({ navigation }) => {
             showBorder={true}
             boxWidth={95 * vmin}
         />
-        <SelectCountries/>
+        <SelectCountries
+            title={"Select all countries you wish to visit"}
+            subtitle={"You can add more countries later in profile settings"}
+            subtitleStyle={1}
+            editable={true}
+            multipleCountries={true}
+            boxWidth={95 * vmin}
+        />
         <View style={styles.buttonGroup}>
         <Button onPress={() => navigation.replace('Home')} mode='contained' theme={themes.button} style={styles.button}>
           Done
@@ -40,7 +47,7 @@ const GetMatchedScreen = ({ navigation }) => {
         </View>
       </View>
     </TouchableWithoutFeedback>
-    </ScrollView>
+  </ScrollView>
   );
 };
 
