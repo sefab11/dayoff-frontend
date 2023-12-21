@@ -1,10 +1,101 @@
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import { palette, themes, flags } from "../../style";
 import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Label } from "..";
+import { Button, Label } from "..";
 
+  //either return a multiselect or dropdown depending on allowMultipleCountries
+  //TODO: add option to change the language + verification that language is supported
+  const ModalDropdown = React.memo(({isModalVisible, allowMultipleCountries, updateCountries, toggleModal}) => {
+    var codes = require("i18n-iso-countries");
+    codes.registerLocale(require("i18n-iso-countries/langs/en.json"));
+
+    //array of dictionaries that contain {'code': code, 'name': name}
+    var countryCodes = [];
+    for (const [key, value] of Object.entries(codes.getNames('en', {select: 'official'}))){
+        const newEntry = {'code': key, 'name': value};
+        countryCodes.push(newEntry);
+    }
+
+    function formatSelected(code){
+      return {'code': code, 'name': codes.getName(code, 'en')};
+    }
+
+    const [value, setValue] = useState(null);
+
+    return (
+      <Modal
+          visible={isModalVisible}
+          animationIn='slideInUp'
+          animationOut='slideOutDown'
+      >
+          <View style={styles.modalContainer}>
+              <DropDownPicker
+  
+              placeholder='Select a country'
+              showArrowIcon={false}
+              showTickIcon={true}
+              searchable={true}
+              searchPlaceholder='Search...'
+  
+              open={true}
+              items={countryCodes}
+              schema={{
+                  label: "name",
+                  value: "code",
+              }}
+              mode="SIMPLE"
+              listMode="FLATLIST"
+  
+              multiple={allowMultipleCountries}
+              min={0}
+              max={10}
+  
+              value={value}
+              setValue={setValue}
+              onChangeValue={(item) => {
+                updateCountries(item.map(code => formatSelected(code)));
+                //toggleModal();
+              }}
+  
+              //if make maxHeight 100% then it disables the scroll functionality
+              //max height possible is 99%, don't make it 100%
+              maxHeight={80 * vh}
+              placeholderStyle={{
+                color: palette.grey,
+                fontWeight: 'bold',
+                borderRadius: 0,
+                borderWidth: 0,
+              }}
+              searchContainerStyle={{
+                borderColor: palette.black,
+              }}
+              searchTextInputStyle={{
+                color: palette.purple,
+                borderColor: palette.black,
+                fontWeight: 'bold',
+              }}
+              listItemContainer={{
+                height: 50,
+              }}
+              listItemLabelStyle={{
+                color: palette.purple,
+                fontWeight: 'bold',
+              }}
+              />
+            <View style={styles.buttonContainer}>
+              <Button onPress={() => toggleModal()} mode='contained' theme={themes.button} style={styles.button}>
+                Confirm
+              </Button>
+            </View>
+          </View>
+      </Modal>
+      )
+  }, (prevProps, nextProps) => {
+    return (prevProps.isModalVisible === nextProps.isModalVisible && prevProps.allowMultipleCountries === nextProps.allowMultipleCountries);
+  }
+  );
 
 const SelectCountries = (props) => {
   const [canEdit, setCanEdit] = useState(props.editable);
@@ -19,8 +110,6 @@ const SelectCountries = (props) => {
   //for keeping track of which countries the user has added
   //each element should be a dictionary in format {'code': x, 'name': y}
   const [selectedCountries, setSelectedCountries] = useState([]);
-
-
   function toggleModal(){
     if (!canEdit) return;
 
@@ -46,14 +135,13 @@ const SelectCountries = (props) => {
     return -1;
   }
 
-  function updateCountries(newCountry){
+  const updateCountries = (selected) => {
     //when adding a newCountry, a generated index is added so can't check
     //if array.includes(newCountry), need to check the codes and values
-    if (newCountry == null) return;
-    else if (indexOfCode(newCountry['code']) != -1) return;
+    if (!selected) return;
 
-    if (allowMultipleCountries) setSelectedCountries(countries => [...countries, newCountry]);
-    else setSelectedCountries([newCountry]);
+    if (allowMultipleCountries) setSelectedCountries(selected);
+    else setSelectedCountries([selected]);
   }
 
   function deliverCountryLabels(){
@@ -114,99 +202,6 @@ const SelectCountries = (props) => {
     };
   }
 
-  //either return a multiselect or dropdown depending on allowMultipleCountries
-  //TODO: add option to change the language + verification that language is supported
-  function deliverDropdown(){
-    var codes = require("i18n-iso-countries");
-    codes.registerLocale(require("i18n-iso-countries/langs/en.json"));
-
-    //array of dictionaries that contain {'code': code, 'name': name}
-    var countryCodes = [];
-    for (const [key, value] of Object.entries(codes.getNames('en', {select: 'official'}))){
-        const newEntry = {'code': key, 'name': value};
-        countryCodes.push(newEntry);
-    }
-
-    function formatSelected(code){
-        if (allowMultipleCountries){
-            const newElement = code.pop();
-            return {'code': newElement, 'name': codes.getName(newElement, 'en')};
-        }
-        else return {'code': code, 'name': codes.getName(code, 'en')};
-    }
-
-    const [value, setValue] = useState(null);
-
-
-    return (
-    <Modal
-        visible={isModalVisible}
-        animationIn='slideInUp'
-        animationOut='slideOutDown'
-        transparent={true}
-    >
-        <View style={styles.modalContainer}>
-            <DropDownPicker
-
-            placeholder='Select a country'
-            showArrowIcon={false}
-            showTickIcon={true}
-            searchable={true}
-            searchPlaceholder='Search...'
-
-            open={true}
-            items={countryCodes}
-            schema={{
-                label: "name",
-                value: "code",
-            }}
-            mode="SIMPLE"
-            listMode="FLATLIST"
-
-            multiple={allowMultipleCountries}
-            min={0}
-            max={10}
-
-            value={value}
-            setValue={setValue}
-            onChangeValue={(item) => {
-                updateCountries(formatSelected(item));
-                toggleModal();
-            }}
-
-            //if make maxHeight 100% then it disables the scroll functionality
-            //max height possible is 99%, don't make it 100%
-            maxHeight="80%"
-            placeholderStyle={{
-              color: palette.grey,
-              fontWeight: 'bold',
-              borderRadius: 0,
-              borderWidth: 0,
-            }}
-            searchContainerStyle={{
-              borderColor: palette.black,
-            }}
-            searchTextInputStyle={{
-              color: palette.purple,
-              borderColor: palette.black,
-              fontWeight: 'bold',
-            }}
-            listItemContainer={{
-              height: 50,
-            }}
-            listItemLabelStyle={{
-              color: palette.purple,
-              fontWeight: 'bold',
-            }}
-
-
-            />
-        </View>
-    </Modal>
-    )
-  }
-
-
   return (
     <View>
       {enableHeader(title)}
@@ -228,34 +223,17 @@ const SelectCountries = (props) => {
             />
           </TouchableOpacity>
       </View>
-      {deliverDropdown()}
+      <ModalDropdown isModalVisible={isModalVisible} allowMultipleCountries={allowMultipleCountries} updateCountries={(updateCountries)} toggleModal={toggleModal}/>
     </View>
   );
 };
 
 
 const styles = StyleSheet.create({
-  headingText: {
-    marginTop: 3 * vh,
-    alignSelf: "center",
-    width: 85 * vmin,
-    fontFamily: "Lato-Regular",
-    fontSize: 4.5 * vmin,
-    fontWeight: "700",
-    color: "#000000",
-  },
-  message: {
-    marginTop: 1.5 * vh,
-    alignSelf: "center",
-    width: 85 * vmin,
-    fontFamily: "Lato-Regular",
-    fontSize: 3.8 * vmin,
-    color: palette.grey,
-  },
-  buttonGroup: {
-    gap: 2 * vmin,
-    marginTop: 5 * vh,
-    marginBottom: 5 * vh,
+  buttonContainer: {
+    marginTop: 80 * vh,
+    flex: 1,
+    justifyContent: "center"
   },
   button: {
     width: 80 * vmin,
@@ -308,8 +286,10 @@ const styles = StyleSheet.create({
 
   modalContainer: {
     flex: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
     width: "100%",
-    height: "100%",
+    height: 100 * vh,
   },
 
 });
