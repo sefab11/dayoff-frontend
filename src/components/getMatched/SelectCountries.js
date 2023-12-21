@@ -224,7 +224,7 @@ const SelectCountries = (props) => {
             <Image
                 style={styles.icon}
                 tintColor={canEdit ? palette.purple : palette.grey}
-                source={require("../../../assets/images/welcome_screen/edit.png")}
+                source={require("../../../assets/images/welcome_screen/country.png")}
             />
           </TouchableOpacity>
       </View>

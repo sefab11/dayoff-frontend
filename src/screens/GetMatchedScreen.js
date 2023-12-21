@@ -23,8 +23,8 @@ const GetMatchedScreen = ({ navigation }) => {
         <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
         </View>
         <SelectDates
-            title={"Select all your days off for the year"}
-            subtitle={"Which weeks of the months are you taking days off to go on a trip"}
+            title={"Select the dates of your trip(s)"}
+            subtitle={"Eg. If you’re going to Greece on 21-28 June and Mexico on 10-17 July, add all the dates below"}
             subtitleStyle={1}
             isFlexible={true}
             showLine={true}
@@ -33,8 +33,8 @@ const GetMatchedScreen = ({ navigation }) => {
             boxWidth={95 * vmin}
         />
         <SelectCountries
-            title={"Select all countries you wish to visit"}
-            subtitle={"You can add more countries later in profile settings"}
+            title={"Select the countries of your trip(s)"}
+            subtitle={"Now add the countries for the above dates below"}
             subtitleStyle={1}
             editable={true}
             multipleCountries={true}
