@@ -233,6 +233,23 @@ const SelectCountries = (props) => {
 
 
 const styles = StyleSheet.create({
+  headingText: {
+    marginTop: 3 * vh,
+    alignSelf: "center",
+    width: 85 * vmin,
+    fontFamily: "Lato-Regular",
+    fontSize: 4.5 * vmin,
+    fontWeight: "700",
+    color: "#000000",
+  },
+  message: {
+    marginTop: 1.5 * vh,
+    alignSelf: "center",
+    width: 85 * vmin,
+    fontFamily: "Lato-Regular",
+    fontSize: 3.8 * vmin,
+    color: palette.grey,
+  },
   buttonContainer: {
     marginTop: 80 * vh,
     flex: 1,
@@ -283,7 +300,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   icon: {
-    resizeMode: 'contain',
+    resizeMode: 'center',
     height: 4 * vh,
     width: 4 * vh,
   },

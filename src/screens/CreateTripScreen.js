@@ -22,8 +22,9 @@ export default CreateTripScreen = ({ navigation }) => {
                         boxWidth={80 * vmin}
                     />
                     <SelectCountries
-                        title={"Select country)"}
-                        subtitleStyle={1}
+                        title={null}
+                        subtitle={"Select country"}
+                        subtitleStyle={2}
                         editable={true}
                         multipleCountries={false}
                         boxWidth={80 * vmin}

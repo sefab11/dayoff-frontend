@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   icon: {
-    resizeMode: 'contain',
+    resizeMode: 'center',
     height: 4 * vh,
     width: 4 * vh,
   },
