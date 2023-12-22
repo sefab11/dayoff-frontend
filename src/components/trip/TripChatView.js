@@ -1,11 +1,11 @@
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native'
 import { Button } from '../button';
 import { Image } from '../image';
 import CountryCodes from '../../../assets/CountryCodes.json'
 import { themes, flags } from '../../style';
 import { dimensions } from '../../style';
 import { palette } from '../../style';
-import { createNavigationContainerRef } from '@react-navigation/native';
+import { createNavigationContainerRef, useNavigation } from '@react-navigation/native';
 
 [vw, vh, vmin, vmax] = dimensions
 
@@ -22,44 +22,48 @@ const TripChatView = (props) => {
     tripchat.unread = 11
 
     country = CountryCodes.filter(c => c.code == tripchat.country)[0];    
+
+    const navigation = useNavigation();
     
     return (
-        <View style={{...styles.chat, ...style}}>
-            {
-                flags[country.code] ?
-                <Image style={styles.flagIcon} source={flags[country.code]} /> :
-                <Text style={styles.countryText}>{country.code}</Text>
-            }
-            <View style={styles.middleGroup}>
-                <Text style={styles.countryText}>{country.name} | 14 - 21 Jul</Text>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate("Chat")}>
+            <View style={{...styles.chat, ...style}}>
                 {
-                    tripchat.lastMessage ?
-                    <View style={styles.messageGroup}>
-                        <Text style={styles.authorText}>{tripchat.lastMessage.author}: </Text>
-                        <Text style={styles.messageText}>
-                            {
-                                tripchat.lastMessage.message.length > 26 ?
-                                tripchat.lastMessage.message.substring(0, 26) + '...' :
-                                tripchat.lastMessage.message
-                            }
-                        </Text>
-                    </View> :
-                    null
+                    flags[country.code] ?
+                    <Image style={styles.flagIcon} source={flags[country.code]} /> :
+                    <Text style={styles.countryText}>{country.code}</Text>
                 }
-            </View>
-            {
-                <View style={styles.rightGroup}>
-                    <Text style={styles.timeText}>{tripchat.lastMessage.time}</Text>
-                    <Text style={styles.notification}>
+                <View style={styles.middleGroup}>
+                    <Text style={styles.countryText}>{country.name} | 14 - 21 Jul</Text>
                     {
-                        tripchat.unread > 0 ?
-                        (tripchat.unread > 9 ? '9+' : tripchat.unread) :
+                        tripchat.lastMessage ?
+                        <View style={styles.messageGroup}>
+                            <Text style={styles.authorText}>{tripchat.lastMessage.author}: </Text>
+                            <Text style={styles.messageText}>
+                                {
+                                    tripchat.lastMessage.message.length > 26 ?
+                                    tripchat.lastMessage.message.substring(0, 26) + '...' :
+                                    tripchat.lastMessage.message
+                                }
+                            </Text>
+                        </View> :
                         null
                     }
-                    </Text>
                 </View>
-            }
-        </View>
+                {
+                    <View style={styles.rightGroup}>
+                        <Text style={styles.timeText}>{tripchat.lastMessage.time}</Text>
+                        <Text style={styles.notification}>
+                        {
+                            tripchat.unread > 0 ?
+                            (tripchat.unread > 9 ? '9+' : tripchat.unread) :
+                            null
+                        }
+                        </Text>
+                    </View>
+                }
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 

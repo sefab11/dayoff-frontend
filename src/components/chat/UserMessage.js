@@ -1,11 +1,11 @@
 import { Text } from "react-native";
 
-const Message = (props) => {
+const UserMessage = (props) => {
     return(
         <Text>
-            Message
+            User message
         </Text>
     )
 }
 
-export default Message;
+export default UserMessage;
