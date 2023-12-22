@@ -1,5 +1,6 @@
 import { React } from "react";
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
+import Modal from "react-native-modal";
 import { Button, TripViewMatch, TripView, BottomNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
@@ -113,7 +114,7 @@ const ForYouScreen = (props) => {
         <View style={styles.page}>
             <TouchableOpacity onPress={() => navigation.replace('GetMatched')}>
                 <Image
-                style={styles.icon}
+                style={styles.navIcon}
                 source={require("../../assets/icons/calender_globe.png")} />
             </TouchableOpacity>
 
@@ -189,11 +190,13 @@ const ExploreScreen = (props) => {
 
     return (
         <View style={styles.page}>
-            <TouchableOpacity onPress={() => navigation.replace('CreatedTrips')}>
-                <Image
-                style={styles.icon}
-                source={require("../../assets/icons/mobile.png")} />
-            </TouchableOpacity>
+            <View>
+                <TouchableOpacity onPress={() => navigation.replace('CreatedTrips')}>
+                    <Image
+                    style={styles.navIcon}
+                    source={require("../../assets/icons/mobile.png")} />
+                </TouchableOpacity>
+            </View>
 
             <Text style={styles.message}>Find or create trips that match your style</Text>
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
@@ -234,10 +237,10 @@ export default HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     page: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'top',
         gap: 3 * vh,
-        backgroundColor: palette.white
+        backgroundColor: palette.white,
     },
     tabBar: {
         elevation: 0,
@@ -294,5 +297,12 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginLeft: 7.5 * vmin,
         alignSelf: 'flex-start'
-    }
+    },
+    iconContainer: {
+        position: 'absolute',
+        display: 'flex',
+        alignItems: 'flex-end',
+        top: -40,
+        backgroundColor: 'red',
+    },
 })

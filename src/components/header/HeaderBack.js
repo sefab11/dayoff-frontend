@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: 5 * vh,
+        fontSize: 4.25 * vh,
         paddingBottom: 0.5 * vh,
         letterSpacing: -0.2 * vh
     }
