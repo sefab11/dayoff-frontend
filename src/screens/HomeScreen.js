@@ -9,7 +9,9 @@ const Tab = createMaterialTopTabNavigator();
 
 [vw, vh, vmin, vmax] = dimensions;
 
-const ForYouScreen = (navigation) => {
+const ForYouScreen = (props) => {
+    const { navigation } = props;
+
     const matched = [
         {
             id: 0,
@@ -109,6 +111,12 @@ const ForYouScreen = (navigation) => {
 
     return (
         <View style={styles.page}>
+            <TouchableOpacity onPress={() => navigation.replace('GetMatched')}>
+                <Image
+                style={styles.icon}
+                source={require("../../assets/icons/calender_globe.png")} />
+            </TouchableOpacity>
+
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
                 { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} />) }
@@ -181,6 +189,12 @@ const ExploreScreen = (props) => {
 
     return (
         <View style={styles.page}>
+            <TouchableOpacity onPress={() => navigation.replace('CreatedTrips')}>
+                <Image
+                style={styles.icon}
+                source={require("../../assets/icons/mobile.png")} />
+            </TouchableOpacity>
+
             <Text style={styles.message}>Find or create trips that match your style</Text>
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
@@ -210,7 +224,7 @@ export default HomeScreen = ({ navigation }) => {
                 tabBarIndicatorStyle: styles.tabIndicator,
             })}
         >
-            <Tab.Screen name='For You' component={ForYouScreen} />
+            <Tab.Screen name='For You' children={() => <ForYouScreen navigation={navigation} /> } />
             <Tab.Screen name='Explore' children={() => <ExploreScreen navigation={navigation} />} />
         </Tab.Navigator>
         <BottomNav active={"Home"}/>

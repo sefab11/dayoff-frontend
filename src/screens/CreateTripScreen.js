@@ -5,6 +5,8 @@ import { palette, themes } from "../style";
 
 import { SelectDates, SelectCountries } from "../components";
 
+//SCREEN TO CREATE A TRIP
+
 export default CreateTripScreen = ({ navigation }) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
