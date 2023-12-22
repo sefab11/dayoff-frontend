@@ -54,8 +54,8 @@ import { Button, Label } from "..";
             value={value}
             setValue={setValue}
             onChangeValue={(item) => {
-              updateCountries(item.map(code => formatSelected(code)));
-              //toggleModal();
+              if(allowMultipleCountries) updateCountries(item.map(code => formatSelected(code)));
+              else updateCountries([formatSelected(item)]);
             }}
 
             //if make maxHeight 100% then it disables the scroll functionality
@@ -135,17 +135,13 @@ const SelectCountries = (props) => {
   }
 
   const updateCountries = (selected) => {
-    //when adding a newCountry, a generated index is added so can't check
-    //if array.includes(newCountry), need to check the codes and values
     if (!selected) return;
 
-    if (allowMultipleCountries) setSelectedCountries(selected);
-    else setSelectedCountries([selected]);
+    setSelectedCountries(selected);
   }
 
   function deliverCountryLabels(){
     if (selectedCountries == null) return;
-
     const countryComponents = selectedCountries.map((country) =>
         <View key={country.code} style={styles.countryContainer}
         backgroundColor={canEdit ? palette.lightPurple : palette.lightGrey2}
@@ -154,7 +150,6 @@ const SelectCountries = (props) => {
                 style={styles.countryIcon}
                 source={flags[country.code]}
             />
-
             <Text style={canEdit ? styles.countryTextActive : styles.countryTextInactive}>
             {country.name}</Text>
 

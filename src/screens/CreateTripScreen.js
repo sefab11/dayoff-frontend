@@ -5,9 +5,6 @@ import { palette, themes } from "../style";
 
 import { SelectDates, SelectCountries } from "../components";
 
-
-
-
 export default CreateTripScreen = ({ navigation }) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -25,9 +22,8 @@ export default CreateTripScreen = ({ navigation }) => {
                         boxWidth={80 * vmin}
                     />
                     <SelectCountries
-                        title={null}
-                        subtitle={"Select country"}
-                        subtitleStyle={2}
+                        title={"Select country)"}
+                        subtitleStyle={1}
                         editable={true}
                         multipleCountries={false}
                         boxWidth={80 * vmin}
