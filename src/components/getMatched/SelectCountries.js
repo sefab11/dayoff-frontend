@@ -158,7 +158,7 @@ const SelectCountries = (props) => {
                     style={styles.xIcon}
                     tintColor={canEdit ? palette.black : palette.grey}
                     //image should be around 32 x 32
-                    source={require("../../../assets/images/welcome_screen/xIcon.png")}
+                    source={require("../../../assets/icons/x.png")}
                 />
             </TouchableOpacity>
         </View>
@@ -202,18 +202,21 @@ const SelectCountries = (props) => {
       {enableSubheader(subtitle)}
 
       <View style={styles.countriesContainer}
-      width={boxWidth}
-      marginTop={subtitleStyle == 2 ? 0 : 15}>
-          {deliverCountryLabels()}
+        width={boxWidth}
+        marginTop={subtitleStyle == 2 ? 0 : 15}
+      >
+        {deliverCountryLabels()}
 
           <TouchableOpacity onPress={toggleModal}
-          style={{marginLeft: 'auto',
-          padding: 10,
-          alignSelf: 'center' }}>
+            style={{
+              marginLeft: 'auto',
+              padding: 10,
+              alignSelf: 'center'
+            }}>
             <Image
                 style={styles.icon}
                 tintColor={canEdit ? palette.purple : palette.grey}
-                source={require("../../../assets/images/welcome_screen/country.png")}
+                source={require("../../../assets/icons/globe.png")}
             />
           </TouchableOpacity>
       </View>
@@ -259,7 +262,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 5,
-    borderWidth: 1,
+    borderWidth: 1
   },
   countryIcon: {
     resizeMode: 'center',
@@ -280,10 +283,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
   },
-  xIcon: {
-    resizeMode: 'center',
+  icon: {
+    resizeMode: 'contain',
+    height: 4 * vh,
+    width: 4 * vh,
   },
-
+  xIcon: {
+    resizeMode: 'contain',
+    height: 1.5 * vh,
+    width: 1.5 * vh,
+    marginHorizontal: 10,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "space-between",

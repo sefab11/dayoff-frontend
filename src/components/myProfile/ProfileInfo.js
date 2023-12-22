@@ -14,7 +14,9 @@ export default ProfileInfo = () => {
         <View style={styles.countryContainer}>
           <Text style={styles.message}>United States</Text>
           <Image
-            source={require("../../../assets/images/welcome_screen/edit.png")}
+            source={require("../../../assets/icons/pencil.png")}
+            tintColor={palette.black}
+            style={styles.editIcon}
           />
         </View>
       </View>
@@ -23,7 +25,9 @@ export default ProfileInfo = () => {
         <View style={styles.countryContainer}>
           <Text style={styles.message}>Product Designer, Facebook</Text>
           <Image
-            source={require("../../../assets/images/welcome_screen/edit.png")}
+            source={require("../../../assets/icons/pencil.png")}
+            tintColor={palette.black}
+            style={styles.editIcon}
           />
         </View>
       </View>
@@ -32,7 +36,9 @@ export default ProfileInfo = () => {
         <View style={styles.countryContainer}>
           <Text style={styles.message}>Linkedin.com/jessss</Text>
           <Image
-            source={require("../../../assets/images/welcome_screen/edit.png")}
+            source={require("../../../assets/icons/pencil.png")}
+            tintColor={palette.black}
+            style={styles.editIcon}
           />
         </View>
       </View>
@@ -76,4 +82,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeftLeft: 5,
   },
+  editIcon: {
+    resizeMode: 'contain',
+    height: 2 * vh,
+    width: 2 * vh,
+  }
 });

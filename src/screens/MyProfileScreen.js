@@ -7,7 +7,6 @@ import EditDates from "../components/myProfile/EditDates";
 import SelecCountries from "../components/getMatched/SelectCountries";
 import VisitedCountries from "../components/myProfile/VisitedCountries";
 import VolunteerBadges from "../components/myProfile/VolunteerBadges";
-import EditCountries from "../components/myProfile/EditCountries";
 import { BottomNav } from "../components";
 
 export default MyProfileScreen = ({ navigation }) => {

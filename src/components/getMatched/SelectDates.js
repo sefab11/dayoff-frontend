@@ -84,8 +84,7 @@ const SelectDates = (props) => {
                 <Image
                     style={styles.xIcon}
                     tintColor={!isChecked ? palette.black : palette.grey}
-                    //image size should be around 32x32
-                    source={require("../../../assets/images/welcome_screen/xIcon.png")}
+                    source={require("../../../assets/icons/x.png")}
                 />
             </TouchableOpacity>
 
@@ -193,7 +192,7 @@ const SelectDates = (props) => {
             <Image
               style={styles.icon}
               tintColor={!isChecked ? palette.purple : palette.grey}
-              source={require("../../../assets/images/welcome_screen/blackCalender.png")}
+              source={require("../../../assets/icons/calendar.png")}
             />
           </TouchableOpacity>
         </View>
@@ -291,7 +290,6 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingLeft: 15,
     paddingRight: 15,
-    marginTop: 15,
     borderRadius: 5,
     justifyContent: "flex-start",
     lineHeight: "27px",
@@ -299,9 +297,8 @@ const styles = StyleSheet.create({
   dateContainer: {
     display: 'flex',
     flexDirection: 'row',
-    padding: 5,
+    alignItems: 'center',
     paddingLeft: 10,
-    paddingRight: 10,
     borderRadius: 5,
     height: 10 * vmin,
   },
@@ -319,8 +316,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
   },
+  icon: {
+    resizeMode: 'contain',
+    height: 4 * vh,
+    width: 4 * vh,
+  },
   xIcon: {
-    resizeMode: 'center',
+    resizeMode: 'contain',
+    height: 1.5 * vh,
+    width: 1.5 * vh,
+    marginHorizontal: 10,
   },
   modalContainer: {
     flex: 1,
