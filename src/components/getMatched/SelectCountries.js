@@ -210,7 +210,6 @@ const SelectCountries = (props) => {
           <TouchableOpacity onPress={toggleModal}
             style={{
               marginLeft: 'auto',
-              padding: 10,
               alignSelf: 'center'
             }}>
             <Image
@@ -251,7 +250,7 @@ const styles = StyleSheet.create({
     flexWrap:'wrap',
     borderColor: "#D7D7D7",
     borderWidth: 1,
-    padding: 10,
+    padding: 7,
     borderRadius: 5,
     alignItems: 'center',
     columnGap: 10,
@@ -266,7 +265,7 @@ const styles = StyleSheet.create({
   },
   countryIcon: {
     resizeMode: 'center',
-    width: 8 * vmin,
+    width: 10 * vmin,
     height: 10 * vmin,
   },
   countryTextActive: {

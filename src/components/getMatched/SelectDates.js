@@ -187,7 +187,6 @@ const SelectDates = (props) => {
           */}
           <TouchableOpacity onPress={toggleModal}
           style={{marginLeft: 'auto',
-          padding: allowMultipleDates ? 5 : 0,
           alignSelf: 'center'}}>
             <Image
               style={styles.icon}
@@ -279,7 +278,6 @@ const styles = StyleSheet.create({
     color: palette.white,
   },
   calenderIconContainer: {
-    width: 90 * vmin,
     display: 'flex',
     flexDirection: "row",
     flexWrap: 'wrap',
@@ -287,9 +285,7 @@ const styles = StyleSheet.create({
     columnGap: 10,
     borderColor: "#D7D7D7",
     borderWidth: 1,
-    padding: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
+    padding: 7,
     borderRadius: 5,
     justifyContent: "flex-start",
     lineHeight: "27px",
