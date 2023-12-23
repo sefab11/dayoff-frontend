@@ -117,7 +117,7 @@ const SelectCountries = (props) => {
 
   //for keeping track of which countries the user has added
   //each element should be a dictionary in format {'code': x, 'name': y}
-  const [selectedCountries, setSelectedCountries] = useState([]);
+  const [selectedCountries, setSelectedCountries] = useState(props.initialCountries);
 
   function toggleModal(){
     if (!canEdit) return;

@@ -144,7 +144,7 @@ export default MyCreatedTrips = ({navigation}) => {
             </View>
 
             <ScrollView contentContainerStyle={styles.scroll}>
-                { matched.map(trip => <UserCreatedTripView key={trip.id} trip={trip} />) }
+                { matched.map(trip => <UserCreatedTripView key={trip.id} trip={trip} trips={matched} navigation={navigation} />) }
             </ScrollView>
         </View>
     )

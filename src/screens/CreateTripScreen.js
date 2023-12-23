@@ -22,6 +22,8 @@ export default CreateTripScreen = ({ navigation }) => {
                         multipleDates={false}
                         showBorder={true}
                         boxWidth={80 * vmin}
+                        editable={true}
+                        initialDates={[]}
                     />
                     <SelectCountries
                         title={null}
@@ -30,6 +32,7 @@ export default CreateTripScreen = ({ navigation }) => {
                         editable={true}
                         multipleCountries={false}
                         boxWidth={80 * vmin}
+                        initialCountries={[]}
                     />
 
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />

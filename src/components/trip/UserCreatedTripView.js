@@ -12,6 +12,8 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 
 const UserCreatedTripView = (props) => {
     const {style, label, children, trip, ...rest} = props;
+    const allTrips = props.trips;
+    const navigation = props.navigation;
 
     country = CountryCodes.filter(c => c.code == trip.country)[0];
 
@@ -19,6 +21,7 @@ const UserCreatedTripView = (props) => {
         if (trip.going.length > 1) return;
 
         console.log("delete");
+        //TODO: remove trip from allTrips and rerender the screen
     }
 
     return (
@@ -79,7 +82,7 @@ const UserCreatedTripView = (props) => {
                     icon={require('../../../assets/icons/pencil.png')}
                     iconColor={palette.white}
                     size={2 * vh}
-                    onPress={() => console.log("edit")}
+                    onPress={() => navigation.navigate('EditTrip')}
                 />
                 <IconButton
                     style={styles.deleteButton}
@@ -87,7 +90,7 @@ const UserCreatedTripView = (props) => {
                     icon={require('../../../assets/icons/trash.png')}
                     iconColor={trip.going.length <= 1 ? palette.white : palette.grey}
                     size={2 * vh}
-                    onPress={() => deleteTrip()}
+                    onPress={() => deleteTrip(trip.id)}
                 />
 
                 <View style={styles.goingGroup}>
