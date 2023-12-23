@@ -1,6 +1,6 @@
 import { React } from "react";
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { UserCreatedTripView, HeaderBack, TripViewMatch } from "../components";
+import { UserCreatedTripView, HeaderBack } from "../components";
 import { palette, themes, dimensions, flags } from "../style";
 
 //SCREEN FOR THE USERS CREATED TRIPS
@@ -12,6 +12,8 @@ export default MyCreatedTrips = ({navigation}) => {
             id: 0,
             country: 'AU',
             limit: 9,
+            details: 'Join me for a workcation and lets go experience the culture of Australia.',
+            date: '11 - 19 Aug',
             matched: [
                 {
                     name: 'Sefa',
@@ -85,6 +87,8 @@ export default MyCreatedTrips = ({navigation}) => {
             id: 1,
             country: 'BR',
             limit: 6,
+            details: 'Join me for a workcation and lets go experience the culture of Brazil.',
+            date: '02 - 10 Oct',
             matched: [
                 {
                     name: 'John',
@@ -109,11 +113,11 @@ export default MyCreatedTrips = ({navigation}) => {
     return (
         <View style={styles.page}>
             <View style={styles.border}>
-                <HeaderBack backgroundColor={'red'} >My Created Trips </HeaderBack>
+                <HeaderBack >My Created Trips </HeaderBack>
             </View>
 
             <ScrollView contentContainerStyle={styles.scroll}>
-                { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} />) }
+                { matched.map(trip => <UserCreatedTripView key={trip.id} trip={trip} />) }
             </ScrollView>
         </View>
     )
