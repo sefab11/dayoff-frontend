@@ -100,8 +100,35 @@ export default MyCreatedTrips = ({navigation}) => {
                     name: 'John',
                     profilePic: null
                 },
+            ]
+        },
+        {
+            id: 2,
+            country: 'NL',
+            limit: 7,
+            details: 'Join me for a workcation and lets go experience the culture of the Netherlands.',
+            date: '15 - 22 Jun',
+            matched: [
                 {
-                    name: 'Amy',
+                    name: 'Sepehr',
+                    profilePic: null
+                },
+                {
+                    name: 'Gary',
+                    profilePic: null
+                }
+            ],
+            going: [
+                {
+                    name: 'Sepehr',
+                    profilePic: null
+                },
+                {
+                    name: 'Francis',
+                    profilePic: null
+                },
+                {
+                    name: 'Gary',
                     profilePic: null
                 }
             ]

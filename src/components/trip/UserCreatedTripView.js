@@ -15,6 +15,12 @@ const UserCreatedTripView = (props) => {
 
     country = CountryCodes.filter(c => c.code == trip.country)[0];
 
+    function deleteTrip(){
+        if (trip.going.length > 1) return;
+
+        console.log("delete");
+    }
+
     return (
         <View style={styles.trip}>
             <View style={styles.topGroup}>
@@ -69,7 +75,7 @@ const UserCreatedTripView = (props) => {
                 </TouchableOpacity>
                 <IconButton
                     style={styles.editButton}
-                    backgroundColor={palette.grey}
+                    backgroundColor={palette.purple}
                     icon={require('../../../assets/icons/pencil.png')}
                     iconColor={palette.white}
                     size={2 * vh}
@@ -77,11 +83,11 @@ const UserCreatedTripView = (props) => {
                 />
                 <IconButton
                     style={styles.deleteButton}
-                    backgroundColor={palette.lightRed}
+                    backgroundColor={trip.going.length <= 1 ? palette.lightRed : palette.lightGrey}
                     icon={require('../../../assets/icons/trash.png')}
-                    iconColor={palette.white}
+                    iconColor={trip.going.length <= 1 ? palette.white : palette.grey}
                     size={2 * vh}
-                    onPress={() => console.log("delete")}
+                    onPress={() => deleteTrip()}
                 />
 
                 <View style={styles.goingGroup}>
