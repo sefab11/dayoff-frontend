@@ -44,7 +44,7 @@ const GetMatchedScreen = ({ navigation }) => {
             initialCountries={[]}
         />
         <View style={styles.buttonGroup}>
-        <Button onPress={() => navigation.replace('Home')} mode='contained' theme={themes.button} style={styles.button}>
+        <Button onPress={() => navigation.navigate('Home')} mode='contained' theme={themes.button} style={styles.button}>
           Done
         </Button>
         </View>

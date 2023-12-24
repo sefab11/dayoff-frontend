@@ -15,7 +15,7 @@ export default RegisterScreen = ({ navigation }) => {
         // .then(response => {
         //     console.log(response);
         // })
-        navigation.replace('Verification');
+        navigation.navigate('Verification');
     }
 
     return (

@@ -112,7 +112,7 @@ const ForYouScreen = (props) => {
 
     return (
         <View style={styles.page}>
-            <TouchableOpacity onPress={() => navigation.replace('GetMatched')}>
+            <TouchableOpacity onPress={() => navigation.navigate('GetMatched')}>
                 <Image
                 style={styles.navIcon}
                 source={require("../../assets/icons/calender_globe.png")} />
@@ -191,7 +191,7 @@ const ExploreScreen = (props) => {
     return (
         <View style={styles.page}>
             <View>
-                <TouchableOpacity onPress={() => navigation.replace('CreatedTrips')}>
+                <TouchableOpacity onPress={() => navigation.navigate('CreatedTrips')}>
                     <Image
                     style={styles.navIcon}
                     source={require("../../assets/icons/mobile.png")} />

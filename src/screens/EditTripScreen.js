@@ -38,7 +38,7 @@ export default EditTripScreen = ({ navigation }) => {
                     <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />
                 </View>
                 <Button
-                    onPress={() => navigation.replace('Home')}
+                    onPress={() => navigation.navigate('Home')}
                     mode='contained'
                     theme={themes.button}
                     style={styles.button}
