@@ -2,12 +2,17 @@ import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
+import { useState } from "react";
 
 import { SelectDates, SelectCountries } from "../components";
 
 
 export default EditTripScreen = ({ route, navigation }) => {
-    const { date, country, numPeople, description } = route.params;
+    const { date, country } = route.params;
+
+    //enables editable people and description in the sub components
+    const [numPeople, setNumPeople] = useState(route.params.numPeople);
+    const [description, setDescription] = useState(route.params.description);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -36,8 +41,14 @@ export default EditTripScreen = ({ route, navigation }) => {
                         initialCountries={[country]}
                     />
 
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants"> {numPeople} </TextInput>
-                    <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined'> {description} </MultilineInput>
+
+                    <TextInput style={styles.textInput} theme={themes.textInput}
+                    mode='outlined' label="Number of participants"
+                    value={numPeople.toString()} onChangeText={text => setNumPeople(Number(text))} />
+
+                    <MultilineInput style={styles.multilineInput} theme={themes.textInput}
+                    mode='outlined'
+                    value={description} onChangeText={text => setDescription(text)} />
                 </View>
                 <Button
                     onPress={() => navigation.navigate('Home')}

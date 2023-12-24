@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { useState } from "react";
 import { IconButton } from "react-native-paper";
 import { Button } from '../button';
 import { Image } from '../image';
@@ -12,12 +13,13 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 
 const UserCreatedTripView = (props) => {
     const {style, label, children, trip, ...rest} = props;
-    const allTrips = props.trips;
     const navigation = props.navigation;
+
 
     const country = CountryCodes.filter(c => c.code == trip.country)[0];
 
     function deleteTrip(){
+        //don't delete trip if theres more than 1 person going
         if (trip.going.length > 1) return;
 
         console.log("delete");
@@ -86,7 +88,7 @@ const UserCreatedTripView = (props) => {
                         date: trip.date,
                         country: {'code': country['code'], 'name': country['name']},
                         numPeople: trip['limit'],
-                        description: trip['details'],
+                        description: trip['details']
                     })}
                 />
                 <IconButton

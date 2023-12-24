@@ -133,18 +133,18 @@ export default MyCreatedTrips = ({navigation}) => {
                 }
             ]
         },
-    ]
+    ];
 
 
 
     return (
         <View style={styles.page}>
+            <HeaderBack >My Created Trips </HeaderBack>
             <View style={styles.border}>
-                <HeaderBack >My Created Trips </HeaderBack>
             </View>
 
             <ScrollView contentContainerStyle={styles.scroll}>
-                { matched.map(trip => <UserCreatedTripView key={trip.id} trip={trip} trips={matched} navigation={navigation} />) }
+                { matched.map(trip => <UserCreatedTripView key={trip.id} trip={trip} navigation={navigation} />) }
             </ScrollView>
         </View>
     )
@@ -159,9 +159,9 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white,
     },
     border: {
-        width: 100 * vmin,
+        width: 85 * vmin,
         paddingTop:5,
-        paddingBottom:25,
+        paddingBottom:15,
         borderBottomWidth:1,
         borderBottomColor:'#D7D7D7',
     },
