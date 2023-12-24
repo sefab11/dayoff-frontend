@@ -15,7 +15,7 @@ const UserCreatedTripView = (props) => {
     const allTrips = props.trips;
     const navigation = props.navigation;
 
-    country = CountryCodes.filter(c => c.code == trip.country)[0];
+    const country = CountryCodes.filter(c => c.code == trip.country)[0];
 
     function deleteTrip(){
         if (trip.going.length > 1) return;
@@ -82,7 +82,12 @@ const UserCreatedTripView = (props) => {
                     icon={require('../../../assets/icons/pencil.png')}
                     iconColor={palette.white}
                     size={2 * vh}
-                    onPress={() => navigation.navigate('EditTrip')}
+                    onPress={() => navigation.navigate('EditTrip', {
+                        date: trip.date,
+                        country: {'code': country['code'], 'name': country['name']},
+                        numPeople: trip['limit'],
+                        description: trip['details'],
+                    })}
                 />
                 <IconButton
                     style={styles.deleteButton}

@@ -6,7 +6,9 @@ import { palette, themes } from "../style";
 import { SelectDates, SelectCountries } from "../components";
 
 
-export default EditTripScreen = ({ navigation }) => {
+export default EditTripScreen = ({ route, navigation }) => {
+    const { date, country, numPeople, description } = route.params;
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
@@ -22,7 +24,7 @@ export default EditTripScreen = ({ navigation }) => {
                         showBorder={true}
                         boxWidth={80 * vmin}
                         editable={false}
-                        initialDates={['10 - 19 Oct']}
+                        initialDates={[date]}
                     />
                     <SelectCountries
                         title={null}
@@ -31,11 +33,11 @@ export default EditTripScreen = ({ navigation }) => {
                         editable={false}
                         multipleCountries={false}
                         boxWidth={80 * vmin}
-                        initialCountries={[{'code': 'NL', 'name': 'Netherlands'}]}
+                        initialCountries={[country]}
                     />
 
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />
-                    <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />
+                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants"> {numPeople} </TextInput>
+                    <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined'> {description} </MultilineInput>
                 </View>
                 <Button
                     onPress={() => navigation.navigate('Home')}
