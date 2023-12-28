@@ -19,6 +19,7 @@ export default EditTripScreen = ({ route, navigation }) => {
             <View style={styles.page}>
                 <HeaderBack>Edit trip</HeaderBack>
                 <View style={styles.inputGroup}>
+
                     <SelectDates
                         title={null}
                         subtitle={"Select date"}
@@ -31,6 +32,7 @@ export default EditTripScreen = ({ route, navigation }) => {
                         editable={false}
                         initialDates={[date]}
                     />
+
                     <SelectCountries
                         title={null}
                         subtitle={"Select country"}
@@ -41,7 +43,7 @@ export default EditTripScreen = ({ route, navigation }) => {
                         initialCountries={[country]}
                     />
 
-
+                    {/*TODO: return changed data to UserCreatedTripView?*/}
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label="Number of participants"
                     value={numPeople.toString()} onChangeText={text => setNumPeople(Number(text))} />
@@ -49,6 +51,7 @@ export default EditTripScreen = ({ route, navigation }) => {
                     <MultilineInput style={styles.multilineInput} theme={themes.textInput}
                     mode='outlined'
                     value={description} onChangeText={text => setDescription(text)} />
+
                 </View>
                 <Button
                     onPress={() => navigation.navigate('Home')}

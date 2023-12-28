@@ -1,10 +1,11 @@
 import { React } from "react";
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
-import { Button, TripViewMatch, TripView, BottomNav } from "../components";
+import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { TabView } from 'react-native-tab-view';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -112,10 +113,10 @@ const ForYouScreen = (props) => {
 
     return (
         <View style={styles.page}>
+            {/*icon that routes to GetMatched screen*/}
+            {/*TODO: align icon with navigation bar at the top*/}
             <TouchableOpacity onPress={() => navigation.navigate('GetMatched')}>
-                <Image
-                style={styles.navIcon}
-                source={require("../../assets/icons/calender_globe.png")} />
+                <Image source={require("../../assets/icons/calender_globe.png")} />
             </TouchableOpacity>
 
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
@@ -190,13 +191,11 @@ const ExploreScreen = (props) => {
 
     return (
         <View style={styles.page}>
-            <View>
-                <TouchableOpacity onPress={() => navigation.navigate('CreatedTrips')}>
-                    <Image
-                    style={styles.navIcon}
-                    source={require("../../assets/icons/mobile.png")} />
-                </TouchableOpacity>
-            </View>
+            {/*icon that routes to CreatedTrips screen*/}
+            {/*TODO: align icon with navigation bar at the top*/}
+            <TouchableOpacity onPress={() => navigation.navigate('CreatedTrips')}>
+                <Image source={require("../../assets/icons/mobile.png")} />
+            </TouchableOpacity>
 
             <Text style={styles.message}>Find or create trips that match your style</Text>
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
@@ -209,27 +208,9 @@ const ExploreScreen = (props) => {
 
 
 export default HomeScreen = ({ navigation }) => {
-    {/*TODO: add in image1 navigation back to GetMatched screen*/}
-    {/*TODO: add in image2 navigation to (empty for now) MyCreatedTrips screen*/}
     return (<>
         <StatusBar></StatusBar>
-        <Tab.Navigator
-            screenOptions={({ route }) => ({
-                tabBarScrollEnabled: true,
-                tabBarGap: 5 * vmin,
-                tabBarLabel: ({ tintColor, focused, item }) => {
-                    return focused
-                        ? (<Text style={styles.tabLabelActive}>{route.name}</Text>)
-                        : (<Text style={styles.tabLabelInactive}>{route.name}</Text>)
-                },
-                tabBarItemStyle: styles.tab,
-                tabBarStyle: styles.tabBar,
-                tabBarIndicatorStyle: styles.tabIndicator,
-            })}
-        >
-            <Tab.Screen name='For You' children={() => <ForYouScreen navigation={navigation} /> } />
-            <Tab.Screen name='Explore' children={() => <ExploreScreen navigation={navigation} />} />
-        </Tab.Navigator>
+        <TopNav active={"Home"}/>
         <BottomNav active={"Home"}/>
     </>);  
 }

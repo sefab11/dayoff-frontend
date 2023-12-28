@@ -23,7 +23,7 @@ const UserCreatedTripView = (props) => {
         if (trip.going.length > 1) return;
 
         console.log("delete");
-        //TODO: remove trip from allTrips and rerender the screen
+        //TODO: remove trip from array on CreatedTripsScreen.
     }
 
     return (
