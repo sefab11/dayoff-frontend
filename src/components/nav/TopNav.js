@@ -18,7 +18,6 @@ const TopNav = (props) => {
 
     const screenUpdate = (value) => {
         setScreenName(value);
-        //TODO: render the new screen based on the value
         if (value == 'ForYou') setCurrentScreen(forYouScreen);
         else setCurrentScreen(exploreScreen);
     }
@@ -30,29 +29,40 @@ const TopNav = (props) => {
 
     return (
         <>
-            <View style={{...styles.footer, ...style}} {...rest}>
+            <View style={styles.tabBar} {...rest}>
                 <TouchableWithoutFeedback onPress={() => screenUpdate('ForYou')}>
                     {
-                        <View style={styles.navButton}>
-                            <Text style={styles.navLabelActive}>For You</Text>
+                        <View style={styles.tab}>
+                            <Text style={currentScreenName == 'ForYou' ? styles.tabLabelActive
+                            : styles.tabLabelInactive}>
+                                For You
+                            </Text>
                         </View>
                     }
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={() => screenUpdate('Explore')}>
                     {
-                        <View style={styles.navButton}>
-                            <Text style={styles.navLabelActive}>Explore</Text>
+                        <View style={styles.tab}>
+                            <Text
+                            style={currentScreenName == 'Explore' ? styles.tabLabelActive
+                            : styles.tabLabelInactive}>
+                                Explore
+                            </Text>
                         </View>
                     }
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={() => iconUpdate()}>
                     {
-                        <View style={styles.navButton}>
+                        <View style={styles.iconContainer}>
                             {
                             currentScreenName == 'ForYou' ?
-                                <Image source={require("../../../assets/icons/calender_globe.png")} />
+                                <Image
+                                style={styles.tabIcon}
+                                source={require("../../../assets/icons/calender_globe.png")} />
                                 :
-                                <Image source={require("../../../assets/icons/mobile.png")} />
+                                <Image
+                                style={styles.tabIcon}
+                                source={require("../../../assets/icons/mobile.png")} />
                             }
                         </View>
                     }
@@ -64,6 +74,48 @@ const TopNav = (props) => {
 }
 
 const styles = StyleSheet.create({
+    tabBar: {
+        elevation: 0,
+        paddingTop: 2 * vh,
+        paddingLeft: 6 * vmin,
+        backgroundColor: palette.white,
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    tab: {
+        width: 'auto',
+        marginHorizontal: 0,
+        paddingHorizontal: 10,
+        overflow: 'visible'
+    },
+    tabLabelActive: {
+        fontSize: 5.6 * vmin,
+        textTransform: 'none',
+        fontFamily: 'Montserrat-SemiBold',
+        color: palette.black,
+        overflow: 'visible',
+        width: 'auto',
+        borderBottomWidth: 5,
+        borderColor: palette.yellow,
+    },
+    tabLabelInactive: {
+        fontSize: 5.6 * vmin,
+        textTransform: 'none',
+        fontFamily: 'Montserrat-SemiBold',
+        color: palette.grey,
+        overflow: 'visible',
+        width: 'auto',
+        borderBottomWidth: 5,
+        borderColor: palette.white,
+    },
+    iconContainer: {
+        marginLeft: 'auto',
+        paddingRight: 8 * vmin,
+    },
+
+
+
+
     footer: {
         height: 12 * vh,
         flexDirection: 'row',
