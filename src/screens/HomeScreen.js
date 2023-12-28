@@ -113,12 +113,6 @@ const ForYouScreen = (props) => {
 
     return (
         <View style={styles.page}>
-            {/*icon that routes to GetMatched screen*/}
-            {/*TODO: align icon with navigation bar at the top*/}
-            <TouchableOpacity onPress={() => navigation.navigate('GetMatched')}>
-                <Image source={require("../../assets/icons/calender_globe.png")} />
-            </TouchableOpacity>
-
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
                 { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} />) }
@@ -191,12 +185,6 @@ const ExploreScreen = (props) => {
 
     return (
         <View style={styles.page}>
-            {/*icon that routes to CreatedTrips screen*/}
-            {/*TODO: align icon with navigation bar at the top*/}
-            <TouchableOpacity onPress={() => navigation.navigate('CreatedTrips')}>
-                <Image source={require("../../assets/icons/mobile.png")} />
-            </TouchableOpacity>
-
             <Text style={styles.message}>Find or create trips that match your style</Text>
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
@@ -210,7 +198,10 @@ const ExploreScreen = (props) => {
 export default HomeScreen = ({ navigation }) => {
     return (<>
         <StatusBar></StatusBar>
-        <TopNav active={"Home"}/>
+        <TopNav active={"Home"}
+        screen1={<ForYouScreen navigation={navigation} />}
+        screen2={<ExploreScreen navigation={navigation} />}
+        />
         <BottomNav active={"Home"}/>
     </>);  
 }

@@ -8,10 +8,20 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 const TopNav = (props) => {
     const {style, children, active, ...rest} = props
+    const forYouScreen = props.screen1;
+    const exploreScreen = props.screen2;
 
     const route = useRoute()
     const navigation = useNavigation()
     const [currentScreenName, setScreenName] = useState('ForYou');
+    const [currentScreen, setCurrentScreen] = useState(forYouScreen);
+
+    const screenUpdate = (value) => {
+        setScreenName(value);
+        //TODO: render the new screen based on the value
+        if (value == 'ForYou') setCurrentScreen(forYouScreen);
+        else setCurrentScreen(exploreScreen);
+    }
 
     const iconUpdate = () => {
         if (currentScreenName == 'ForYou') navigation.navigate('GetMatched');
@@ -19,35 +29,37 @@ const TopNav = (props) => {
     }
 
     return (
-        <View style={{...styles.footer, ...style}} {...rest}>
-            <TouchableWithoutFeedback onPress={() => setScreenName('ForYou')}>
-                {
-                    <View style={styles.navButton}>
-                        <Text>For You</Text>
-                    </View>
-                }
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => setScreenName('Explore')}>
-                {
-                    <View style={styles.navButton}>
-                        <Text>Explore</Text>
-                    </View>
-                }
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => iconUpdate()}>
-                {
-                    <View style={styles.navButton}>
-                        {
-                        currentScreenName == 'ForYou' ?
-                            <Image source={require("../../../assets/icons/calender_globe.png")} />
-                            :
-                            <Image source={require("../../../assets/icons/mobile.png")} />
-                        }
-                        <Text style={styles.navLabelActive}>Profile</Text>
-                    </View>
-                }
-            </TouchableWithoutFeedback>
-        </View>
+        <>
+            <View style={{...styles.footer, ...style}} {...rest}>
+                <TouchableWithoutFeedback onPress={() => screenUpdate('ForYou')}>
+                    {
+                        <View style={styles.navButton}>
+                            <Text style={styles.navLabelActive}>For You</Text>
+                        </View>
+                    }
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => screenUpdate('Explore')}>
+                    {
+                        <View style={styles.navButton}>
+                            <Text style={styles.navLabelActive}>Explore</Text>
+                        </View>
+                    }
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => iconUpdate()}>
+                    {
+                        <View style={styles.navButton}>
+                            {
+                            currentScreenName == 'ForYou' ?
+                                <Image source={require("../../../assets/icons/calender_globe.png")} />
+                                :
+                                <Image source={require("../../../assets/icons/mobile.png")} />
+                            }
+                        </View>
+                    }
+                </TouchableWithoutFeedback>
+            </View>
+            {currentScreen == forYouScreen ? forYouScreen : exploreScreen}
+        </>
     )
 }
 
