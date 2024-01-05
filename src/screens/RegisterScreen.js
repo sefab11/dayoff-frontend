@@ -43,7 +43,7 @@ export default RegisterScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     page: {
-        marginTop: 5 * vh,
+        paddingTop: 3 * vh,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'space-between',

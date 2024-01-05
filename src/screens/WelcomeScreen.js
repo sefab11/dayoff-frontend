@@ -12,7 +12,7 @@ export default WelcomeScreen = ({ navigation }) => {
         <View style={styles.page}>
             <Image style={styles.logo} source={require('../../assets/logo.png')}></Image>
             <View style={styles.photoGroup}>
-                <View style={{alignItems: 'flex-end', paddingTop: 5 * vh, ...styles.photoColumn}}>
+                <View style={{alignItems: 'flex-end', paddingTop: 3 * vh, ...styles.photoColumn}}>
                     <ImageBackground style={styles.photoContainerA} source={require('../../assets/images/welcome_screen/photo1.png')} />
                     <ImageBackground style={styles.photoContainerB} source={require('../../assets/images/welcome_screen/photo3.png')} />
                 </View>
