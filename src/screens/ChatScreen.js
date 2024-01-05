@@ -14,6 +14,7 @@ export default ChatScreen = ({ navigation }) => {
                     <Message>I found this group accommodation in Rio de Janeiro, check it out</Message>
                     <UserMessage>looks great 😍</UserMessage>
                     <Message>I love it, it’s so close to the beach and other attractions 🏝🎡</Message>
+                    <JoinedMessage>Isaac Johnson</JoinedMessage>
                 </View>
                 <ChatFooter />
             </View>
