@@ -17,28 +17,28 @@ const ForYouScreen = (navigation) => {
             limit: 9,
             matched: [
                 {
-                    name: 'Sefa',
-                    profilePic: null
+                    name: 'Jane',
+                    profilePic: require('../../assets/images/profilePics/1.jpg'),
                 },
                 {
-                    name: 'Puspita',
-                    profilePic: null
+                    name: 'Gunpei',
+                    profilePic: require('../../assets/images/profilePics/2.jpg'),
                 },
                 {
-                    name: 'Nandini',
-                    profilePic: null
+                    name: 'Peter',
+                    profilePic: require('../../assets/images/profilePics/3.jpg'),
                 },
                 {
-                    name: 'Devarshi',
-                    profilePic: null
+                    name: 'Summer',
+                    profilePic: require('../../assets/images/profilePics/4.jpg'),
                 },
                 {
-                    name: 'Lee',
-                    profilePic: null
+                    name: 'Miryam',
+                    profilePic: require('../../assets/images/profilePics/5.jpg'),
                 },
                 {
-                    name: 'Bruno',
-                    profilePic: null
+                    name: 'Ambuj',
+                    profilePic: require('../../assets/images/profilePics/6.jpg'),
                 },
                 {
                     name: 'Craig',
@@ -51,28 +51,28 @@ const ForYouScreen = (navigation) => {
             ],
             going: [
                 {
-                    name: 'Sefa',
-                    profilePic: null
+                    name: 'Jane',
+                    profilePic: require('../../assets/images/profilePics/1.jpg'),
                 },
                 {
-                    name: 'Puspita',
-                    profilePic: null
+                    name: 'Gunpei',
+                    profilePic: require('../../assets/images/profilePics/2.jpg'),
                 },
                 {
-                    name: 'Nandini',
-                    profilePic: null
+                    name: 'Peter',
+                    profilePic: require('../../assets/images/profilePics/3.jpg'),
                 },
                 {
-                    name: 'Devarshi',
-                    profilePic: null
+                    name: 'Summer',
+                    profilePic: require('../../assets/images/profilePics/4.jpg'),
                 },
                 {
-                    name: 'Lee',
-                    profilePic: null
+                    name: 'Miryam',
+                    profilePic: require('../../assets/images/profilePics/5.jpg'),
                 },
                 {
-                    name: 'Bruno',
-                    profilePic: null
+                    name: 'Ambuj',
+                    profilePic: require('../../assets/images/profilePics/6.jpg'),
                 },
                 {
                     name: 'Craig',

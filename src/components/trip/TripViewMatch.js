@@ -46,7 +46,7 @@ const TripViewMatch = (props) => {
                             if(i == 6) break;
 
                             if(trip.matched[i].profilePic)
-                                profilePics.push(<Image style={styles.profilePic} key={i}></Image>);
+                                profilePics.push(<Image source={trip.matched[i].profilePic} style={styles.profilePic} key={i}></Image>);
                             else
                                 profilePics.push(<Text style={styles.profilePic} key={i}>{trip.matched[i].name[0]}</Text>);
                         }
