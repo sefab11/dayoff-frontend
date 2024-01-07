@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FinishProfile, RegisterScreen, WelcomeScreen, VerificationScreen , GetMatchedScreen, HomeScreen, CreateTripScreen, MyProfileScreen, TripsScreen, CreatedTripsScreen, EditTripScreen} from './src/screens';
+import { FinishProfile, RegisterScreen, WelcomeScreen, VerificationScreen , GetMatchedScreen, HomeScreen, CreateTripScreen, MyProfileScreen, TripsScreen, MyCreatedTripsScreen, EditTripScreen} from './src/screens';
 import { useFonts } from 'expo-font';
 import ChatScreen from './src/screens/ChatScreen';
 
@@ -34,7 +34,7 @@ export default function App() {
         <Stack.Screen name="CreateTrip" component={CreateTripScreen} />
         <Stack.Screen name="Trips" component={TripsScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
-        <Stack.Screen name="CreatedTrips" component={CreatedTripsScreen} />
+        <Stack.Screen name="MyCreatedTrips" component={MyCreatedTripsScreen} />
         <Stack.Screen name="EditTrip" component={EditTripScreen} />
       </Stack.Navigator>
     </NavigationContainer>

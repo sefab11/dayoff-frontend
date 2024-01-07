@@ -24,7 +24,7 @@ const TopNav = (props) => {
 
     const iconUpdate = () => {
         if (currentScreenName == 'ForYou') navigation.navigate('GetMatched');
-        else navigation.navigate('CreatedTrips');
+        else navigation.navigate('MyCreatedTrips');
     }
 
     return (
