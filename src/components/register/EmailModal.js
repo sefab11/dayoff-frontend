@@ -1,20 +1,29 @@
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Button } from "..";
+import { Button, Label, Image } from "..";
 import { palette, themes } from "../../style";
 
 
-const EmailModal = () => {
+const EmailModal = ({exitFunc}) => {
 
     const Section = (props) => {
         const titleText = props.title;
         const subtitleText = props.subtitle;
 
         return (
-        <View style={styles.modalSection}>
+        <>
             <Text style={styles.title}>{titleText}</Text>
             <Text style={styles.subtitle}>{subtitleText}</Text>
-            <Button theme={themes.button} style={styles.button}>Fill Out Form</Button>
-        </View>
+            <Button
+                //TODO: add in function that is called on button press
+                onPress={() => console.log("TBA func on press")}
+                mode='contained'
+                compact={true}
+                theme={themes.button}
+                style={styles.button}
+            >
+                Fill Out Form
+            </Button>
+        </>
         )
     }
 
@@ -22,8 +31,26 @@ const EmailModal = () => {
 
     return (
     <View style={styles.modalPage}>
-        <Section title="Professionals without work email" subtitle="Fill out this quick form for verifications to be able to use your personal email to sign up" />
-        <Section title="Students without work email" subtitle="Fill out this quick form for verifications to be able to use your school email to sign up" />
+        <View style={styles.iconContainer} >
+            <TouchableOpacity onPress={() => exitFunc()} >
+                <Image source={require("../../../assets/icons/x.png")} />
+            </TouchableOpacity>
+        </View>
+
+
+        <View style={styles.sectionContainer} borderBottomWidth={2} >
+            <Section
+                title="Professionals without work email"
+                subtitle="Fill out this quick form for verifications to be able to use your personal email to sign up"
+            />
+        </View>
+
+        <View style={styles.sectionContainer}>
+            <Section
+                title="Students without work email"
+                subtitle="Fill out this quick form for verifications to be able to use your school email to sign up"
+            />
+        </View>
     </View>
     );
 }
@@ -31,23 +58,45 @@ const EmailModal = () => {
 const styles = StyleSheet.create({
     modalPage: {
         backgroundColor: palette.white,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
     },
-    modalSection: {
+    iconContainer: {
+        display: 'flex',
+        width: "100%",
+        height: "7%",
+        alignItems: 'flex-end',
+    },
+    sectionContainer: {
+        margin: 20,
+        paddingBottom: 0,
+        borderColor: palette.lightGrey,
     },
     title: {
-        fontSize: 20,
+        alignSelf: "center",
+        width: 70 * vmin,
+        fontFamily: "Lato-Regular",
+        fontSize: 4.2 * vmin,
+        fontWeight: "700",
+        color: "#000000",
     },
     subtitle: {
-        fontSize: 10,
+        marginTop: 1 * vh,
+        alignSelf: "center",
+        width: 70 * vmin,
+        fontFamily: "Lato-Regular",
+        fontSize: 3.0 * vmin,
+        color: palette.grey,
     },
     button: {
-        width: 70 * vmin,
-        height: 14 * vmin,
+        width: 30 * vmin,
+        height: 10 * vmin,
         justifyContent: 'center',
         paddingBottom: 0.5 * vmin,
         marginTop: 5 * vh,
-        marginBottom: 5 * vh
-    }
+        marginBottom: 5 * vh,
+    },
 });
 
 

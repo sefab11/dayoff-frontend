@@ -58,7 +58,7 @@ export default RegisterScreen = ({ navigation }) => {
                 isVisible={isModalVisible}
                 onBackdropPress={toggleModal}
             >
-                <EmailModal />
+                <EmailModal exitFunc={toggleModal}/>
             </Modal>
             </View>
         </TouchableWithoutFeedback>
