@@ -9,4 +9,5 @@ export const palette = {
 
     //taken from SelectCountries stylesheet
     lightPurple: '#EEECFA',
+    lightRed: '#E67373',
 }

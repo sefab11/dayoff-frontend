@@ -26,16 +26,17 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         width: 100 * vw,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     icon: {
-        margin: 0
+        margin: 0,
+        marginLeft: 20,
     },
     title: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: 5 * vh,
+        fontSize: 4.25 * vh,
         paddingBottom: 0.5 * vh,
-        letterSpacing: -0.2 * vh
+        letterSpacing: -0.2 * vh,
     }
 })
 

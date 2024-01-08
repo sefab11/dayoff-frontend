@@ -2,17 +2,24 @@ import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
+import { useState } from "react";
 
 import { SelectDates, SelectCountries } from "../components";
 
-//SCREEN TO CREATE A TRIP
 
-export default CreateTripScreen = ({ navigation }) => {
+export default EditTripScreen = ({ route, navigation }) => {
+    const { date, country } = route.params;
+
+    //enables editable people and description in the sub components
+    const [numPeople, setNumPeople] = useState(route.params.numPeople);
+    const [description, setDescription] = useState(route.params.description);
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
-                <HeaderBack>Create a trip</HeaderBack>
+                <HeaderBack>Edit trip</HeaderBack>
                 <View style={styles.inputGroup}>
+
                     <SelectDates
                         title={null}
                         subtitle={"Select date"}
@@ -22,21 +29,29 @@ export default CreateTripScreen = ({ navigation }) => {
                         multipleDates={false}
                         showBorder={true}
                         boxWidth={80 * vmin}
-                        editable={true}
-                        initialDates={[]}
+                        editable={false}
+                        initialDates={[date]}
                     />
+
                     <SelectCountries
                         title={null}
                         subtitle={"Select country"}
                         subtitleStyle={2}
-                        editable={true}
+                        editable={false}
                         multipleCountries={false}
                         boxWidth={80 * vmin}
-                        initialCountries={[]}
+                        initialCountries={[country]}
                     />
 
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />
-                    <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />
+                    {/*TODO: return changed data to UserCreatedTripView?*/}
+                    <TextInput style={styles.textInput} theme={themes.textInput}
+                    mode='outlined' label="Number of participants"
+                    value={numPeople.toString()} onChangeText={text => setNumPeople(Number(text))} />
+
+                    <MultilineInput style={styles.multilineInput} theme={themes.textInput}
+                    mode='outlined'
+                    value={description} onChangeText={text => setDescription(text)} />
+
                 </View>
                 <Button
                     onPress={() => navigation.navigate('Home')}

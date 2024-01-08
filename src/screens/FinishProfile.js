@@ -41,7 +41,7 @@ const FinishProfile = ({ navigation }) => {
           <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Job Title & Company' placeholder='eg.Software Developer @ Google' />
           <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='LinkedIn Profile URL' placeholder='' />
         </View>
-        <Button  onPress={() => navigation.replace('GetMatched')} mode='contained' theme={themes.button} style={styles.button}>
+        <Button  onPress={() => navigation.navigate('GetMatched')} mode='contained' theme={themes.button} style={styles.button}>
           Done
         </Button>
       </View>

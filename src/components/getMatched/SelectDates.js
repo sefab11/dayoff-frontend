@@ -11,6 +11,7 @@ import { Label } from "..";
 
 const SelectDates = (props) => {
   //passed in properties
+  const [canEdit, setCanEdit] = useState(props.editable);
   const title = props.title;
   const subtitle = props.subtitle;
   const isFlexibleOptionEnabled = props.isFlexible;
@@ -25,13 +26,14 @@ const SelectDates = (props) => {
 
   //track the array of dates that are added
   //called array but more like list as items are added dynamically
-  const [dates, setDates] = useState([]);
+  const [dates, setDates] = useState(props.initialDates);
 
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isChecked, setChecked] = useState(false);
+
 
   //either pushes a new date or makes the 0th index the new date
   //depending on whether the multipleDates property is passed as true or false
@@ -45,6 +47,7 @@ const SelectDates = (props) => {
   //removes the date clicked on and updates the dates array state
   function removeDate(date){
     if (isChecked) return;
+    else if (!canEdit) return;
 
     dates.splice(dates.indexOf(date), 1);
     setDates(dates => [...dates]);
@@ -53,6 +56,7 @@ const SelectDates = (props) => {
 
   const toggleModal = () => {
     if (isChecked) return;
+    else if (!canEdit) return;
 
     setModalVisible(!isModalVisible);
 
@@ -75,15 +79,15 @@ const SelectDates = (props) => {
     const dateComponents = dates.map((date, index) =>
         <View key={index}
         style={styles.dateContainer}
-        backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}>
-            <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
+        backgroundColor={!isChecked && canEdit ? palette.lightPurple : palette.lightGrey2}>
+            <Text style={!isChecked && canEdit ? styles.dateTextActive : styles.dateTextInactive}>
             {date}
             </Text>
 
             <TouchableOpacity onPress={() => removeDate(date)}>
                 <Image
                     style={styles.xIcon}
-                    tintColor={!isChecked ? palette.black : palette.grey}
+                    tintColor={!isChecked && canEdit ? palette.black : palette.grey}
                     source={require("../../../assets/icons/x.png")}
                 />
             </TouchableOpacity>
@@ -165,7 +169,7 @@ const SelectDates = (props) => {
 
     return (
     <View style={styles.checkboxContainer}>
-    <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? palette.purple : undefined} />
+    <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked && !canEdit ? palette.purple : undefined} />
         <Text style={styles.checkText}>I’m flexible with my dates</Text>
     </View>
     );
@@ -190,7 +194,7 @@ const SelectDates = (props) => {
           alignSelf: 'center'}}>
             <Image
               style={styles.icon}
-              tintColor={!isChecked ? palette.purple : palette.grey}
+              tintColor={!isChecked && canEdit ? palette.purple : palette.grey}
               source={require("../../../assets/icons/calendar.png")}
             />
           </TouchableOpacity>

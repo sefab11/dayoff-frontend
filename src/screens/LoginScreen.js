@@ -22,7 +22,7 @@ export default LoginScreen = ({ navigation }) => {
         })
         .then(response => {
             if (response.statusCode === '200')
-                navigation.replace('Home')
+                navigation.navigate('Home')
             else
                 return response.json();
         })

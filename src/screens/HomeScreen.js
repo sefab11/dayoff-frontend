@@ -1,15 +1,19 @@
 import { React } from "react";
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
-import { Button, TripViewMatch, TripView, BottomNav } from "../components";
+import Modal from "react-native-modal";
+import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { TabView } from 'react-native-tab-view';
 
 const Tab = createMaterialTopTabNavigator();
 
 [vw, vh, vmin, vmax] = dimensions;
 
-const ForYouScreen = (navigation) => {
+const ForYouScreen = (props) => {
+    const { navigation } = props;
+
     const matched = [
         {
             id: 0,
@@ -192,27 +196,12 @@ const ExploreScreen = (props) => {
 
 
 export default HomeScreen = ({ navigation }) => {
-    {/*TODO: add in image1 navigation back to GetMatched screen*/}
-    {/*TODO: add in image2 navigation to (empty for now) MyCreatedTrips screen*/}
     return (<>
         <StatusBar></StatusBar>
-        <Tab.Navigator
-            screenOptions={({ route }) => ({
-                tabBarScrollEnabled: true,
-                tabBarGap: 5 * vmin,
-                tabBarLabel: ({ tintColor, focused, item }) => {
-                    return focused
-                        ? (<Text style={styles.tabLabelActive}>{route.name}</Text>)
-                        : (<Text style={styles.tabLabelInactive}>{route.name}</Text>)
-                },
-                tabBarItemStyle: styles.tab,
-                tabBarStyle: styles.tabBar,
-                tabBarIndicatorStyle: styles.tabIndicator,
-            })}
-        >
-            <Tab.Screen name='For You' component={ForYouScreen} />
-            <Tab.Screen name='Explore' children={() => <ExploreScreen navigation={navigation} />} />
-        </Tab.Navigator>
+        <TopNav active={"Home"}
+        screen1={<ForYouScreen navigation={navigation} />}
+        screen2={<ExploreScreen navigation={navigation} />}
+        />
         <BottomNav active={"Home"}/>
     </>);  
 }
@@ -220,10 +209,10 @@ export default HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     page: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'top',
         gap: 3 * vh,
-        backgroundColor: palette.white
+        backgroundColor: palette.white,
     },
     tabBar: {
         elevation: 0,
@@ -280,5 +269,12 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginLeft: 7.5 * vmin,
         alignSelf: 'flex-start'
-    }
+    },
+    iconContainer: {
+        position: 'absolute',
+        display: 'flex',
+        alignItems: 'flex-end',
+        top: -40,
+        backgroundColor: 'red',
+    },
 })

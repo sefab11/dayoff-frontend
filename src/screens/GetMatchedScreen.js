@@ -31,6 +31,8 @@ const GetMatchedScreen = ({ navigation }) => {
             multipleDates={true}
             showBorder={true}
             boxWidth={95 * vmin}
+            editable={true}
+            initialDates={[]}
         />
         <SelectCountries
             title={"Select the countries of your trip(s)"}
@@ -39,9 +41,10 @@ const GetMatchedScreen = ({ navigation }) => {
             editable={true}
             multipleCountries={true}
             boxWidth={95 * vmin}
+            initialCountries={[]}
         />
         <View style={styles.buttonGroup}>
-        <Button onPress={() => navigation.replace('Home')} mode='contained' theme={themes.button} style={styles.button}>
+        <Button onPress={() => navigation.navigate('Home')} mode='contained' theme={themes.button} style={styles.button}>
           Done
         </Button>
         </View>
