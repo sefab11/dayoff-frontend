@@ -5,84 +5,80 @@ import { palette, themes } from "../style";
 
 export default VerificationScreen = ({ navigation }) => {
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView>
-            <View style={styles.page}>
-                <View>
+        <TouchableWithoutFeedback>
+                <View style={styles.page}>
                     <HeaderBack>Get Verified</HeaderBack>
+                    <View style={styles.border} />
                     <Text style={styles.message}>Our aim is to provide a safe space for everyone.</Text>
-                </View>
 
-                <View style={styles.section}>
-                    <Text style={styles.title}>1. Enter Verification Code*</Text>
 
-                    <SegmentedInput
-                        length={5}
-                        style={styles.segmentedInput}
-                        segmentStyle={styles.segment}
-                        theme={themes.textInput}
-                        mode='outlined'
-                        label='Enter code'
-                        keyboardType='numeric'
-                    />
-                    <Button
-                        onPress={() => {}}
-                        mode='text'
-                        theme={themes.button}
-                        style={styles.button}
-                    >
-                        Resend verification code
-                    </Button>
-                </View>
+                    <ScrollView contentContainerStyle={styles.scroll} scrollEnabled={true}>
+                        <View style={styles.section}>
+                            <Text style={styles.title}>1. Enter Verification Code*</Text>
 
-                <View style={styles.section}>
-                    <Text style={styles.title}>2. Add LinkedIn Profile*</Text>
-                    <TouchableOpacity
-                        style={styles.connectContainer}
-                        //TODO: function call to connect to linkedin
-                        onPress={() => console.log("TBA func call on press")}
-                    >
-                        <Image
-                            source={require("../../assets/icons/linkedin.png")}
-                            tintColor={palette.linkedinBlue}
-                        />
-                        <View paddingRight={20}>
-                            <Text style={styles.connectText}>Connect your Linkedin</Text>
+                            <SegmentedInput
+                                length={5}
+                                style={styles.segmentedInput}
+                                segmentStyle={styles.segment}
+                                theme={themes.textInput}
+                                mode='outlined'
+                                label='Enter code'
+                                keyboardType='numeric'
+                            />
+                            <Button
+                                //TODO: call otp function on press
+                                onPress={() => console.log("TBA func call on press")}
+                                mode='text'
+                                theme={themes.button}
+                                style={styles.button}
+                            >
+                                Resend verification code
+                            </Button>
                         </View>
-                    </TouchableOpacity>
-                </View>
+                        <View style={styles.border} />
 
-                <View style={styles.section} borderBottomWidth={0}>
-                    <Text style={styles.title}>3. Add Profile Photo*</Text>
+                        <View style={styles.section}>
+                            <Text style={styles.title}>2. Add LinkedIn Profile*</Text>
+                            <TouchableOpacity
+                                style={styles.connectContainer}
+                                //TODO: function call to connect to linkedin
+                                onPress={() => console.log("TBA func call on press")}
+                            >
+                                <Image
+                                    source={require("../../assets/icons/linkedin.png")}
+                                    tintColor={palette.linkedinBlue}
+                                />
+                                <View paddingRight={20}>
+                                    <Text style={styles.connectText}>Connect your Linkedin</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.border} />
 
-                    <TouchableOpacity
-                        style={styles.photoContainer}
-                        //TODO: function call to add photo
-                        onPress={() => console.log("TBA func call on press")}
-                    >
-                        <Image
-                            source={require("../../assets/icons/camera.png")}
-                            tintColor={palette.purple}
-                        />
-                    </TouchableOpacity>
-                </View>
+                        <View style={styles.section} borderBottomWidth={0}>
+                            <Text style={styles.title}>3. Add Profile Photo*</Text>
 
-
-                <View style={styles.buttonGroup} borderBottomWidth={0}>
-
+                            <TouchableOpacity
+                                style={styles.photoContainer}
+                                //TODO: function call to add photo
+                                onPress={() => console.log("TBA func call on press")}
+                            >
+                                <Image
+                                    source={require("../../assets/icons/camera.png")}
+                                    tintColor={palette.purple}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
                     <Button
-                        mode='contained'
+                        mode="container"
                         theme={themes.button}
                         style={styles.button}
-                        //use .replace() instead so that when returning, the screen goes
-                        //to home instead of verification
                         onPress={() => navigation.replace('Chat')}
                     >
-                        Verify account
+                        Verify Account
                     </Button>
                 </View>
-            </View>
-        </ScrollView>
         </TouchableWithoutFeedback>
     );
 }
@@ -90,7 +86,9 @@ export default VerificationScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     page: {
         paddingTop: 3 * vh,
+        display: 'flex',
         flex: 1,
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: palette.white
@@ -111,17 +109,9 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white,
         fontSize: 5 * vmin
     },
-    buttonGroup: {
-        gap: 2 * vmin,
-        marginTop: 5 * vh,
-        marginBottom: 5 * vh,
-        position: 'fixed',
-    },
-    button: {
-        width: 80 * vmin,
-        height: 14 * vmin,
-        justifyContent: 'center',
-        paddingBottom: 0.5 * vmin
+
+    scroll: {
+        paddingBottom: 50 * vh,
     },
 
     section: {
@@ -131,8 +121,13 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        borderBottomWidth: 2,
-        borderColor: palette.lightGrey,
+    },
+    border: {
+        width: 85 * vmin,
+        paddingTop:5,
+        paddingBottom:15,
+        borderBottomWidth:1,
+        borderBottomColor:'#D7D7D7',
     },
     title: {
       marginTop: 3 * vh,
@@ -162,7 +157,22 @@ const styles = StyleSheet.create({
     photoContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 100,
+        borderRadius: 200,
+        height: "50%",
+        width: "70%",
         backgroundColor: palette.lightPurple,
+    },
+
+    buttonGroup: {
+        gap: 2 * vmin,
+        paddingTop: 5 * vh,
+        marginTop: 'auto',
+        marginBottom: 5 * vh,
+    },
+    button: {
+        width: 80 * vmin,
+        height: 14 * vmin,
+        justifyContent: 'center',
+        paddingBottom: 0.5 * vmin,
     },
 })
