@@ -30,10 +30,12 @@ export default VerificationScreen = ({ navigation }) => {
                         Resend verification code
                     </Button>
                     <Button
-                        onPress={() => navigation.navigate('profile')}
                         mode='contained'
                         theme={themes.button}
                         style={styles.button}
+                        //use .replace() instead so that when returning, the screen goes
+                        //to home instead of verification
+                        onPress={() => navigation.replace('Chat')}
                     >
                         Verify account
                     </Button>

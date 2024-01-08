@@ -15,7 +15,9 @@ export default RegisterScreen = ({ navigation }) => {
         // .then(response => {
         //     console.log(response);
         // })
-        navigation.navigate('Verification');
+
+
+        navigation.navigate('FinishProfile');
     }
 
     return (

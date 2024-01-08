@@ -115,7 +115,7 @@ const ForYouScreen = (props) => {
         <View style={styles.page}>
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
-                { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} />) }
+                { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} navigation={navigation}/>) }
             </ScrollView>
         </View>
     )
@@ -188,7 +188,7 @@ const ExploreScreen = (props) => {
             <Text style={styles.message}>Find or create trips that match your style</Text>
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
-                { trips.map(trip => <TripView key={trip.id} trip={trip} />) }
+                { trips.map(trip => <TripView key={trip.id} trip={trip} navigation={navigation} />) }
             </ScrollView>
         </View>
     )

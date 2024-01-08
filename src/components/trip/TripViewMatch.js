@@ -11,6 +11,7 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 
 const TripViewMatch = (props) => {
     const {style, label, trip, children, ...rest} = props;
+    const navigation = props.navigation;
 
     country = CountryCodes.filter(c => c.code == trip.country)[0];    
     
@@ -73,6 +74,7 @@ const TripViewMatch = (props) => {
                     labelStyle={{marginHorizontal: 0}}
                     style={styles.joinButton}
                     theme={themes.button}
+                    onPress={() => navigation.navigate('Verification')}
                 >
                     Join the trip
                 </Button>
