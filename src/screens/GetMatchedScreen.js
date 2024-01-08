@@ -19,7 +19,7 @@ const GetMatchedScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.page}>
         <View>
-        <Header>Get Matched</Header>
+        <Header>Get Teamed Up</Header>
         <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
         </View>
         <SelectDates
