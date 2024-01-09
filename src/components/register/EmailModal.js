@@ -15,7 +15,7 @@ const EmailModal = ({exitFunc}) => {
             <Text style={styles.subtitle}>{subtitleText}</Text>
             <Button
                 //TODO: add in function that is called on button press
-                onPress={() => console.log("TBA func on press")}
+                onPress={() => console.log("TBA form on press")}
                 mode='contained'
                 compact={true}
                 theme={themes.button}
