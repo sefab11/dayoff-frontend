@@ -5,7 +5,7 @@ import { palette, themes } from "../style";
 
 export default VerificationScreen = ({ navigation }) => {
     //TODO: get user's email address from their details
-    const email_address = 'name@gmail.com';
+    const email_address = 'name@workmail.com';
 
 
 

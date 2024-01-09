@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         width: 70 * vmin,
         fontFamily: "Lato-Regular",
-        fontSize: 4.2 * vmin,
+        fontSize: 4.4 * vmin,
         fontWeight: "700",
         color: "#000000",
     },
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         width: 70 * vmin,
         fontFamily: "Lato-Regular",
-        fontSize: 3.0 * vmin,
+        fontSize: 3.2 * vmin,
         color: palette.grey,
     },
     button: {
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         height: 10 * vmin,
         justifyContent: 'center',
         paddingBottom: 0.5 * vmin,
-        marginTop: 5 * vh,
+        marginTop: 2.5 * vh,
         marginBottom: 5 * vh,
     },
 });
