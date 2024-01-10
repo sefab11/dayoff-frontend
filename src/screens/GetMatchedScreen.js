@@ -30,7 +30,7 @@ const GetMatchedScreen = ({ navigation }) => {
             showLine={true}
             multipleDates={true}
             showBorder={true}
-            boxWidth={95 * vmin}
+            boxWidth={85 * vmin}
             editable={true}
             initialDates={[]}
         />
@@ -40,7 +40,7 @@ const GetMatchedScreen = ({ navigation }) => {
             subtitleStyle={1}
             editable={true}
             multipleCountries={true}
-            boxWidth={95 * vmin}
+            boxWidth={85 * vmin}
             initialCountries={[]}
         />
         <View style={styles.buttonGroup}>

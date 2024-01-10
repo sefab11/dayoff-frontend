@@ -139,7 +139,8 @@ const styles = StyleSheet.create({
     },
 
     scroll: {
-        paddingBottom: 10 * vh,
+        display: 'flex',
+        paddingBottom: 4 * vh,
     },
 
     section: {
