@@ -16,6 +16,8 @@ export default VerificationScreen = ({ navigation }) => {
                     <View style={styles.border} />
 
                     <ScrollView contentContainerStyle={styles.scroll} >
+                    <TouchableWithoutFeedback>
+                    <View>
                         <Text style={styles.message}>Our aim is to provide a safe space for everyone.</Text>
 
                         <View style={styles.section}>
@@ -77,12 +79,14 @@ export default VerificationScreen = ({ navigation }) => {
                                     tintColor={palette.purple}
                                     style={{
                                         resizeMode: 'contain',
-                                        width: "35%",
-                                        height: "35%",
+                                        width: "40%",
+                                        height: "40%",
                                     }}
                                 />
                             </TouchableOpacity>
                         </View>
+                    </View>
+                    </TouchableWithoutFeedback>
                     </ScrollView>
 
                     <View style={styles.buttonGroup}>
