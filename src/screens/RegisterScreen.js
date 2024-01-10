@@ -1,5 +1,7 @@
-import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { Button, HeaderBack, PasswordInput, TextInput } from "../components";
+import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text } from "react-native";
+import {React, useState} from "react";
+import Modal from "react-native-modal";
+import { Button, HeaderBack, PasswordInput, TextInput, EmailModal } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 
@@ -15,18 +17,35 @@ export default RegisterScreen = ({ navigation }) => {
         // .then(response => {
         //     console.log(response);
         // })
-        navigation.navigate('Verification');
+
+
+        navigation.navigate('FinishProfile');
     }
+
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    }
+
+    const [fieldEntered, setFieldsEntered] = useState([false, false, false, false]);
+
+
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <HeaderBack>Register</HeaderBack>
                 <View style={styles.inputGroup}>
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Full name" placeholder='John Doe'/>
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email" placeholder='name@workmail.com'/>
-                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password" />
-                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Repeat password" />
+                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Full name*" placeholder='John Doe'/>
+                    <View>
+                        <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email*" placeholder='name@workmail.com'/>
+                        <TouchableOpacity onPress={() => toggleModal()}>
+                            <Text style={styles.linkText}>Don’t have a work email?</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password*" />
+                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Repeat password*" />
                 </View>
                 <Button
                     onPress={async () => register()}
@@ -36,6 +55,14 @@ export default RegisterScreen = ({ navigation }) => {
                 >
                     Create account
                 </Button>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                isVisible={isModalVisible}
+                onBackdropPress={toggleModal}
+            >
+                <EmailModal exitFunc={toggleModal}/>
+            </Modal>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -55,7 +82,16 @@ const styles = StyleSheet.create({
     textInput: {
         width: 80 * vmin,
         height: 12 * vmin,
-        backgroundColor: palette.white
+        backgroundColor: palette.white,
+    },
+    linkText: {
+        marginTop: 2,
+        marginBottom: 0,
+        color: palette.purple,
+        fontWeight: 'bold',
+    },
+    modalView: {
+        backgroundColor: palette.white,
     },
     button: {
         width: 70 * vmin,

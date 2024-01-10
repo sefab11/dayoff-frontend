@@ -10,4 +10,6 @@ export const palette = {
     //taken from SelectCountries stylesheet
     lightPurple: '#EEECFA',
     lightRed: '#E67373',
+
+    linkedinBlue: '#0A66C2',
 }

@@ -15,9 +15,9 @@ const BottomNav = (props) => {
 
     const navUpdate = (value) => {
         if (value != route.name) {
-            setActiveNav(value);
             navigation.navigate(value)
         }
+        setActiveNav(value);
     }
 
     return (

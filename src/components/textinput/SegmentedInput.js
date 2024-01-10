@@ -7,7 +7,7 @@ import { useRef, useState } from "react"
 [vw, vh, vmin, vmax] = dimensions
 
 const SegmentedInput = (props) => {
-    const {style, label, children, ...rest} = props;
+    const {style, label, labelStyle, children, ...rest} = props;
     const [verificationCode, setVerificationCode] = useState(Array.from({ length: props.length }, () => ''));
     const segmentRefs = Array.from({ length: props.length }, () => useRef(null));
     let segments = [];
@@ -35,7 +35,7 @@ const SegmentedInput = (props) => {
 
     return (
         <View style={{...style}}>
-            <Label>{label}</Label>
+            <Label style={labelStyle}>{label}</Label>
             <View style={styles.segmentGroup}>
                 {
                     segmentRefs.map((ref, i) => {

@@ -37,8 +37,8 @@ const FinishProfile = ({ navigation }) => {
             </View>
           </TouchableWithoutFeedback>
         <View style={styles.inputGroup}>
-          <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Country of Residence' placeholder='United States' />
-          <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Job Title & Company' placeholder='eg.Software Developer @ Google' />
+          <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Country of Residence*' placeholder='United States' />
+          <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google' />
           <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='LinkedIn Profile URL' placeholder='' />
         </View>
         <Button  onPress={() => navigation.navigate('GetMatched')} mode='contained' theme={themes.button} style={styles.button}>
