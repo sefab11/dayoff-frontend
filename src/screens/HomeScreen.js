@@ -273,7 +273,6 @@ const styles = StyleSheet.create({
     iconContainer: {
         position: 'absolute',
         display: 'flex',
-        alignItems: 'flex-end',
         top: -40,
         backgroundColor: 'red',
     },

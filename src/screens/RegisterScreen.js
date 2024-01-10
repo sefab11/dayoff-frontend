@@ -28,21 +28,24 @@ export default RegisterScreen = ({ navigation }) => {
         setModalVisible(!isModalVisible);
     }
 
+    const [fieldEntered, setFieldsEntered] = useState([false, false, false, false]);
+
+
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <HeaderBack>Register</HeaderBack>
                 <View style={styles.inputGroup}>
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Full name" placeholder='John Doe'/>
+                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Full name*" placeholder='John Doe'/>
                     <View>
-                        <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email" placeholder='name@workmail.com'/>
+                        <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email*" placeholder='name@workmail.com'/>
                         <TouchableOpacity onPress={() => toggleModal()}>
                             <Text style={styles.linkText}>Don’t have a work email?</Text>
                         </TouchableOpacity>
                     </View>
-                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password" />
-                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Repeat password" />
+                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password*" />
+                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Repeat password*" />
                 </View>
                 <Button
                     onPress={async () => register()}
