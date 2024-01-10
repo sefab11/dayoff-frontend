@@ -198,11 +198,11 @@ const ExploreScreen = (props) => {
 export default HomeScreen = ({ navigation }) => {
     return (<>
         <StatusBar></StatusBar>
-        <TopNav active={"Home"}
-        screen1={<ForYouScreen navigation={navigation} />}
-        screen2={<ExploreScreen navigation={navigation} />}
+        <TopNav
+            screen1={<ForYouScreen navigation={navigation} />}
+            screen2={<ExploreScreen navigation={navigation} />}
         />
-        <BottomNav active={"Home"}/>
+        <BottomNav active={"Home"} />
     </>);  
 }
 

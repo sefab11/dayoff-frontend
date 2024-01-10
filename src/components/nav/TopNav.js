@@ -7,7 +7,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 [vw, vh, vmin, vmax] = dimensions
 
 const TopNav = (props) => {
-    const {style, children, active, ...rest} = props
+    const {style, children, ...rest} = props
     const forYouScreen = props.screen1;
     const exploreScreen = props.screen2;
 
