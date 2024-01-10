@@ -1,11 +1,17 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView } from "react-native";
 import { Button, Header, SegmentedInput, HeaderBack, Image } from "../components";
 import { StyleSheet } from "react-native";
+import { React, useState } from "react";
 import { palette, themes } from "../style";
 
 export default VerificationScreen = ({ navigation }) => {
     //TODO: get user's email address from their details
     const email_address = 'name@workmail.com';
+
+
+    //TODO: change value depending on whether the user has already added a linkedin and photo
+    const [hasLinkedin, setLinkedin] = useState(false);
+    const [hasPhoto, setPhoto] = useState(false);
 
 
 
@@ -40,6 +46,10 @@ export default VerificationScreen = ({ navigation }) => {
                                 <Text style={styles.resendText}>Resend Verification Code</Text>
                             </TouchableOpacity>
                         </View>
+
+                        {
+                        !hasLinkedin ?
+                        <>
                         <View style={styles.border} />
 
                         <View style={styles.section}>
@@ -64,6 +74,13 @@ export default VerificationScreen = ({ navigation }) => {
                                 </View>
                             </TouchableOpacity>
                         </View>
+                        </>
+                        : null
+                        }
+
+                        {
+                        !hasPhoto ?
+                        <>
                         <View style={styles.border} />
 
                         <View style={styles.section} borderBottomWidth={0}>
@@ -85,6 +102,9 @@ export default VerificationScreen = ({ navigation }) => {
                                 />
                             </TouchableOpacity>
                         </View>
+                        </>
+                        : null
+                        }
                     </View>
                     </TouchableWithoutFeedback>
                     </ScrollView>
