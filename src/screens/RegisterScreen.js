@@ -4,22 +4,26 @@ import Modal from "react-native-modal";
 import { Button, HeaderBack, PasswordInput, TextInput, EmailModal } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
+import UserService from "../services/UserService";
+
+const { registerUser } = UserService;
 
 export default RegisterScreen = ({ navigation }) => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmedPassword] = useState("");
+
     const register = async () => {
-        // await fetch('https://kfp4azjcdschizn5hzklvqsr3u0faknn.lambda-url.eu-west-1.on.aws/putData?user_name=Bruno Romanski&email_id=romanskibruno@gmail.com&password_hash=password123', {
-        //     method: 'GET',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        // .then(response => {
-        //     console.log(response);
-        // })
+        if(!(name && email && password && confirmPassword && password === confirmPassword))
+            return;
 
+        console.log(name, email, password, confirmPassword)
 
-        navigation.navigate('FinishProfile');
+        await registerUser(name, email, password)
+        .then(status => console.log(status));
+            
+        //navigation.navigate('FinishProfile');
     }
 
     const [isModalVisible, setModalVisible] = useState(false);
@@ -30,22 +34,20 @@ export default RegisterScreen = ({ navigation }) => {
 
     const [fieldEntered, setFieldsEntered] = useState([false, false, false, false]);
 
-
-
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <HeaderBack>Register</HeaderBack>
                 <View style={styles.inputGroup}>
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Full name*" placeholder='John Doe'/>
+                    <TextInput value={name} onChangeText={text => setName(text)} style={styles.textInput} theme={themes.textInput} mode='outlined' label="Full name*" placeholder='John Doe'/>
                     <View>
-                        <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email*" placeholder='name@workmail.com'/>
+                        <TextInput value={email} onChangeText={text => setEmail(text)} style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email*" placeholder='name@workmail.com'/>
                         <TouchableOpacity onPress={() => toggleModal()}>
                             <Text style={styles.linkText}>Don’t have a work email?</Text>
                         </TouchableOpacity>
                     </View>
-                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password*" />
-                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Repeat password*" />
+                    <PasswordInput value={password} onChangeText={text => setPassword(text)} style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password*" />
+                    <PasswordInput value={confirmPassword} onChangeText={text => setConfirmedPassword(text)} style={styles.textInput} theme={themes.textInput} mode='outlined' label="Repeat password*" />
                 </View>
                 <Button
                     onPress={async () => register()}
