@@ -14,8 +14,15 @@ export default RegisterScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmedPassword] = useState("");
 
+    const [dialogVisible, setDialogVisible] = useState(false);
+
+    const toggleDialog = () => {
+        setDialogVisible(!dialogVisible);
+    }
+
     const register = async () => {
         if(!(name && email && password && confirmPassword && password === confirmPassword))
+            toggleDialog();
             return;
 
         console.log(name, email, password, confirmPassword)
@@ -70,6 +77,13 @@ export default RegisterScreen = ({ navigation }) => {
                 onBackdropPress={toggleModal}
             >
                 <EmailModal exitFunc={toggleModal}/>
+            </Modal>
+            <Modal
+                transparent={true}
+                isVisible={dialogVisible}
+                onBackdropPress={toggleDialog}
+            >
+                <Dialog title={"Error"} details={"An error occurred."} buttonLabel={"OK"} onButtonPress={toggleDialog} />
             </Modal>
         </View>
     </>);

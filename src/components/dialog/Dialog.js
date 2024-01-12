@@ -1,27 +1,42 @@
-import { View } from 'react-native';
-import { Dialog, Portal, PaperProvider, Text } from 'react-native-paper';
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { Button, Label, Image } from "..";
+import { palette, themes } from "../../style";
 
-const BasicDialog = (props) => {
-  const {visible, setVisible, label, details, actions, children, ...rest} = props;
 
-  return (
-    <PaperProvider>
-      <View>
-        <Portal>
-          <Dialog visible={visible} onDismiss={() => setVisible(false)}>
-            <Dialog.Title>Alert</Dialog.Title>
-            <Dialog.Content>
-              <Text>{label}</Text>
-              <Text>{details}</Text>
-            </Dialog.Content>
-            <Dialog.Actions>
-              {children}
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
-      </View>
-    </PaperProvider>
-  );
-};
+const Dialog = ({title, details, buttonLabel, onButtonPress}) => {
+    return (
+    <View style={styles.modalPage}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.details}>{details}</Text>
+      <Button
+        onPress={onButtonPress}
+        mode='contained'
+        theme={themes.button}
+        style={styles.button}
+      >
+        {buttonLabel}
+      </Button>
+    </View>
+    );
+}
 
-export default BasicDialog;
+const styles = StyleSheet.create({
+  modalPage: {
+    padding: 2 * vh,
+    backgroundColor: palette.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+  button: {
+    width: 35 * vmin,
+    height: 14 * vmin,
+    justifyContent: 'center',
+    paddingBottom: 0.5 * vmin,
+    marginTop: 2 * vh
+  },
+
+});
+
+
+export default Dialog;
