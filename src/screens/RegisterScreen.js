@@ -1,7 +1,7 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text } from "react-native";
 import {React, useState} from "react";
 import Modal from "react-native-modal";
-import { Button, HeaderBack, PasswordInput, TextInput, EmailModal } from "../components";
+import { Button, HeaderBack, PasswordInput, TextInput, EmailModal, Dialog } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 import UserService from "../services/UserService";
@@ -21,9 +21,12 @@ export default RegisterScreen = ({ navigation }) => {
         console.log(name, email, password, confirmPassword)
 
         await registerUser(name, email, password)
-        .then(status => console.log(status));
-            
-        //navigation.navigate('FinishProfile');
+        .then(status => {
+            console.log(status);
+            if(status === 200) {
+                navigation.navigate('FinishProfile');
+            }
+        });
     }
 
     const [isModalVisible, setModalVisible] = useState(false);
@@ -34,7 +37,7 @@ export default RegisterScreen = ({ navigation }) => {
 
     const [fieldEntered, setFieldsEntered] = useState([false, false, false, false]);
 
-    return (
+    return (<>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <HeaderBack>Register</HeaderBack>
@@ -57,6 +60,9 @@ export default RegisterScreen = ({ navigation }) => {
                 >
                     Create account
                 </Button>
+            </View>
+        </TouchableWithoutFeedback>
+        <View style={{position: "fixed"}}>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -65,9 +71,8 @@ export default RegisterScreen = ({ navigation }) => {
             >
                 <EmailModal exitFunc={toggleModal}/>
             </Modal>
-            </View>
-        </TouchableWithoutFeedback>
-    );
+        </View>
+    </>);
 }
 
 const styles = StyleSheet.create({
