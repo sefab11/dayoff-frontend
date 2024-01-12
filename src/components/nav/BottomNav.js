@@ -9,15 +9,15 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 const BottomNav = (props) => {
     const {style, children, active, ...rest} = props
 
-    const route = useRoute()
-    const navigation = useNavigation()
+    const route = useRoute();
+    const navigation = useNavigation();
     const [activeNav, setActiveNav] = useState(active);
 
     const navUpdate = (value) => {
         if (value != route.name) {
-            navigation.navigate(value)
+            navigation.replace(value);
+            setActiveNav(value);
         }
-        setActiveNav(value);
     }
 
     return (

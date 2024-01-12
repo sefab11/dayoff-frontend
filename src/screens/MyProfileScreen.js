@@ -4,7 +4,7 @@ import { themes } from "../style";
 import { dimensions } from "../style";
 import ProfileInfo from "../components/myProfile/ProfileInfo";
 import EditDates from "../components/myProfile/EditDates";
-import SelecCountries from "../components/getMatched/SelectCountries";
+import SelectCountries from "../components/getMatched/SelectCountries";
 import VisitedCountries from "../components/myProfile/VisitedCountries";
 import VolunteerBadges from "../components/myProfile/VolunteerBadges";
 import { BottomNav } from "../components";
