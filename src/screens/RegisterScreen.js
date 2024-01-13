@@ -26,19 +26,35 @@ export default RegisterScreen = ({ navigation }) => {
         for (let i = 0; i < inputs.length; i++){
             if (inputs[i]['val'] == '' && inputs[i]['required']) return false;
         }
-        //TODO: method to validate work email by checking the database
+
         if (!isEmailValid()) return false;
 
         //if the passwords don't match
         //TODO: add function to check passwords match AND meet the requirements
         if (inputs[2]['val'] != inputs[3]['val']) return false;
+        else if (!isPasswordValid()) return false;
 
         return true;
     }
 
+    //TODO: method to validate work email by checking the database
     function isEmailValid(){
         return true;
     }
+
+    function isPasswordValid(){
+        const password = inputs[2];
+        //check if password has at least 8 characters and 1 number
+        if (password.length < 8) return false;
+        else if (!hasNumber(password)) return false;
+
+        return true;
+    }
+
+    function hasNumber(myString) {
+        return /\d/.test(myString);
+    }
+
 
     const register = async () => {
         // await fetch('https://kfp4azjcdschizn5hzklvqsr3u0faknn.lambda-url.eu-west-1.on.aws/putData?user_name=Bruno Romanski&email_id=romanskibruno@gmail.com&password_hash=password123', {
