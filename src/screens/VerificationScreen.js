@@ -1,5 +1,6 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView } from "react-native";
 import { Button, Header, SegmentedInput, HeaderBack, Image } from "../components";
+import { LinkedinInput, PhotoInput } from "../components";
 import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
@@ -54,25 +55,7 @@ export default VerificationScreen = ({ navigation }) => {
 
                         <View style={styles.section}>
                             <Text style={styles.title}>2. Add LinkedIn Profile*</Text>
-                            <TouchableOpacity
-                                style={styles.connectContainer}
-                                //TODO: function call to connect to linkedin
-                                onPress={() => console.log("TBA connect linkedin on press")}
-                            >
-                                <Image
-                                    source={require("../../assets/icons/linkedin.png")}
-                                    tintColor={palette.linkedinBlue}
-                                    style={{
-                                        height: 5 * vh,
-                                        width: 5 * vh,
-                                        marginLeft: 10,
-                                        marginRight: 10,
-                                    }}
-                                />
-                                <View marginLeft={10}>
-                                    <Text style={styles.connectText}>Connect your Linkedin</Text>
-                                </View>
-                            </TouchableOpacity>
+                            <LinkedinInput horMargin={10} verMargin={5} />
                         </View>
                         </>
                         : null
@@ -85,22 +68,7 @@ export default VerificationScreen = ({ navigation }) => {
 
                         <View style={styles.section} borderBottomWidth={0}>
                             <Text style={styles.title}>3. Add Profile Photo*</Text>
-
-                            <TouchableOpacity
-                                style={styles.photoContainer}
-                                //TODO: function call to add photo
-                                onPress={() => console.log("TBA add photo on press")}
-                            >
-                                <Image
-                                    source={require("../../assets/icons/camera.png")}
-                                    tintColor={palette.purple}
-                                    style={{
-                                        resizeMode: 'contain',
-                                        width: "40%",
-                                        height: "40%",
-                                    }}
-                                />
-                            </TouchableOpacity>
+                            <PhotoInput width={12 * vh} camRatio={'40%'}/>
                         </View>
                         </>
                         : null
@@ -195,30 +163,6 @@ const styles = StyleSheet.create({
       color: "#000000",
     },
 
-    connectContainer: {
-        width: "80%",
-        display: 'flex',
-        flexDirection: 'row',
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: palette.lightGrey,
-        alignItems: 'center',
-    },
-    connectText: {
-        color: palette.linkedinBlue,
-        fontWeight: 'bold',
-        fontSize: 4 * vmin,
-    },
-
-
-    photoContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 6 * vh,
-        height: 12 * vh,
-        width: 12 * vh,
-        backgroundColor: palette.lightPurple,
-    },
 
     buttonGroup: {
         gap: 2 * vmin,

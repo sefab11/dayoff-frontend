@@ -6,6 +6,8 @@ import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 
 export default RegisterScreen = ({ navigation }) => {
+    //for validating whether the fields have been entered
+    //for running through the flow quicker, change the required value to false
     const [inputs, setInputs] = useState([
         {'val': '', 'required': true},
         {'val': '', 'required': true},

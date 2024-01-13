@@ -1,11 +1,13 @@
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-native';
-import { Button, Header, TextInput } from '../components';
+import { Button, Header, TextInput, PhotoInput, LinkedinInput } from '../components';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 
 const FinishProfile = ({ navigation }) => {
+    //for validating whether the fields have been entered
+    //for running through the flow quicker, change the required value to false
     const [inputs, setInputs] = useState([
         {'val': '', 'required': true},
         {'val': '', 'required': true},
@@ -42,23 +44,6 @@ const FinishProfile = ({ navigation }) => {
         else console.log('missing some inputs');
     }
 
-
-    [image, setImage] = useState(null);
-    const openImagePicker = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-        height: 256,
-        width: 256
-        });
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
-    };
-
     return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.page}>
@@ -66,12 +51,9 @@ const FinishProfile = ({ navigation }) => {
                 <Header>Finish Profile</Header>
                 <Text style={styles.headingMessage}>Your profile helps us verify you and also builds trust among other DayOff members.</Text>
             </View>
-            <TouchableWithoutFeedback onPress={() => openImagePicker()}>
-                <View style={styles.addPhotoButton}>
-                    <Image tintColor={palette.purple} style={styles.icon} source={require('../../assets/icons/camera.png')} />
-                    <Text style={styles.addPhotoText}>Add Photo</Text>
-                </View>
-            </TouchableWithoutFeedback>
+            <PhotoInput width={40 * vmin} camRatio={'30%'}>
+                <Text style={styles.addPhotoText}>Add Photo</Text>
+            </PhotoInput>
             <View style={styles.inputGroup}>
                 <TextInput style={styles.textInput} theme={themes.textInput}
                 mode='outlined' label='Country of Residence*' placeholder='United States'
@@ -81,9 +63,15 @@ const FinishProfile = ({ navigation }) => {
                 mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google'
                 value={inputs[1]} onChangeText={text => updateInputs(1, text)}/>
 
+                <View marginTop={20}>
+                    <LinkedinInput horMargin={10} verMargin={5}/>
+                </View>
+
+                {/*
                 <TextInput style={styles.textInput} theme={themes.textInput}
                 mode='outlined' label='LinkedIn Profile URL' placeholder=''
                 value={inputs[2]} onChangeText={text => updateInputs(2, text)}/>
+                */}
 
             </View>
             <Button  onPress={() => finishProfile()} mode='contained' theme={themes.button} style={styles.button}>
