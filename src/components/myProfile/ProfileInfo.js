@@ -15,7 +15,7 @@ export default ProfileInfo = () => {
           <Text style={styles.message}>United States</Text>
           <Image
             source={require("../../../assets/icons/pencil.png")}
-            tintColor={palette.black}
+            tintColor={palette.purple}
             style={styles.editIcon}
           />
         </View>
@@ -26,7 +26,7 @@ export default ProfileInfo = () => {
           <Text style={styles.message}>Product Designer, Facebook</Text>
           <Image
             source={require("../../../assets/icons/pencil.png")}
-            tintColor={palette.black}
+            tintColor={palette.purple}
             style={styles.editIcon}
           />
         </View>
@@ -37,7 +37,7 @@ export default ProfileInfo = () => {
           <Text style={styles.message}>Linkedin.com/jessss</Text>
           <Image
             source={require("../../../assets/icons/pencil.png")}
-            tintColor={palette.black}
+            tintColor={palette.purple}
             style={styles.editIcon}
           />
         </View>

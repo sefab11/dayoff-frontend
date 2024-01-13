@@ -1,12 +1,13 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView } from "react-native";
 import { Button, Header, SegmentedInput, HeaderBack, Image } from "../";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ImageBackground } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../../style";
 import * as ImagePicker from 'expo-image-picker';
 
 const PhotoInput = (props) => {
     const circleWidth = props.width;
+    const initialImage = props.image ? props.image : null;
     const cameraRatio = props.camRatio;
     const children = props.children;
 
@@ -35,13 +36,39 @@ const PhotoInput = (props) => {
                 width: circleWidth,
                 height: circleWidth,
                 borderRadius: circleWidth / 2,
-                backgroundColor: palette.lightPurple,
+                backgroundColor: initialImage != null ? null : palette.lightPurple,
                 alignItems: 'center',
                 justifyContent: 'center',
             }}
             //TODO: function call to add photo
             onPress={() => openImagePicker()}
         >
+            {
+            initialImage != null ?
+            <ImageBackground
+                source={initialImage}
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    alignItems: 'flex-end',
+                    justifyContent: 'flex-end',
+                }}
+            >
+                <Image
+                    source={require("../../../assets/icons/camera.png")}
+                    tintColor={palette.purple}
+                    style={{
+                        resizeMode: 'contain',
+                        width: cameraRatio,
+                        height: cameraRatio,
+                        opacity: 1,
+                    }}
+                />
+                {children}
+            </ImageBackground>
+
+            :
+            <>
             <Image
                 source={require("../../../assets/icons/camera.png")}
                 tintColor={palette.purple}
@@ -52,6 +79,8 @@ const PhotoInput = (props) => {
                 }}
             />
             {children}
+            </>
+            }
         </TouchableOpacity>
     </>
     )

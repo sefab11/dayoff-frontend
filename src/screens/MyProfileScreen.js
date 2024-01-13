@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
+import { View, StyleSheet, Text, Image, ScrollView, ImageBackground } from "react-native";
 import { palette } from "../style";
 import { themes } from "../style";
 import { dimensions } from "../style";
@@ -7,26 +7,29 @@ import EditDates from "../components/myProfile/EditDates";
 import SelectCountries from "../components/getMatched/SelectCountries";
 import VisitedCountries from "../components/myProfile/VisitedCountries";
 import VolunteerBadges from "../components/myProfile/VolunteerBadges";
-import { BottomNav } from "../components";
+import { BottomNav, PhotoInput } from "../components";
+
 
 export default MyProfileScreen = ({ navigation }) => {
-  return (<>
+
+    return (<>
     <ScrollView>
-      <View style={styles.page}>
-        <View style={styles.profilePicContainer}>
-          <Image
-            style={styles.profilePic}
-            source={require("../../assets/images/welcome_screen/profile-pic.png")}
-          />
-          <View style={styles.profileTextContainer}>
-            <Text style={styles.profileName}>Jessica Wang</Text>
-            <Text style={styles.profileEmail}>jessica@facebook.com</Text>
-          </View>
+        <View style={styles.page}>
+            <View style={styles.profilePicContainer}>
+                <PhotoInput
+                    width={20 * vh}
+                    image={require("../../assets/images/welcome_screen/profile-pic.png")}
+                    camRatio='25%'
+                />
+                <View style={styles.profileTextContainer}>
+                    <Text style={styles.profileName}>Jessica Wang</Text>
+                    <Text style={styles.profileEmail}>jessica@facebook.com</Text>
+                </View>
+            </View>
+            <ProfileInfo />
+            <VisitedCountries />
+            <VolunteerBadges />
         </View>
-        <ProfileInfo />
-        <VisitedCountries />
-        <VolunteerBadges />
-      </View>
     </ScrollView>
     <BottomNav active='MyProfile' />
   </>);
@@ -40,7 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: palette.white,
   },
   profilePicContainer: {
-    marginTop: 20 * vh,
+    marginTop: 10 * vh,
     justifyContent: "center",
     alignItems: "center",
     paddingTop: 5,
@@ -50,7 +53,14 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
+
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+  profileChangeIcon: {
+    opacity: 0.5,
+  },
+
   profileTextContainer: {
     marginTop: 2 * vh,
     justifyContent: "center",

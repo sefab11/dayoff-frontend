@@ -31,7 +31,7 @@ export default WelcomeScreen = ({ navigation }) => {
                     Sign in to account
                 </Button>
                 <Button
-                    onPress={() => navigation.navigate('Register')}
+                    onPress={() => navigation.navigate('Home')}
                     mode='contained'
                     theme={themes.buttonAlt}
                     style={styles.button}
