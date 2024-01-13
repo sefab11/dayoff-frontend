@@ -6,6 +6,34 @@ import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 
 export default RegisterScreen = ({ navigation }) => {
+    const [inputs, setInputs] = useState([
+        {'val': '', 'required': true},
+        {'val': '', 'required': true},
+        {'val': '', 'required': true},
+        {'val': '', 'required': true},
+    ]);
+    function updateInputs(index, value){
+        if (index == 0)      setInputs([value,     inputs[1], inputs[2], inputs[3]]);
+        else if (index == 1) setInputs([inputs[0], value,     inputs[2], inputs[3]]);
+        else if (index == 2) setInputs([inputs[0], inputs[1], value,     inputs[3]]);
+        else if (index == 3) setInputs([inputs[0], inputs[1], inputs[2], value]);
+    }
+
+    function areInputsValid(){
+        //first check if any required fields are empty
+        for (let i = 0; i < inputs.length; i++){
+            if (inputs[i]['val'] == '' && inputs[i]['required']) return false;
+        }
+        //TODO: method to validate work email by checking the database
+        if (true || false) return false;
+
+        //if the passwords don't match
+        //TODO: add function to check passwords match AND meet the requirements
+        if (inputs[2]['val'] != inputs[3]['val']) return false;
+
+        return true;
+    }
+
     const register = async () => {
         // await fetch('https://kfp4azjcdschizn5hzklvqsr3u0faknn.lambda-url.eu-west-1.on.aws/putData?user_name=Bruno Romanski&email_id=romanskibruno@gmail.com&password_hash=password123', {
         //     method: 'GET',
@@ -19,7 +47,8 @@ export default RegisterScreen = ({ navigation }) => {
         // })
 
 
-        navigation.navigate('FinishProfile');
+        if (areInputsValid()) navigation.navigate('FinishProfile');
+        else console.log('some inputs are invalid');
     }
 
     const [isModalVisible, setModalVisible] = useState(false);
@@ -28,24 +57,32 @@ export default RegisterScreen = ({ navigation }) => {
         setModalVisible(!isModalVisible);
     }
 
-    const [fieldEntered, setFieldsEntered] = useState([false, false, false, false]);
-
-
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <HeaderBack>Register</HeaderBack>
                 <View style={styles.inputGroup}>
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Full name*" placeholder='John Doe'/>
+                    <TextInput style={styles.textInput} theme={themes.textInput}
+                    mode='outlined' label="Full name*" placeholder='John Doe'
+                    value={inputs[0]} onChangeText={text => updateInputs(0, text)} />
+
                     <View>
-                        <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email*" placeholder='name@workmail.com'/>
+                        <TextInput style={styles.textInput} theme={themes.textInput}
+                        mode='outlined' label="Work email*" placeholder='name@workmail.com'
+                        value={inputs[1]} onChangeText={text => updateInputs(1, text)} />
                         <TouchableOpacity onPress={() => toggleModal()}>
                             <Text style={styles.linkText}>Don’t have a work email?</Text>
                         </TouchableOpacity>
                     </View>
-                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password*" />
-                    <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Repeat password*" />
+
+                    <PasswordInput style={styles.textInput} theme={themes.textInput}
+                    mode='outlined' label="Password*"
+                    value={inputs[2]} onChangeText={text => updateInputs(2, text)} />
+
+                    <PasswordInput style={styles.textInput} theme={themes.textInput}
+                    mode='outlined' label="Repeat password*"
+                    value={inputs[3]} onChangeText={text => updateInputs(3, text)} />
                 </View>
                 <Button
                     onPress={async () => register()}

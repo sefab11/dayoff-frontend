@@ -1,4 +1,3 @@
-
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { Button, Header, TextInput } from '../components';
 import { StyleSheet } from 'react-native';
@@ -7,44 +6,90 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 
 const FinishProfile = ({ navigation }) => {
-  [image, setImage] = useState(null);
-  const openImagePicker = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-      height: 256,
-      width: 256
-    });
-  
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    const [inputs, setInputs] = useState([
+        {'val': '', 'required': true},
+        {'val': '', 'required': true},
+        {'val': '', 'required': false},
+    ])
+    function updateInputs(index, value){
+        if (index == 0)      setInputs([value,     inputs[1], inputs[2]]);
+        else if (index == 1) setInputs([inputs[0], value,     inputs[2]]);
+        else if (index == 2) setInputs([inputs[0], inputs[1], value]);
     }
-  };
 
-  return (
+    function areInputsValid(){
+        //TODO: check if fields are valid
+        //first check if any required field is empty
+        for (let i = 0; i < inputs.length; i++){
+            if (inputs[i]['val'] == '' && inputs[i]['required']) return false;
+        }
+        //check if the country is a valid one / replace input with SelectCountry
+        if (!isCountryValid()) return false;
+        //EITHER have dropdown for list of professions? or no validation
+
+        return true;
+    }
+
+    function isCountryValid(){
+        /*TODO: check if country is valid?
+                or change the textinput to a dropdown selector
+        */
+        return true;
+    }
+
+    function finishProfile(){
+        if (areInputsValid()) navigation.navigate('GetMatched');
+        else console.log('missing some inputs');
+    }
+
+
+    [image, setImage] = useState(null);
+    const openImagePicker = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+        height: 256,
+        width: 256
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
+
+    return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.page}>
-        <View>
-        <Header>Finish Profile</Header>
-        <Text style={styles.headingMessage}>Your profile helps us verify you and also builds trust among other DayOff members.</Text>
-        </View>
-          <TouchableWithoutFeedback onPress={() => openImagePicker()}>
-            <View style={styles.addPhotoButton}>
-                <Image tintColor={palette.purple} style={styles.icon} source={require('../../assets/icons/camera.png')} />
-                <Text style={styles.addPhotoText}>Add Photo</Text>
+        <View style={styles.page}>
+            <View>
+                <Header>Finish Profile</Header>
+                <Text style={styles.headingMessage}>Your profile helps us verify you and also builds trust among other DayOff members.</Text>
             </View>
-          </TouchableWithoutFeedback>
-        <View style={styles.inputGroup}>
-          <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Country of Residence*' placeholder='United States' />
-          <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google' />
-          <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label='LinkedIn Profile URL' placeholder='' />
+            <TouchableWithoutFeedback onPress={() => openImagePicker()}>
+                <View style={styles.addPhotoButton}>
+                    <Image tintColor={palette.purple} style={styles.icon} source={require('../../assets/icons/camera.png')} />
+                    <Text style={styles.addPhotoText}>Add Photo</Text>
+                </View>
+            </TouchableWithoutFeedback>
+            <View style={styles.inputGroup}>
+                <TextInput style={styles.textInput} theme={themes.textInput}
+                mode='outlined' label='Country of Residence*' placeholder='United States'
+                value={inputs[0]} onChangeText={text => updateInputs(0, text)}/>
+
+                <TextInput style={styles.textInput} theme={themes.textInput}
+                mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google'
+                value={inputs[1]} onChangeText={text => updateInputs(1, text)}/>
+
+                <TextInput style={styles.textInput} theme={themes.textInput}
+                mode='outlined' label='LinkedIn Profile URL' placeholder=''
+                value={inputs[2]} onChangeText={text => updateInputs(2, text)}/>
+
+            </View>
+            <Button  onPress={() => finishProfile()} mode='contained' theme={themes.button} style={styles.button}>
+                Done
+            </Button>
         </View>
-        <Button  onPress={() => navigation.navigate('GetMatched')} mode='contained' theme={themes.button} style={styles.button}>
-          Done
-        </Button>
-      </View>
     </TouchableWithoutFeedback>
   );
 };

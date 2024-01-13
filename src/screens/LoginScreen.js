@@ -39,9 +39,15 @@ export default LoginScreen = ({ navigation }) => {
             <View style={styles.page}>
                 <HeaderBack>Sign in</HeaderBack>
                 <View style={styles.inputGroup}>
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email" placeholder='name@workmail.com'/>
+                    <TextInput style={styles.textInput} theme={themes.textInput}
+                    mode='outlined' label="Work email" placeholder='name@workmail.com'
+                    value={username} onChangeText={text => setUsername(text)}/>
+
                     <View>
-                        <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password" />
+                        <PasswordInput style={styles.textInput} theme={themes.textInput}
+                        mode='outlined' label="Password"
+                        value={password} onChangeText={text => setPassword(text)} />
+
                         <Button
                             onPress={() => {}}
                             mode='text'
