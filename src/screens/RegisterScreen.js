@@ -25,12 +25,16 @@ export default RegisterScreen = ({ navigation }) => {
             if (inputs[i]['val'] == '' && inputs[i]['required']) return false;
         }
         //TODO: method to validate work email by checking the database
-        if (true || false) return false;
+        if (!isEmailValid()) return false;
 
         //if the passwords don't match
         //TODO: add function to check passwords match AND meet the requirements
         if (inputs[2]['val'] != inputs[3]['val']) return false;
 
+        return true;
+    }
+
+    function isEmailValid(){
         return true;
     }
 
