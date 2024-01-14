@@ -21,7 +21,7 @@ export default function App() {
   }
 
   //for disabling the warning signs that show up, so that the user doesn't see warnings
-  //LogBox.ignoreAllLogs();
+  LogBox.ignoreAllLogs();
 
   return (
     <NavigationContainer>

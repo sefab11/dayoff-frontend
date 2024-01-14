@@ -14,12 +14,16 @@ export default RegisterScreen = ({ navigation }) => {
         the 0th index is the state, the 1st index is the setState
         the state can be changed without the setState BUT needs the setState to update
         where its used in the component
+
+        the values also need to be states as they're passed to the text/password inputs
+
+        the required elements DONT need to be states as theyre constants
     */
     const [inputs, setInputs] = useState([
-        {'value': '', 'required': true, 'valid': useState(null)},
-        {'value': '', 'required': true, 'valid': useState(null)},
-        {'value': '', 'required': true, 'valid': useState(null)},
-        {'value': '', 'required': true, 'valid': useState(null)},
+        {'value': useState(''), 'required': true, 'valid': useState(null)},
+        {'value': useState(''), 'required': true, 'valid': useState(null)},
+        {'value': useState(''), 'required': true, 'valid': useState(null)},
+        {'value': useState(''), 'required': true, 'valid': useState(null)},
     ]);
 
     //test setting 'valid' element to a state
@@ -70,7 +74,7 @@ export default RegisterScreen = ({ navigation }) => {
     }
 
     function doPasswordsMatch(){
-        return inputs[2]['value'] == inputs[3]['value'];
+        return inputs[2]['value'][0] == inputs[3]['value'][0];
     }
 
     function isPasswordValid(){
@@ -118,7 +122,7 @@ export default RegisterScreen = ({ navigation }) => {
                     <View>
                         <TextInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Full name*" placeholder='John Doe'
-                        value={inputs[0]['value']} onChangeText={text => inputs[0]['value'] = text} />
+                        value={inputs[0]['value']} onChangeText={text => inputs[0]['value'][1](text)} />
                         <Text style={styles.invalidMessage}>
                             {inputs[0]['valid'][0] || inputs[0]['valid'][0] == null
                             ? ''
@@ -131,7 +135,7 @@ export default RegisterScreen = ({ navigation }) => {
                         <View>
                             <TextInput style={styles.textInput} theme={themes.textInput}
                             mode='outlined' label="Work email*" placeholder='name@workmail.com'
-                            value={inputs[1]['value']} onChangeText={text => inputs[1]['value'] = text} />
+                            value={inputs[1]['value']} onChangeText={text => inputs[1]['value'][1](text)} />
                             <TouchableOpacity onPress={() => toggleModal()}>
                                 <Text style={styles.linkText}>Don’t have a work email?</Text>
                             </TouchableOpacity>
@@ -147,7 +151,7 @@ export default RegisterScreen = ({ navigation }) => {
                     <View>
                         <PasswordInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Password*"
-                        value={inputs[2]['value']} onChangeText={text => inputs[2]['value'] = text} />
+                        value={inputs[2]['value']} onChangeText={text => inputs[2]['value'][1](text)} />
                         <Text style={styles.invalidMessage}>
                             {inputs[2]['valid'][0] || inputs[2]['valid'][0] == null
                             ? ''
@@ -159,7 +163,7 @@ export default RegisterScreen = ({ navigation }) => {
                     <View>
                         <PasswordInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Repeat password*"
-                        value={inputs[3]['value']} onChangeText={text => inputs[3]['value'] = text} />
+                        value={inputs[3]['value']} onChangeText={text => inputs[3]['value'][1](text)} />
                         <Text style={styles.invalidMessage}>
                             {inputs[3]['valid'][0] || inputs[3]['valid'][0] == null
                             ? ''
