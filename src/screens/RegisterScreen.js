@@ -48,8 +48,12 @@ export default RegisterScreen = ({ navigation }) => {
 
         console.log(inputs);
 
-        return inputs[0]['valid'][0] && inputs[1]['valid'][0]
-            && inputs[2]['valid'][0] && inputs[3]['valid'][0];
+        return (
+           (inputs[0]['valid'][0] || !inputs[0]['required'])
+        && (inputs[1]['valid'][0] || !inputs[1]['required'])
+        && (inputs[2]['valid'][0] || !inputs[2]['required'])
+        && (inputs[3]['valid'][0] || !inputs[3]['required'])
+        );
     }
 
     /*TODO: verification to check if name is valid? e.g. have a space, first name
@@ -57,7 +61,7 @@ export default RegisterScreen = ({ navigation }) => {
         instead of real names
     */
     function isNameValid(){
-        return true;
+        return inputs[0]['value'] != '';
     }
 
     //TODO: method to validate work email by checking the database
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
     },
     invalidMessage: {
         color: 'red',
-        textAlign: 'flex-start',
+        textAlign: 'left',
         flexWrap: 'wrap',
         width: 80 * vmin,
     },

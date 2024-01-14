@@ -1,5 +1,6 @@
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { Button, Header, TextInput, PhotoInput, LinkedinInput } from '../components';
+import { SelectCountries } from "../components";
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 import * as ImagePicker from 'expo-image-picker';
@@ -9,34 +10,36 @@ const FinishProfile = ({ navigation }) => {
     //for validating whether the fields have been entered
     //for running through the flow quicker, change the required value to false
     const [inputs, setInputs] = useState([
-        {'val': '', 'required': true},
-        {'val': '', 'required': true},
-        {'val': '', 'required': false},
+        {'value': '', 'required': true,  'valid': useState(null)},
+        {'value': '', 'required': true,  'valid': useState(null)},
     ])
-    function updateInputs(index, value){
-        if (index == 0)      setInputs([value,     inputs[1], inputs[2]]);
-        else if (index == 1) setInputs([inputs[0], value,     inputs[2]]);
-        else if (index == 2) setInputs([inputs[0], inputs[1], value]);
-    }
 
     function areInputsValid(){
-        //TODO: check if fields are valid
-        //first check if any required field is empty
-        for (let i = 0; i < inputs.length; i++){
-            if (inputs[i]['val'] == '' && inputs[i]['required']) return false;
-        }
-        //check if the country is a valid one / replace input with SelectCountry
-        if (!isCountryValid()) return false;
-        //EITHER have dropdown for list of professions? or no validation
+        //check if the country is a valid one / replace input with dropdown
+        var countryValid = isCountryValid();
+        inputs[0]['valid'][0] = countryValid;
+        inputs[0]['valid'][1](countryValid);
 
-        return true;
+        var jobValid = isProfessionValid();
+        inputs[1]['valid'][0] = jobValid;
+        inputs[1]['valid'][1](jobValid);
+
+        return (
+           (inputs[0]['valid'][0] || !inputs[0]['required'])
+        && (inputs[1]['valid'][0] || !inputs[1]['required'])
+        );
     }
 
     function isCountryValid(){
         /*TODO: check if country is valid?
                 or change the textinput to a dropdown selector
         */
-        return true;
+        return inputs[0]['value'] != '';
+    }
+
+    function isProfessionValid(){
+        //may not need any validation
+        return inputs[1]['value'] != '';
     }
 
     function finishProfile(){
@@ -54,14 +57,31 @@ const FinishProfile = ({ navigation }) => {
             <PhotoInput width={40 * vmin} camRatio={'30%'}>
                 <Text style={styles.addPhotoText}>Add Photo</Text>
             </PhotoInput>
-            <View style={styles.inputGroup}>
-                <TextInput style={styles.textInput} theme={themes.textInput}
-                mode='outlined' label='Country of Residence*' placeholder='United States'
-                value={inputs[0]} onChangeText={text => updateInputs(0, text)}/>
 
-                <TextInput style={styles.textInput} theme={themes.textInput}
-                mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google'
-                value={inputs[1]} onChangeText={text => updateInputs(1, text)}/>
+            <View style={styles.inputGroup}>
+                <View>
+                    <TextInput style={styles.textInput} theme={themes.textInput}
+                    mode='outlined' label='Country of Residence*' placeholder='United States'
+                    value={inputs[0]} onChangeText={text => inputs[0]['value'] = text}/>
+                    <Text style={styles.invalidMessage}>
+                        {inputs[0]['valid'][0] || inputs[0]['valid'][0] == null
+                        ? ''
+                        : 'Invalid Country.'
+                        }
+                    </Text>
+                </View>
+
+                <View>
+                    <TextInput style={styles.textInput} theme={themes.textInput}
+                    mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google'
+                    value={inputs[1]} onChangeText={text => inputs[1]['value'] = text}/>
+                    <Text style={styles.invalidMessage}>
+                        {inputs[1]['valid'][0] || inputs[1]['valid'][0] == null
+                        ? ''
+                        : 'Invalid profession.'
+                        }
+                    </Text>
+                </View>
 
                 <View marginTop={20}>
                     <LinkedinInput horMargin={10} verMargin={5}/>
@@ -140,6 +160,12 @@ const styles = StyleSheet.create({
     marginTop: 5 * vh,
     marginBottom: 5 * vh,
   },
+  invalidMessage: {
+    color: 'red',
+    textAlign: 'flex-start',
+    flexWrap: 'wrap',
+    width: 80 * vmin,
+  }
 });
 
 export default FinishProfile;
