@@ -55,7 +55,7 @@ export default VerificationScreen = ({ navigation }) => {
 
                         <View style={styles.section}>
                             <Text style={styles.title}>2. Add LinkedIn Profile*</Text>
-                            <LinkedinInput horMargin={10} verMargin={5} />
+                            <LinkedinInput horMargin={10} verMargin={10} />
                         </View>
                         </>
                         : null

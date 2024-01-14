@@ -66,7 +66,7 @@ export default RegisterScreen = ({ navigation }) => {
 
     //TODO: method to validate work email by checking the database
     function isEmailValid(){
-        return false;
+        return inputs[1]['value'] != '';
     }
 
     function doPasswordsMatch(){
@@ -118,7 +118,7 @@ export default RegisterScreen = ({ navigation }) => {
                     <View>
                         <TextInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Full name*" placeholder='John Doe'
-                        value={inputs[0]} onChangeText={text => inputs[0]['value'] = text} />
+                        value={inputs[0]['value']} onChangeText={text => inputs[0]['value'] = text} />
                         <Text style={styles.invalidMessage}>
                             {inputs[0]['valid'][0] || inputs[0]['valid'][0] == null
                             ? ''
@@ -131,7 +131,7 @@ export default RegisterScreen = ({ navigation }) => {
                         <View>
                             <TextInput style={styles.textInput} theme={themes.textInput}
                             mode='outlined' label="Work email*" placeholder='name@workmail.com'
-                            value={inputs[1]} onChangeText={text => inputs[1]['value'] = text} />
+                            value={inputs[1]['value']} onChangeText={text => inputs[1]['value'] = text} />
                             <TouchableOpacity onPress={() => toggleModal()}>
                                 <Text style={styles.linkText}>Don’t have a work email?</Text>
                             </TouchableOpacity>
@@ -147,7 +147,7 @@ export default RegisterScreen = ({ navigation }) => {
                     <View>
                         <PasswordInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Password*"
-                        value={inputs[2]} onChangeText={text => inputs[2]['value'] = text} />
+                        value={inputs[2]['value']} onChangeText={text => inputs[2]['value'] = text} />
                         <Text style={styles.invalidMessage}>
                             {inputs[2]['valid'][0] || inputs[2]['valid'][0] == null
                             ? ''
@@ -159,7 +159,7 @@ export default RegisterScreen = ({ navigation }) => {
                     <View>
                         <PasswordInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Repeat password*"
-                        value={inputs[3]} onChangeText={text => inputs[3]['value'] = text} />
+                        value={inputs[3]['value']} onChangeText={text => inputs[3]['value'] = text} />
                         <Text style={styles.invalidMessage}>
                             {inputs[3]['valid'][0] || inputs[3]['valid'][0] == null
                             ? ''

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FinishProfile, RegisterScreen, WelcomeScreen, VerificationScreen , GetMatchedScreen, HomeScreen, CreateTripScreen, MyProfileScreen, TripsScreen, MyCreatedTripsScreen, EditTripScreen} from './src/screens';
@@ -19,6 +19,9 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
+  //for disabling the warning signs that show up, so that the user doesn't see warnings
+  //LogBox.ignoreAllLogs();
 
   return (
     <NavigationContainer>

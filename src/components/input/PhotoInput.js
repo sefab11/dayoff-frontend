@@ -1,5 +1,4 @@
-import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView } from "react-native";
-import { Button, Header, SegmentedInput, HeaderBack, Image } from "../";
+import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView, Image } from "react-native";
 import { StyleSheet, ImageBackground } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../../style";

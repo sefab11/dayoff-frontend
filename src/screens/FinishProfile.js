@@ -10,8 +10,8 @@ const FinishProfile = ({ navigation }) => {
     //for validating whether the fields have been entered
     //for running through the flow quicker, change the required value to false
     const [inputs, setInputs] = useState([
-        {'value': '', 'required': true,  'valid': useState(null)},
-        {'value': '', 'required': true,  'valid': useState(null)},
+        {'value': '', 'required': false,  'valid': useState(null)},
+        {'value': '', 'required': false,  'valid': useState(null)},
     ])
 
     function areInputsValid(){
@@ -62,7 +62,7 @@ const FinishProfile = ({ navigation }) => {
                 <View>
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label='Country of Residence*' placeholder='United States'
-                    value={inputs[0]} onChangeText={text => inputs[0]['value'] = text}/>
+                    value={inputs[0]['value']} onChangeText={text => inputs[0]['value'] = text}/>
                     <Text style={styles.invalidMessage}>
                         {inputs[0]['valid'][0] || inputs[0]['valid'][0] == null
                         ? ''
@@ -74,7 +74,7 @@ const FinishProfile = ({ navigation }) => {
                 <View>
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google'
-                    value={inputs[1]} onChangeText={text => inputs[1]['value'] = text}/>
+                    value={inputs[1]['value']} onChangeText={text => inputs[1]['value'] = text}/>
                     <Text style={styles.invalidMessage}>
                         {inputs[1]['valid'][0] || inputs[1]['valid'][0] == null
                         ? ''
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   invalidMessage: {
     color: 'red',
-    textAlign: 'flex-start',
+    textAlign: 'left',
     flexWrap: 'wrap',
     width: 80 * vmin,
   }

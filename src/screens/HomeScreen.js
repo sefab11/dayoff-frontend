@@ -4,10 +4,6 @@ import Modal from "react-native-modal";
 import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { TabView } from 'react-native-tab-view';
-
-const Tab = createMaterialTopTabNavigator();
 
 [vw, vh, vmin, vmax] = dimensions;
 
@@ -238,7 +234,6 @@ const styles = StyleSheet.create({
     },
     tabLabelActive: {
         fontSize: 5.6 * vmin,
-        textTransform: 'none',
         fontFamily: 'Montserrat-SemiBold',
         color: palette.black,
         overflow: 'visible'
