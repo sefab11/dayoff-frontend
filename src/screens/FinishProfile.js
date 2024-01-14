@@ -14,6 +14,11 @@ const FinishProfile = ({ navigation }) => {
         {'value': useState(''), 'required': true,  'valid': useState(null)},
     ])
 
+    function updateInput(index, text){
+        inputs[index]['value'][0] = text;
+        inputs[index]['value'][1](text);
+    }
+
     function areInputsValid(){
         //check if the country is a valid one / replace input with dropdown
         var countryValid = isCountryValid();
@@ -34,12 +39,12 @@ const FinishProfile = ({ navigation }) => {
         /*TODO: check if country is valid?
                 or change the textinput to a dropdown selector
         */
-        return inputs[0]['value'] != '';
+        return inputs[0]['value'][0] != '';
     }
 
     function isProfessionValid(){
         //may not need any validation
-        return inputs[1]['value'] != '';
+        return inputs[1]['value'][0] != '';
     }
 
     function finishProfile(){
@@ -62,7 +67,7 @@ const FinishProfile = ({ navigation }) => {
                 <View>
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label='Country of Residence*' placeholder='United States'
-                    value={inputs[0]['value']} onChangeText={text => inputs[0]['value'][1](text)}/>
+                    value={inputs[0]['value']} onChangeText={text => updateInput(0, text)}/>
                     <Text style={styles.invalidMessage}>
                         {inputs[0]['valid'][0] || inputs[0]['valid'][0] == null
                         ? ''
@@ -74,7 +79,7 @@ const FinishProfile = ({ navigation }) => {
                 <View>
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google'
-                    value={inputs[1]['value']} onChangeText={text => inputs[1]['value'][1](text)}/>
+                    value={inputs[1]['value']} onChangeText={text => updateInput(1, text)}/>
                     <Text style={styles.invalidMessage}>
                         {inputs[1]['valid'][0] || inputs[1]['valid'][0] == null
                         ? ''
@@ -90,7 +95,7 @@ const FinishProfile = ({ navigation }) => {
                 {/*
                 <TextInput style={styles.textInput} theme={themes.textInput}
                 mode='outlined' label='LinkedIn Profile URL' placeholder=''
-                value={inputs[2]} onChangeText={text => updateInputs(2, text)}/>
+                value={inputs[2]} onChangeText={text => updateInput(2, text)}/>
                 */}
 
             </View>
