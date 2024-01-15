@@ -1,47 +1,51 @@
 import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { Button, HeaderBack, PasswordInput, TextInput } from "../components";
+import { Button, Dialog, HeaderBack, PasswordInput, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 import { useState } from "react";
+import Modal from "react-native-modal";
+import UserService from "../services/UserService";
+import { useSessionContext } from "../contexts/SessionContext";
+
+const { loginUser } = UserService;
 
 export default LoginScreen = ({ navigation }) => {
-    [username, setUsername] = useState("");
-    [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const {setSessionToken} = useSessionContext();
 
-    const log_in = () => {
-        fetch('', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            }),
-        })
-        .then(response => {
-            if (response.statusCode === '200')
-                navigation.navigate('Home')
-            else
-                return response.json();
-        })
-        .then(json => {
-            // display error
-        })
-        .catch(error => {
-            // display error
+    const [dialogVisible, setDialogVisible] = useState(false);
+
+    const toggleDialog = () => {
+        setDialogVisible(!dialogVisible);
+    }
+
+    const login = async () => {
+        if(!(username && password)) {
+            toggleDialog();
+            return;
+        }
+        
+        await loginUser(username, password)
+        .then(data => {
+            if(data && data.statusCode === 200 && data.sessionToken) {
+                setSessionToken(data.sessionToken);
+                navigation.navigate('Home');
+            }
+            else {
+                toggleDialog();
+            }
         });
     }
 
-    return (
+    return (<>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <HeaderBack>Sign in</HeaderBack>
                 <View style={styles.inputGroup}>
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email" placeholder='name@workmail.com'/>
+                    <TextInput value={username} onChangeText={text => setUsername(text)} style={styles.textInput} theme={themes.textInput} mode='outlined' label="Work email" placeholder='name@workmail.com'/>
                     <View>
-                        <PasswordInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password" />
+                        <PasswordInput value={password} onChangeText={text => setPassword(text)} style={styles.textInput} theme={themes.textInput} mode='outlined' label="Password" />
                         <Button
                             onPress={() => {}}
                             mode='text'
@@ -54,7 +58,7 @@ export default LoginScreen = ({ navigation }) => {
                     
                 </View>
                 <Button
-                    onPress={() => {}}
+                    onPress={async () => login()}
                     mode='contained'
                     theme={themes.button}
                     style={styles.button}
@@ -64,12 +68,21 @@ export default LoginScreen = ({ navigation }) => {
                 </Button>
             </View>
         </TouchableWithoutFeedback>
-    );
+        <View style={{position: "fixed"}}>
+            <Modal
+                transparent={true}
+                isVisible={dialogVisible}
+                onBackdropPress={toggleDialog}
+            >
+                <Dialog title={"Error"} details={"An error occurred."} buttonLabel={"OK"} onButtonPress={toggleDialog} />
+            </Modal>
+        </View>
+    </>);
 }
 
 const styles = StyleSheet.create({
     page: {
-        marginTop: 5 * vh,
+        paddingTop: 3 * vh,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'space-between',

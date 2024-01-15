@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Button, Label, Image } from "..";
+import { Button } from "../button";
 import { palette, themes } from "../../style";
 
 

@@ -1,12 +1,15 @@
 @apiOrigin = http://localhost:8080
 
 ### create account
-POST {{apiOrigin}}/putUserData?name=bruno&email=bruno%40bruno.com&password=pass
+POST {{apiOrigin}}/putUserData?username=bruno&email=email&password=password
+
+### login
+POST {{apiOrigin}}/login?username=username&password=password
 
 ### create trip
 POST {{apiOrigin}}/trips/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZXZhcnNoaSIsImV4cCI6MTcwMzE3ODg5MiwiaWF0IjoxNzAzMDkyNDkyLCJqdGkiOiI2NWY3OTYzYi01MDllLTQ1ODEtYTVmMS00YjY0MmM1ZTkyOGUifQ.6LxyHqxZdN-I8DHQ8gNg4HvXBpRTRmnaqTvR-IETQPE
+
 
 {
   "date": "2023-12-31",

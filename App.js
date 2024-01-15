@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FinishProfile, RegisterScreen, WelcomeScreen, VerificationScreen , GetMatchedScreen, HomeScreen, CreateTripScreen, MyProfileScreen, TripsScreen, MyCreatedTripsScreen, EditTripScreen} from './src/screens';
 import { useFonts } from 'expo-font';
 import ChatScreen from './src/screens/ChatScreen';
+import { SessionContextProvider } from './src/contexts/SessionContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,23 +22,25 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false}}>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="FinishProfile" component={FinishProfile}/>
-        <Stack.Screen name="GetMatched" component={GetMatchedScreen}/>
-        <Stack.Screen name="MyProfile" component={MyProfileScreen}/>
-        <Stack.Screen name="Verification" component={VerificationScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="CreateTrip" component={CreateTripScreen} />
-        <Stack.Screen name="Trips" component={TripsScreen} />
-        <Stack.Screen name="Chat" component={ChatScreen} />
-        <Stack.Screen name="MyCreatedTrips" component={MyCreatedTripsScreen} />
-        <Stack.Screen name="EditTrip" component={EditTripScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SessionContextProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false}}>
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="FinishProfile" component={FinishProfile}/>
+          <Stack.Screen name="GetMatched" component={GetMatchedScreen}/>
+          <Stack.Screen name="MyProfile" component={MyProfileScreen}/>
+          <Stack.Screen name="Verification" component={VerificationScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="CreateTrip" component={CreateTripScreen} />
+          <Stack.Screen name="Trips" component={TripsScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="MyCreatedTrips" component={MyCreatedTripsScreen} />
+          <Stack.Screen name="EditTrip" component={EditTripScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SessionContextProvider>
   );
 }
 

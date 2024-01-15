@@ -21,11 +21,10 @@ export default RegisterScreen = ({ navigation }) => {
     }
 
     const register = async () => {
-        if(!(name && email && password && confirmPassword && password === confirmPassword))
+        if(!(name && email && password && confirmPassword && password === confirmPassword)) {
             toggleDialog();
             return;
-
-        console.log(name, email, password, confirmPassword)
+        }
 
         await registerUser(name, email, password)
         .then(status => {
