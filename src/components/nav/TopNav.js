@@ -55,20 +55,23 @@ const TopNav = (props) => {
                     {
                         <View style={styles.iconContainer}>
                             {
-                            currentScreenName == 'ForYou' ?
+                            currentScreenName == 'ForYou'
+                            ?
                                 <Image
-                                style={styles.tabIcon}
-                                source={require("../../../assets/icons/calender_globe.png")} />
-                                :
+                                    style={styles.tabIcon}
+                                    source={require("../../../assets/icons/calender_globe.png")}
+                                />
+                            :
                                 <Image
-                                style={styles.tabIcon}
-                                source={require("../../../assets/icons/mobile.png")} />
+                                    style={styles.tabIcon}
+                                    source={require("../../../assets/icons/mobile.png")}
+                                />
                             }
                         </View>
                     }
                 </TouchableWithoutFeedback>
             </View>
-            {currentScreen == forYouScreen ? forYouScreen : exploreScreen}
+            {currentScreen}
         </>
     )
 }
@@ -90,7 +93,6 @@ const styles = StyleSheet.create({
     },
     tabLabelActive: {
         fontSize: 5.6 * vmin,
-        textTransform: 'none',
         fontFamily: 'Montserrat-SemiBold',
         color: palette.black,
         overflow: 'visible',
@@ -100,7 +102,6 @@ const styles = StyleSheet.create({
     },
     tabLabelInactive: {
         fontSize: 5.6 * vmin,
-        textTransform: 'none',
         fontFamily: 'Montserrat-SemiBold',
         color: palette.grey,
         overflow: 'visible',

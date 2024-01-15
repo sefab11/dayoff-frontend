@@ -20,7 +20,7 @@ const FinishProfile = ({ navigation }) => {
         for (let i = 0; i < numInputs; i++){
             var [value, setValue] = useState('');
             var [valid, setValid] = useState(null);
-            var required = true;
+            var required = false;
             var newInput = {
                 'value': value, 'setValue': setValue,
                 'valid': valid, 'setValid': setValid,

@@ -6,7 +6,6 @@ import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
-import { Label } from "..";
 
 
 const SelectDates = (props) => {
@@ -157,7 +156,15 @@ const SelectDates = (props) => {
     else if (subtitleStyle == 2){
         return (
         <View>
-            <Label>{subtitle}</Label>
+            <Text
+                style={{
+                    fontFamily: 'Lato-Bold',
+                    marginTop: 1 * vh,
+                    marginBottom: 0.5 * vh
+                }}
+            >
+                {subtitle}
+            </Text>
         </View>
         );
     };
@@ -216,7 +223,9 @@ const SelectDates = (props) => {
               />
               <View style={styles.calenderBottom}>
                 <TouchableOpacity onPress={toggleModal} style={styles.confirmButton}>
-                    <Label style={styles.confirmText}>Confirm</Label>
+                    <Text style={styles.confirmText}>
+                        Confirm
+                    </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -274,11 +283,14 @@ const styles = StyleSheet.create({
     width: 40 * vmin,
     height: 10 * vmin,
     borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   confirmText: {
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 3.8 * vmin,
+    fontWeight: 'bold',
     color: palette.white,
   },
   calenderIconContainer: {

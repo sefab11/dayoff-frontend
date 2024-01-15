@@ -1,5 +1,4 @@
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Button, Label, Image } from "..";
+import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { palette, themes } from "../../style";
 
 
@@ -13,16 +12,22 @@ const EmailModal = ({exitFunc}) => {
         <>
             <Text style={styles.title}>{titleText}</Text>
             <Text style={styles.subtitle}>{subtitleText}</Text>
-            <Button
-                //TODO: add in function that is called on button press
+            {/*TODO: add in function that is called on button press*/}
+            <TouchableOpacity
                 onPress={() => console.log("TBA form on press")}
-                mode='contained'
-                compact={true}
-                theme={themes.button}
+                mode="contained"
                 style={styles.button}
             >
-                Fill Out Form
-            </Button>
+                <Text
+                    style={{
+                        fontFamily: 'Lato-Regular',
+                        color: palette.white,
+                        fontWeight: '600',
+                    }}
+                >
+                    Fill Out Form
+                </Text>
+            </TouchableOpacity>
         </>
         )
     }
@@ -33,7 +38,11 @@ const EmailModal = ({exitFunc}) => {
     <View style={styles.modalPage}>
         <View style={styles.iconContainer} >
             <TouchableOpacity onPress={() => exitFunc()} >
-                <Image source={require("../../../assets/icons/x.png")} />
+                <Image
+                    source={require("../../../assets/icons/x.png")}
+                    resizeMode={'center'}
+                    marginRight={-12.5}
+                />
             </TouchableOpacity>
         </View>
 
@@ -65,8 +74,9 @@ const styles = StyleSheet.create({
     iconContainer: {
         display: 'flex',
         width: "100%",
-        height: "7%",
+        height: "5%",
         alignItems: 'flex-end',
+        justifyContent: 'center',
     },
     sectionContainer: {
         margin: 20,
@@ -92,10 +102,13 @@ const styles = StyleSheet.create({
     button: {
         width: 30 * vmin,
         height: 10 * vmin,
+        alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: 0.5 * vmin,
         marginTop: 2.5 * vh,
         marginBottom: 5 * vh,
+        backgroundColor: palette.purple,
+        borderRadius: 8,
     },
 });
 

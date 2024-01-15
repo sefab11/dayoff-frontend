@@ -3,7 +3,6 @@ import { View, Image, Text, TouchableOpacity, StyleSheet, Modal } from "react-na
 import { palette, themes, flags } from "../../style";
 import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Button, Label } from "..";
 
   //either return a multiselect or dropdown depending on allowMultipleCountries
   //TODO: add option to change the language + verification that language is supported
@@ -84,9 +83,21 @@ import { Button, Label } from "..";
             }}
             />
           <View style={styles.buttonContainer}>
-            <Button onPress={() => toggleModal()} mode='contained' theme={themes.button} style={styles.button}>
-              Confirm
-            </Button>
+            <TouchableOpacity
+              onPress={() => toggleModal()}
+              mode="contained"
+              style={styles.button}
+            >
+              <Text
+                style={{
+                  fontFamily: 'Lato-Regular',
+                  color: palette.white,
+                  fontWeight: 'bold',
+                }}
+              >
+                Confirm
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
     </Modal>
@@ -190,7 +201,15 @@ const SelectCountries = (props) => {
     else if (subtitleStyle == 2){
         return (
         <View>
-            <Label>{subtitle}</Label>
+            <Text
+              style={{
+                fontFamily: 'Lato-Bold',
+                marginTop: 1 * vh,
+                marginBottom: 0.5 * vh
+              }}
+            >
+                {subtitle}
+            </Text>
         </View>
         );
     };
@@ -258,8 +277,11 @@ const styles = StyleSheet.create({
   button: {
     width: 80 * vmin,
     height: 14 * vmin,
+    alignItems: 'center',
     justifyContent: "center",
     paddingBottom: 0.5 * vmin,
+    borderRadius: 8,
+    backgroundColor: palette.purple,
   },
   countriesContainer: {
     display: 'flex',

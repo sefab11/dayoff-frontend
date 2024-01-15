@@ -49,7 +49,7 @@ const TripViewMatch = (props) => {
                             if(trip.matched[i].profilePic)
                                 profilePics.push(<Image source={trip.matched[i].profilePic} style={styles.profilePic} key={i}></Image>);
                             else
-                                profilePics.push(<Text style={styles.profilePic} key={i}>{trip.matched[i].name[0]}</Text>);
+                                profilePics.push(<Text style={styles.profilePicName} key={i}>{trip.matched[i].name[0]}</Text>);
                         }
                         return profilePics;
                     })()}
@@ -138,6 +138,15 @@ const styles = StyleSheet.create({
         gap: -1 * vh
     },
     profilePic: {
+        display: 'flex',
+        width: 12 * vmin,
+        height: 12 * vmin,
+        backgroundColor: palette.purple,
+        borderRadius: 6 * vmin,
+        borderColor: palette.white,
+        borderWidth: 0.8 * vmin,
+    },
+    profilePicName: {
         display: 'flex',
         width: 12 * vmin,
         height: 12 * vmin,
