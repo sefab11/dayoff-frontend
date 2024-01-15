@@ -7,51 +7,62 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 
 const FinishProfile = ({ navigation }) => {
-    /*TODO: 'required' values are FALSE to be able to run through the app quickly
-        when releasing/ testing the input validation change the 'required' values to TRUE
-    */
-    const [inputs, setInputs] = useState([
-        {'value': useState(''), 'required': false,  'valid': useState(null)},
-        {'value': useState(''), 'required': false,  'valid': useState(null)},
-    ])
-
-    function updateInput(index, text){
-        inputs[index]['value'][0] = text;
-        inputs[index]['value'][1](text);
+    function generateInputs(numInputs){
+        var arr = [];
+        /*
+            valid elements and value elements need to be states so that they
+            are updated in the component.
+            required values don't need to be states as they are constants.
+        */
+        /*TODO: 'required' values are FALSE to be able to run through the app quickly
+            when releasing/ testing the input validation change the 'required' values to TRUE
+        */
+        for (let i = 0; i < numInputs; i++){
+            var [value, setValue] = useState('');
+            var [valid, setValid] = useState(null);
+            var required = true;
+            var newInput = {
+                'value': value, 'setValue': setValue,
+                'valid': valid, 'setValid': setValid,
+                'required': required
+            }
+            arr.push(newInput);
+        }
+        return arr;
     }
+
+    //TODO: check if country is valid? or add a dropdown selector
+    function isCountryValid() { return inputs[0]['value'] != ''; }
+    //may not need any validation
+    function isProfessionValid() { return inputs[1]['value'] != ''; }
 
     function areInputsValid(){
         //check if the country is a valid one / replace input with dropdown
         var countryValid = isCountryValid();
-        inputs[0]['valid'][0] = countryValid;
-        inputs[0]['valid'][1](countryValid);
+        inputs[0]['valid'] = countryValid;
+        inputs[0]['setValid'](countryValid);
 
         var jobValid = isProfessionValid();
-        inputs[1]['valid'][0] = jobValid;
-        inputs[1]['valid'][1](jobValid);
+        inputs[1]['valid'] = jobValid;
+        inputs[1]['setValid'](jobValid);
 
         return (
-           (inputs[0]['valid'][0] || !inputs[0]['required'])
-        && (inputs[1]['valid'][0] || !inputs[1]['required'])
+           (inputs[0]['valid'] || !inputs[0]['required'])
+        && (inputs[1]['valid'] || !inputs[1]['required'])
         );
     }
 
-    function isCountryValid(){
-        /*TODO: check if country is valid?
-                or change the textinput to a dropdown selector
-        */
-        return inputs[0]['value'][0] != '';
-    }
-
-    function isProfessionValid(){
-        //may not need any validation
-        return inputs[1]['value'][0] != '';
+    function updateInput(index, text){
+        inputs[index]['value'] = text;
+        inputs[index]['setValue'](text);
     }
 
     function finishProfile(){
         if (areInputsValid()) navigation.navigate('GetMatched');
         else console.log('missing some inputs');
     }
+
+    const [inputs, setInputs] = useState(generateInputs(2));
 
     return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -70,7 +81,7 @@ const FinishProfile = ({ navigation }) => {
                     mode='outlined' label='Country of Residence*' placeholder='United States'
                     value={inputs[0]['value']} onChangeText={text => updateInput(0, text)}/>
                     <Text style={styles.invalidMessage}>
-                        {inputs[0]['valid'][0] || inputs[0]['valid'][0] == null
+                        {inputs[0]['valid'] || inputs[0]['valid'] == null
                         ? ''
                         : 'Invalid Country.'
                         }
@@ -82,7 +93,7 @@ const FinishProfile = ({ navigation }) => {
                     mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google'
                     value={inputs[1]['value']} onChangeText={text => updateInput(1, text)}/>
                     <Text style={styles.invalidMessage}>
-                        {inputs[1]['valid'][0] || inputs[1]['valid'][0] == null
+                        {inputs[1]['valid'] || inputs[1]['valid'] == null
                         ? ''
                         : 'Invalid profession.'
                         }
