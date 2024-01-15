@@ -6,8 +6,6 @@ import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 
 export default RegisterScreen = ({ navigation }) => {
-    //for validating whether the fields have been entered
-    //for running through the flow quicker, change the required value to false
     /*
         the valid elements need to be states so that the text elements
         ( for invalid messages ) are updated in the component
@@ -19,11 +17,14 @@ export default RegisterScreen = ({ navigation }) => {
 
         the required elements DONT need to be states as theyre constants
     */
+    /*TODO: 'required' values are FALSE to be able to run through the app quickly
+        when releasing/ testing the input validation change the 'required' values to TRUE
+    */
     const [inputs, setInputs] = useState([
-        {'value': useState(''), 'required': true, 'valid': useState(null)},
-        {'value': useState(''), 'required': true, 'valid': useState(null)},
-        {'value': useState(''), 'required': true, 'valid': useState(null)},
-        {'value': useState(''), 'required': true, 'valid': useState(null)},
+        {'value': useState(''), 'required': false, 'valid': useState(null)},
+        {'value': useState(''), 'required': false, 'valid': useState(null)},
+        {'value': useState(''), 'required': false, 'valid': useState(null)},
+        {'value': useState(''), 'required': false, 'valid': useState(null)},
     ]);
 
     //test setting 'valid' element to a state
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white,
     },
     button: {
-        width: 70 * vmin,
+        width: 80 * vmin,
         height: 14 * vmin,
         justifyContent: 'center',
         paddingBottom: 0.5 * vmin,

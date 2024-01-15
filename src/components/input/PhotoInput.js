@@ -7,9 +7,10 @@ import * as ImagePicker from 'expo-image-picker';
 const PhotoInput = (props) => {
     const circleWidth = props.width;
     const initialImage = props.image ? props.image : null;
-    const cameraRatio = props.camRatio;
+    const cameraRatio = (Number(props.camRatio.slice(0, -1)) * 1.25).toString().concat("%");
     const children = props.children;
 
+    //TODO: update image on new image selected
     const [image, setImage] = useState(null);
     const openImagePicker = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -32,38 +33,35 @@ const PhotoInput = (props) => {
     <>
         <TouchableOpacity
             style={{
-                width: circleWidth,
-                height: circleWidth,
+                width: circleWidth, height: circleWidth,
                 borderRadius: circleWidth / 2,
-                backgroundColor: initialImage != null ? null : palette.lightPurple,
-                alignItems: 'center',
-                justifyContent: 'center',
+                backgroundColor: palette.lightPurple,
+                alignItems: 'center', justifyContent: 'center',
             }}
-            //TODO: function call to add photo
             onPress={() => openImagePicker()}
         >
             {
             initialImage != null ?
             <ImageBackground
                 source={initialImage}
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    alignItems: 'flex-end',
-                    justifyContent: 'flex-end',
-                }}
+                style={styles.imageBackground}
             >
-                <Image
-                    source={require("../../../assets/icons/camera.png")}
-                    tintColor={palette.purple}
-                    style={{
-                        resizeMode: 'contain',
-                        width: cameraRatio,
-                        height: cameraRatio,
-                        opacity: 1,
-                    }}
-                />
-                {children}
+                <View
+                    style={styles.outerCameraContainer}
+                    width={cameraRatio}
+                    height={cameraRatio}
+                >
+                    <View
+                        style={styles.innerCameraContainer}
+                    >
+                    <Image
+                        source={require("../../../assets/icons/camera.png")}
+                        style={styles.cameraIcon}
+                    >
+                    </Image>
+                    </View>
+
+                </View>
             </ImageBackground>
 
             :
@@ -86,6 +84,40 @@ const PhotoInput = (props) => {
 }
 
 const styles = StyleSheet.create({
+    imageBackground: {
+        display: 'flex',
+        width: "100%",
+        height: "100%",
+        alignSelf: 'center',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+    },
+    outerCameraContainer: {
+        borderRadius: 100,
+        borderWidth: 1,
+        borderColor: palette.white,
+        marginRight: -10,
+        marginBottom: -10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: palette.white,
+    },
+    innerCameraContainer: {
+        width: "85%",
+        height: "85%",
+        borderRadius: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: palette.lightPurple,
+        elevation: 1,
+    },
+    cameraIcon: {
+        resizeMode: 'contain',
+        width: "65%",
+        height: "65%",
+        opacity: 1,
+        tintColor: palette.purple,
+    },
 })
 
 

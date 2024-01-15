@@ -7,11 +7,12 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 
 const FinishProfile = ({ navigation }) => {
-    //for validating whether the fields have been entered
-    //for running through the flow quicker, change the required value to false
+    /*TODO: 'required' values are FALSE to be able to run through the app quickly
+        when releasing/ testing the input validation change the 'required' values to TRUE
+    */
     const [inputs, setInputs] = useState([
-        {'value': useState(''), 'required': true,  'valid': useState(null)},
-        {'value': useState(''), 'required': true,  'valid': useState(null)},
+        {'value': useState(''), 'required': false,  'valid': useState(null)},
+        {'value': useState(''), 'required': false,  'valid': useState(null)},
     ])
 
     function updateInput(index, text){
@@ -89,7 +90,7 @@ const FinishProfile = ({ navigation }) => {
                 </View>
 
                 <View marginTop={20}>
-                    <LinkedinInput horMargin={10} verMargin={5}/>
+                    <LinkedinInput horMargin={10} verMargin={3}/>
                 </View>
 
                 {/*
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     backgroundColor: palette.white,
   },
   button: {
-    width: 70 * vmin,
+    width: 80 * vmin,
     height: 14 * vmin,
     justifyContent: 'center',
     paddingBottom: 0.5 * vmin,

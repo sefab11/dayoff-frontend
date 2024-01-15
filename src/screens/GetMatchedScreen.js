@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         marginBottom: 5 * vh
     },
     button: {
-        width: 80 * vmin,
+        width: 85 * vmin,
         height: 14 * vmin,
         justifyContent: 'center',
         paddingBottom: 0.5 * vmin
