@@ -1,9 +1,12 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text } from "react-native";
 import {React, useState} from "react";
 import Modal from "react-native-modal";
-import { Button, HeaderBack, PasswordInput, TextInput, EmailModal } from "../components";
+import { Button, HeaderBack, PasswordInput, TextInput, EmailModal, Dialog } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
+import UserService from "../services/UserService";
+
+const { registerUser } = UserService;
 
 export default RegisterScreen = ({ navigation }) => {
     function generateInputs(numInputs){
@@ -82,21 +85,27 @@ export default RegisterScreen = ({ navigation }) => {
         inputs[index]['setValue'](text);
     }
 
+    const [dialogVisible, setDialogVisible] = useState(false);
+
+    const toggleDialog = () => {
+        setDialogVisible(!dialogVisible);
+    }
+
     const register = async () => {
-        // await fetch('https://kfp4azjcdschizn5hzklvqsr3u0faknn.lambda-url.eu-west-1.on.aws/putData?user_name=Bruno Romanski&email_id=romanskibruno@gmail.com&password_hash=password123', {
-        //     method: 'GET',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        // .then(response => {
-        //     console.log(response);
-        // })
-
-
-        if (areInputsValid()) navigation.navigate('FinishProfile');
-        else console.log('some inputs are invalid');
+        if (areInputsValid()) {
+            await registerUser(inputs[0], inputs[1], inputs[2])
+            .then(status => {
+                if(status === 200) {
+                    navigation.navigate('FinishProfile');
+                }
+                else {
+                    // TODO: for release enable error dialog and don't navigate to next screen
+                    // toggleDialog();
+                    navigation.navigate('FinishProfile');
+                }
+            });
+        }
+        else toggleDialog();
     }
 
     const toggleModal = () => {
@@ -107,7 +116,9 @@ export default RegisterScreen = ({ navigation }) => {
     const [isModalVisible, setModalVisible] = useState(false);
 
 
-    return (
+    const [fieldEntered, setFieldsEntered] = useState([false, false, false, false]);
+
+    return (<>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <HeaderBack>Register</HeaderBack>
@@ -175,6 +186,9 @@ export default RegisterScreen = ({ navigation }) => {
                 >
                     Create account
                 </Button>
+            </View>
+        </TouchableWithoutFeedback>
+        <View style={{position: "fixed"}}>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -183,9 +197,15 @@ export default RegisterScreen = ({ navigation }) => {
             >
                 <EmailModal exitFunc={toggleModal}/>
             </Modal>
-            </View>
-        </TouchableWithoutFeedback>
-    );
+            <Modal
+                transparent={true}
+                isVisible={dialogVisible}
+                onBackdropPress={toggleDialog}
+            >
+                <Dialog title={"Error"} details={"An error occurred."} buttonLabel={"OK"} onButtonPress={toggleDialog} />
+            </Modal>
+        </View>
+    </>);
 }
 
 const styles = StyleSheet.create({
@@ -227,4 +247,4 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         width: 80 * vmin,
     },
-})
+});

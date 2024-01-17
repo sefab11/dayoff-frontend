@@ -1,0 +1,19 @@
+@apiOrigin = http://localhost:8080
+
+### create account
+POST {{apiOrigin}}/putUserData?username=username&email=email&password=password
+
+### login
+POST {{apiOrigin}}/login?username=username&password=password
+
+### create trip
+POST {{apiOrigin}}/trips/create
+Content-Type: application/json
+
+
+{
+  "date": "2023-12-31",
+  "time": "12:00 PM",
+  "location": "Example Location",
+  "description": "Example Description"
+}
