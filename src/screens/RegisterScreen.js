@@ -5,8 +5,10 @@ import { Button, HeaderBack, PasswordInput, TextInput, EmailModal, Dialog } from
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 import UserService from "../services/UserService";
+import { RegisterValidationService } from "../services/ValidationService";
 
 const { registerUser } = UserService;
+const { isNameValid, isEmailValid, isPasswordValid } = RegisterValidationService;
 
 export default RegisterScreen = ({ navigation }) => {
     function generateInputs(numInputs){
@@ -33,23 +35,7 @@ export default RegisterScreen = ({ navigation }) => {
         return arr;
     }
 
-    //TODO: replace function with proper validation of data
-    function isNameValid() { return inputs[0]['value'] != ''; }
-    //TODO: replace function with validation of email with database
-    function isEmailValid() { return inputs[1]['value'] != ''; }
-
-    function isPasswordValid(){
-        const password = inputs[2]['value'];
-        //check if password has at least 8 characters and 1 number
-        if (password.length < 8) return false;
-        else if (!hasNumber(password)) return false;
-
-        return true;
-    }
-
     function doPasswordsMatch() { return inputs[2]['value'] == inputs[3]['value']; }
-    function hasNumber(myString) { return /\d/.test(myString); }
-
 
     function areInputsValid(){
         //if name valid
@@ -85,12 +71,6 @@ export default RegisterScreen = ({ navigation }) => {
         inputs[index]['setValue'](text);
     }
 
-    const [dialogVisible, setDialogVisible] = useState(false);
-
-    const toggleDialog = () => {
-        setDialogVisible(!dialogVisible);
-    }
-
     const register = async () => {
         if (areInputsValid()) {
             //TODO: remove this navigation here for release
@@ -113,11 +93,15 @@ export default RegisterScreen = ({ navigation }) => {
         setModalVisible(!isModalVisible);
     }
 
+    const toggleDialog = () => {
+        setDialogVisible(!dialogVisible);
+    }
+
     const [inputs, setInputs] = useState(generateInputs(4));
     const [isModalVisible, setModalVisible] = useState(false);
+    const [dialogVisible, setDialogVisible] = useState(false);
 
 
-    const [fieldEntered, setFieldsEntered] = useState([false, false, false, false]);
 
     return (<>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

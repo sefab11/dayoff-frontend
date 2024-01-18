@@ -5,6 +5,9 @@ import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
+import { FinishProfileValidationService } from "../services/ValidationService";
+
+const { isCountryValid, isProfessionValid } = FinishProfileValidationService;
 
 const FinishProfile = ({ navigation }) => {
     function generateInputs(numInputs){
@@ -30,11 +33,6 @@ const FinishProfile = ({ navigation }) => {
         }
         return arr;
     }
-
-    //TODO: check if country is valid? or add a dropdown selector
-    function isCountryValid() { return inputs[0]['value'] != ''; }
-    //may not need any validation
-    function isProfessionValid() { return inputs[1]['value'] != ''; }
 
     function areInputsValid(){
         //check if the country is a valid one / replace input with dropdown
