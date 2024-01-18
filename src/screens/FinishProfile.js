@@ -62,7 +62,22 @@ const FinishProfile = ({ navigation }) => {
         else console.log('missing some inputs');
     }
 
-    const [inputs, setInputs] = useState(generateInputs(2));
+    const [inputs, setInputs] = useState(generateInputs(3));
+    inputs[2]['required'] = false;
+
+    const handleLinkedin = (data) => {
+        if (data){
+            console.log("linkedin added");
+            inputs[2]['valid'] = true;
+            inputs[2]['setValid'](true);
+        }
+        else console.log("linkedin not added");
+    }
+
+    const handlePhoto = (data) => {
+        if (data) console.log("photo added");
+        else console.log("no photo added");
+    }
 
     return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -71,7 +86,9 @@ const FinishProfile = ({ navigation }) => {
                 <Header>Finish Profile</Header>
                 <Text style={styles.headingMessage}>Your profile helps us verify you and also builds trust among other DayOff members.</Text>
             </View>
-            <PhotoInput width={40 * vmin} camRatio={'30%'}>
+            <PhotoInput width={40 * vmin} camRatio={'30%'}
+                onPhotoSelected={(data) => handlePhoto(data)}
+            >
                 <Text style={styles.addPhotoText}>Add Photo</Text>
             </PhotoInput>
 
@@ -101,7 +118,9 @@ const FinishProfile = ({ navigation }) => {
                 </View>
 
                 <View marginTop={20}>
-                    <LinkedinInput horMargin={10} verMargin={3}/>
+                    <LinkedinInput horMargin={10} verMargin={3}
+                    onComponentPress={(data) => handleLinkedin(data)}
+                    />
                 </View>
 
                 {/*

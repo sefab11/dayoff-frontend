@@ -7,13 +7,16 @@ const LinkedinInput = (props) => {
     const marginHorizontal = props.horMargin;
     const marginVertical = props.verMargin;
 
+    function addLinkedin(){
+        props.onComponentPress(true);
+    }
+
 
     return (
     <>
         <TouchableOpacity
             style={styles.connectContainer}
-            //TODO: function call to connect to linkedin
-            onPress={() => console.log("TBA connect linkedin on press")}
+            onPress={() => addLinkedin()}
         >
             <Image
                 source={require("../../../assets/icons/linkedin.png")}

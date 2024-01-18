@@ -24,7 +24,11 @@ const PhotoInput = (props) => {
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
+            props.onPhotoSelected(false);
+            return;
         }
+
+        props.onPhotoSelected(image);
     };
 
 

@@ -9,10 +9,21 @@ export default VerificationScreen = ({ navigation }) => {
     //TODO: get user's email address from their details
     const email_address = 'name@workmail.com';
 
-
     //TODO: change value depending on whether the user has already added a linkedin and photo
-    const [hasLinkedin, setLinkedin] = useState(false);
-    const [hasPhoto, setPhoto] = useState(false);
+    const hasLinkedin = false;
+    const hasPhoto = false;
+
+    const handleLinkedin = (data) => {
+        //dont update the state as it will get rid of the section and make the page
+        //look wierd. send data to the backend to update the users information
+        if (data) console.log("linkedin added");
+        else console.log("no linkedin added");
+    }
+    const handlePhoto = (data) => {
+        console.log(data);
+        if (data) console.log("photo added");
+        else console.log("no photo added");
+    }
 
 
 
@@ -55,7 +66,9 @@ export default VerificationScreen = ({ navigation }) => {
 
                         <View style={styles.section}>
                             <Text style={styles.title}>2. Add LinkedIn Profile*</Text>
-                            <LinkedinInput horMargin={10} verMargin={10} />
+                            <LinkedinInput horMargin={10} verMargin={10}
+                            onComponentPress={(data) => handleLinkedin(data)}
+                            />
                         </View>
                         </>
                         : null
@@ -68,7 +81,9 @@ export default VerificationScreen = ({ navigation }) => {
 
                         <View style={styles.section} borderBottomWidth={0}>
                             <Text style={styles.title}>3. Add Profile Photo*</Text>
-                            <PhotoInput width={12 * vh} camRatio={'40%'}/>
+                            <PhotoInput width={12 * vh} camRatio={'40%'}
+                            onPhotoSelected={(data) => handlePhoto(data)}
+                            />
                         </View>
                         </>
                         : null
