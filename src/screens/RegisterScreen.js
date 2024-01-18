@@ -93,15 +93,16 @@ export default RegisterScreen = ({ navigation }) => {
 
     const register = async () => {
         if (areInputsValid()) {
+            //TODO: remove this navigation here for release
+            navigation.navigate("FinishProfile");
+
             await registerUser(inputs[0], inputs[1], inputs[2])
             .then(status => {
                 if(status === 200) {
                     navigation.navigate('FinishProfile');
                 }
                 else {
-                    // TODO: for release enable error dialog and don't navigate to next screen
-                    // toggleDialog();
-                    navigation.navigate('FinishProfile');
+                    toggleDialog();
                 }
             });
         }

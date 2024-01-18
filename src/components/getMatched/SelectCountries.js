@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { React, useEffect, useRef, useState, memo } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import { palette, themes, flags } from "../../style";
 import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
@@ -104,7 +104,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
     )
 }
 
-const ModalDropdownMemo = React.memo(ModalDropdown, (prevProps, nextProps) => {
+const ModalDropdownMemo = memo(ModalDropdown, (prevProps, nextProps) => {
   return (
     prevProps.isModalVisible === nextProps.isModalVisible &&
     prevProps.allowMultipleCountries === nextProps.allowMultipleCountries &&
@@ -149,6 +149,7 @@ const SelectCountries = (props) => {
     if (!selected) return;
 
     setSelectedCountries(selected);
+    props.onSelectCountry(selected.map(country => country.name));
   }
 
   function deliverCountryLabels(){

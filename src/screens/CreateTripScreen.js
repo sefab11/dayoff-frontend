@@ -1,6 +1,7 @@
 import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "../components";
 import { StyleSheet } from "react-native";
+import { React, useState } from "react";
 import { palette, themes } from "../style";
 
 import { SelectDates, SelectCountries } from "../components";
@@ -8,6 +9,21 @@ import { SelectDates, SelectCountries } from "../components";
 //SCREEN TO CREATE A TRIP
 
 export default CreateTripScreen = ({ navigation }) => {
+
+    const [date, setDate] = useState([]);
+    const [country, setCountry] = useState([]);
+
+    const handleDate = (data) => {
+        console.log(data);
+        setDate(date);
+    }
+
+    const handleCountry = (data) => {
+        console.log(data);
+        setCountry(data);
+    }
+
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
@@ -24,6 +40,8 @@ export default CreateTripScreen = ({ navigation }) => {
                         boxWidth={80 * vmin}
                         editable={true}
                         initialDates={[]}
+
+                        onSelectDate={(data) => handleDate(data)}
                     />
                     <SelectCountries
                         title={null}
@@ -33,6 +51,8 @@ export default CreateTripScreen = ({ navigation }) => {
                         multipleCountries={false}
                         boxWidth={80 * vmin}
                         initialCountries={[]}
+
+                        onSelectCountry={(data) => handleCountry(data)}
                     />
 
                     <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />

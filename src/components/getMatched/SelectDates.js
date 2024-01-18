@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { React, useState } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import Checkbox from 'expo-checkbox';
 import { palette, themes } from "../../style";
@@ -39,8 +39,17 @@ const SelectDates = (props) => {
   function updateDates(newDate){
     //makes sure no repeat dates are added
     if (dates.includes(newDate) || newDate.includes("undefined")) return;
-    if (allowMultipleDates) setDates(dates => [...dates, newDate]);
-    else setDates([newDate]);
+    if (allowMultipleDates){
+        dates.push(newDate);
+        setDates(dates);
+
+        props.onSelectDate(dates);
+    }
+    else {
+        setDates([newDate]);
+
+        props.onSelectDate([newDate]);
+    }
   };
 
   //removes the date clicked on and updates the dates array state

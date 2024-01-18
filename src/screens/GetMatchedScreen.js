@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text, ScrollView } from 'react-native';
 import { Button, CountryMultiSelector, Header, TextInput, StatusBar } from '../components';
 import SelectDates from '../components/getMatched/SelectDates';
@@ -6,14 +6,24 @@ import SelectCountries from '../components/getMatched/SelectCountries';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 
+
 const GetMatchedScreen = ({ navigation }) => {
     /*TODO: unsure how to link the data here to the array data in
             the components SelectDates and SelectCountries??
     */
-    const [inputs, setInputs] = useState([
-        {'val': [], 'required': false},
-        {'val': [], 'required': false},
-    ])
+    const [dates, setDates] = useState([]);
+    const [countries, setCountries] = useState([]);
+
+    const handleDates = (data) => {
+        console.log(data);
+        setDates(data);
+    }
+
+    const handleCountries = (data) => {
+        console.log(data);
+        setCountries(data);
+    }
+
 
     return (
     <ScrollView>
@@ -33,7 +43,8 @@ const GetMatchedScreen = ({ navigation }) => {
                     showBorder={true}
                     boxWidth={85 * vmin}
                     editable={true}
-                    initialDates={inputs[0]['val']}
+                    initialDates={[]}
+                    onSelectDate={(data) => handleDates(data)}
                 />
                 <SelectCountries
                     title={"Select the countries of your trip(s)"}
@@ -42,7 +53,9 @@ const GetMatchedScreen = ({ navigation }) => {
                     editable={true}
                     multipleCountries={true}
                     boxWidth={85 * vmin}
-                    initialCountries={inputs[1]['val']}
+                    initialCountries={[]}
+
+                    onSelectCountry={(data) => handleCountries(data)}
                 />
                 <View style={styles.buttonGroup}>
                     <Button onPress={() => navigation.navigate('Home')} mode='contained' theme={themes.button} style={styles.button}>
