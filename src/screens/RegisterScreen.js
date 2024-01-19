@@ -11,64 +11,56 @@ const { registerUser } = UserService;
 const { isNameValid, isEmailValid, isPasswordValid } = RegisterValidationService;
 
 export default RegisterScreen = ({ navigation }) => {
-    function generateInputs(numInputs){
-        var arr = [];
-        /*
-            valid elements and value elements need to be states so that they
-            are updated in the component.
-            required values don't need to be states as they are constants.
-        */
-        /*TODO: 'required' values are FALSE to be able to run through the app quickly
-            when releasing/ testing the input validation change the 'required' values to TRUE
-        */
-        for (let i = 0; i < numInputs; i++){
-            var [value, setValue] = useState('');
-            var [valid, setValid] = useState(null);
-            var required = false;
-            var newInput = {
-                'value': value, 'setValue': setValue,
-                'valid': valid, 'setValid': setValid,
-                'required': required
-            }
-            arr.push(newInput);
-        }
-        return arr;
-    }
+    const [name, setName] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
+    const [email, setEmail] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
+    const [password, setPassword] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
+    const [confPassword, setConfPassword] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
 
-    function doPasswordsMatch() { return inputs[2]['value'] == inputs[3]['value']; }
+    const doPasswordsMatch = () => password.value == confPassword.value;
+
 
     function areInputsValid(){
         //if name valid
-        var nameValid = isNameValid(inputs[0]['value']);
-        inputs[0]['valid'] = nameValid;
-        inputs[0]['setValid'](nameValid);
+        var nameValid = isNameValid(name.value);
+        name.valid = nameValid;
         //if email valid
-        var emailValid = isEmailValid(inputs[1]['value']);
-        inputs[1]['valid'] = emailValid
-        inputs[1]['setValid'](emailValid);
+        var emailValid = isEmailValid(email.value);
+        email.valid = emailValid;
         //if password meets requirements
-        var passwordValid = isPasswordValid(inputs[2]['value']);
-        inputs[2]['valid'] = passwordValid;
-        inputs[2]['setValid'](passwordValid);
+        var passwordValid = isPasswordValid(password.value);
+        password.valid = passwordValid;
         //if passwords match or not
         var passwordsMatch = doPasswordsMatch();
-        inputs[3]['valid'] = passwordsMatch;
-        inputs[3]['setValid'](passwordsMatch);
+        confPassword.valid = passwordsMatch;
 
         //for testing
-        console.log(inputs);
+        console.log(name);
+        console.log(email);
+        console.log(password);
+        console.log(confPassword);
 
         return (
-           (inputs[0]['valid'] || !inputs[0]['required'])
-        && (inputs[1]['valid'] || !inputs[1]['required'])
-        && (inputs[2]['valid'] || !inputs[2]['required'])
-        && (inputs[3]['valid'] || !inputs[3]['required'])
+           (name.valid         || !name.required)
+        && (email.valid        || !email.required)
+        && (password.valid     || !password.required)
+        && (confPassword.valid || !confPassword.required)
         );
-    }
-
-    function updateInput(index, text){
-        inputs[index]['value'] = text;
-        inputs[index]['setValue'](text);
     }
 
     const register = async () => {
@@ -76,7 +68,7 @@ export default RegisterScreen = ({ navigation }) => {
             //TODO: remove this navigation here for release
             navigation.navigate("FinishProfile");
 
-            await registerUser(inputs[0], inputs[1], inputs[2])
+            await registerUser(name.value, email.value, password.value)
             .then(status => {
                 if(status === 200) {
                     navigation.navigate('FinishProfile');
@@ -97,10 +89,8 @@ export default RegisterScreen = ({ navigation }) => {
         setDialogVisible(!dialogVisible);
     }
 
-    const [inputs, setInputs] = useState(generateInputs(4));
     const [isModalVisible, setModalVisible] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
-
 
 
     return (<>
@@ -111,54 +101,81 @@ export default RegisterScreen = ({ navigation }) => {
                     <View>
                         <TextInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Full name*" placeholder='John Doe'
-                        value={inputs[0]['value']} onChangeText={text => updateInput(0, text)} />
+                        value={name.value}
+                        //merge name object with new object/dict with 'value': text
+                        //set name to merged object
+                        onChangeText={text => setName(name =>
+                            Object.assign({}, name, {'value': text}))
+                        }
+                        />
+
                         <Text style={styles.invalidMessage}>
-                            {inputs[0]['valid'] || inputs[0]['valid'] == null
+                            {name.valid || name.valid == null
                             ? ''
                             : 'Invalid username.'
                             }
                         </Text>
+
                     </View>
 
                     <View>
                         <View>
                             <TextInput style={styles.textInput} theme={themes.textInput}
                             mode='outlined' label="Work email*" placeholder='name@workmail.com'
-                            value={inputs[1]['value']} onChangeText={text => updateInput(1, text)} />
+                            value={email.value}
+                            onChangeText={text => setEmail(email =>
+                                Object.assign({}, email, {'value': text}))
+                            }
+                            />
+
                             <TouchableOpacity onPress={() => toggleModal()}>
                                 <Text style={styles.linkText}>Don’t have a work email?</Text>
                             </TouchableOpacity>
+
                             <Text style={styles.invalidMessage}>
-                                {inputs[1]['valid'] || inputs[1]['valid'] == null
+                                {email.valid || email.valid == null
                                 ? ''
                                 : 'This email is already in use or invalid.'
                                 }
                             </Text>
+
                         </View>
                     </View>
 
                     <View>
                         <PasswordInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Password*"
-                        value={inputs[2]['value']} onChangeText={text => updateInput(2, text)} />
+                        value={password.value}
+                        onChangeText={text => setPassword(password =>
+                            Object.assign({}, password, {'value': text}))
+                        }
+                        />
+
                         <Text style={styles.invalidMessage}>
-                            {inputs[2]['valid'] || inputs[2]['valid'] == null
+                            {password.valid || password.valid == null
                             ? ''
                             : 'Invalid password. Requires 8 characters and 1 number.'
                             }
                         </Text>
+
                     </View>
 
                     <View>
                         <PasswordInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Repeat password*"
-                        value={inputs[3]['value']} onChangeText={text => updateInput(3, text)} />
+                        value={confPassword.value}
+                        onChangeText={text => setConfPassword(confPassword =>
+                            Object.assign({}, confPassword, {'value': text}))
+                        }
+                        />
+
                         <Text style={styles.invalidMessage}>
-                            {inputs[3]['valid'] || inputs[3]['valid'] == null
+                            {confPassword.valid || confPassword.valid == null
                             ? ''
                             : 'Passwords do not match'
                             }
                         </Text>
+
                     </View>
 
 
@@ -187,7 +204,8 @@ export default RegisterScreen = ({ navigation }) => {
                 isVisible={dialogVisible}
                 onBackdropPress={toggleDialog}
             >
-                <Dialog title={"Error"} details={"An error occurred."} buttonLabel={"OK"} onButtonPress={toggleDialog} />
+                <Dialog title={"Error"} details={"An error occurred."}
+                 buttonLabel={"OK"} onButtonPress={toggleDialog} />
             </Modal>
         </View>
     </>);
