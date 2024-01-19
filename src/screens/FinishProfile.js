@@ -11,72 +11,55 @@ const { isCountryValid, isProfessionValid, handlePhoto,
         handleLinkedin } = FinishProfileValidationService;
 
 const FinishProfile = ({ navigation }) => {
-    function generateInputs(numInputs){
-        var arr = [];
-        /*
-            valid elements and value elements need to be states so that they
-            are updated in the component.
-            required values don't need to be states as they are constants.
-        */
-        /*TODO: 'required' values are FALSE to be able to run through the app quickly
-            when releasing/ testing the input validation change the 'required' values to TRUE
-        */
-        for (let i = 0; i < numInputs; i++){
-            var [value, setValue] = useState('');
-            var [valid, setValid] = useState(null);
-            var required = false;
-            var newInput = {
-                'value': value, 'setValue': setValue,
-                'valid': valid, 'setValid': setValid,
-                'required': required
-            }
-            arr.push(newInput);
-        }
-        return arr;
-    }
+    const [photo, setPhoto] = useState({
+        'value': null,
+        'valid': null,
+        'required': false,
+    });
+    const [country, setCountry] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
+    const [job, setJob] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
+    const [linkedin, setLinkedin] = useState({
+        'value': null,
+        'valid': null,
+        'required': false,
+    });
+
 
     function areInputsValid(){
         //check if the country is a valid one / replace input with dropdown
-        var countryValid = isCountryValid(inputs[0]['value']);
-        inputs[0]['valid'] = countryValid;
-        inputs[0]['setValid'](countryValid);
+        country.valid = isCountryValid(country.value);
+        //check if job is valid
+        job.valid = isProfessionValid(job.value);
 
-        var jobValid = isProfessionValid(inputs[1]['value']);
-        inputs[1]['valid'] = jobValid;
-        inputs[1]['setValid'](jobValid);
+        //for testing
+        console.log(photo);
+        console.log(country);
+        console.log(job);
+        console.log(linkedin);
+
 
         return (
-           (inputs[0]['valid'] || !inputs[0]['required'])
-        && (inputs[1]['valid'] || !inputs[1]['required'])
+           (photo.valid    || !photo.required)
+        && (country.valid  || !country.required)
+        && (job.valid      || !job.required)
+        && (linkedin.valid || !linkedin.required)
         );
     }
 
-    function updateInput(index, text){
-        inputs[index]['value'] = text;
-        inputs[index]['setValue'](text);
-    }
 
     function finishProfile(){
         if (areInputsValid()) navigation.navigate('GetMatched');
         else console.log('missing some inputs');
     }
 
-    const [inputs, setInputs] = useState(generateInputs(3));
-    inputs[2]['required'] = false;
-
-    const handleLinkedin = (data) => {
-        if (data){
-            console.log("linkedin added");
-            inputs[2]['valid'] = true;
-            inputs[2]['setValid'](true);
-        }
-        else console.log("linkedin not added");
-    }
-
-    const handlePhoto = (data) => {
-        if (data) console.log("photo added");
-        else console.log("no photo added");
-    }
 
     return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -95,25 +78,37 @@ const FinishProfile = ({ navigation }) => {
                 <View>
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label='Country of Residence*' placeholder='United States'
-                    value={inputs[0]['value']} onChangeText={text => updateInput(0, text)}/>
+                    value={country.value}
+                    onChangeText={text => setCountry(country =>
+                        Object.assign({}, country, {'value': text}))
+                    }
+                    />
+
                     <Text style={styles.invalidMessage}>
-                        {inputs[0]['valid'] || inputs[0]['valid'] == null
+                        {country.valid || country.valid == null
                         ? ''
                         : 'Invalid Country.'
                         }
                     </Text>
+
                 </View>
 
                 <View>
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google'
-                    value={inputs[1]['value']} onChangeText={text => updateInput(1, text)}/>
+                    value={job.value}
+                    onChangeText={text => setJob(job =>
+                        Object.assign({}, job, {'value': text}))
+                    }
+                    />
+
                     <Text style={styles.invalidMessage}>
-                        {inputs[1]['valid'] || inputs[1]['valid'] == null
+                        {job.valid || job.valid == null
                         ? ''
                         : 'Invalid profession.'
                         }
                     </Text>
+
                 </View>
 
                 <View marginTop={20}>

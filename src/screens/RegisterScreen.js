@@ -11,25 +11,26 @@ const { registerUser } = UserService;
 const { isNameValid, isEmailValid, isPasswordValid } = RegisterValidationService;
 
 export default RegisterScreen = ({ navigation }) => {
+    //TODO: for release, turn 'required' values to true for required field
     const [name, setName] = useState({
         'value': '',
         'valid': null,
-        'required': true,
+        'required': false,
     });
     const [email, setEmail] = useState({
         'value': '',
         'valid': null,
-        'required': true,
+        'required': false,
     });
     const [password, setPassword] = useState({
         'value': '',
         'valid': null,
-        'required': true,
+        'required': false,
     });
     const [confPassword, setConfPassword] = useState({
         'value': '',
         'valid': null,
-        'required': true,
+        'required': false,
     });
 
     const doPasswordsMatch = () => password.value == confPassword.value;
@@ -37,17 +38,13 @@ export default RegisterScreen = ({ navigation }) => {
 
     function areInputsValid(){
         //if name valid
-        var nameValid = isNameValid(name.value);
-        name.valid = nameValid;
+        name.valid = isNameValid(name.value);
         //if email valid
-        var emailValid = isEmailValid(email.value);
-        email.valid = emailValid;
+        email.valid = isEmailValid(email.value);
         //if password meets requirements
-        var passwordValid = isPasswordValid(password.value);
-        password.valid = passwordValid;
+        password.valid = isPasswordValid(password.value);
         //if passwords match or not
-        var passwordsMatch = doPasswordsMatch();
-        confPassword.valid = passwordsMatch;
+        confPassword.valid = doPasswordsMatch();
 
         //for testing
         console.log(name);
