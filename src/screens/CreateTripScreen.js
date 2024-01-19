@@ -12,18 +12,54 @@ const { isDateValid, isCountryValid, isNumPeopleValid,
 //SCREEN TO CREATE A TRIP
 
 export default CreateTripScreen = ({ navigation }) => {
+    const [date, setDate] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
+    const [country, setCountry] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
+    const [numPeople, setNumPeople] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
+    const [desc, setDesc] = useState({
+        'value': '',
+        'valid': null,
+        'required': false,
+    });
 
-    const [date, setDate] = useState([]);
-    const [country, setCountry] = useState([]);
+    function areFieldsValid(){
+        //check date is valid
+        date.valid = isDateValid(date.value);
+        //check country is valid
+        country.valid = isCountryValid(country.value);
+        //check num people is valid
+        numPeople.valid = isNumPeopleValid(numPeople.value);
+        //check description is valid
+        desc.valid = isDescriptionValid(desc.value);
 
-    const handleDate = (data) => {
-        console.log(data);
-        setDate(date);
+        //for testing
+        console.log(date);
+        console.log(country);
+        console.log(numPeople);
+        console.log(desc);
+
+        return (
+           (date.valid      || !date.required)
+        && (country.valid   || !country.required)
+        && (numPeople.valid || !numPeople.required)
+        && (desc.valid      || desc.required)
+        )
     }
 
-    const handleCountry = (data) => {
-        console.log(data);
-        setCountry(data);
+    function createTrip(){
+        if (areFieldsValid()) navigation.replace('Home');
+        else console.log("some fields are invalid");
     }
 
 
@@ -34,7 +70,7 @@ export default CreateTripScreen = ({ navigation }) => {
                 <View style={styles.inputGroup}>
                     <SelectDates
                         title={null}
-                        subtitle={"Select date"}
+                        subtitle={"Select date*"}
                         subtitleStyle={2}
                         isFlexible={false}
                         showLine={false}
@@ -44,25 +80,44 @@ export default CreateTripScreen = ({ navigation }) => {
                         editable={true}
                         initialDates={[]}
 
-                        onSelectDate={(data) => handleDate(data)}
+                        onSelectDate={(data) => setDate(date =>
+                        Object.assign({}, date, {'value': data[0]}))
+                        }
                     />
                     <SelectCountries
                         title={null}
-                        subtitle={"Select country"}
+                        subtitle={"Select country*"}
                         subtitleStyle={2}
                         editable={true}
                         multipleCountries={false}
                         boxWidth={80 * vmin}
                         initialCountries={[]}
 
-                        onSelectCountry={(data) => handleCountry(data)}
+                        onSelectCountry={(data) => setCountry(country =>
+                        Object.assign({}, country, {'value': data[0]}))
+                        }
                     />
 
-                    <TextInput style={styles.textInput} theme={themes.textInput} mode='outlined' label="Number of participants" />
-                    <MultilineInput style={styles.multilineInput} theme={themes.textInput} mode='outlined' />
+                    <TextInput style={styles.textInput} theme={themes.textInput}
+                    mode='outlined' label="Number of participants*"
+                    value={numPeople.value}
+                    onChangeText={text => setNumPeople(numPeople =>
+                    Object.assign({}, numPeople, {'value': text}))
+                    }
+                    />
+
+                    <MultilineInput style={styles.multilineInput} theme={themes.textInput}
+                    mode='outlined' label="Description"
+                    placeholder="Describe the trip or anything else you want others to know"
+                    value={desc.value}
+                    onChangeText={text => setDesc(desc =>
+                    Object.assign({}, desc, {'value': text}))
+                    }
+                    />
+
                 </View>
                 <Button
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={() => createTrip()}
                     mode='contained'
                     theme={themes.button}
                     style={styles.button}

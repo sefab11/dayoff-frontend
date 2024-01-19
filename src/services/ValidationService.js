@@ -66,33 +66,26 @@ export const _getPhoto = () => {
 
 //CREATE TRIP SCREEN METHODS
 
-export const _isDateValid = (dateArr) => {
-    try{
-        if (dateArr.length == 1) console.log("valid date added");
-        else console.log("invalid date added, should not occur - error with SelectDates");
-    } catch (e){
-        console.log("invalid param passed");
-    }
+export const _isDateValid = (date) => {
+    return date != '';
 }
 
-export const _isCountryValid = (countryArr) => {
-    try{
-        if (countryArr.length == 1) console.log("valid country added");
-        else console.log("invalid country.");
-    } catch (e){
-        console.log("invalid param passed");
-    }
+export const _isCountryValid = (country) => {
+    return country != '';
 }
 
 export const _isNumPeopleValid = (numPeople) => {
-    if (numPeople > 1) console.log("valid number of people added.");
-    else console.log("invalid number of people");
+    if (numPeople == '') return false;
+    else if (numPeople <= 1) return false;
+
+    return true;
 }
 
 export const _isDescriptionValid = (desc) => {
     //check for bad words in description?
-    if (desc.includes('fuck')) console.log("bad word detected, prevent trip creation");
-    else console.log("valid description");
+    if (desc.includes('fuck')) return false;
+
+    return true;
 }
 
 //VALIDATION SERVICES

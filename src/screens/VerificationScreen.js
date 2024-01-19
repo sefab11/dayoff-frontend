@@ -51,7 +51,7 @@ export default VerificationScreen = ({ navigation }) => {
     }
 
     function verify(){
-        if (areFieldsValid()) navigation.navigate('Chat');
+        if (areFieldsValid()) navigation.replace('Chat');
         else console.log("some fields invalid");
     }
 
