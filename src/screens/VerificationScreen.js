@@ -6,15 +6,54 @@ import { React, useState } from "react";
 import { palette, themes } from "../style";
 import { VerificationValidationService } from "../services/ValidationService";
 
-const { isCodeCorrect, handlePhoto, handleLinkedin, hasLinkedin, hasPhoto, getUserEmail } = VerificationValidationService;
+const { isCodeCorrect, handlePhoto, handleLinkedin, getLinkedin, getPhoto, getUserEmail } = VerificationValidationService;
 
 export default VerificationScreen = ({ navigation }) => {
-    console.log(VerificationValidationService);
+    const [code, setCode] = useState({
+        'value': '',
+        'valid': null,
+        'required': true,
+    });
+    var linkedinURL = getLinkedin();
+    const [linkedin, setLinkedin] = useState({
+        'value': linkedinURL,
+        'valid': null,
+        'required': linkedinURL == null,
+    });
+    var photoData = getPhoto();
+    const [photo, setPhoto] = useState({
+        'value': photoData,
+        'valid': null,
+        'required': photoData == null,
+    });
 
     const emailAddress = getUserEmail();
 
-    const hasLinkedinVar = hasLinkedin();
-    const hasPhotoVar = hasPhoto();
+    function areFieldsValid(){
+        //check if code is correct
+        code.valid = isCodeCorrect(code.value);
+        //check if any other fields have been entered
+        //handleLinkedin and handlePhoto should update the database, so check again
+        //if the values in the database aren't null
+        if (linkedin.required) linkedin.valid = getLinkedin() != null;
+        if (photo.required) photo.valid = getPhoto() != null;
+
+        //for testing
+        console.log(code);
+        console.log(linkedin);
+        console.log(photo);
+
+        return (
+           (code.valid     || !code.required)
+        && (linkedin.valid || !linkedin.required)
+        && (photo.valid    || !photo.required)
+        );
+    }
+
+    function verify(){
+        if (areFieldsValid()) navigation.navigate('Chat');
+        else console.log("some fields invalid");
+    }
 
 
     return (
@@ -39,6 +78,10 @@ export default VerificationScreen = ({ navigation }) => {
                                 label={'We’ve sent a verification code to ' + emailAddress}
                                 labelStyle={styles.message}
                                 keyboardType='numeric'
+
+                                onCodeChange={(data) => setCode(code =>
+                                    Object.assign({}, code, {'value': data}))
+                                }
                             />
                             <TouchableOpacity
                                 style={styles.resendContainer}
@@ -50,7 +93,7 @@ export default VerificationScreen = ({ navigation }) => {
                         </View>
 
                         {
-                        !hasLinkedinVar ?
+                        linkedin.required ?
                         <>
                         <View style={styles.border} />
 
@@ -65,7 +108,7 @@ export default VerificationScreen = ({ navigation }) => {
                         }
 
                         {
-                        !hasPhotoVar ?
+                        photo.required ?
                         <>
                         <View style={styles.border} />
 
@@ -87,7 +130,7 @@ export default VerificationScreen = ({ navigation }) => {
                             mode="container"
                             theme={themes.button}
                             style={styles.button}
-                            onPress={() => navigation.replace('Chat')}
+                            onPress={() => verify()}
                         >
                             <Text style={styles.buttonText}>Verify Account</Text>
                         </Button>
@@ -123,7 +166,9 @@ const styles = StyleSheet.create({
     segment: {
         height: 17 * vmin,
         backgroundColor: palette.white,
-        fontSize: 5 * vmin,
+        fontSize: 7 * vmin,
+        textAlign: 'left',
+        textAlignVertical: 'center',
     },
 
     resendContainer: {

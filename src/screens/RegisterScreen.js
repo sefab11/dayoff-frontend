@@ -15,22 +15,22 @@ export default RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState({
         'value': '',
         'valid': null,
-        'required': false,
+        'required': false, //true
     });
     const [email, setEmail] = useState({
         'value': '',
         'valid': null,
-        'required': false,
+        'required': false, //true
     });
     const [password, setPassword] = useState({
         'value': '',
         'valid': null,
-        'required': false,
+        'required': false, //true
     });
     const [confPassword, setConfPassword] = useState({
         'value': '',
         'valid': null,
-        'required': false,
+        'required': false, //true
     });
 
     const doPasswordsMatch = () => password.value == confPassword.value;

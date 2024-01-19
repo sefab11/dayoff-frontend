@@ -11,6 +11,7 @@ const { isCountryValid, isProfessionValid, handlePhoto,
         handleLinkedin } = FinishProfileValidationService;
 
 const FinishProfile = ({ navigation }) => {
+    //TODO: change 'required' values to true for required fields ( for release )
     const [photo, setPhoto] = useState({
         'value': null,
         'valid': null,
@@ -19,12 +20,12 @@ const FinishProfile = ({ navigation }) => {
     const [country, setCountry] = useState({
         'value': '',
         'valid': null,
-        'required': true,
+        'required': false, //true
     });
     const [job, setJob] = useState({
         'value': '',
         'valid': null,
-        'required': true,
+        'required': false, //true
     });
     const [linkedin, setLinkedin] = useState({
         'value': null,

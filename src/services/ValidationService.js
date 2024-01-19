@@ -39,21 +39,29 @@ export const _handleLinkedin = (completed) => {
 
 //VERIFICATION SCREEN METHODS
 
+export const _isCodeCorrect = (code) => {
+    var userCode = JSON.stringify(code);
+    var serverCode = JSON.stringify(['0','0','0','0','0']);
+
+    return userCode == serverCode;
+}
+
 export const _getUserEmail = () => {
     return 'name@workmail.com';
 }
 
-export const _isCodeCorrect = (code) => {
-    return code == '00000';
+
+export const _getLinkedin = () => {
+    //using random gen to show different returns
+    choice = Math.floor(Math.random() * 2);
+    if (choice == 0) return 'linkedin.com/name-2253'; //return the link if exists
+    else return null; //return null if not
 }
 
-export const _hasLinkedin = () => {
-    //return true/false depending on if the user has already linked their url
-    return false;
-}
-
-export const _hasPhoto = () => {
-    return false;
+export const _getPhoto = () => {
+    choice = Math.floor(Math.random() * 2);
+    if (choice == 0) return require("../../assets/images/profilePics/1.jpg"); //return pic if exists
+    else return null; //return null if not
 }
 
 //CREATE TRIP SCREEN METHODS
@@ -107,8 +115,8 @@ const VerificationValidationService = {
     handlePhoto: _handlePhoto,
     handleLinkedin: _handleLinkedin,
     getUserEmail: _getUserEmail,
-    hasPhoto: _hasPhoto,
-    hasLinkedin: _hasLinkedin,
+    getPhoto: _getPhoto,
+    getLinkedin: _getLinkedin,
 };
 
 const CreateTripValidationService = {

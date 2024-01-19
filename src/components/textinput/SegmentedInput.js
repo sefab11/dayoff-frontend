@@ -19,6 +19,9 @@ const SegmentedInput = (props) => {
         let code = [...verificationCode];
         code[key] = value;
         setVerificationCode(code);
+
+        //pass the code to the parent as well
+        props.onCodeChange(code);
     }
 
     onFocus = (event, key) => {
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
         width: 14 * vmin,
         borderRadius: 8,
         fontFamily: 'Lato-Regular',
-        padding: 0
+        padding: 0,
     }
 })
 

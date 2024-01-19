@@ -69,6 +69,7 @@ export default ChatScreen = ({ navigation }) => {
         }
     ]
 
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
@@ -77,7 +78,7 @@ export default ChatScreen = ({ navigation }) => {
                     {
                         messages.map((m) => {
                             if(m.joined)
-                                return <JoinedMessage>{members.find((u) => u.id === m.authorId)}</JoinedMessage>
+                                return (<JoinedMessage>{members.find((u) => u.id === m.authorId).name}</JoinedMessage>)
                             else if(m.authorId === currentUserId)
                                 return(<UserMessage>{m.message}</UserMessage>)
                             else
