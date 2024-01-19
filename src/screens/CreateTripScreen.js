@@ -3,8 +3,11 @@ import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "..
 import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
-
 import { SelectDates, SelectCountries } from "../components";
+import { CreateTripValidationService } from "../services/ValidationService";
+
+const { isDateValid, isCountryValid, isNumPeopleValid,
+        isDescriptionValid } = CreateTripValidationService;
 
 //SCREEN TO CREATE A TRIP
 

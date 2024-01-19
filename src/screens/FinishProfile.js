@@ -7,7 +7,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import { FinishProfileValidationService } from "../services/ValidationService";
 
-const { isCountryValid, isProfessionValid } = FinishProfileValidationService;
+const { isCountryValid, isProfessionValid, handlePhoto,
+        handleLinkedin } = FinishProfileValidationService;
 
 const FinishProfile = ({ navigation }) => {
     function generateInputs(numInputs){
@@ -36,11 +37,11 @@ const FinishProfile = ({ navigation }) => {
 
     function areInputsValid(){
         //check if the country is a valid one / replace input with dropdown
-        var countryValid = isCountryValid();
+        var countryValid = isCountryValid(inputs[0]['value']);
         inputs[0]['valid'] = countryValid;
         inputs[0]['setValid'](countryValid);
 
-        var jobValid = isProfessionValid();
+        var jobValid = isProfessionValid(inputs[1]['value']);
         inputs[1]['valid'] = jobValid;
         inputs[1]['setValid'](jobValid);
 

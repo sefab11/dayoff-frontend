@@ -4,27 +4,17 @@ import { LinkedinInput, PhotoInput } from "../components";
 import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
+import { VerificationValidationService } from "../services/ValidationService";
+
+const { isCodeCorrect, handlePhoto, handleLinkedin, hasLinkedin, hasPhoto, getUserEmail } = VerificationValidationService;
 
 export default VerificationScreen = ({ navigation }) => {
-    //TODO: get user's email address from their details
-    const email_address = 'name@workmail.com';
+    console.log(VerificationValidationService);
 
-    //TODO: change value depending on whether the user has already added a linkedin and photo
-    const hasLinkedin = false;
-    const hasPhoto = false;
+    const emailAddress = getUserEmail();
 
-    const handleLinkedin = (data) => {
-        //dont update the state as it will get rid of the section and make the page
-        //look wierd. send data to the backend to update the users information
-        if (data) console.log("linkedin added");
-        else console.log("no linkedin added");
-    }
-    const handlePhoto = (data) => {
-        console.log(data);
-        if (data) console.log("photo added");
-        else console.log("no photo added");
-    }
-
+    const hasLinkedinVar = hasLinkedin();
+    const hasPhotoVar = hasPhoto();
 
 
     return (
@@ -46,7 +36,7 @@ export default VerificationScreen = ({ navigation }) => {
                                 segmentStyle={styles.segment}
                                 theme={themes.textInput}
                                 mode='outlined'
-                                label={'We’ve sent a verification code to ' + email_address}
+                                label={'We’ve sent a verification code to ' + emailAddress}
                                 labelStyle={styles.message}
                                 keyboardType='numeric'
                             />
@@ -60,7 +50,7 @@ export default VerificationScreen = ({ navigation }) => {
                         </View>
 
                         {
-                        !hasLinkedin ?
+                        !hasLinkedinVar ?
                         <>
                         <View style={styles.border} />
 
@@ -75,7 +65,7 @@ export default VerificationScreen = ({ navigation }) => {
                         }
 
                         {
-                        !hasPhoto ?
+                        !hasPhotoVar ?
                         <>
                         <View style={styles.border} />
 

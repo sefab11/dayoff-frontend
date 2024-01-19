@@ -39,15 +39,15 @@ export default RegisterScreen = ({ navigation }) => {
 
     function areInputsValid(){
         //if name valid
-        var nameValid = isNameValid();
+        var nameValid = isNameValid(inputs[0]['value']);
         inputs[0]['valid'] = nameValid;
         inputs[0]['setValid'](nameValid);
         //if email valid
-        var emailValid = isPasswordValid();
+        var emailValid = isEmailValid(inputs[1]['value']);
         inputs[1]['valid'] = emailValid
         inputs[1]['setValid'](emailValid);
         //if password meets requirements
-        var passwordValid = isPasswordValid();
+        var passwordValid = isPasswordValid(inputs[2]['value']);
         inputs[2]['valid'] = passwordValid;
         inputs[2]['setValid'](passwordValid);
         //if passwords match or not
