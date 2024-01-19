@@ -1,4 +1,4 @@
-import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { View, Keyboard, TouchableWithoutFeedback, Text } from "react-native";
 import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "../components";
 import { StyleSheet } from "react-native";
 import { React, useState } from "react";
@@ -68,52 +68,85 @@ export default CreateTripScreen = ({ navigation }) => {
             <View style={styles.page}>
                 <HeaderBack>Create a trip</HeaderBack>
                 <View style={styles.inputGroup}>
-                    <SelectDates
-                        title={null}
-                        subtitle={"Select date*"}
-                        subtitleStyle={2}
-                        isFlexible={false}
-                        showLine={false}
-                        multipleDates={false}
-                        showBorder={true}
-                        boxWidth={80 * vmin}
-                        editable={true}
-                        initialDates={[]}
+                    <View>
+                        <SelectDates
+                            title={null}
+                            subtitle={"Select date*"}
+                            subtitleStyle={2}
+                            isFlexible={false}
+                            showLine={false}
+                            multipleDates={false}
+                            showBorder={true}
+                            boxWidth={80 * vmin}
+                            editable={true}
+                            initialDates={[]}
 
-                        onSelectDate={(data) => setDate(date =>
-                        Object.assign({}, date, {'value': data[0]}))
+                            onSelectDate={(data) => setDate(date =>
+                            Object.assign({}, date, {'value': data[0]}))
+                            }
+                        />
+                        <Text style={styles.invalidMessage}>
+                        {date.valid || date.valid == null
+                        ? ''
+                        : 'Invalid date.'
                         }
-                    />
-                    <SelectCountries
-                        title={null}
-                        subtitle={"Select country*"}
-                        subtitleStyle={2}
-                        editable={true}
-                        multipleCountries={false}
-                        boxWidth={80 * vmin}
-                        initialCountries={[]}
+                        </Text>
+                    </View>
 
-                        onSelectCountry={(data) => setCountry(country =>
-                        Object.assign({}, country, {'value': data[0]}))
+                    <View>
+                        <SelectCountries
+                            title={null}
+                            subtitle={"Select country*"}
+                            subtitleStyle={2}
+                            editable={true}
+                            multipleCountries={false}
+                            boxWidth={80 * vmin}
+                            initialCountries={[]}
+
+                            onSelectCountry={(data) => setCountry(country =>
+                            Object.assign({}, country, {'value': data[0]}))
+                            }
+                        />
+                        <Text style={styles.invalidMessage}>
+                        {country.valid || country.valid == null
+                        ? ''
+                        : 'Invalid country.'
                         }
-                    />
+                        </Text>
+                    </View>
 
-                    <TextInput style={styles.textInput} theme={themes.textInput}
-                    mode='outlined' label="Number of participants*"
-                    value={numPeople.value}
-                    onChangeText={text => setNumPeople(numPeople =>
-                    Object.assign({}, numPeople, {'value': text}))
-                    }
-                    />
+                    <View>
+                        <TextInput style={styles.textInput} theme={themes.textInput}
+                        mode='outlined' label="Number of participants*"
+                        value={numPeople.value}
+                        onChangeText={text => setNumPeople(numPeople =>
+                        Object.assign({}, numPeople, {'value': text}))
+                        }
+                        />
+                        <Text style={styles.invalidMessage}>
+                        {numPeople.valid || numPeople.valid == null
+                        ? ''
+                        : 'Invalid number of participants'
+                        }
+                        </Text>
+                    </View>
 
-                    <MultilineInput style={styles.multilineInput} theme={themes.textInput}
-                    mode='outlined' label="Description"
-                    placeholder="Describe the trip or anything else you want others to know"
-                    value={desc.value}
-                    onChangeText={text => setDesc(desc =>
-                    Object.assign({}, desc, {'value': text}))
-                    }
-                    />
+                    <View>
+                        <MultilineInput style={styles.multilineInput} theme={themes.textInput}
+                        mode='outlined' label="Description"
+                        placeholder="Describe the trip or anything else you want others to know"
+                        value={desc.value}
+                        onChangeText={text => setDesc(desc =>
+                        Object.assign({}, desc, {'value': text}))
+                        }
+                        />
+                        <Text style={styles.invalidMessage}>
+                        {desc.valid || desc.valid == null
+                        ? ''
+                        : 'The description contains harmful messages.'
+                        }
+                        </Text>
+                    </View>
 
                 </View>
                 <Button
@@ -157,5 +190,11 @@ const styles = StyleSheet.create({
         paddingBottom: 0.5 * vmin,
         marginTop: 5 * vh,
         marginBottom: 5 * vh
-    }
+    },
+    invalidMessage: {
+        color: 'red',
+        textAlign: 'left',
+        flexWrap: 'wrap',
+        width: 80 * vmin,
+    },
 })

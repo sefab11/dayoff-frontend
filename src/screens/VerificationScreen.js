@@ -90,6 +90,13 @@ export default VerificationScreen = ({ navigation }) => {
                             >
                                 <Text style={styles.resendText}>Resend Verification Code</Text>
                             </TouchableOpacity>
+
+                            <Text style={styles.invalidMessage}>
+                            {code.valid || code.valid == null
+                            ? ''
+                            : 'Invalid code.'
+                            }
+                            </Text>
                         </View>
 
                         {
@@ -103,6 +110,14 @@ export default VerificationScreen = ({ navigation }) => {
                             onComponentPress={(data) => handleLinkedin(data)}
                             />
                         </View>
+
+                        <Text style={styles.invalidMessage}>
+                        {linkedin.valid || linkedin.valid == null
+                        ? ''
+                        : 'A linkedin is required.'
+                        }
+                        </Text>
+
                         </>
                         : null
                         }
@@ -118,6 +133,13 @@ export default VerificationScreen = ({ navigation }) => {
                             onPhotoSelected={(data) => handlePhoto(data)}
                             />
                         </View>
+
+                        <Text style={styles.invalidMessage}>
+                        {photo.valid || photo.valid == null
+                        ? ''
+                        : 'A profile picture is required.'
+                        }
+                        </Text>
                         </>
                         : null
                         }
@@ -227,5 +249,12 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: palette.white,
+    },
+
+    invalidMessage: {
+        color: 'red',
+        textAlign: 'left',
+        flexWrap: 'wrap',
+        width: 85 * vmin,
     },
 })
