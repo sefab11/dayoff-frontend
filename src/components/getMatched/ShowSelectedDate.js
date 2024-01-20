@@ -9,249 +9,58 @@ import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 
 
 const ShowSelectedDate = (props) => {
-  //passed in properties
-  const [canEdit, setCanEdit] = useState(props.editable);
-  const title = props.title;
-  const subtitle = props.subtitle;
-  const isFlexibleOptionEnabled = props.isFlexible;
-  const showLine = props.showLine;
-  const allowMultipleDates = props.multipleDates;
-  const boxBorderSize = props.showBorder ? 1 : 0;
-  const boxWidth = props.boxWidth;
+    //passed in properties
+    const {title, titleStyle, label, labelStyle, boxWidth, initialDates} = props;
 
-  const subtitleStyle = props.subtitleStyle;
-  var subtitleType;
-  if (subtitleStyle == null || subtitleStyle == 1) subtitleType = styles.message;
-
-  //track the array of dates that are added
-  //called array but more like list as items are added dynamically
-  const [dates, setDates] = useState(props.initialDates);
-
-
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [isChecked, setChecked] = useState(false);
-
-
-  //either pushes a new date or makes the 0th index the new date
-  //depending on whether the multipleDates property is passed as true or false
-  function updateDates(newDate){
-    //makes sure no repeat dates are added
-    if (dates.includes(newDate) || newDate.includes("undefined")) return;
-    if (allowMultipleDates){
-        dates.push(newDate);
-        setDates(dates);
-
-        props.onSelectDate(dates);
-    }
-    else {
-        setDates([newDate]);
-
-        props.onSelectDate([newDate]);
-    }
-  };
-
-  //removes the date clicked on and updates the dates array state
-  function removeDate(date){
-    if (isChecked) return;
-    else if (!canEdit) return;
-
-    dates.splice(dates.indexOf(date), 1);
-    setDates(dates => [...dates]);
-  };
-
-
-  const toggleModal = () => {
-    if (isChecked) return;
-    else if (!canEdit) return;
-
-    setModalVisible(!isModalVisible);
-
-    //when disabling the calender, add a new date to dates
-    if (!isModalVisible) return;
-
-    //add new date when calender is closed
-    const newDate = formatDate(startDate, endDate);
-    updateDates(newDate);
-
-    setStartDate("");
-    setEndDate("")
-  };
-
-  function deliverDateLabels(){
-    if (dates == null) return;
-    //ensures that theres always at least one element so that the calender icon is fixed to
-    //the right of the label
-
-    const dateComponents = dates.map((date, index) =>
-        <View key={index}
-        style={styles.dateContainer}
-        backgroundColor={!isChecked && canEdit ? palette.lightPurple : palette.lightGrey2}>
-            <Text style={!isChecked && canEdit ? styles.dateTextActive : styles.dateTextInactive}>
-            {date}
-            </Text>
-
-            <TouchableOpacity onPress={() => removeDate(date)}>
-                <Image
-                    style={styles.xIcon}
-                    tintColor={!isChecked && canEdit ? palette.black : palette.grey}
-                    source={require("../../../assets/icons/x.png")}
-                />
-            </TouchableOpacity>
-
-        </View>
-    );
-
-    return dateComponents;
-  };
-
-  //dateSelected parameter will have the date
-  //dateType parameter will have either "START_DATE" or "END_DATE"
-  function onDateSelected(dateSelected, dateType){
-    //on start date changed null will be returned after the date so ignore those calls
-    if (dateSelected == null || dateType == null) return;
-
-    if (dateType == "START_DATE") setStartDate(dateSelected);
-    else if (dateType == "END_DATE") setEndDate(dateSelected);
-  };
-
-
-  //for formatting the string in the Text components
-  function formatDate(startDate, endDate){
-    var start = startDate.toString().split(" ");
-    var end = endDate.toString().split(" ");
-
-    var startDay = start[2];
-    var startMonth = start[1];
-    var endDay = end[2];
-    var endMonth = end[1];
-
-    if (startMonth == endMonth){
-        return (startDay + " - " + endDay + " " + startMonth);
-    }
-    else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
-  };
-
-  //for enabling or disabling the line underneath the component
-  //the line is due to the selectDateWrap container and is changed to
-  //null style when there shouldn't be a checkbox
-  function enableUnderLine(showLine){
-    if (!showLine) return null;
-
-    return (styles.selectDateWrap);
-  };
-
-  function enableHeader(headerOpt){
-    if (headerOpt == null) return;
+    //track the array of dates that are added
+    //called array but more like list as items are added dynamically
+    const [dates, setDates] = useState(initialDates);
 
     return (
-    <View>
-        <Text style={styles.headingText}>{title}</Text>
-    </View>
-    );
-  };
-
-  function enableSubheader(subheaderOpt){
-    if (subheaderOpt == null) return;
-
-    if (subtitleStyle == 1){
-        return (
+    <View style={styles.selectDateWrap}>
         <View>
-            <Text style={styles.message}>{subtitle}</Text>
+            <Text style={titleStyle}>{title}</Text>
         </View>
-        );
-    }
-    else if (subtitleStyle == 2){
-        return (
+
         <View>
-            <Text
-                style={{
-                    fontFamily: 'Lato-Bold',
-                    marginTop: 1 * vh,
-                    marginBottom: 0.5 * vh
-                }}
-            >
-                {subtitle}
-            </Text>
+            <Text style={labelStyle}>{label}</Text>
         </View>
-        );
-    };
-  };
 
-  //to either render or not render the flexible option checkbox
-  function enableFlexibleOption(flexibleOpt){
-    if (!flexibleOpt) return;
+        <View style={styles.calenderIconContainer} width={boxWidth}>
+            {dates == null ? null
+            :
+            dates.map((date, index) =>
+            <View style={styles.dateContainer}
+            backgroundColor={palette.lightGrey2}
+            key={index}>
+                <Text style={styles.dateTextInactive}>{date}</Text>
 
-    return (
-    <View style={styles.checkboxContainer}>
-    <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked && !canEdit ? palette.purple : undefined} />
-        <Text style={styles.checkText}>I’m flexible with my dates</Text>
-    </View>
-    );
-  };
-
-
-  return (
-    <View style={enableUnderLine(showLine)}>
-      {enableHeader(title)}
-      {enableSubheader(subtitle)}
-      <View>
-        <View style={styles.calenderIconContainer}
-        borderWidth={boxBorderSize}
-        marginTop={subtitleStyle == 2 ? 0 : 15}
-        width={boxWidth}>
-          {deliverDateLabels()}
-          {/*marginLeft keeps it as the last component in the flexbox, padding makes it
-            slightly bigger so that flexbox doesn't expand on a new date on a new row
-          */}
-          <TouchableOpacity onPress={toggleModal}
-          style={{marginLeft: 'auto',
-          alignSelf: 'center'}}>
-            <Image
-              style={styles.icon}
-              tintColor={!isChecked && canEdit ? palette.purple : palette.grey}
-              source={require("../../../assets/icons/calendar.png")}
-            />
-          </TouchableOpacity>
-        </View>
-        {/* Modal */}
-        <Modal
-          isVisible={isModalVisible}
-          animationIn="slideInUp"
-          animationOut="slideOutDown"
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.calendarContainer}>
-              <CalendarPicker
-                startFromMonday={true}
-                allowRangeSelection={true}
-                onDateChange={onDateSelected}
-                selectedDayColor={palette.purple}
-                selectedDayTextColor={palette.white}
-              />
-              <View style={styles.calenderBottom}>
-                <TouchableOpacity onPress={toggleModal} style={styles.confirmButton}>
-                    <Text style={styles.confirmText}>
-                        Confirm
-                    </Text>
+                <TouchableOpacity onPress={() => {}}>
+                    <Image style={styles.xIcon}
+                    tintColor={palette.grey}
+                    source={require("../../../assets/icons/x.png")} />
                 </TouchableOpacity>
-              </View>
             </View>
-          </View>
-        </Modal>
-      </View>
-      {enableFlexibleOption(isFlexibleOptionEnabled)}
+            )}
+
+            <TouchableOpacity onPress={() => {}}
+            style={{marginLeft: 'auto', alignSelf: 'center'}}>
+                <Image style={styles.icon}
+                tintColor={palette.grey}
+                source={require("../../../assets/icons/calendar.png")} />
+            </TouchableOpacity>
+        </View>
+        {/* no modal or checkbox required */}
     </View>
-  );
+    );
 };
 
 
 const styles = StyleSheet.create({
   selectDateWrap: {
     paddingTop:5,
-    paddingBottom:35,
-    borderBottomWidth:1,
+    paddingBottom:0,
+    borderBottomWidth:0,
     borderBottomColor:'#D7D7D7',
   },
   headingText: {
@@ -314,6 +123,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "flex-start",
     lineHeight: "27px",
+    marginTop: 0,
   },
   dateContainer: {
     display: 'flex',

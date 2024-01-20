@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 import { useState } from "react";
 
-import { SelectDates, SelectCountries } from "../components";
+import { ShowSelectedDate, SelectCountries } from "../components";
 
 
 export default EditTripScreen = ({ route, navigation }) => {
@@ -20,16 +20,13 @@ export default EditTripScreen = ({ route, navigation }) => {
                 <HeaderBack>Edit trip</HeaderBack>
                 <View style={styles.inputGroup}>
 
-                    <SelectDates
+                    <ShowSelectedDate
                         title={null}
-                        subtitle={"Select date"}
-                        subtitleStyle={2}
-                        isFlexible={false}
-                        showLine={false}
-                        multipleDates={false}
-                        showBorder={true}
+                        titleStyle={null}
+                        label={"Select date"}
+                        labelStyle={styles.selectLabel}
+
                         boxWidth={80 * vmin}
-                        editable={false}
                         initialDates={[date]}
                     />
 
@@ -94,5 +91,18 @@ const styles = StyleSheet.create({
         paddingBottom: 0.5 * vmin,
         marginTop: 5 * vh,
         marginBottom: 5 * vh
+    },
+    message: {
+        marginTop: 1.5 * vh,
+        alignSelf: "center",
+        width: 85 * vmin,
+        fontFamily: "Lato-Regular",
+        fontSize: 3.8 * vmin,
+        color: palette.grey,
+    },
+    selectLabel: {
+        fontFamily: 'Lato-Bold',
+        marginTop: 1 * vh,
+        marginBottom: 0.5 * vh
     }
 })
