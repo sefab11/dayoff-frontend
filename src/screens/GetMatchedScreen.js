@@ -1,16 +1,12 @@
 import { React, useState, useEffect } from 'react';
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text, ScrollView } from 'react-native';
 import { Button, CountryMultiSelector, Header, TextInput, StatusBar } from '../components';
-import SelectDates from '../components/getMatched/SelectDates';
-import SelectCountries from '../components/getMatched/SelectCountries';
+import { SelectManyDates, SelectCountries } from '../components';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 
 
 const GetMatchedScreen = ({ navigation }) => {
-    /*TODO: unsure how to link the data here to the array data in
-            the components SelectDates and SelectCountries??
-    */
     const [dates, setDates] = useState([]);
     const [countries, setCountries] = useState([]);
 
@@ -24,6 +20,10 @@ const GetMatchedScreen = ({ navigation }) => {
         setCountries(data);
     }
 
+    function getMatched(){
+        if (true) navigation.navigate('Home');
+    }
+
 
     return (
     <ScrollView>
@@ -33,17 +33,15 @@ const GetMatchedScreen = ({ navigation }) => {
                     <Header>Get Teamed Up</Header>
                     <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
                 </View>
-                <SelectDates
+                <SelectManyDates
                     title={"Select the dates of your trip(s)"}
-                    subtitle={"Eg. If you’re going to Greece on 21-28 June and Mexico on 10-17 July, add all the dates below"}
-                    subtitleStyle={1}
+                    titleStyle={styles.selectTitle}
+                    label={"Eg. If you’re going to Greece on 21-28 June and Mexico on 10-17 July, add all the dates below"}
+                    labelStyle={styles.message}
+
                     isFlexible={true}
-                    showLine={true}
-                    multipleDates={true}
-                    showBorder={true}
                     boxWidth={85 * vmin}
-                    editable={true}
-                    initialDates={[]}
+
                     onSelectDate={(data) => handleDates(data)}
                 />
                 <SelectCountries
@@ -58,7 +56,8 @@ const GetMatchedScreen = ({ navigation }) => {
                     onSelectCountry={(data) => handleCountries(data)}
                 />
                 <View style={styles.buttonGroup}>
-                    <Button onPress={() => navigation.navigate('Home')} mode='contained' theme={themes.button} style={styles.button}>
+                    <Button onPress={() => getMatched()} mode='contained'
+                    theme={themes.button} style={styles.button}>
                         Done
                     </Button>
                 </View>
@@ -102,7 +101,25 @@ const styles = StyleSheet.create({
         height: 14 * vmin,
         justifyContent: 'center',
         paddingBottom: 0.5 * vmin
-    }
+    },
+
+    selectTitle: {
+        marginTop: 3 * vh,
+        alignSelf: "center",
+        width: 85 * vmin,
+        fontFamily: "Lato-Regular",
+        fontSize: 4.5 * vmin,
+        fontWeight: "700",
+        color: "#000000",
+    },
+    message: {
+        marginTop: 1.5 * vh,
+        alignSelf: "center",
+        width: 85 * vmin,
+        fontFamily: "Lato-Regular",
+        fontSize: 3.8 * vmin,
+        color: palette.grey,
+    },
 })
 
 export default GetMatchedScreen;
