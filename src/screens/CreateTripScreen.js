@@ -4,11 +4,10 @@ import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
-import { SelectDates, SelectCountries } from "../components";
+import { SelectOneDate, SelectCountries } from "../components";
 import { CreateTripValidationService } from "../services/ValidationService";
 
-const { isDateValid, isCountryValid, isNumPeopleValid,
-        isDescriptionValid } = CreateTripValidationService;
+const { isDateValid, isCountryValid, isNumPeopleValid } = CreateTripValidationService;
 
 //SCREEN TO CREATE A TRIP
 
@@ -83,17 +82,14 @@ export default CreateTripScreen = ({ navigation }) => {
                 <HeaderBack>Create a trip</HeaderBack>
                 <View style={styles.inputGroup}>
                     <View>
-                        <SelectDates
+                        <SelectOneDate
                             title={null}
-                            subtitle={"Select date*"}
-                            subtitleStyle={2}
+                            titleStyle={null}
+                            label={"Select date*"}
+                            labelStyle={styles.selectLabel}
+
                             isFlexible={false}
-                            showLine={false}
-                            multipleDates={false}
-                            showBorder={true}
                             boxWidth={80 * vmin}
-                            editable={true}
-                            initialDates={[]}
 
                             onSelectDate={(data) => setDate(date => updatedState(date, data[0]))}
                         />
@@ -211,5 +207,20 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         flexWrap: 'wrap',
         width: 80 * vmin,
+    },
+
+    message: {
+      marginTop: 1.5 * vh,
+      alignSelf: "center",
+      width: 85 * vmin,
+      fontFamily: "Lato-Regular",
+      fontSize: 3.8 * vmin,
+      color: palette.grey,
+    },
+    selectLabel: {
+        fontFamily: 'Lato-Bold',
+        marginTop: 1 * vh,
+        marginBottom: 0.5 * vh,
+        color: palette.black,
     },
 })
