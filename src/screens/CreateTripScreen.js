@@ -1,6 +1,7 @@
 import { View, Keyboard, TouchableWithoutFeedback, Text } from "react-native";
-import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "../components";
+import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput, Dialog } from "../components";
 import { StyleSheet } from "react-native";
+import Modal from "react-native-modal";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
 import { SelectDates, SelectCountries } from "../components";
@@ -63,8 +64,17 @@ export default CreateTripScreen = ({ navigation }) => {
 
     function createTrip(){
         if (areFieldsValid()) navigation.replace('Home');
-        else console.log("some fields are invalid");
+        else {
+            console.log("some fields are invalid.");
+            toggleDialog();
+        }
     }
+
+    const toggleDialog = () => {
+        setDialogVisible(!dialogVisible);
+    }
+
+    const [dialogVisible, setDialogVisible] = useState(false);
 
 
     return (
@@ -149,6 +159,16 @@ export default CreateTripScreen = ({ navigation }) => {
                 >
                     Create a trip
                 </Button>
+                <View style={{position: 'fixed'}}>
+                    <Modal
+                        transparent={true}
+                        isVisible={dialogVisible}
+                        onBackdropPress={toggleDialog}
+                    >
+                        <Dialog title={"Error"} details={"An error occurred."}
+                         buttonLabel={"OK"} onButtonPress={toggleDialog} />
+                    </Modal>
+                </View>
             </View>
         </TouchableWithoutFeedback>
     );

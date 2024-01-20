@@ -1,6 +1,7 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView } from "react-native";
 import { Button, Header, SegmentedInput, HeaderBack, Image } from "../components";
-import { LinkedinInput, PhotoInput } from "../components";
+import { LinkedinInput, PhotoInput, Dialog } from "../components";
+import Modal from "react-native-modal";
 import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
@@ -56,8 +57,17 @@ export default VerificationScreen = ({ navigation }) => {
 
     function verify(){
         if (areFieldsValid()) navigation.replace('Chat');
-        else console.log("some fields invalid");
+        else {
+            console.log("some fields invalid");
+            toggleDialog();
+        }
     }
+
+    const toggleDialog = () => {
+        setDialogVisible(!dialogVisible);
+    }
+
+    const [dialogVisible, setDialogVisible] = useState(false);
 
 
     return (
@@ -149,6 +159,16 @@ export default VerificationScreen = ({ navigation }) => {
                         >
                             <Text style={styles.buttonText}>Verify Account</Text>
                         </Button>
+                    </View>
+                    <View style={{position: 'fixed'}}>
+                        <Modal
+                            transparent={true}
+                            isVisible={dialogVisible}
+                            onBackdropPress={toggleDialog}
+                        >
+                            <Dialog title={"Error"} details={"An error occurred."}
+                             buttonLabel={"OK"} onButtonPress={toggleDialog} />
+                        </Modal>
                     </View>
 
                 </View>

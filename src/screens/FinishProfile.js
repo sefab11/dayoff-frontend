@@ -1,10 +1,11 @@
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { Button, Header, TextInput, PhotoInput, LinkedinInput } from '../components';
-import { SelectCountries } from "../components";
+import { Dialog } from "../components";
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
+import Modal from "react-native-modal";
 import { FinishProfileValidationService } from "../services/ValidationService";
 
 const { isCountryValid, isProfessionValid, handlePhoto,
@@ -62,8 +63,17 @@ const FinishProfile = ({ navigation }) => {
 
     function finishProfile(){
         if (areInputsValid()) navigation.navigate('GetMatched');
-        else console.log('missing some inputs');
+        else {
+            console.log('missing some inputs');
+            toggleDialog();
+        }
     }
+
+    const toggleDialog = () => {
+        setDialogVisible(!dialogVisible);
+    }
+
+    const [dialogVisible, setDialogVisible] = useState(false);
 
 
     return (
@@ -122,6 +132,16 @@ const FinishProfile = ({ navigation }) => {
             <Button  onPress={() => finishProfile()} mode='contained' theme={themes.button} style={styles.button}>
                 Done
             </Button>
+            <View style={{position: 'fixed'}}>
+                <Modal
+                    transparent={true}
+                    isVisible={dialogVisible}
+                    onBackdropPress={toggleDialog}
+                >
+                    <Dialog title={"Error"} details={"An error occurred."}
+                     buttonLabel={"OK"} onButtonPress={toggleDialog} />
+                </Modal>
+            </View>
         </View>
     </TouchableWithoutFeedback>
   );
