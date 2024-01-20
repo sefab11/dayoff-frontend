@@ -60,6 +60,10 @@ export default RegisterScreen = ({ navigation }) => {
         );
     }
 
+    const updatedState = (stateDict, newVal) => {
+        return Object.assign({}, stateDict, {'value': newVal});
+    }
+
     const register = async () => {
         if (areInputsValid()) {
             //TODO: remove this navigation here for release
@@ -101,16 +105,11 @@ export default RegisterScreen = ({ navigation }) => {
                         value={name.value}
                         //merge name object with new object/dict with 'value': text
                         //set name to merged object
-                        onChangeText={text => setName(name =>
-                            Object.assign({}, name, {'value': text}))
-                        }
+                        onChangeText={text => setName(name => updatedState(name, text))}
                         />
 
                         <Text style={styles.invalidMessage}>
-                            {name.valid || name.valid == null
-                            ? ''
-                            : 'Invalid username.'
-                            }
+                            {name.valid === false ? 'Invalid username' : ''}
                         </Text>
 
                     </View>
@@ -120,9 +119,7 @@ export default RegisterScreen = ({ navigation }) => {
                             <TextInput style={styles.textInput} theme={themes.textInput}
                             mode='outlined' label="Work email*" placeholder='name@workmail.com'
                             value={email.value}
-                            onChangeText={text => setEmail(email =>
-                                Object.assign({}, email, {'value': text}))
-                            }
+                            onChangeText={text => setEmail(email => updatedState(email, text))}
                             />
 
                             <TouchableOpacity onPress={() => toggleModal()}>
@@ -130,10 +127,7 @@ export default RegisterScreen = ({ navigation }) => {
                             </TouchableOpacity>
 
                             <Text style={styles.invalidMessage}>
-                                {email.valid || email.valid == null
-                                ? ''
-                                : 'This email is already in use or invalid.'
-                                }
+                                {email.valid === false ? 'This email is invalid.' : ''}
                             </Text>
 
                         </View>
@@ -143,16 +137,12 @@ export default RegisterScreen = ({ navigation }) => {
                         <PasswordInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Password*"
                         value={password.value}
-                        onChangeText={text => setPassword(password =>
-                            Object.assign({}, password, {'value': text}))
-                        }
+                        onChangeText={text => setPassword(password => updatedState(password, text))}
                         />
 
                         <Text style={styles.invalidMessage}>
-                            {password.valid || password.valid == null
-                            ? ''
-                            : 'Invalid password. Requires 8 characters and 1 number.'
-                            }
+                            {password.valid === false ?
+                            'Invalid password. Requires 8 characters and 1 number.' : ''}
                         </Text>
 
                     </View>
@@ -161,16 +151,11 @@ export default RegisterScreen = ({ navigation }) => {
                         <PasswordInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Repeat password*"
                         value={confPassword.value}
-                        onChangeText={text => setConfPassword(confPassword =>
-                            Object.assign({}, confPassword, {'value': text}))
-                        }
+                        onChangeText={text => setConfPassword(conf => updatedState(conf, text))}
                         />
 
                         <Text style={styles.invalidMessage}>
-                            {confPassword.valid || confPassword.valid == null
-                            ? ''
-                            : 'Passwords do not match'
-                            }
+                            {confPassword.valid === false ? 'Passwords do not match' : ''}
                         </Text>
 
                     </View>

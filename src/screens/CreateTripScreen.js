@@ -33,6 +33,10 @@ export default CreateTripScreen = ({ navigation }) => {
         'required': false,
     });
 
+    const updatedState = (stateDict, newVal) => {
+        return Object.assign({}, stateDict, {'value': newVal});
+    }
+
     function areFieldsValid(){
         //check date is valid
         date.valid = isDateValid(date.value);
@@ -81,16 +85,13 @@ export default CreateTripScreen = ({ navigation }) => {
                             editable={true}
                             initialDates={[]}
 
-                            onSelectDate={(data) => setDate(date =>
-                            Object.assign({}, date, {'value': data[0]}))
-                            }
+                            onSelectDate={(data) => setDate(date => updatedState(date, data[0]);
                         />
+
                         <Text style={styles.invalidMessage}>
-                        {date.valid || date.valid == null
-                        ? ''
-                        : 'Invalid date.'
-                        }
+                            {date.valid === false ? 'Invalid date.' : ''}
                         </Text>
+
                     </View>
 
                     <View>
@@ -103,15 +104,13 @@ export default CreateTripScreen = ({ navigation }) => {
                             boxWidth={80 * vmin}
                             initialCountries={[]}
 
-                            onSelectCountry={(data) => setCountry(country =>
-                            Object.assign({}, country, {'value': data[0]}))
-                            }
+                            onSelectCountry={(data) => setCountry(
+                                country => updatedState(country, data[0])
+                                )}
                         />
+
                         <Text style={styles.invalidMessage}>
-                        {country.valid || country.valid == null
-                        ? ''
-                        : 'Invalid country.'
-                        }
+                            {country.valid === false ? 'Invalid country.' : ''}
                         </Text>
                     </View>
 
@@ -119,15 +118,11 @@ export default CreateTripScreen = ({ navigation }) => {
                         <TextInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Number of participants*"
                         value={numPeople.value}
-                        onChangeText={text => setNumPeople(numPeople =>
-                        Object.assign({}, numPeople, {'value': text}))
-                        }
+                        onChangeText={text => setNumPeople(people => updatedState(people, text);
                         />
+
                         <Text style={styles.invalidMessage}>
-                        {numPeople.valid || numPeople.valid == null
-                        ? ''
-                        : 'Invalid number of participants'
-                        }
+                            {numPeople.valid === false ? 'Invalid number of participants.' : ''}
                         </Text>
                     </View>
 
@@ -136,15 +131,12 @@ export default CreateTripScreen = ({ navigation }) => {
                         mode='outlined' label="Description"
                         placeholder="Describe the trip or anything else you want others to know"
                         value={desc.value}
-                        onChangeText={text => setDesc(desc =>
-                        Object.assign({}, desc, {'value': text}))
-                        }
+                        onChangeText={text => setDesc(desc => updatedState(desc, text))}
                         />
+
                         <Text style={styles.invalidMessage}>
-                        {desc.valid || desc.valid == null
-                        ? ''
-                        : 'The description contains harmful messages.'
-                        }
+                            {desc.valid === false ?
+                            'The description contains harmful messages' : ''}
                         </Text>
                     </View>
 

@@ -29,6 +29,10 @@ export default VerificationScreen = ({ navigation }) => {
 
     const emailAddress = getUserEmail();
 
+    const updatedState = (stateDict, newVal) => {
+        return Object.assign({}, stateDict, {'value': newVal});
+    }
+
     function areFieldsValid(){
         //check if code is correct
         code.valid = isCodeCorrect(code.value);
@@ -78,11 +82,9 @@ export default VerificationScreen = ({ navigation }) => {
                                 label={'We’ve sent a verification code to ' + emailAddress}
                                 labelStyle={styles.message}
                                 keyboardType='numeric'
-
-                                onCodeChange={(data) => setCode(code =>
-                                    Object.assign({}, code, {'value': data}))
-                                }
+                                onCodeChange={(data) => setCode(code => updatedState(code, data))}
                             />
+
                             <TouchableOpacity
                                 style={styles.resendContainer}
                                 //TODO: call otp function on press
@@ -92,10 +94,7 @@ export default VerificationScreen = ({ navigation }) => {
                             </TouchableOpacity>
 
                             <Text style={styles.invalidMessage}>
-                            {code.valid || code.valid == null
-                            ? ''
-                            : 'Invalid code.'
-                            }
+                                {code.valid === false ? 'Invalid code.' : ''}
                             </Text>
                         </View>
 
@@ -112,10 +111,7 @@ export default VerificationScreen = ({ navigation }) => {
                         </View>
 
                         <Text style={styles.invalidMessage}>
-                        {linkedin.valid || linkedin.valid == null
-                        ? ''
-                        : 'A linkedin is required.'
-                        }
+                            {linkedin.valid === false ? 'A linkedin is required' : ''}
                         </Text>
 
                         </>
@@ -135,10 +131,7 @@ export default VerificationScreen = ({ navigation }) => {
                         </View>
 
                         <Text style={styles.invalidMessage}>
-                        {photo.valid || photo.valid == null
-                        ? ''
-                        : 'A profile picture is required.'
-                        }
+                            {photo.valid === false ? 'A profile photo is required.' : ''}
                         </Text>
                         </>
                         : null

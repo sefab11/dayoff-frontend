@@ -33,6 +33,10 @@ const FinishProfile = ({ navigation }) => {
         'required': false,
     });
 
+    const updatedState = (stateDict, newVal) => {
+        return Object.assign({}, stateDict, {'value': newVal});
+    }
+
 
     function areInputsValid(){
         //check if the country is a valid one / replace input with dropdown
@@ -80,16 +84,11 @@ const FinishProfile = ({ navigation }) => {
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label='Country of Residence*' placeholder='United States'
                     value={country.value}
-                    onChangeText={text => setCountry(country =>
-                        Object.assign({}, country, {'value': text}))
-                    }
+                    onChangeText={text => setCountry(country => updatedState(country, text))}
                     />
 
                     <Text style={styles.invalidMessage}>
-                        {country.valid || country.valid == null
-                        ? ''
-                        : 'Invalid Country.'
-                        }
+                        {country.valid === false ? 'Invalid country.' : ''}
                     </Text>
 
                 </View>
@@ -98,16 +97,11 @@ const FinishProfile = ({ navigation }) => {
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label='Job Title & Company*' placeholder='eg.Software Developer @ Google'
                     value={job.value}
-                    onChangeText={text => setJob(job =>
-                        Object.assign({}, job, {'value': text}))
-                    }
+                    onChangeText={text => setJob(job => updatedState(job, text))}
                     />
 
                     <Text style={styles.invalidMessage}>
-                        {job.valid || job.valid == null
-                        ? ''
-                        : 'Invalid profession.'
-                        }
+                        {job.valid === false ? 'Invalid profession' : ''}
                     </Text>
 
                 </View>
