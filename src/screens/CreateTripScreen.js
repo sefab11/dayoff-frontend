@@ -43,8 +43,6 @@ export default CreateTripScreen = ({ navigation }) => {
         country.valid = isCountryValid(country.value);
         //check num people is valid
         numPeople.valid = isNumPeopleValid(numPeople.value);
-        //check description is valid
-        desc.valid = isDescriptionValid(desc.value);
 
         //for testing
         console.log(date);
@@ -91,7 +89,8 @@ export default CreateTripScreen = ({ navigation }) => {
                             isFlexible={false}
                             boxWidth={80 * vmin}
 
-                            onSelectDate={(data) => setDate(date => updatedState(date, data[0]))}
+                            onSelectDate={(selectedDate) =>
+                            setDate(date => updatedState(date, selectedDate))}
                         />
 
                         <Text style={styles.invalidMessage}>

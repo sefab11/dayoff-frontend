@@ -12,7 +12,7 @@ const SelectOneDate = (props) => {
     //passed in properties
     const {title, titleStyle, label, labelStyle, boxWidth, isFlexible} = props;
 
-    const [dates, setDates] = useState([]);
+    const [dates, setDates] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [isChecked, setChecked] = useState(false);
@@ -22,8 +22,9 @@ const SelectOneDate = (props) => {
     function updateDates(newDate){
         if (dates.includes(newDate) || newDate.includes("undefined")) return;
         //reassign dates to a 1-length arr
-        dates[0] = newDate;
-        setDates([newDate]);
+        setDates(newDate);
+        setStartDate('');
+        setEndDate('');
         //update prop in parent, only send value, not array
         props.onSelectDate(newDate);
     }
@@ -32,7 +33,7 @@ const SelectOneDate = (props) => {
     function removeDate(){
         if (isChecked) return;
 
-        setDates([]);
+        setDates('');
     }
 
     const toggleModal = () => {
@@ -43,16 +44,14 @@ const SelectOneDate = (props) => {
         //add a new formatted date when disabling the calender
         const newDate = formatDate(startDate, endDate);
         updateDates(newDate);
-        setStartDate('');
-        setEndDate('');
     }
 
     function formatDate(startDate, endDate){
         var start = startDate.toString().split(" ");
-        var end = endDate.toString().split(" ");
-
         var startDay = start[2];
         var startMonth = start[1];
+
+        var end = endDate.toString().split(" ");
         var endDay = end[2];
         var endMonth = end[1];
 
@@ -60,31 +59,6 @@ const SelectOneDate = (props) => {
             return (startDay + " - " + endDay + " " + startMonth);
         }
         else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
-    }
-
-    function deliverDateLabels(){
-        if (dates == null) return;
-        dates.forEach((date) => console.log(date));
-
-        const dateComponents = dates.map((date, index) => {
-            <View style={styles.dateContainer}
-                  backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}
-                  key={index}
-            >
-                <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
-                    {date}
-                </Text>
-
-                <TouchableOpacity onPress={() => removeDate()}>
-                    <Image style={styles.xIcon}
-                           tintColor={!isChecked ? palette.black : palette.grey}
-                           source={require("../../../assets/icons/x.png")}
-                    />
-                </TouchableOpacity>
-            </View>
-        });
-
-        return dateComponents;
     }
 
     //params dateSelected: date, dateType: 'START_DATE'/'END_DATE'
@@ -107,12 +81,23 @@ const SelectOneDate = (props) => {
         </View>
 
         <View>
-            <View style={styles.calenderIconContainer}
-                  borderWidth={1}
-                  marginTop={0}
-                  width={boxWidth}
-            >
-                {deliverDateLabels()}
+            <View style={styles.calenderIconContainer} width={boxWidth}>
+                {dates == '' ? null
+                :
+                <View style={styles.dateContainer}
+                backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2} >
+                    <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
+                        {dates}
+                    </Text>
+
+                    <TouchableOpacity onPress={() => removeDate()}>
+                        <Image style={styles.xIcon}
+                        tintColor={!isChecked ? palette.black : palette.grey}
+                        source={require("../../../assets/icons/x.png")} />
+                    </TouchableOpacity>
+                </View>
+                }
+
                 {/*marginLeft keeps it as the last component in the flexbox, padding makes it
                   slightly bigger so that flexbox doesn't expand on a new date on a new row
                 */}
@@ -166,8 +151,8 @@ const SelectOneDate = (props) => {
 const styles = StyleSheet.create({
   selectDateWrap: {
     paddingTop:5,
-    paddingBottom:35,
-    borderBottomWidth:1,
+    paddingBottom:0,
+    borderBottomWidth:0,
     borderBottomColor:'#D7D7D7',
   },
   headingText: {
@@ -230,6 +215,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "flex-start",
     lineHeight: "27px",
+    marginTop: 0,
   },
   dateContainer: {
     display: 'flex',
