@@ -30,7 +30,6 @@ export default CreateTripScreen = ({ navigation }) => {
     });
     const [desc, setDesc] = useState({
         'value': '',
-        'valid': null,
         'required': false,
     });
 
@@ -58,7 +57,6 @@ export default CreateTripScreen = ({ navigation }) => {
            (date.valid      || !date.required)
         && (country.valid   || !country.required)
         && (numPeople.valid || !numPeople.required)
-        && (desc.valid      || desc.required)
         )
     }
 
@@ -75,6 +73,8 @@ export default CreateTripScreen = ({ navigation }) => {
     }
 
     const [dialogVisible, setDialogVisible] = useState(false);
+    var Filter = require('bad-words');
+    filter = new Filter();
 
 
     return (
@@ -141,7 +141,10 @@ export default CreateTripScreen = ({ navigation }) => {
                         mode='outlined' label="Description"
                         placeholder="Describe the trip or anything else you want others to know"
                         value={desc.value}
-                        onChangeText={text => setDesc(desc => updatedState(desc, text))}
+                        //cleans out bad words with **
+                        onChangeText={text => setDesc(desc =>
+                            updatedState(desc, filter.clean(text))
+                            )}
                         />
 
                         <Text style={styles.invalidMessage}>

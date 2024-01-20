@@ -1,15 +1,18 @@
 //REGISTER SCREEN METHODS
 
+//checks if name isnt empty
 export const _isNameValid = (name) => {
     return name != '';
 }
 
+//TODO:check if email isn't already in use
 export const _isEmailValid = (email) => {
     return email != '';
 }
 
 const _hasNumber = (myString) => /\d/.test(myString);
 
+//check if password meets requirements
 export const _isPasswordValid = (password) => {
     if (password.length < 8) return false;
     else if (!_hasNumber(password)) return false;
@@ -19,19 +22,31 @@ export const _isPasswordValid = (password) => {
 
 //FINISH PROFILE SCREEN METHODS
 
+//checks if country is in list of all countries
 export const _isCountryOfOriginValid = (country) => {
-    return country != '';
+    var codes = require("i18n-iso-countries");
+    codes.registerLocale(require("i18n-iso-countries/langs/en.json"));
+    const englishCodes = codes.getNames('en', {select: 'official'});
+
+    var englishNames = Object.keys(englishCodes).map(function(key){
+        return englishCodes[key];
+    })
+
+    return englishNames.includes(country);
 }
 
+//check if job is valid
 export const _isProfessionValid = (job) => {
     return job != '';
 }
 
+//TODO: update users photo in database
 export const _handlePhoto = (photo) => {
     if (photo) console.log("photo has been added");
     else console.log("no photo added");
 }
 
+//TODO: update users linkedin url in database
 export const _handleLinkedin = (completed) => {
     if (completed) console.log("linkedin has been added");
     else console.log("linkedin failed to add");
@@ -39,6 +54,7 @@ export const _handleLinkedin = (completed) => {
 
 //VERIFICATION SCREEN METHODS
 
+//TODO: get code from backend and check if correct
 export const _isCodeCorrect = (code) => {
     var userCode = JSON.stringify(code);
     var serverCode = JSON.stringify(['0','0','0','0','0']);
@@ -46,11 +62,12 @@ export const _isCodeCorrect = (code) => {
     return userCode == serverCode;
 }
 
+//TODO: get users email from database
 export const _getUserEmail = () => {
     return 'name@workmail.com';
 }
 
-
+//TODO: get users linkedin url from database
 export const _getLinkedin = () => {
     //using random gen to show different returns
     choice = Math.floor(Math.random() * 2);
@@ -58,6 +75,7 @@ export const _getLinkedin = () => {
     else return null; //return null if not
 }
 
+//TODO: get users photo from database
 export const _getPhoto = () => {
     choice = Math.floor(Math.random() * 2);
     if (choice == 0) return require("../../assets/images/profilePics/1.jpg"); //return pic if exists
@@ -66,24 +84,21 @@ export const _getPhoto = () => {
 
 //CREATE TRIP SCREEN METHODS
 
+//check if there is a date
 export const _isDateValid = (date) => {
     return date != '';
 }
 
+//check if there is a country
 export const _isCountryValid = (country) => {
     return country != '';
 }
 
-export const _isNumPeopleValid = (numPeople) => {
-    if (numPeople == '') return false;
-    else if (numPeople <= 1) return false;
-
-    return true;
-}
-
-export const _isDescriptionValid = (desc) => {
-    //check for bad words in description?
-    if (desc.includes('fuck')) return false;
+//check if number of people is a string, more than min, less than max
+export const _isNumPeopleValid = (num) => {
+    if (num == '') return false;
+    else if (num <= 1) return false;
+    else if (num > 12) return false;
 
     return true;
 }
@@ -116,14 +131,23 @@ const CreateTripValidationService = {
     isDateValid: _isDateValid,
     isCountryValid: _isCountryValid,
     isNumPeopleValid: _isNumPeopleValid,
-    isDescriptionValid: _isDescriptionValid,
 };
 
 const FullValidationService = {
-    Register: RegisterValidationService,
-    FinishProfile: FinishProfileValidationService,
-    Verification: VerificationValidationService,
-    CreateTrip: CreateTripValidationService,
+    isNameValid: _isNameValid,
+    isEmailValid: _isEmailValid,
+    isPasswordValid: _isPasswordValid,
+    isCountryValid: _isCountryOfOriginValid,
+    isProfessionValid: _isProfessionValid,
+    handlePhoto: _handlePhoto,
+    handleLinkedin: _handleLinkedin,
+    isCodeCorrect: _isCodeCorrect,
+    getUserEmail: _getUserEmail,
+    getPhoto: _getPhoto,
+    getLinkedin: _getLinkedin,
+    isDateValid: _isDateValid,
+    isCountryValid: _isCountryValid,
+    isNumPeopleValid: _isNumPeopleValid,
 };
 
 
