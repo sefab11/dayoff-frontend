@@ -85,7 +85,7 @@ export default CreateTripScreen = ({ navigation }) => {
                             editable={true}
                             initialDates={[]}
 
-                            onSelectDate={(data) => setDate(date => updatedState(date, data[0]);
+                            onSelectDate={(data) => setDate(date => updatedState(date, data[0]))}
                         />
 
                         <Text style={styles.invalidMessage}>
@@ -118,7 +118,7 @@ export default CreateTripScreen = ({ navigation }) => {
                         <TextInput style={styles.textInput} theme={themes.textInput}
                         mode='outlined' label="Number of participants*"
                         value={numPeople.value}
-                        onChangeText={text => setNumPeople(people => updatedState(people, text);
+                        onChangeText={text => setNumPeople(people => updatedState(people, text))}
                         />
 
                         <Text style={styles.invalidMessage}>
