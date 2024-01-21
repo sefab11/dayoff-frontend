@@ -3,9 +3,7 @@ import { View, Image, Text, TouchableOpacity } from "react-native";
 import Checkbox from 'expo-checkbox';
 import { palette, themes } from "../../../style";
 import { StyleSheet } from "react-native";
-import Modal from "react-native-modal";
-import CalendarPicker from "react-native-calendar-picker";
-
+import CalenderModal from "./CalenderModal";
 
 
 const SelectManyDates = (props) => {
@@ -121,28 +119,11 @@ const SelectManyDates = (props) => {
                 </TouchableOpacity>
             </View>
             {/* Modal */}
-            <Modal
-            isVisible={isModalVisible}
-            animationIn="slideInUp"
-            animationOut="slideOutDown"
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.calendarContainer}>
-                        <CalendarPicker
-                            startFromMonday={true}
-                            allowRangeSelection={true}
-                            onDateChange={onDateSelected}
-                            selectedDayColor={palette.purple}
-                            selectedDayTextColor={palette.white}
-                        />
-                        <View style={styles.calenderBottom}>
-                            <TouchableOpacity onPress={toggleModal} style={styles.confirmButton}>
-                                <Text style={styles.confirmText}>Confirm</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </Modal>
+            <CalenderModal
+            isModalVisible={isModalVisible}
+            toggleModal={toggleModal}
+            onDateSelected={onDateSelected}
+            />
         </View>
         {isFlexible
         ?
