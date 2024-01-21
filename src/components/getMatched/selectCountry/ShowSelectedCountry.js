@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, memo } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
-import { palette, themes, flags } from "../../style";
+import { palette, themes, flags } from "../../../style";
 import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
 import DropDownPicker from 'react-native-dropdown-picker';
 

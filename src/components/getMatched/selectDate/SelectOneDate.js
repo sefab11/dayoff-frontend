@@ -1,46 +1,38 @@
 import { React, useState } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import Checkbox from 'expo-checkbox';
-import { palette, themes } from "../../style";
+import { palette, themes } from "../../../style";
 import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
 
 
-
-const SelectManyDates = (props) => {
+const SelectOneDate = (props) => {
     //passed in properties
     const {title, titleStyle, label, labelStyle, boxWidth, isFlexible} = props;
 
-    //track the array of dates that are added
-    //called array but more like list as items are added dynamically
-    const [dates, setDates] = useState([]);
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const [dates, setDates] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [isChecked, setChecked] = useState(false);
 
     const [isModalVisible, setModalVisible] = useState(false);
 
     function updateDates(newDate){
-        //makes sure no repeat dates are added
         if (dates.includes(newDate) || newDate.includes("undefined")) return;
-
-        //push new date to array, and update react component
-        dates.push(newDate);
-        setDates(dates);
-
-        props.onSelectDate(dates);
-    }
-
-    //remove the date from dates and update state
-    function removeDate(dateId){
-        if (isChecked) return;
-
-        dates.splice(dates.indexOf(dateId), 1);
-        setDates(dates => [...dates]);
-
+        //reassign dates to a 1-length arr
+        setDates(newDate);
         setStartDate('');
         setEndDate('');
+        //update prop in parent, only send value, not array
+        props.onSelectDate(newDate);
+    }
+
+    //only 1 date allowed, so reassign dates to an empty arr
+    function removeDate(){
+        if (isChecked) return;
+
+        setDates('');
     }
 
     const toggleModal = () => {
@@ -48,46 +40,11 @@ const SelectManyDates = (props) => {
 
         setModalVisible(!isModalVisible);
         if (!isModalVisible) return;
-
-        //add new data when calender is closed
+        //add a new formatted date when disabling the calender
         const newDate = formatDate(startDate, endDate);
         updateDates(newDate);
     }
 
-    function deliverDateLabels(){
-        if (dates == null) return;
-
-        const dateComponents = dates.map((date, index) =>
-            <View style={styles.dateContainer}
-            backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}
-            key={index}>
-                <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
-                    {date}
-                </Text>
-
-                <TouchableOpacity onPress={() => removeDate(date)}>
-                    <Image style={styles.xIcon}
-                    tintColor={!isChecked ? palette.black : palette.grey}
-                    source={require("../../../assets/icons/x.png")} />
-                </TouchableOpacity>
-            </View>
-        )
-
-        return dateComponents;
-    }
-
-    //dateSelected parameter will have the date
-    //dateType parameter will have either "START_DATE" or "END_DATE"
-    function onDateSelected(dateSelected, dateType){
-        //on start date changed null will be returned after the date so ignore those calls
-        if (dateSelected == null || dateType == null) return;
-
-        if (dateType == "START_DATE") setStartDate(dateSelected);
-        else if (dateType == "END_DATE") setEndDate(dateSelected);
-    };
-
-
-    //for formatting the string in the Text components
     function formatDate(startDate, endDate){
         var start = startDate.toString().split(" ");
         var startDay = start[2];
@@ -101,7 +58,15 @@ const SelectManyDates = (props) => {
             return (startDay + " - " + endDay + " " + startMonth);
         }
         else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
-    };
+    }
+
+    //params dateSelected: date, dateType: 'START_DATE'/'END_DATE'
+    function onDateSelected(dateSelected, dateType){
+        if (dateSelected == null || dateType == null) return;
+
+        if (dateType == 'START_DATE') setStartDate(dateSelected);
+        else if (dateType == 'END_DATE') setEndDate(dateSelected);
+    }
 
 
     return (
@@ -115,39 +80,41 @@ const SelectManyDates = (props) => {
         </View>
 
         <View>
-            <View style={styles.calenderIconContainer}
-            width={boxWidth}>
-                {dates == null ? null
+            <View style={styles.calenderIconContainer} width={boxWidth}>
+                {dates == '' ? null
                 :
-                dates.map((date, index) =>
                 <View style={styles.dateContainer}
-                backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}
-                key={index}>
+                backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2} >
                     <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
-                        {date}
+                        {dates}
                     </Text>
 
-                    <TouchableOpacity onPress={() => removeDate(date)}>
+                    <TouchableOpacity onPress={() => removeDate()}>
                         <Image style={styles.xIcon}
                         tintColor={!isChecked ? palette.black : palette.grey}
-                        source={require("../../../assets/icons/x.png")} />
+                        source={require("../../../../assets/icons/x.png")} />
                     </TouchableOpacity>
                 </View>
-                )
                 }
 
+                {/*marginLeft keeps it as the last component in the flexbox, padding makes it
+                  slightly bigger so that flexbox doesn't expand on a new date on a new row
+                */}
                 <TouchableOpacity onPress={toggleModal}
-                style={{marginLeft: 'auto', alignSelf: 'center'}}>
+                                  style={{marginLeft: 'auto',
+                                  alignSelf: 'center'}}
+                >
                     <Image style={styles.icon}
-                    tintColor={!isChecked ? palette.purple : palette.grey}
-                    source={require("../../../assets/icons/calendar.png")} />
+                           tintColor={!isChecked ? palette.purple : palette.grey}
+                           source={require("../../../../assets/icons/calendar.png")}
+                    />
                 </TouchableOpacity>
             </View>
             {/* Modal */}
             <Modal
-            isVisible={isModalVisible}
-            animationIn="slideInUp"
-            animationOut="slideOutDown"
+                isVisible={isModalVisible}
+                animationIn="slideInUp"
+                animationOut="slideOutDown"
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.calendarContainer}>
@@ -170,22 +137,21 @@ const SelectManyDates = (props) => {
         {isFlexible
         ?
         <View style={styles.checkboxContainer}>
-            <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked}
-            color={isChecked ? palette.purple : undefined} />
-            <Text style={styles.checkText}>I’m flexible with my dates</Text>
+            <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} color={isChecked ? palette.purple : undefined} />
+                <Text style={styles.checkText}>I’m flexible with my dates</Text>
         </View>
         : null
         }
     </View>
-    )
+    );
 };
 
 
 const styles = StyleSheet.create({
   selectDateWrap: {
     paddingTop:5,
-    paddingBottom:35,
-    borderBottomWidth:1,
+    paddingBottom:0,
+    borderBottomWidth:0,
     borderBottomColor:'#D7D7D7',
   },
   calenderBottom: {
@@ -220,7 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "flex-start",
     lineHeight: "27px",
-    marginTop: 15,
+    marginTop: 0,
   },
   dateContainer: {
     display: 'flex',
@@ -263,7 +229,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   calendarContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
   },
@@ -282,4 +248,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SelectManyDates;
+export default SelectOneDate;

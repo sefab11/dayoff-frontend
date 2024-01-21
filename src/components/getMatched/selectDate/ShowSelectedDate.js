@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
-import { palette, themes } from "../../style";
+import { palette, themes } from "../../../style";
 import { StyleSheet } from "react-native";
 
 

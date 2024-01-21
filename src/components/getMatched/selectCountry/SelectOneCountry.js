@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, memo } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
-import { palette, themes, flags } from "../../style";
+import { palette, themes, flags } from "../../../style";
 import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -154,7 +154,7 @@ const SelectOneCountry = (props) => {
             <TouchableOpacity onPress={() => removeCountry()}>
                 <Image style={styles.xIcon}
                 tintColor={palette.black}
-                source={require("../../../assets/icons/x.png")} />
+                source={require("../../../../assets/icons/x.png")} />
             </TouchableOpacity>
         </View>
         );
@@ -177,7 +177,7 @@ const SelectOneCountry = (props) => {
             <TouchableOpacity onPress={toggleModal} style={styles.globeIcon}>
                 <Image style={styles.icon}
                 tintColor={palette.purple}
-                source={require("../../../assets/icons/globe.png")} />
+                source={require("../../../../assets/icons/globe.png")} />
             </TouchableOpacity>
         </View>
         <ModalDropdownMemo
