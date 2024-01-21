@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { View, Keyboard, TouchableWithoutFeedback, Image, Text, ScrollView } from 'react-native';
 import { Button, CountryMultiSelector, Header, TextInput, StatusBar } from '../components';
-import { SelectManyDates, SelectCountries } from '../components';
+import { SelectManyDates, SelectManyCountries } from '../components';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 
@@ -34,27 +34,26 @@ const GetMatchedScreen = ({ navigation }) => {
                     <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
                 </View>
                 <SelectManyDates
-                    title={"Select the dates of your trip(s)"}
-                    titleStyle={styles.selectTitle}
-                    label={"Eg. If you’re going to Greece on 21-28 June and Mexico on 10-17 July, add all the dates below"}
-                    labelStyle={styles.message}
+                title={"Select the dates of your trip(s)"}
+                titleStyle={styles.selectTitle}
+                label={"Eg. If you’re going to Greece on 21-28 June and Mexico on 10-17 July, add all the dates below"}
+                labelStyle={styles.message}
+                isFlexible={true}
+                boxWidth={85 * vmin}
 
-                    isFlexible={true}
-                    boxWidth={85 * vmin}
-
-                    onSelectDate={(data) => handleDates(data)}
+                onSelectDate={(data) => handleDates(data)}
                 />
-                <SelectCountries
-                    title={"Select the countries of your trip(s)"}
-                    subtitle={"Now add the countries for the above dates below"}
-                    subtitleStyle={1}
-                    editable={true}
-                    multipleCountries={true}
-                    boxWidth={85 * vmin}
-                    initialCountries={[]}
 
-                    onSelectCountry={(data) => handleCountries(data)}
+                <SelectManyCountries
+                title={"Select the countries of your trip(s)"}
+                titleStyle={styles.selectTitle}
+                label={"Now add the countries for the above dates below"}
+                subtitleStyle={styles.message}
+                boxWidth={85 * vmin}
+
+                onSelectCountry={(data) => handleCountries(data)}
                 />
+
                 <View style={styles.buttonGroup}>
                     <Button onPress={() => getMatched()} mode='contained'
                     theme={themes.button} style={styles.button}>
