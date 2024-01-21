@@ -1,4 +1,4 @@
-import { React, useEffect, useRef, useState, memo } from "react";
+import React, { useEffect, useRef, useState, memo } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import { palette, themes, flags } from "../../style";
 import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
@@ -104,7 +104,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
     )
 }
 
-const ModalDropdownMemo = memo(ModalDropdown, (prevProps, nextProps) => {
+const ModalDropdownMemo = React.memo(ModalDropdown, (prevProps, nextProps) => {
   return (
     prevProps.isModalVisible === nextProps.isModalVisible &&
     prevProps.allowMultipleCountries === nextProps.allowMultipleCountries &&
@@ -113,146 +113,90 @@ const ModalDropdownMemo = memo(ModalDropdown, (prevProps, nextProps) => {
 });
 
 const SelectOneCountry = (props) => {
-  const [canEdit, setCanEdit] = useState(props.editable);
-  const boxWidth = props.boxWidth;
-  const allowMultipleCountries = props.multipleCountries;
-  const title = props.title;
-  const subtitle = props.subtitle;
-  const subtitleStyle = props.subtitleStyle;
+    const { title, titleStyle, label, labelStyle, boxWidth } = props;
 
+    const [isModalVisible, setModalVisible] = useState(false);
 
-  const [isModalVisible, setModalVisible] = useState(false);
+    // keeping track of the value of the dropdown selector
+    const [value, setValue] = useState(null);
 
-  // keeping track of the value of the dropdown selector
-  const [value, setValue] = useState(null);
+    //for keeping track of which countries the user has added
+    //each element should be a dictionary in format {'code': x, 'name': y}
+    const [selectedCountries, setSelectedCountries] = useState('');
 
-  //for keeping track of which countries the user has added
-  //each element should be a dictionary in format {'code': x, 'name': y}
-  const [selectedCountries, setSelectedCountries] = useState(props.initialCountries);
+    const toggleModal = () => setModalVisible(!isModalVisible);
 
-  function toggleModal(){
-    if (!canEdit) return;
+    function updateCountries(selected){
+        if (!selected) return;
 
-    setModalVisible(!isModalVisible);
-  }
+        setSelectedCountries(selected[0]);
+        //update data in parent
+        props.onSelectCountry(selectedCountries);
+    }
 
+    function removeCountry(){
+        setSelectedCountries('');
+    }
 
-  function removeCountry(countryCode){
-    if (!canEdit) return;
-    setSelectedCountries(selectedCountries.filter(country => country['code'] !== countryCode));
+    function deliverCountryLabels(){
+        if (selectedCountries == '') return;
 
-    if (!allowMultipleCountries) return;
-    setValue(value.filter(code => code !== countryCode));
-  }
+        const countryComponents = (
+        <View style={styles.countryContainer}
+        backgroundColor={palette.lightPurple}
+        borderColor={palette.lightPurple}
+        key={selectedCountries.code}>
+            <Image style={styles.countryIcon}
+            source={flags[selectedCountries.code]} />
 
-  const updateCountries = (selected) => {
-    if (!selected) return;
+            <Text style={styles.countryTextActive}>{selectedCountries.name}</Text>
 
-    setSelectedCountries(selected);
-    props.onSelectCountry(selected.map(country => country.name));
-  }
-
-  function deliverCountryLabels(){
-    if (selectedCountries == null) return;
-    const countryComponents = selectedCountries.map((country) =>
-        <View key={country.code} style={styles.countryContainer}
-        backgroundColor={canEdit ? palette.lightPurple : palette.lightGrey2}
-        borderColor={canEdit ? palette.lightPurple : palette.lightGrey2}>
-            <Image
-                style={styles.countryIcon}
-                source={flags[country.code]}
-            />
-            <Text style={canEdit ? styles.countryTextActive : styles.countryTextInactive}>
-            {country.name}</Text>
-
-            <TouchableOpacity onPress={() => removeCountry(country.code)}>
-                <Image
-                    style={styles.xIcon}
-                    tintColor={canEdit ? palette.black : palette.grey}
-                    //image should be around 32 x 32
-                    source={require("../../../assets/icons/x.png")}
-                />
+            <TouchableOpacity onPress={() => removeCountry()}>
+                <Image style={styles.xIcon}
+                tintColor={palette.black}
+                source={require("../../../assets/icons/x.png")} />
             </TouchableOpacity>
         </View>
-    );
+        );
 
-    return countryComponents;
-  }
-
-  function enableHeader(headerOpt){
-    if (headerOpt == null) return;
+        return countryComponents;
+    }
 
     return (
+    <View style={styles.selectCountryWrap}>
         <View>
-            <Text style={styles.headingText}>{title}</Text>
+            <Text style={titleStyle}>{title}</Text>
         </View>
-    );
-  }
-
-  function enableSubheader(subheaderOpt){
-    if (subheaderOpt == null) return;
-
-    if (subtitleStyle == 1){
-        return (
         <View>
-            <Text style={styles.message}>{subtitle}</Text>
+            <Text style={labelStyle}>{label}</Text>
         </View>
-        );
-    }
-    else if (subtitleStyle == 2){
-        return (
-        <View>
-            <Text
-              style={{
-                fontFamily: 'Lato-Bold',
-                marginTop: 1 * vh,
-                marginBottom: 0.5 * vh
-              }}
-            >
-                {subtitle}
-            </Text>
+
+        <View style={styles.countriesContainer} width={boxWidth}>
+            {deliverCountryLabels()}
+
+            <TouchableOpacity onPress={toggleModal} style={styles.globeIcon}>
+                <Image style={styles.icon}
+                tintColor={palette.purple}
+                source={require("../../../assets/icons/globe.png")} />
+            </TouchableOpacity>
         </View>
-        );
-    };
-  }
-
-  return (
-    <View>
-      {enableHeader(title)}
-      {enableSubheader(subtitle)}
-
-      <View style={styles.countriesContainer}
-        width={boxWidth}
-        marginTop={subtitleStyle == 2 ? 0 : 15}
-      >
-        {deliverCountryLabels()}
-
-          <TouchableOpacity onPress={toggleModal}
-            style={{
-              marginLeft: 'auto',
-              alignSelf: 'center'
-            }}>
-            <Image
-                style={styles.icon}
-                tintColor={canEdit ? palette.purple : palette.grey}
-                source={require("../../../assets/icons/globe.png")}
-            />
-          </TouchableOpacity>
-      </View>
-      <ModalDropdownMemo
+        <ModalDropdownMemo
         isModalVisible={isModalVisible}
-        allowMultipleCountries={allowMultipleCountries}
-        updateCountries={(updateCountries)}
+        allowMultipleCountries={false}
+        updateCountries={updateCountries}
         toggleModal={toggleModal}
-        value={value}
-        setValue={setValue}
-      />
+        value={value} setValue={setValue}
+        />
     </View>
-  );
+    );
 };
 
 
 const styles = StyleSheet.create({
+  selectCountryWrap: {
+    marginTop: -20,
+    paddingTop: 0,
+  },
   headingText: {
     marginTop: 3 * vh,
     alignSelf: "center",
@@ -295,6 +239,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     columnGap: 10,
     rowGap: 10,
+    marginTop: 0,
   },
   countryContainer: {
     display: 'flex',
@@ -339,6 +284,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: 100 * vh,
+  },
+  globeIcon: {
+    marginLeft: 'auto',
+    alignSelf: 'center',
   },
 
 });

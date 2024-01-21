@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
-import { SelectOneDate, SelectCountries } from "../components";
+import { SelectOneDate, SelectOneCountry, SelectCountries } from "../components";
 import { CreateTripValidationService } from "../services/ValidationService";
 
 const { isDateValid, isCountryValid, isNumPeopleValid } = CreateTripValidationService;
@@ -100,6 +100,16 @@ export default CreateTripScreen = ({ navigation }) => {
                     </View>
 
                     <View>
+                        <SelectOneCountry
+                            title={null}
+                            titleStyle={null}
+                            label={"Select country*"}
+                            labelStyle={styles.selectLabel}
+                            boxWidth={80 * vmin}
+
+                            onSelectCountry={(selectedCountry) =>
+                            setCountry(country => updatedState(country, selectedCountry.name))}
+                        />{/*
                         <SelectCountries
                             title={null}
                             subtitle={"Select country*"}
@@ -112,7 +122,7 @@ export default CreateTripScreen = ({ navigation }) => {
                             onSelectCountry={(data) => setCountry(
                                 country => updatedState(country, data[0])
                                 )}
-                        />
+                        />*/}
 
                         <Text style={styles.invalidMessage}>
                             {country.valid === false ? 'Invalid country.' : ''}
@@ -181,7 +191,7 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white
     },
     inputGroup: {
-        gap: 3.5 * vh
+        gap: 2.5 * vh
     },
     textInput: {
         width: 80 * vmin,
