@@ -5,7 +5,6 @@ import { palette, themes } from "../../style";
 import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import CalendarPicker from "react-native-calendar-picker";
-import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 
 
 const SelectOneDate = (props) => {
@@ -154,34 +153,6 @@ const styles = StyleSheet.create({
     paddingBottom:0,
     borderBottomWidth:0,
     borderBottomColor:'#D7D7D7',
-  },
-  headingText: {
-    marginTop: 3 * vh,
-    alignSelf: "center",
-    width: 85 * vmin,
-    fontFamily: "Lato-Regular",
-    fontSize: 4.5 * vmin,
-    fontWeight: "700",
-    color: "#000000",
-  },
-  message: {
-    marginTop: 1.5 * vh,
-    alignSelf: "center",
-    width: 85 * vmin,
-    fontFamily: "Lato-Regular",
-    fontSize: 3.8 * vmin,
-    color: palette.grey,
-  },
-  buttonGroup: {
-    gap: 2 * vmin,
-    marginTop: 5 * vh,
-    marginBottom: 5 * vh,
-  },
-  button: {
-    width: 80 * vmin,
-    height: 14 * vmin,
-    justifyContent: "center",
-    paddingBottom: 0.5 * vmin,
   },
   calenderBottom: {
     display: 'flex',

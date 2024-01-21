@@ -1,11 +1,7 @@
 import { React, useState } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
-import Checkbox from 'expo-checkbox';
 import { palette, themes } from "../../style";
 import { StyleSheet } from "react-native";
-import Modal from "react-native-modal";
-import CalendarPicker from "react-native-calendar-picker";
-import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 
 
 const ShowSelectedDate = (props) => {
@@ -63,54 +59,6 @@ const styles = StyleSheet.create({
     borderBottomWidth:0,
     borderBottomColor:'#D7D7D7',
   },
-  headingText: {
-    marginTop: 3 * vh,
-    alignSelf: "center",
-    width: 85 * vmin,
-    fontFamily: "Lato-Regular",
-    fontSize: 4.5 * vmin,
-    fontWeight: "700",
-    color: "#000000",
-  },
-  message: {
-    marginTop: 1.5 * vh,
-    alignSelf: "center",
-    width: 85 * vmin,
-    fontFamily: "Lato-Regular",
-    fontSize: 3.8 * vmin,
-    color: palette.grey,
-  },
-  buttonGroup: {
-    gap: 2 * vmin,
-    marginTop: 5 * vh,
-    marginBottom: 5 * vh,
-  },
-  button: {
-    width: 80 * vmin,
-    height: 14 * vmin,
-    justifyContent: "center",
-    paddingBottom: 0.5 * vmin,
-  },
-  calenderBottom: {
-    display: 'flex',
-    flexDirection: 'row',
-    rowGap: 10,
-  },
-  confirmButton: {
-    backgroundColor: palette.purple,
-    width: 40 * vmin,
-    height: 10 * vmin,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  confirmText: {
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    fontSize: 3.8 * vmin,
-    fontWeight: 'bold',
-    color: palette.white,
-  },
   calenderIconContainer: {
     display: 'flex',
     flexDirection: "row",
@@ -133,13 +81,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 10 * vmin,
   },
-  dateTextActive: {
-    color: palette.purple,
-    fontSize: 3.8 * vmin,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-  },
   dateTextInactive: {
     color: palette.grey,
     fontSize: 3.8 * vmin,
@@ -158,31 +99,6 @@ const styles = StyleSheet.create({
     width: 1.5 * vh,
     marginHorizontal: 10,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    width: "100%",
-  },
-  calendarContainer: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 20,
-  },
-  checkboxContainer:{
-    flexDirection:'row',
-    alignItems:'center',
-    marginTop:15,
-  },
-  checkText:{
-    paddingLeft:10,
-    fontFamily: "Lato-Regular",
-    fontSize: 4 * vmin,
-    fontWeight: "600",
-    color: "#000000",
-    letterSpacing: 1.5,
-  }
 });
 
 export default ShowSelectedDate;
