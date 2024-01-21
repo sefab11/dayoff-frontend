@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 import { useState } from "react";
 
-import { ShowSelectedDate, SelectCountries } from "../components";
+import { ShowSelectedDate, ShowSelectedCountry } from "../components";
 
 
 export default EditTripScreen = ({ route, navigation }) => {
@@ -30,12 +30,11 @@ export default EditTripScreen = ({ route, navigation }) => {
                         initialDates={[date]}
                     />
 
-                    <SelectCountries
+                    <ShowSelectedCountry
                         title={null}
-                        subtitle={"Select country"}
-                        subtitleStyle={2}
-                        editable={false}
-                        multipleCountries={false}
+                        titleStyle={null}
+                        label={"Select country"}
+                        labelStyle={styles.selectLabel}
                         boxWidth={80 * vmin}
                         initialCountries={[country]}
                     />

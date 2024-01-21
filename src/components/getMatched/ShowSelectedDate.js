@@ -30,21 +30,8 @@ const ShowSelectedDate = (props) => {
             backgroundColor={palette.lightGrey2}
             key={index}>
                 <Text style={styles.dateTextInactive}>{date}</Text>
-
-                <TouchableOpacity onPress={() => {}}>
-                    <Image style={styles.xIcon}
-                    tintColor={palette.grey}
-                    source={require("../../../assets/icons/x.png")} />
-                </TouchableOpacity>
             </View>
             )}
-
-            <TouchableOpacity onPress={() => {}}
-            style={{marginLeft: 'auto', alignSelf: 'center'}}>
-                <Image style={styles.icon}
-                tintColor={palette.grey}
-                source={require("../../../assets/icons/calendar.png")} />
-            </TouchableOpacity>
         </View>
         {/* no modal or checkbox required */}
     </View>
@@ -87,6 +74,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
+    marginRight: 5 * vmin,
   },
   icon: {
     resizeMode: 'center',
