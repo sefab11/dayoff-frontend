@@ -35,6 +35,7 @@ export default WelcomeScreen = ({ navigation }) => {
                     mode='contained'
                     theme={themes.buttonAlt}
                     style={styles.button}
+                    marginBottom={-1 * vmin}
                 >
                     Create account
                 </Button>

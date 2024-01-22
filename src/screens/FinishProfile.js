@@ -129,9 +129,11 @@ const FinishProfile = ({ navigation }) => {
                 */}
 
             </View>
+            <View marginBottom={-25}>
             <Button  onPress={() => finishProfile()} mode='contained' theme={themes.button} style={styles.button}>
                 Done
             </Button>
+            </View>
             <View style={{position: 'fixed'}}>
                 <Modal
                     transparent={true}

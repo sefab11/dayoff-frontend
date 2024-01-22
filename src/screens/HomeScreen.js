@@ -10,6 +10,10 @@ import { palette, themes, dimensions, flags } from "../style";
 const ForYouScreen = (props) => {
     const { navigation } = props;
 
+    function seeMoreTrips(){
+        console.log("see more trips");
+    }
+
     const matched = [
         {
             id: 0,
@@ -112,6 +116,13 @@ const ForYouScreen = (props) => {
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
                 { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} navigation={navigation}/>) }
+
+                {/*TODO: add more trips on press*/}
+                <View marginTop={3 * vh}>
+                    <TouchableOpacity onPress={() => seeMoreTrips()}>
+                        <Text style={styles.seeMoreText}>See More</Text>
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
         </View>
     )
@@ -270,5 +281,11 @@ const styles = StyleSheet.create({
         display: 'flex',
         top: -40,
         backgroundColor: 'red',
+    },
+    seeMoreText: {
+        fontFamily: 'Lato-Bold',
+        color: palette.purple,
+        textDecorationLine: 'underline',
+        fontSize: 4.5 * vmin,
     },
 })

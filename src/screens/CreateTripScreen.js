@@ -4,11 +4,10 @@ import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
-import { SelectDates, SelectCountries } from "../components";
+import { SelectOneDate, SelectOneCountry } from "../components";
 import { CreateTripValidationService } from "../services/ValidationService";
 
-const { isDateValid, isCountryValid, isNumPeopleValid,
-        isDescriptionValid } = CreateTripValidationService;
+const { isDateValid, isCountryValid, isNumPeopleValid } = CreateTripValidationService;
 
 //SCREEN TO CREATE A TRIP
 
@@ -44,8 +43,6 @@ export default CreateTripScreen = ({ navigation }) => {
         country.valid = isCountryValid(country.value);
         //check num people is valid
         numPeople.valid = isNumPeopleValid(numPeople.value);
-        //check description is valid
-        desc.valid = isDescriptionValid(desc.value);
 
         //for testing
         console.log(date);
@@ -83,19 +80,17 @@ export default CreateTripScreen = ({ navigation }) => {
                 <HeaderBack>Create a trip</HeaderBack>
                 <View style={styles.inputGroup}>
                     <View>
-                        <SelectDates
+                        <SelectOneDate
                             title={null}
-                            subtitle={"Select date*"}
-                            subtitleStyle={2}
-                            isFlexible={false}
-                            showLine={false}
-                            multipleDates={false}
-                            showBorder={true}
-                            boxWidth={80 * vmin}
-                            editable={true}
-                            initialDates={[]}
+                            titleStyle={null}
+                            label={"Select date*"}
+                            labelStyle={styles.selectLabel}
 
-                            onSelectDate={(data) => setDate(date => updatedState(date, data[0]))}
+                            isFlexible={false}
+                            boxWidth={80 * vmin}
+
+                            onSelectDate={(selectedDate) =>
+                            setDate(date => updatedState(date, selectedDate))}
                         />
 
                         <Text style={styles.invalidMessage}>
@@ -105,18 +100,15 @@ export default CreateTripScreen = ({ navigation }) => {
                     </View>
 
                     <View>
-                        <SelectCountries
+                        <SelectOneCountry
                             title={null}
-                            subtitle={"Select country*"}
-                            subtitleStyle={2}
-                            editable={true}
-                            multipleCountries={false}
+                            titleStyle={null}
+                            label={"Select country*"}
+                            labelStyle={styles.selectLabel}
                             boxWidth={80 * vmin}
-                            initialCountries={[]}
 
-                            onSelectCountry={(data) => setCountry(
-                                country => updatedState(country, data[0])
-                                )}
+                            onSelectCountry={(selectedCountry) =>
+                            setCountry(country => updatedState(country, selectedCountry.name))}
                         />
 
                         <Text style={styles.invalidMessage}>
@@ -186,7 +178,7 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white
     },
     inputGroup: {
-        gap: 3.5 * vh
+        gap: 2.5 * vh
     },
     textInput: {
         width: 80 * vmin,
@@ -211,5 +203,20 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         flexWrap: 'wrap',
         width: 80 * vmin,
+    },
+
+    message: {
+      marginTop: 1.5 * vh,
+      alignSelf: "center",
+      width: 85 * vmin,
+      fontFamily: "Lato-Regular",
+      fontSize: 3.8 * vmin,
+      color: palette.grey,
+    },
+    selectLabel: {
+        fontFamily: 'Lato-Bold',
+        marginTop: 1 * vh,
+        marginBottom: 0.5 * vh,
+        color: palette.black,
     },
 })
