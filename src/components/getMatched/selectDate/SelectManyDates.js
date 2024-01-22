@@ -6,6 +6,27 @@ import { StyleSheet } from "react-native";
 import CalenderModal from "./CalenderModal";
 
 
+const DateLabel = (props) => {
+    const { date, index, isChecked, removeDate } = props;
+
+    return (
+    <View style={styles.dateContainer}
+    backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}
+    key={index}>
+        <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
+            {date}
+        </Text>
+
+        <TouchableOpacity onPress={() => removeDate(date)}>
+            <Image style={styles.xIcon}
+            tintColor={!isChecked ? palette.black : palette.grey}
+            source={require("../../../../assets/icons/x.png")} />
+        </TouchableOpacity>
+    </View>
+    )
+}
+
+
 const SelectManyDates = (props) => {
     //passed in properties
     const {title, titleStyle, label, labelStyle, boxWidth, isFlexible} = props;
@@ -94,22 +115,13 @@ const SelectManyDates = (props) => {
             <View style={styles.calenderIconContainer}
             width={boxWidth}>
                 {dates == null ? null
-                :
-                dates.map((date, index) =>
-                <View style={styles.dateContainer}
-                backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}
-                key={index}>
-                    <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
-                        {date}
-                    </Text>
-
-                    <TouchableOpacity onPress={() => removeDate(date)}>
-                        <Image style={styles.xIcon}
-                        tintColor={!isChecked ? palette.black : palette.grey}
-                        source={require("../../../../assets/icons/x.png")} />
-                    </TouchableOpacity>
-                </View>
+                : dates.map((date, index) =>
+                <DateLabel
+                date={date} index={index}
+                isChecked={isChecked}
+                removeDate={removeDate} />
                 )}
+
 
                 <TouchableOpacity onPress={toggleModal}
                 style={{marginLeft: 'auto', alignSelf: 'center'}}>

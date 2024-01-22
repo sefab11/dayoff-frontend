@@ -4,6 +4,29 @@ import { palette, themes, flags } from "../../../style";
 import CountryDropdown from "./CountryDropdown";
 
 
+const CountryLabel = (props) => {
+    const { country, removeCountry } = props;
+
+    return (
+    <View style={styles.countryContainer}
+    backgroundColor={palette.lightPurple}
+    borderColor={palette.lightPurple}
+    key={country.code}>
+        <Image style={styles.countryIcon}
+        source={flags[country.code]} />
+
+        <Text style={styles.countryTextActive}>{country.name}</Text>
+
+        <TouchableOpacity onPress={() => removeCountry(country.code)}>
+            <Image style={styles.xIcon}
+            tintColor={palette.black}
+            source={require("../../../../assets/icons/x.png")} />
+        </TouchableOpacity>
+    </View>
+    );
+}
+
+
 const SelectManyCountries = (props) => {
     const { title, titleStyle, label, labelStyle, boxWidth } = props;
 
@@ -31,28 +54,6 @@ const SelectManyCountries = (props) => {
         setValue(value.filter(code => code !== countryCode));
     }
 
-    function deliverCountryLabels(){
-        if (selectedCountries == null) return;
-
-        const countryComponents = selectedCountries.map((country) =>
-        <View style={styles.countryContainer}
-        backgroundColor={palette.lightPurple} borderColor={palette.lightPurple}
-        key={country.code}>
-            <Image style={styles.countryIcon}
-            source={flags[country.code]} />
-
-            <Text style={styles.countryTextActive}>{country.name}</Text>
-
-            <TouchableOpacity onPress={() => removeCountry(country.code)}>
-                <Image style={styles.xIcon}
-                tintColor={palette.black}
-                source={require("../../../../assets/icons/x.png")} />
-            </TouchableOpacity>
-        </View>
-        );
-
-        return countryComponents;
-    }
 
     return (
     <View>
@@ -64,7 +65,9 @@ const SelectManyCountries = (props) => {
         </View>
 
         <View style={styles.countriesContainer} width={boxWidth}>
-            {deliverCountryLabels()}
+            {selectedCountries == null ? null
+            : selectedCountries.map((country) =>
+            <CountryLabel country={country} removeCountry={removeCountry} />)}
 
             <TouchableOpacity onPress={toggleModal} style={styles.globeIcon}>
                 <Image style={styles.icon}

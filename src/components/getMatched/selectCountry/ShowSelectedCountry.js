@@ -4,6 +4,24 @@ import { palette, themes, flags } from "../../../style";
 import { Dropdown, SelectCountry } from 'react-native-element-dropdown';
 import DropDownPicker from 'react-native-dropdown-picker';
 
+
+const CountryLabel = (props) => {
+    const { country } = props;
+
+    return (
+    <View style={styles.countryContainer}
+    backgroundColor={palette.lightGrey2}
+    borderColor={palette.lightGrey2}
+    key={country.code}>
+        <Image style={styles.countryIcon}
+        source={flags[country.code]} />
+
+        <Text style={styles.countryTextInactive}>{country.name}</Text>
+    </View>
+    )
+}
+
+
 const ShowSelectedCountry = (props) => {
     const { title, titleStyle, label, labelStyle, boxWidth, initialCountries } = props;
 
@@ -11,23 +29,6 @@ const ShowSelectedCountry = (props) => {
     //each element should be a dictionary in format {'code': x, 'name': y}
     const [selectedCountries, setSelectedCountries] = useState(initialCountries);
 
-    function deliverCountryLabels(){
-        if (selectedCountries == '') return;
-
-        const countryComponents = selectedCountries.map((country) =>
-        <View style={styles.countryContainer}
-        backgroundColor={palette.lightGrey2}
-        borderColor={palette.lightGrey2}
-        key={country.code}>
-            <Image style={styles.countryIcon}
-            source={flags[country.code]} />
-
-            <Text style={styles.countryTextInactive}>{country.name}</Text>
-        </View>
-        );
-
-        return countryComponents;
-    }
 
     return (
     <View style={styles.selectCountryWrap}>
@@ -39,7 +40,8 @@ const ShowSelectedCountry = (props) => {
         </View>
 
         <View style={styles.countriesContainer} width={boxWidth}>
-            {deliverCountryLabels()}
+            {selectedCountries == null ? null
+            : selectedCountries.map((country) => <CountryLabel country={country} />)}
         </View>
     </View>
     );

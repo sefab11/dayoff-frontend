@@ -6,6 +6,26 @@ import { StyleSheet } from "react-native";
 import CalenderModal from "./CalenderModal";
 
 
+const DateLabel = (props) => {
+    const { date, isChecked, removeDate } = props;
+
+    return (
+    <View style={styles.dateContainer}
+    backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}>
+        <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
+            {date}
+        </Text>
+
+        <TouchableOpacity onPress={() => removeDate()}>
+            <Image style={styles.xIcon}
+            tintColor={!isChecked ? palette.black : palette.grey}
+            source={require("../../../../assets/icons/x.png")} />
+        </TouchableOpacity>
+    </View>
+    );
+}
+
+
 const SelectOneDate = (props) => {
     //passed in properties
     const {title, titleStyle, label, labelStyle, boxWidth, isFlexible} = props;
@@ -82,19 +102,8 @@ const SelectOneDate = (props) => {
             <View style={styles.calenderIconContainer} width={boxWidth}>
                 {dates == '' ? null
                 :
-                <View style={styles.dateContainer}
-                backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2} >
-                    <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
-                        {dates}
-                    </Text>
-
-                    <TouchableOpacity onPress={() => removeDate()}>
-                        <Image style={styles.xIcon}
-                        tintColor={!isChecked ? palette.black : palette.grey}
-                        source={require("../../../../assets/icons/x.png")} />
-                    </TouchableOpacity>
-                </View>
-                }
+                <DateLabel date={dates} isChecked={isChecked}
+                removeDate={removeDate} />}
 
                 {/*marginLeft keeps it as the last component in the flexbox, padding makes it
                   slightly bigger so that flexbox doesn't expand on a new date on a new row

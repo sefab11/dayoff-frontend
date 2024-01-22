@@ -4,6 +4,19 @@ import { palette, themes } from "../../../style";
 import { StyleSheet } from "react-native";
 
 
+const DateLabel = (props) => {
+    const { date, index } = props;
+
+    return (
+    <View style={styles.dateContainer}
+    backgroundColor={palette.lightGrey2}
+    key={index}>
+        <Text style={styles.dateTextInactive}>{date}</Text>
+    </View>
+    )
+}
+
+
 const ShowSelectedDate = (props) => {
     //passed in properties
     const {title, titleStyle, label, labelStyle, boxWidth, initialDates} = props;
@@ -24,13 +37,8 @@ const ShowSelectedDate = (props) => {
 
         <View style={styles.calenderIconContainer} width={boxWidth}>
             {dates == null ? null
-            :
-            dates.map((date, index) =>
-            <View style={styles.dateContainer}
-            backgroundColor={palette.lightGrey2}
-            key={index}>
-                <Text style={styles.dateTextInactive}>{date}</Text>
-            </View>
+            : dates.map((date, index) =>
+            <DateLabel date={date} index={index} />
             )}
         </View>
         {/* no modal or checkbox required */}
