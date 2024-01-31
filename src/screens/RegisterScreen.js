@@ -67,12 +67,12 @@ export default RegisterScreen = ({ navigation }) => {
     const register = async () => {
         if (areInputsValid()) {
             //TODO: remove this navigation here for release
-            navigation.navigate("FinishProfile");
+            navigation.navigate("VerifyEmail");
 
             await registerUser(name.value, email.value, password.value)
             .then(status => {
                 if(status === 200) {
-                    navigation.navigate('FinishProfile');
+                    navigation.navigate('VerifyEmail');
                 }
                 else {
                     toggleDialog();
@@ -117,7 +117,7 @@ export default RegisterScreen = ({ navigation }) => {
                     <View>
                         <View>
                             <TextInput style={styles.textInput} theme={themes.textInput}
-                            mode='outlined' label="Work email*" placeholder='name@workmail.com'
+                            mode='outlined' label="Email Address*" placeholder='name@workmail.com'
                             value={email.value}
                             onChangeText={text => setEmail(email => updatedState(email, text))}
                             />
