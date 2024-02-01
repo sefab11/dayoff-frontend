@@ -1,25 +1,29 @@
 import React, { useEffect, useRef, useState, memo } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
+import Checkbox from 'expo-checkbox';
 import { palette, themes, flags } from "../../../style";
 import CountryDropdown from "./CountryDropdown";
 
 
 const CountryLabel = (props) => {
-    const { country, removeCountry } = props;
+    const { country, removeCountry, isChecked } = props;
 
     return (
     <View style={styles.countryContainer}
-    backgroundColor={palette.lightPurple}
+    backgroundColor={isChecked ? palette.lightGrey2 : palette.lightPurple}
     borderColor={palette.lightPurple}
     key={country.code}>
         <Image style={styles.countryIcon}
-        source={flags[country.code]} />
+        source={flags[country.code]}
+        opacity={isChecked ? 0.25 : 1}/>
 
-        <Text style={styles.countryTextActive}>{country.name}</Text>
+        <Text style={isChecked ? styles.countryTextInactive : styles.countryTextActive}>
+            {country.name}
+        </Text>
 
         <TouchableOpacity onPress={() => removeCountry(country.code)}>
             <Image style={styles.xIcon}
-            tintColor={palette.black}
+            tintColor={isChecked ? palette.grey : palette.black}
             source={require("../../../../assets/icons/x.png")} />
         </TouchableOpacity>
     </View>
@@ -28,12 +32,13 @@ const CountryLabel = (props) => {
 
 
 const SelectManyCountries = (props) => {
-    const { title, titleStyle, label, labelStyle, boxWidth } = props;
+    const { title, titleStyle, label, labelStyle, boxWidth, isFlexible } = props;
 
     const [isModalVisible, setModalVisible] = useState(false);
 
     // keeping track of the value of the dropdown selector
     const [value, setValue] = useState(null);
+    const [isChecked, setChecked] = useState(false);
 
     //for keeping track of which countries the user has added
     //each element should be a dictionary in format {'code': x, 'name': y}
@@ -50,6 +55,8 @@ const SelectManyCountries = (props) => {
     }
 
     function removeCountry(countryCode){
+        if (isChecked) return;
+
         setSelectedCountries(selectedCountries.filter(country => country['code'] !== countryCode));
         setValue(value.filter(code => code !== countryCode));
     }
@@ -67,11 +74,11 @@ const SelectManyCountries = (props) => {
         <View style={styles.countriesContainer} width={boxWidth}>
             {selectedCountries == null ? null
             : selectedCountries.map((country) =>
-            <CountryLabel country={country} removeCountry={removeCountry} />)}
+            <CountryLabel country={country} removeCountry={removeCountry} isChecked={isChecked}/>)}
 
             <TouchableOpacity onPress={toggleModal} style={styles.globeIcon}>
                 <Image style={styles.icon}
-                tintColor={palette.purple}
+                tintColor={isChecked ? palette.grey : palette.purple}
                 source={require("../../../../assets/icons/globe.png")} />
             </TouchableOpacity>
         </View>
@@ -82,6 +89,15 @@ const SelectManyCountries = (props) => {
         updateCountries={updateCountries}
         value={value} setValue={setValue}
         />
+        {isFlexible
+        ?
+        <View style={styles.checkboxContainer}>
+            <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked}
+            color={isChecked ? palette.purple : undefined} />
+            <Text style={styles.checkText}>I haven’t decided yet</Text>
+        </View>
+        : null
+        }
     </View>
     );
 };
@@ -159,7 +175,19 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     alignSelf: 'center',
   },
-
+  checkboxContainer:{
+    flexDirection:'row',
+    alignItems:'center',
+    marginTop:15,
+  },
+  checkText:{
+    paddingLeft:10,
+    fontFamily: "Lato-Regular",
+    fontSize: 4 * vmin,
+    fontWeight: '600',
+    color: "#000000",
+    letterSpacing: 1.5,
+  }
 });
 
 export default SelectManyCountries;

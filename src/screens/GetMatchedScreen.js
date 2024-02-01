@@ -51,6 +51,7 @@ const GetMatchedScreen = ({ navigation }) => {
                         titleStyle={styles.selectTitle}
                         label={"Now add the countries for the above dates below"}
                         labelStyle={styles.selectLabel}
+                        isFlexible={true}
                         boxWidth={85 * vmin}
 
                         onSelectCountry={(data) => handleCountries(data)}
