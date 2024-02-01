@@ -174,14 +174,6 @@ export default RegisterScreen = ({ navigation }) => {
         </TouchableWithoutFeedback>
         <View style={{position: "fixed"}}>
             <Modal
-                animationType="slide"
-                transparent={true}
-                isVisible={isModalVisible}
-                onBackdropPress={toggleModal}
-            >
-                <EmailModal exitFunc={toggleModal}/>
-            </Modal>
-            <Modal
                 transparent={true}
                 isVisible={dialogVisible}
                 onBackdropPress={toggleDialog}
