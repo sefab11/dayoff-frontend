@@ -142,7 +142,7 @@ const SelectManyDates = (props) => {
         <View style={styles.checkboxContainer}>
             <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked}
             color={isChecked ? palette.purple : undefined} />
-            <Text style={styles.checkText}>I’m flexible with my dates</Text>
+            <Text style={styles.checkText}>I haven’t decided yet</Text>
         </View>
         : null
         }

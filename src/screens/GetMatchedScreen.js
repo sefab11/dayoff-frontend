@@ -36,7 +36,7 @@ const GetMatchedScreen = ({ navigation }) => {
                             <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
                         </View>
                         <SelectManyDates
-                        title={"Select the dates of your trip(s)"}
+                        title={"Select the dates of your leisure trip(s)"}
                         titleStyle={styles.selectTitle}
                         label={"Eg. If you’re going to Greece on 21-28 June and Mexico on 10-17 July, add all the dates below"}
                         labelStyle={styles.selectLabel}

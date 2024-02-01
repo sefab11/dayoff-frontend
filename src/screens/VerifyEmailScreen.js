@@ -19,13 +19,16 @@ export default VerifyEmailScreen = ({ navigation }) => {
     }
 
     function verify(){
-        if (code == '00000') navigation.navigate('FinishProfile');
+        //TODO: remove and verify code for release
+        navigation.navigate('FinishProfile');
+        if (code == "00000") navigation.navigate('FinishProfile');
     }
 
     return (
         <TouchableWithoutFeedback>
                 <View style={styles.page}>
                     <HeaderBack>Verify Email</HeaderBack>
+                    <Text style={styles.message}>We’ve sent a verification code to  {emailAddress}</Text>
 
                     <View style={styles.section}>
                         <SegmentedInput
@@ -34,14 +37,15 @@ export default VerifyEmailScreen = ({ navigation }) => {
                             segmentStyle={styles.segment}
                             theme={themes.textInput}
                             mode='outlined'
-                            label={'We’ve sent a verification code to ' + emailAddress}
-                            labelStyle={styles.message}
+                            label={'Enter code'}
+                            labelStyle={styles.title}
                             keyboardType='numeric'
                             onCodeChange={(data) => setCode(code => updatedState(code, data))}
                         />
+                    </View>
 
+                    <View style={styles.resendContainer}>
                         <TouchableOpacity
-                            style={styles.resendContainer}
                             //TODO: call otp function on press
                             onPress={() => console.log("TBA otp on press")}
                         >
@@ -72,13 +76,14 @@ const styles = StyleSheet.create({
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        gap: 2.5 * vh,
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
         backgroundColor: palette.white,
     },
     message: {
-        alignSelf: 'flex-start',
-        width: 85 * vmin,
+        alignSelf: 'center',
+        width: 80 * vmin,
         fontFamily: 'Lato-Regular',
         fontSize: 3.6 * vmin,
         color: palette.grey,
@@ -98,11 +103,14 @@ const styles = StyleSheet.create({
 
     resendContainer: {
         width: "100%",
-        paddingTop: 10,
+        alignItems: 'center',
+        marginTop: 'auto',
+        marginBottom: 2 * vh,
     },
     resendText: {
         color: palette.purple,
         fontWeight: 'bold',
+        fontSize: 4.2 * vmin,
     },
 
     scroll: {
@@ -116,9 +124,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        alignSelf: 'center',
 
-        paddingTop: 20,
-        paddingBottom: 20,
+        marginTop: 'auto',
+        marginBottom: 'auto',
     },
     border: {
         width: 85 * vmin,
@@ -130,7 +139,6 @@ const styles = StyleSheet.create({
     title: {
       marginTop: 3 * vh,
       paddingBottom: 20,
-      alignSelf: "center",
       width: 85 * vmin,
       fontFamily: "Lato-Regular",
       fontSize: 4.5 * vmin,
@@ -142,6 +150,8 @@ const styles = StyleSheet.create({
     buttonGroup: {
         gap: 2 * vmin,
         margin: 10,
+        alignItems: 'center',
+        marginBottom: 5 * vh,
     },
     button: {
         width: 80 * vmin,

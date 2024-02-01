@@ -28,11 +28,6 @@ const FinishProfile = ({ navigation }) => {
         'valid': null,
         'required': false, //true
     });
-    const [linkedin, setLinkedin] = useState({
-        'value': null,
-        'valid': null,
-        'required': false,
-    });
 
     const updatedState = (stateDict, newVal) => {
         return Object.assign({}, stateDict, {'value': newVal});
@@ -49,14 +44,12 @@ const FinishProfile = ({ navigation }) => {
         console.log(photo);
         console.log(country);
         console.log(job);
-        console.log(linkedin);
 
 
         return (
            (photo.valid    || !photo.required)
         && (country.valid  || !country.required)
         && (job.valid      || !job.required)
-        && (linkedin.valid || !linkedin.required)
         );
     }
 
@@ -116,20 +109,8 @@ const FinishProfile = ({ navigation }) => {
 
                 </View>
 
-                <View marginTop={20}>
-                    <LinkedinInput horMargin={10} verMargin={3}
-                    onComponentPress={(data) => handleLinkedin(data)}
-                    />
-                </View>
-
-                {/*
-                <TextInput style={styles.textInput} theme={themes.textInput}
-                mode='outlined' label='LinkedIn Profile URL' placeholder=''
-                value={inputs[2]} onChangeText={text => updateInput(2, text)}/>
-                */}
-
             </View>
-            <View marginBottom={-25}>
+            <View marginBottom={-8 * vh}>
             <Button  onPress={() => finishProfile()} mode='contained' theme={themes.button} style={styles.button}>
                 Done
             </Button>
