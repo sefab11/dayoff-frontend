@@ -1,5 +1,5 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView } from "react-native";
-import { Button, Header, SegmentedInput, HeaderBack, Image } from "../components";
+import { Button, Header, SegmentedInput, HeaderBack, Image, TextInput } from "../components";
 import { LinkedinInput, PhotoInput, Dialog } from "../components";
 import Modal from "react-native-modal";
 import { StyleSheet } from "react-native";
@@ -23,6 +23,24 @@ const VerifySection = (props) => {
     )
 }
 
+const CheckBox = (props) => {
+    const {label, style} = props;
+
+    return (
+    <View style={{display: 'flex', flexDirection: 'row', columnGap: 10, marginVertical: 10}}>
+        <View backgroundColor={palette.white}
+        borderColor={palette.purple} borderWidth={2} borderRadius={100}
+        padding={3}>
+            <TouchableOpacity style={style} onPress={() => props.onPress()}>
+            </TouchableOpacity>
+        </View>
+        <Text style={styles.checkText}>
+            {label}
+        </Text>
+    </View>
+    )
+}
+
 
 
 export default VerificationScreen = ({ navigation }) => {
@@ -36,6 +54,9 @@ export default VerificationScreen = ({ navigation }) => {
         'value': linkedinURL,
         'required': linkedinURL == null,
     });
+    const [emailChecked, setEmailChecked] = useState(true);
+    const [idChecked, setIdChecked] = useState(false);
+
     const [code, setCode] = useState({
         'value': '',
         'required': true,
@@ -116,25 +137,80 @@ export default VerificationScreen = ({ navigation }) => {
 
                         <View style={styles.section}>
                             <VerifySection
-                            title='3. Enter Verification Code*'
+                            title='3. Verify With Your:'
                             valid={!code.required} />
-                            <SegmentedInput
-                            length={5}
-                            style={styles.segmentedInput}
-                            segmentStyle={styles.segment}
-                            theme={themes.textInput}
-                            mode='outlined'
-                            label={'We’ve sent a verification code to ' + emailAddress}
-                            labelStyle={styles.message}
-                            keyboardType='numeric'
-                            onCodeChange={(data) => setCode(code => updatedState(code, data))} />
 
-                            <TouchableOpacity
-                            style={styles.resendContainer}
-                            //TODO: call otp function on press
-                            onPress={() => console.log("TBA otp on press")}>
-                                <Text style={styles.resendText}>Resend Verification Code</Text>
-                            </TouchableOpacity>
+                            <View marginBottom={5 * vh}>
+                                <CheckBox
+                                style={{
+                                    width: 3 * vmin,
+                                    height: 3 * vmin,
+                                    borderRadius: 50 * vmin,
+                                    backgroundColor: emailChecked ? palette.purple : palette.white,
+                                }}
+                                label='Work Email or School/Institution Email'
+                                onPress={() => {
+                                    if (emailChecked) return;
+                                    setEmailChecked(!emailChecked);
+                                    if (!emailChecked) setIdChecked(false);
+                                }} />
+
+                                <CheckBox
+                                style={{
+                                    width: 3 * vmin,
+                                    height: 3 * vmin,
+                                    borderRadius: 50 * vmin,
+                                    backgroundColor: idChecked ? palette.purple : palette.white,
+                                }}
+                                label='Proof of Work or Work ID Card'
+                                onPress={() => {
+                                    if (idChecked) return;
+                                    setIdChecked(!idChecked);
+                                    if (!idChecked) setEmailChecked(false);
+                                }} />
+                            </View>
+
+                            {emailChecked
+                            ?
+                            //render text input with code input
+                            <View>
+                                <View marginBottom={5 * vh} >
+                                    <TextInput style={styles.textInput} theme={themes.textInput}
+                                    mode='outlined' label="Work Email or School/Institution Email*" placeholder='name@organisation.com'
+                                    />
+
+                                    <View style={{display: 'flex', flexDirection: 'row', marginVertical: 10}} >
+                                        <Button style={{backgroundColor: palette.purple, paddingHorizontal: 10}}
+                                        //TODO: add function here to send code
+                                        onPress={() => {}}>
+                                            <Text style={{color: palette.white}}>Get Code</Text>
+                                        </Button>
+
+                                        <Button style={{marginLeft: 'auto'}}
+                                        //TODO: add function here to send code
+                                        onPress={() => {}}>
+                                            <Text style={{color: palette.purple}}>Resend Code</Text>
+                                        </Button>
+                                    </View>
+                                </View>
+
+                                <SegmentedInput
+                                length={5}
+                                style={styles.segmentedInput}
+                                segmentStyle={styles.segment}
+                                theme={themes.textInput}
+                                mode='outlined'
+                                label='Enter verification code sent to your email here*'
+                                labelStyle={styles.message}
+                                keyboardType='numeric'
+                                onCodeChange={(data) => setCode(code => updatedState(code, data))} />
+
+                            </View>
+                            :
+                            //render link input / photo input
+                            <View>
+                            </View>
+                            }
                         </View>
 
                     </View>
@@ -257,5 +333,14 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         resizeMode: 'contain',
         height: '40%'
+    },
+
+    checkText: {
+        textAlignVertical: 'center',
+        fontWeight: 'normal',
+        fontSize: 3.5 * vmin,
+    },
+    textInput: {
+        width: 80 * vmin,
     }
 })
