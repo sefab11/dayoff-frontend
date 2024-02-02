@@ -9,23 +9,36 @@ import { VerificationValidationService } from "../services/ValidationService";
 
 const { isCodeCorrect, handlePhoto, handleLinkedin, getLinkedin, getPhoto, getUserEmail } = VerificationValidationService;
 
+const VerifySection = (props) => {
+    const {title, valid} = props;
+
+    return (
+    <View style={{width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={styles.title}>{title}</Text>
+        {valid
+        ? <Image source={require("../../assets/icons/checkmark.png")} style={styles.checkmark} />
+        : null
+        }
+    </View>
+    )
+}
+
+
+
 export default VerificationScreen = ({ navigation }) => {
-    const [code, setCode] = useState({
-        'value': '',
-        'valid': null,
-        'required': true,
-    });
-    var linkedinURL = getLinkedin();
-    const [linkedin, setLinkedin] = useState({
-        'value': linkedinURL,
-        'valid': null,
-        'required': linkedinURL == null,
-    });
-    var photoData = getPhoto();
+    photoData = getPhoto();
     const [photo, setPhoto] = useState({
         'value': photoData,
-        'valid': null,
         'required': photoData == null,
+    });
+    linkedinURL = getLinkedin();
+    const [linkedin, setLinkedin] = useState({
+        'value': linkedinURL,
+        'required': linkedinURL == null,
+    });
+    const [code, setCode] = useState({
+        'value': '',
+        'required': true,
     });
 
     const emailAddress = getUserEmail();
@@ -35,24 +48,20 @@ export default VerificationScreen = ({ navigation }) => {
     }
 
     function areFieldsValid(){
+        //check if any required fields have been inputted/handled
+        //handlePhoto/handleLinkedin should update the database
+        photo.required = getPhoto() == null;
+        linkedin.required = getLinkedin() == null;
         //check if code is correct
-        code.valid = isCodeCorrect(code.value);
-        //check if any other fields have been entered
-        //handleLinkedin and handlePhoto should update the database, so check again
-        //if the values in the database aren't null
-        if (linkedin.required) linkedin.valid = getLinkedin() != null;
-        if (photo.required) photo.valid = getPhoto() != null;
+        code.required = isCodeCorrect(code.value);
+
 
         //for testing
-        console.log(code);
-        console.log(linkedin);
         console.log(photo);
+        console.log(linkedin);
+        console.log(code);
 
-        return (
-           (code.valid     || !code.required)
-        && (linkedin.valid || !linkedin.required)
-        && (photo.valid    || !photo.required)
-        );
+        return !photo.required && !linkedin.required && !code.required;
     }
 
     function verify(){
@@ -79,73 +88,55 @@ export default VerificationScreen = ({ navigation }) => {
                     <ScrollView contentContainerStyle={styles.scroll} >
                     <TouchableWithoutFeedback>
                     <View>
-                        <Text style={styles.message}>Our aim is to provide a safe space for everyone.</Text>
-
-                        <View style={styles.section}>
-                            <Text style={styles.title}>1. Enter Verification Code*</Text>
-                            <SegmentedInput
-                                length={5}
-                                style={styles.segmentedInput}
-                                segmentStyle={styles.segment}
-                                theme={themes.textInput}
-                                mode='outlined'
-                                label={'We’ve sent a verification code to ' + emailAddress}
-                                labelStyle={styles.message}
-                                keyboardType='numeric'
-                                onCodeChange={(data) => setCode(code => updatedState(code, data))}
-                            />
-
-                            <TouchableOpacity
-                                style={styles.resendContainer}
-                                //TODO: call otp function on press
-                                onPress={() => console.log("TBA otp on press")}
-                            >
-                                <Text style={styles.resendText}>Resend Verification Code</Text>
-                            </TouchableOpacity>
-
-                            <Text style={styles.invalidMessage}>
-                                {code.valid === false ? 'Invalid code.' : ''}
-                            </Text>
-                        </View>
-
-                        {
-                        linkedin.required ?
-                        <>
-                        <View style={styles.border} />
-
-                        <View style={styles.section}>
-                            <Text style={styles.title}>2. Add LinkedIn Profile*</Text>
-                            <LinkedinInput horMargin={10} verMargin={10}
-                            onComponentPress={(data) => handleLinkedin(data)}
-                            />
-                        </View>
-
-                        <Text style={styles.invalidMessage}>
-                            {linkedin.valid === false ? 'A linkedin is required' : ''}
+                        <Text style={styles.message}>
+                            Every user is required to go through verifications to build a more trusted and safer platform.
                         </Text>
-
-                        </>
-                        : null
-                        }
-
-                        {
-                        photo.required ?
-                        <>
-                        <View style={styles.border} />
 
                         <View style={styles.section} borderBottomWidth={0}>
-                            <Text style={styles.title}>3. Add Profile Photo*</Text>
+                            <VerifySection
+                            title='1. Add Profile Photo*'
+                            valid={!photo.required} />
                             <PhotoInput width={12 * vh} camRatio={'40%'}
-                            onPhotoSelected={(data) => handlePhoto(data)}
-                            />
+                            onPhotoSelected={(data) => handlePhoto(data)} />
                         </View>
 
-                        <Text style={styles.invalidMessage}>
-                            {photo.valid === false ? 'A profile photo is required.' : ''}
-                        </Text>
-                        </>
-                        : null
-                        }
+                        <View style={styles.border} />
+
+
+                        <View style={styles.section}>
+                            <VerifySection
+                            title='2. Add Linkedin Profile*'
+                            valid={!linkedin.required} />
+                            <LinkedinInput horMargin={10} verMargin={10}
+                            onComponentPress={(data) => handleLinkedin(data)} />
+                        </View>
+
+
+                        <View style={styles.border} />
+
+                        <View style={styles.section}>
+                            <VerifySection
+                            title='3. Enter Verification Code*'
+                            valid={!code.required} />
+                            <SegmentedInput
+                            length={5}
+                            style={styles.segmentedInput}
+                            segmentStyle={styles.segment}
+                            theme={themes.textInput}
+                            mode='outlined'
+                            label={'We’ve sent a verification code to ' + emailAddress}
+                            labelStyle={styles.message}
+                            keyboardType='numeric'
+                            onCodeChange={(data) => setCode(code => updatedState(code, data))} />
+
+                            <TouchableOpacity
+                            style={styles.resendContainer}
+                            //TODO: call otp function on press
+                            onPress={() => console.log("TBA otp on press")}>
+                                <Text style={styles.resendText}>Resend Verification Code</Text>
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
                     </TouchableWithoutFeedback>
                     </ScrollView>
@@ -221,7 +212,7 @@ const styles = StyleSheet.create({
     },
 
     section: {
-        width: "100%",
+        width: 85 * vmin,
 
         display: 'flex',
         flexDirection: 'column',
@@ -240,8 +231,7 @@ const styles = StyleSheet.create({
     title: {
       marginTop: 3 * vh,
       paddingBottom: 20,
-      alignSelf: "center",
-      width: 85 * vmin,
+      alignSelf: "flex-start",
       fontFamily: "Lato-Regular",
       fontSize: 4.5 * vmin,
       fontWeight: "700",
@@ -263,11 +253,9 @@ const styles = StyleSheet.create({
     buttonText: {
         color: palette.white,
     },
-
-    invalidMessage: {
-        color: 'red',
-        textAlign: 'left',
-        flexWrap: 'wrap',
-        width: 85 * vmin,
-    },
+    checkmark: {
+        marginLeft: 'auto',
+        resizeMode: 'contain',
+        height: '40%'
+    }
 })

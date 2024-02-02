@@ -110,7 +110,7 @@ const FinishProfile = ({ navigation }) => {
                 </View>
 
             </View>
-            <View marginBottom={-7 * vh}>
+            <View marginBottom={-6 * vh}>
             <Button  onPress={() => finishProfile()} mode='contained' theme={themes.button} style={styles.button}>
                 Done
             </Button>
