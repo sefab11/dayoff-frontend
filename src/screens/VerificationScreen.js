@@ -2,6 +2,7 @@ import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, Scrol
 import { Button, Header, SegmentedInput, HeaderBack, Image, TextInput, FileInput } from "../components";
 import { LinkedinInput, PhotoInput, Dialog } from "../components";
 import Modal from "react-native-modal";
+import { SuccessModal, ReviewModal } from "../components";
 import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
@@ -248,14 +249,16 @@ export default VerificationScreen = ({ navigation }) => {
                         </Button>
                     </View>
                     <View style={{position: 'fixed'}}>
-                        <Modal
+                        {emailChecked
+                        ?   <SuccessModal
                             transparent={true}
                             isVisible={dialogVisible}
-                            onBackdropPress={toggleDialog}
-                        >
-                            <Dialog title={"Error"} details={"An error occurred."}
-                             buttonLabel={"OK"} onButtonPress={toggleDialog} />
-                        </Modal>
+                            onBackdropPress={toggleDialog} />
+                        :   <ReviewModal
+                            transparent={true}
+                            isVisible={dialogVisible}
+                            onBackdropPress={toggleDialog} />
+                        }
                     </View>
 
                 </View>
