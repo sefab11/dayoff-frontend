@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Image} from "react-native";
+import {View, Text, StyleSheet, Image, TouchableWithoutFeedback} from "react-native";
 import Modal from "react-native-modal";
 import { palette, themes } from "../../style";
 
@@ -20,38 +20,39 @@ const SuccessModal = (props) => {
 
 
     return (
-    <Modal
-    style={styles.modal}
-    transparent={transparent}
-    isVisible={isVisible}
-    onBackdropPress={onBackdropPress}>
-        <View style={styles.mainContainer}>
-            <View style={styles.iconContainer}>
-                <Image source={require("../../../assets/icons/success.png")} />
-                <Text style={styles.successTitle} >Verification Successful</Text>
-            </View>
+    <TouchableWithoutFeedback onPress={() => props.onPress()}>
+        <Modal
+        style={styles.modal}
+        transparent={transparent}
+        isVisible={isVisible}>
+            <View style={styles.mainContainer}>
+                <View style={styles.iconContainer}>
+                    <Image source={require("../../../assets/icons/success.png")} />
+                    <Text style={styles.successTitle} >Verification Successful</Text>
+                </View>
 
-            <View style={styles.bulletPoints}>
-                <Text style={styles.title}>More Safety Features Coming:</Text>
+                <View style={styles.bulletPoints}>
+                    <Text style={styles.title}>More Safety Features Coming:</Text>
 
-                <BulletPoint style={styles.bulletPoint}
-                text='Users will submit in-app recorded video intro to their profile page.'
-                color={palette.lightGreen} />
-                <BulletPoint style={styles.bulletPoint}
-                text='See how many people your travel buddies have traveled with on DayOff to increase trust.'
-                color={palette.lightGreen} />
-                <BulletPoint style={styles.bulletPoint}
-                text='See your travel buddies mutual friends with you and their relationship with them.'
-                color={palette.lightGreen} />
-                <BulletPoint style={styles.bulletPoint}
-                text='Share your trip live location with family and friends.'
-                color={palette.lightGreen} />
-                <BulletPoint style={styles.bulletPoint}
-                text='Find emergency service contact numbers in your trip info.'
-                color={palette.lightGreen} />
+                    <BulletPoint style={styles.bulletPoint}
+                    text='Users will submit in-app recorded video intro to their profile page.'
+                    color={palette.lightGreen} />
+                    <BulletPoint style={styles.bulletPoint}
+                    text='See how many people your travel buddies have traveled with on DayOff to increase trust.'
+                    color={palette.lightGreen} />
+                    <BulletPoint style={styles.bulletPoint}
+                    text='See your travel buddies mutual friends with you and their relationship with them.'
+                    color={palette.lightGreen} />
+                    <BulletPoint style={styles.bulletPoint}
+                    text='Share your trip live location with family and friends.'
+                    color={palette.lightGreen} />
+                    <BulletPoint style={styles.bulletPoint}
+                    text='Find emergency service contact numbers in your trip info.'
+                    color={palette.lightGreen} />
+                </View>
             </View>
-        </View>
-    </Modal>
+        </Modal>
+    </TouchableWithoutFeedback>
     )
 }
 

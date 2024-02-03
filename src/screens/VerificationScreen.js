@@ -88,11 +88,9 @@ export default VerificationScreen = ({ navigation }) => {
     }
 
     function verify(){
-        if (areFieldsValid()) navigation.replace('Chat');
-        else {
-            console.log("some fields invalid");
-            toggleDialog();
-        }
+        //toggle the modals if the fields are valid, and nothing if invalid
+        //the modals can be passed functions to navigate to the next screen
+        if (areFieldsValid()) toggleDialog();
     }
 
     const toggleDialog = () => {
@@ -253,11 +251,10 @@ export default VerificationScreen = ({ navigation }) => {
                         ?   <SuccessModal
                             transparent={true}
                             isVisible={dialogVisible}
-                            onBackdropPress={toggleDialog} />
+                            onPress={() => navigation.replace('Chat')}/>
                         :   <ReviewModal
                             transparent={true}
-                            isVisible={dialogVisible}
-                            onBackdropPress={toggleDialog} />
+                            isVisible={dialogVisible} />
                         }
                     </View>
 
