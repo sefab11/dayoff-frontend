@@ -1,5 +1,5 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView } from "react-native";
-import { Button, Header, SegmentedInput, HeaderBack, Image, TextInput } from "../components";
+import { Button, Header, SegmentedInput, HeaderBack, Image, TextInput, FileInput } from "../components";
 import { LinkedinInput, PhotoInput, Dialog } from "../components";
 import Modal from "react-native-modal";
 import { StyleSheet } from "react-native";
@@ -27,17 +27,18 @@ const CheckBox = (props) => {
     const {label, style} = props;
 
     return (
-    <View style={{display: 'flex', flexDirection: 'row', columnGap: 10, marginVertical: 10}}>
-        <View backgroundColor={palette.white}
-        borderColor={palette.purple} borderWidth={2} borderRadius={100}
-        padding={3}>
-            <TouchableOpacity style={style} onPress={() => props.onPress()}>
-            </TouchableOpacity>
+    <TouchableOpacity onPress={() => props.onPress()}>
+        <View style={{display: 'flex', flexDirection: 'row', columnGap: 10, marginVertical: 10}}>
+            <View backgroundColor={palette.white}
+            borderColor={palette.purple} borderWidth={2} borderRadius={100}
+            padding={3}>
+                <View style={style} />
+            </View>
+            <Text style={styles.checkText}>
+                {label}
+            </Text>
         </View>
-        <Text style={styles.checkText}>
-            {label}
-        </Text>
-    </View>
+    </TouchableOpacity>
     )
 }
 
@@ -194,21 +195,40 @@ export default VerificationScreen = ({ navigation }) => {
                                     </View>
                                 </View>
 
-                                <SegmentedInput
-                                length={5}
-                                style={styles.segmentedInput}
-                                segmentStyle={styles.segment}
-                                theme={themes.textInput}
-                                mode='outlined'
-                                label='Enter verification code sent to your email here*'
-                                labelStyle={styles.message}
-                                keyboardType='numeric'
-                                onCodeChange={(data) => setCode(code => updatedState(code, data))} />
+                                <View marginBottom={5 * vh}>
+                                    <SegmentedInput
+                                    length={5}
+                                    style={styles.segmentedInput}
+                                    segmentStyle={styles.segment}
+                                    theme={themes.textInput}
+                                    mode='outlined'
+                                    label='Enter verification code sent to your email here*'
+                                    labelStyle={styles.message}
+                                    keyboardType='numeric'
+                                    onCodeChange={(data) => setCode(code => updatedState(code, data))} />
+                                </View>
 
                             </View>
                             :
                             //render link input / photo input
                             <View>
+                                <View marginBottom={5 * vh}>
+                                    <Text style={styles.title}>Proof of Work or Work ID card</Text>
+                                    <Text style={styles.message}>Take a photo of your work ID card or for proof of work eg. an artiste can take a photo of their Spotify account, a photographer can send URL of their website portfolio etc.</Text>
+                                </View>
+
+                                <View marginBottom={5 * vh}>
+                                    <FileInput
+                                    label="Upload documents or photos*"
+                                    labelStyle={styles.labelTitle}
+                                    boxWidth={80 * vmin}
+                                    initialLink='Work ID Card' />
+                                </View>
+
+                                <View marginBottom={5 * vh}>
+                                    <TextInput style={styles.textInput} theme={themes.textInput}
+                                    mode='outlined' label="Any Additional Links" />
+                                </View>
                             </View>
                             }
                         </View>
@@ -246,6 +266,7 @@ export default VerificationScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     page: {
         paddingTop: 3 * vh,
+        marginBottom: 3 * vh,
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
@@ -342,5 +363,10 @@ const styles = StyleSheet.create({
     },
     textInput: {
         width: 80 * vmin,
+        backgroundColor: palette.white,
+    },
+    labelTitle: {
+        fontFamily: 'Lato-Regular',
+        fontWeight: 'bold',
     }
 })
