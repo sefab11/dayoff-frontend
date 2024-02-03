@@ -251,10 +251,13 @@ export default VerificationScreen = ({ navigation }) => {
                         ?   <SuccessModal
                             transparent={true}
                             isVisible={dialogVisible}
+                            onBackdropPress={toggleDialog}
                             onPress={() => navigation.replace('Chat')}/>
                         :   <ReviewModal
                             transparent={true}
-                            isVisible={dialogVisible} />
+                            isVisible={dialogVisible}
+                            onBackdropPress={toggleDialog}
+                            onPress={() => navigation.replace('Chat')} />
                         }
                     </View>
 
