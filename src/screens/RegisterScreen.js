@@ -67,7 +67,7 @@ export default RegisterScreen = ({ navigation }) => {
     const register = async () => {
         if (areInputsValid()) {
             //TODO: remove this navigation here for release
-            navigation.navigate("VerifyEmail");
+            //navigation.navigate("VerifyEmail");
 
             await registerUser(name.value, email.value, password.value)
             .then(status => {

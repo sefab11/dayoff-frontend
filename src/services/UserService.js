@@ -1,12 +1,17 @@
 const loginURL = process.env.EXPO_PUBLIC_API_URL + "/login";
 const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
 
+
 export const _loginUser = (username, password) => {
-    return fetch(`${loginURL}?username=${username}&password=${password}`, {
+    return fetch(`${loginURL}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-        }
+        },
+        body: JSON.stringify({
+            'username': username,
+            'password': password,
+        })
     })
     .then((response) => response.json())
     .then((data) => {
@@ -27,11 +32,17 @@ export const _logoutUser = () => {
 }
 
 export const _registerUser = (username, email, password) => {
-    return fetch(`${registerURL}?username=${username}&email=${email}&password=${password}`, {
+    return fetch(`${registerURL}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-        }
+        },
+        body: JSON.stringify({
+            'username': username,
+            'email': email,
+            'password': password,
+            image_data: null,
+        })
     })
     .then(response => {
         return {response: response.text(), status: response.status}
