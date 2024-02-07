@@ -1,4 +1,5 @@
 //REGISTER SCREEN METHODS
+const emailExistsURL = process.env.EXPO_PUBLIC_API_URL + "/email-exists"
 
 //checks if name isnt empty
 export const _isNameValid = (name) => {
@@ -7,6 +8,27 @@ export const _isNameValid = (name) => {
 
 //TODO:check if email isn't already in use
 export const _isEmailValid = (email) => {
+    return fetch(emailExistsURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            'email': email
+        })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        try {
+            let token = JSON.parse(data.body).session_token;
+            return {statusCode: data.statusCode, sessionToken: token};
+        }
+        catch {}
+        return {statusCode: data.statusCode};
+    })
+    .catch((error) => {
+        return {statusCode: 400};
+    })
     return email != '';
 }
 
@@ -53,22 +75,60 @@ export const _handleLinkedin = (completed) => {
 }
 
 //VERIFICATION SCREEN METHODS
+const validateURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
+const verifyURL = process.env.EXPO_PUBLIC_API_URL + "/verify-user";
 
-//TODO: get code from backend and check if correct
 export const _isCodeCorrect = (code) => {
-    var userCode = JSON.stringify(code);
-    var serverCode = JSON.stringify(['0','0','0','0','0']);
-
-    return userCode == serverCode;
+    return fetch(validateURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            'email': email,
+            'code': JSON.stringify(code),
+        })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        try {
+            let token = JSON.parse(data.body).session_token;
+            return {statusCode: data.statusCode, sessionToken: token};
+        }
+        catch {}
+        return {statusCode: data.statusCode};
+    })
+    .catch((error) => {
+        return {statusCode: 400};
+    })
 }
 
-//TODO: get users email from database
-export const _getUserEmail = () => {
-    return 'name@workmail.com';
+export const _verifyUser = (email) => {
+    return fetch(verifyURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            'email': email,
+        })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        try {
+            let token = JSON.parse(data.body).session_token;
+            return {statusCode: data.statusCode, sessionToken: token};
+        }
+        catch {}
+        return {statusCode: data.statusCode};
+    })
+    .catch((error) => {
+        return {statusCode: 400};
+    })
 }
 
 //TODO: get users linkedin url from database
-export const _getLinkedin = () => {
+export const _getLinkedin = (email) => {
     //using random gen to show different returns
     choice = Math.floor(Math.random() * 2);
     if (choice == 0) return 'linkedin.com/name-2253'; //return the link if exists
@@ -76,7 +136,7 @@ export const _getLinkedin = () => {
 }
 
 //TODO: get users photo from database
-export const _getPhoto = () => {
+export const _getPhoto = (email) => {
     choice = Math.floor(Math.random() * 2);
     if (choice == 0) return require("../../assets/images/profilePics/1.jpg"); //return pic if exists
     else return null; //return null if not
@@ -120,9 +180,9 @@ const FinishProfileValidationService = {
 
 const VerificationValidationService = {
     isCodeCorrect: _isCodeCorrect,
+    verifyUser: _verifyUser,
     handlePhoto: _handlePhoto,
     handleLinkedin: _handleLinkedin,
-    getUserEmail: _getUserEmail,
     getPhoto: _getPhoto,
     getLinkedin: _getLinkedin,
 };
@@ -142,7 +202,7 @@ const FullValidationService = {
     handlePhoto: _handlePhoto,
     handleLinkedin: _handleLinkedin,
     isCodeCorrect: _isCodeCorrect,
-    getUserEmail: _getUserEmail,
+    verifyUser: _verifyUser,
     getPhoto: _getPhoto,
     getLinkedin: _getLinkedin,
     isDateValid: _isDateValid,

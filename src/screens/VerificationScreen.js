@@ -8,7 +8,7 @@ import { React, useState } from "react";
 import { palette, themes } from "../style";
 import { VerificationValidationService } from "../services/ValidationService";
 
-const { isCodeCorrect, handlePhoto, handleLinkedin, getLinkedin, getPhoto, getUserEmail } = VerificationValidationService;
+const { isCodeCorrect, handlePhoto, handleLinkedin, getLinkedin, getPhoto } = VerificationValidationService;
 
 const VerifySection = (props) => {
     const {title, valid} = props;
@@ -64,7 +64,8 @@ export default VerificationScreen = ({ navigation }) => {
         'required': true,
     });
 
-    const emailAddress = getUserEmail();
+    //TODO: save email to be global variable accessible by any screen
+    const emailAddress = 'name@workmail.com';
 
     const updatedState = (stateDict, newVal) => {
         return Object.assign({}, stateDict, {'value': newVal});
@@ -91,6 +92,15 @@ export default VerificationScreen = ({ navigation }) => {
         //toggle the modals if the fields are valid, and nothing if invalid
         //the modals can be passed functions to navigate to the next screen
         if (areFieldsValid()) toggleDialog();
+    }
+    const verify = async () => {
+        if (areInputsValid()) {
+            toggleDialog();
+            await verifyUser(emailAddress)
+            .then(status === 200){
+                navigation.navigate('Chat');
+            }
+        }
     }
 
     const toggleDialog = () => {
@@ -251,13 +261,11 @@ export default VerificationScreen = ({ navigation }) => {
                         ?   <SuccessModal
                             transparent={true}
                             isVisible={dialogVisible}
-                            onBackdropPress={toggleDialog}
-                            onPress={() => navigation.replace('Chat')}/>
+                            onBackdropPress={toggleDialog} />
                         :   <ReviewModal
                             transparent={true}
                             isVisible={dialogVisible}
-                            onBackdropPress={toggleDialog}
-                            onPress={() => navigation.replace('Chat')} />
+                            onBackdropPress={toggleDialog} />
                         }
                     </View>
 

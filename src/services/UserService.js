@@ -3,7 +3,7 @@ const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
 
 
 export const _loginUser = (username, password) => {
-    return fetch(`${loginURL}`, {
+    return fetch(loginURL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -32,16 +32,15 @@ export const _logoutUser = () => {
 }
 
 export const _registerUser = (username, email, password) => {
-    return fetch(`${registerURL}`, {
+    return fetch(registerURL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            'username': username,
-            'email': email,
-            'password': password,
-            image_data: null,
+            "username": username,
+            "email": email,
+            "password": password
         })
     })
     .then(response => {

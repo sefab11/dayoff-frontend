@@ -15,22 +15,22 @@ export default RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState({
         'value': '',
         'valid': null,
-        'required': false, //true
+        'required': false //true,
     });
     const [email, setEmail] = useState({
         'value': '',
         'valid': null,
-        'required': false, //true
+        'required': false //true,
     });
     const [password, setPassword] = useState({
         'value': '',
         'valid': null,
-        'required': false, //true
+        'required': false //true,
     });
     const [confPassword, setConfPassword] = useState({
         'value': '',
         'valid': null,
-        'required': false, //true
+        'required': false //true,
     });
 
     const doPasswordsMatch = () => password.value == confPassword.value;
@@ -47,10 +47,7 @@ export default RegisterScreen = ({ navigation }) => {
         confPassword.valid = doPasswordsMatch();
 
         //for testing
-        console.log(name);
         console.log(email);
-        console.log(password);
-        console.log(confPassword);
 
         return (
            (name.valid         || !name.required)
@@ -121,10 +118,6 @@ export default RegisterScreen = ({ navigation }) => {
                             value={email.value}
                             onChangeText={text => setEmail(email => updatedState(email, text))}
                             />
-
-                            <TouchableOpacity onPress={() => toggleModal()}>
-                                <Text style={styles.linkText}>Don’t have a work email?</Text>
-                            </TouchableOpacity>
 
                             <Text style={styles.invalidMessage}>
                                 {email.valid === false ? 'This email is invalid.' : ''}

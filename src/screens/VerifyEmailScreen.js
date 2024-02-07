@@ -4,8 +4,11 @@ import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
 
+import { VerificationValidationService } from "../services/ValidationService";
+const { isCodeCorrect, verifyUser } = VerificationValidationService;
+
 export default VerifyEmailScreen = ({ navigation }) => {
-    //TODO: get email from register screen
+    //TODO: get email from global stored variable
     const emailAddress = 'name@workmail.com';
 
     const [code, setCode] = useState({
@@ -18,10 +21,21 @@ export default VerifyEmailScreen = ({ navigation }) => {
         return Object.assign({}, stateDict, {'value': newVal});
     }
 
-    function verify(){
-        //TODO: remove and verify code for release
-        navigation.navigate('FinishProfile');
-        if (code == "00000") navigation.navigate('FinishProfile');
+    function areInputsValid(){
+        return isCodeCorrect(code.value);
+    }
+
+    const verify = async () => {
+        if (areInputsValid()) {
+            await verifyUser(emailAddress)
+            .then(status === 200){
+                navigation.navigate('FinishProfile');
+            }
+            else{
+                toggleDialog();
+            }
+        }
+        else toggleDialog();
     }
 
     return (
