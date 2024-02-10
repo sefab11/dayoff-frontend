@@ -57,7 +57,6 @@ const FinishProfile = ({ navigation }) => {
     function finishProfile(){
         if (areInputsValid()) navigation.navigate('GetMatched');
         else {
-            console.log('missing some inputs');
             toggleDialog();
         }
     }

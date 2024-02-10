@@ -1,6 +1,6 @@
 import { ChatFooter, ChatHeader, JoinedMessage, UserMessage, Message } from "../components";
-import { StyleSheet, Keyboard, TouchableWithoutFeedback, View } from "react-native";
-import { palette, dimensions } from "../style";
+import { StyleSheet, Keyboard, TouchableWithoutFeedback, View, Image, ScrollView } from "react-native";
+import { palette, dimensions, flags } from "../style";
 
 [vw, vh, vmin, vmax] = dimensions
 
@@ -66,26 +66,38 @@ export default ChatScreen = ({ navigation }) => {
         {
             authorId: "7",
             joined: true
-        }
+        },
     ]
 
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
-                <ChatHeader />
-                <View style={styles.messagesGroup}>
-                    {
-                        messages.map((m) => {
-                            if(m.joined)
-                                return (<JoinedMessage>{members.find((u) => u.id === m.authorId).name}</JoinedMessage>)
-                            else if(m.authorId === currentUserId)
-                                return(<UserMessage>{m.message}</UserMessage>)
-                            else
-                                return(<Message>{m.message}</Message>)
-                        })
-                    }
-                </View>
+                <ChatHeader
+                images={members.map((member) =>
+                member.profilePic != null
+                ? <Image style={styles.profilePic} source={member.profilePic} />
+                : null
+                )}
+                location={{'flag': flags.BR, 'name': 'Brazil'}}
+                date={'02 - 10 Oct'}
+                />
+                <ScrollView>
+                    <TouchableWithoutFeedback>
+                        <View style={styles.messagesGroup}>
+                            {
+                                messages.map((m) => {
+                                    if(m.joined)
+                                        return (<JoinedMessage>{members.find((u) => u.id === m.authorId).name}</JoinedMessage>)
+                                    else if(m.authorId === currentUserId)
+                                        return(<UserMessage>{m.message}</UserMessage>)
+                                    else
+                                        return(<Message>{m.message}</Message>)
+                                })
+                            }
+                        </View>
+                    </TouchableWithoutFeedback>
+                </ScrollView>
                 <ChatFooter />
             </View>
         </TouchableWithoutFeedback>
@@ -105,5 +117,14 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 2 * vh,
         gap: 1 * vh
-    }
+    },
+    profilePic: {
+        display: 'flex',
+        width: 12 * vmin,
+        height: 12 * vmin,
+        backgroundColor: palette.purple,
+        borderRadius: 6 * vmin,
+        borderColor: palette.white,
+        borderWidth: 0.8 * vmin,
+    },
 })

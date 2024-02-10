@@ -75,11 +75,11 @@ export const _handleLinkedin = (completed) => {
 }
 
 //VERIFICATION SCREEN METHODS
-const validateURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
+const codeURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
 const verifyURL = process.env.EXPO_PUBLIC_API_URL + "/verify-user";
 
 export const _isCodeCorrect = (code) => {
-    return fetch(validateURL, {
+    return fetch(codeURL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export const _verifyUser = (email) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            'email': email,
+            'email': email
         })
     })
     .then((response) => response.json())

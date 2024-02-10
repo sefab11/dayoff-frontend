@@ -11,10 +11,11 @@ export default VerifyEmailScreen = ({ navigation }) => {
     //TODO: get email from global stored variable
     const emailAddress = 'name@workmail.com';
 
+    //TODO: reset the required to proper values
     const [code, setCode] = useState({
         'value': '',
         'valid': null,
-        'required': true,
+        'required': false //true,
     });
 
     const updatedState = (stateDict, newVal) => {
@@ -22,20 +23,26 @@ export default VerifyEmailScreen = ({ navigation }) => {
     }
 
     function areInputsValid(){
-        return isCodeCorrect(code.value);
+        return true;
+        //return (isCodeCorrect(code.value) || !code.required);
     }
 
-    const verify = async () => {
-        if (areInputsValid()) {
-            await verifyUser(emailAddress)
-            .then(status === 200){
-                navigation.navigate('FinishProfile');
+    async function verify(){
+        if (areInputsValid()){
+            //TODO: remove for release
+            navigation.replace('FinishProfile');
+
+            const result = await verifyUser(emailAddress).then(status === 200)
+            if (result){
+                navigation.replace('FinishProfile');
             }
             else{
                 toggleDialog();
             }
         }
-        else toggleDialog();
+        else{
+            toggleDialog();
+        }
     }
 
     return (

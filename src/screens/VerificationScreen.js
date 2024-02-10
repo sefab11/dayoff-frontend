@@ -88,18 +88,12 @@ export default VerificationScreen = ({ navigation }) => {
         return !photo.required && !linkedin.required && !code.required;
     }
 
-    function verify(){
-        //toggle the modals if the fields are valid, and nothing if invalid
-        //the modals can be passed functions to navigate to the next screen
-        if (areFieldsValid()) toggleDialog();
-    }
     const verify = async () => {
         if (areInputsValid()) {
             toggleDialog();
-            await verifyUser(emailAddress)
-            .then(status === 200){
-                navigation.navigate('Chat');
-            }
+
+            const result = await verifyUser(emailAddress).then(status === 200);
+            if (result) navigation.replace('Home');
         }
     }
 

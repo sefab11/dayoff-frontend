@@ -11,6 +11,7 @@ const ForYouScreen = (props) => {
     const { navigation } = props;
 
     function seeMoreTrips(){
+        //TODO: pull more trips from backend and add to array
         console.log("see more trips");
     }
 
