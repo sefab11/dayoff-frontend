@@ -90,9 +90,21 @@ export default ChatScreen = ({ navigation }) => {
                                     if(m.joined)
                                         return (<JoinedMessage>{members.find((u) => u.id === m.authorId).name}</JoinedMessage>)
                                     else if(m.authorId === currentUserId)
-                                        return(<UserMessage>{m.message}</UserMessage>)
+                                        return(
+                                        <UserMessage
+                                        time={'9:50AM'}>
+                                            {m.message}
+                                        </UserMessage>
+                                        )
                                     else
-                                        return(<Message>{m.message}</Message>)
+                                        return(
+                                        <Message
+                                        imageSrc={members.find((u) => u.id === m.authorId).profilePic}
+                                        name={members.find((u) => u.id === m.authorId).name}
+                                        time={'9:22AM'}>
+                                            {m.message}
+                                        </Message>
+                                        )
                                 })
                             }
                         </View>
@@ -113,8 +125,9 @@ const styles = StyleSheet.create({
         backgroundColor: palette.white
     },
     messagesGroup: {
-        width: 100 * vw,
-        flex: 1,
+        width: 100 * vmin,
+        display: 'flex',
+        flexDirection: 'column',
         padding: 2 * vh,
         gap: 1 * vh
     },

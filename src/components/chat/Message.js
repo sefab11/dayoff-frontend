@@ -1,21 +1,54 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet } from "react-native";
 import { dimensions, palette } from '../../style';
 
 [vw, vh, vmin, vmax] = dimensions
 
 const Message = (props) => {
     const {style, children, ...rest} = props;
+    const {imageSrc, name, time} = props;
 
     return(
-        <View style={styles.messageBubble}>
-            <Text style={styles.message}>
-                {children}
-            </Text>
+        <View style={styles.messageContainer}>
+            <View style={styles.profileContainer}>
+                <Image source={imageSrc} style={styles.profilePic}/>
+                <Text style={styles.nameText}>{name}</Text>
+            </View>
+            <View width='85%'>
+                <View style={styles.messageBubble}>
+                    <Text style={styles.message}>
+                        {children}
+                    </Text>
+                </View>
+                <Text style={styles.timeText}>{time}</Text>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    messageContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignSelf: 'flex-start',
+        width: 85 * vmin,
+    },
+    profileContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingRight: 2.5 * vmin,
+    },
+    profilePic: {
+        resizeMode: 'contain',
+        width: 10 * vmin,
+        height: 10 * vmin,
+        borderRadius: 5 * vmin,
+    },
+    nameText: {
+        fontWeight: 'normal',
+        fontSize: 4.5 * vmin,
+    },
     messageBubble: {
         alignSelf: 'flex-start',
         backgroundColor: palette.lightPurple,
@@ -26,8 +59,13 @@ const styles = StyleSheet.create({
     message: {
         color: palette.black,
         fontFamily: "Lato-Regular",
-        fontSize: 4.5 * vmin,
-    }
+        fontSize: 4.2 * vmin,
+    },
+    timeText: {
+        color: palette.grey,
+        fontSize: 3.8 * vmin,
+        paddingTop: 1 * vh,
+    },
 })
 
 export default Message;
