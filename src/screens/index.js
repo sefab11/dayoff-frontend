@@ -11,3 +11,4 @@ export {default as MyProfileScreen} from './MyProfileScreen'
 export {default as TripsScreen} from './TripsScreen'
 export {default as MyCreatedTripsScreen} from './MyCreatedTripsScreen'
 export {default as EditTripScreen} from './EditTripScreen'
+export {default as GroupInfoScreen} from "./GroupInfoScreen"

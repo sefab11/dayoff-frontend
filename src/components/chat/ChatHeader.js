@@ -33,7 +33,7 @@ const ChatHeader = (props) => {
                 icon={require('../../../assets/icons/hamburger.png')}
                 iconColor={palette.black}
                 size={4 * vh}
-                onPress={() => {}}
+                onPress={() => navigation.navigate('GroupInfo')}
             />
         </View>
     )
