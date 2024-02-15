@@ -1,4 +1,5 @@
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, TouchableOpacity, View, Image, ScrollView, Text } from "react-native";
+import { VisitedCountries, VolunteerBadges } from "../components";
 import { palette, dimensions } from "../style";
 
 [vw, vh, vmin, vmax] = dimensions
@@ -9,6 +10,7 @@ export default UserInfoScreen = ({ navigation }) => {
         name: 'Sarah Noah',
         countryOfOrigin: 'United Kingdom',
         job: 'Brand Designer @ Meta',
+        image: require('../../assets/images/profilePics/2.jpg'),
         countriesVisited: [
             'FR',
             'JP',
@@ -28,7 +30,19 @@ export default UserInfoScreen = ({ navigation }) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Image source={require("../../assets/icons/chevron_left.png")} />
+                </TouchableOpacity>
 
+                <View>
+                    <Image source={user.image} style={{width: 5 * vmin, height: 5 * vmin}}/>
+                    <Text>{user.name}</Text>
+                    <Text>From: {user.countryOfOrigin}</Text>
+                    <Text>{user.job}</Text>
+                </View>
+
+                <VisitedCountries />
+                <VolunteerBadges />
             </View>
         </TouchableWithoutFeedback>
     );

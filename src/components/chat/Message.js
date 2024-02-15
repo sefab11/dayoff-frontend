@@ -1,4 +1,5 @@
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import { dimensions, palette } from '../../style';
 
 [vw, vh, vmin, vmax] = dimensions
@@ -6,13 +7,14 @@ import { dimensions, palette } from '../../style';
 const Message = (props) => {
     const {style, children, ...rest} = props;
     const {imageSrc, name, time} = props;
+    const navigation = useNavigation();
 
     return(
         <View style={styles.messageContainer}>
-            <View style={styles.profileContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('UserInfo')} style={styles.profileContainer}>
                 <Image source={imageSrc} style={styles.profilePic}/>
                 <Text style={styles.nameText}>{name}</Text>
-            </View>
+            </TouchableOpacity>
             <View width='85%'>
                 <View style={styles.messageBubble}>
                     <Text style={styles.message}>

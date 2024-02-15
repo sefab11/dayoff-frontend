@@ -1,13 +1,16 @@
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, TouchableOpacity, View, Image, ScrollView, Text } from "react-native";
 import { palette, dimensions } from "../style";
+import { useNavigation } from '@react-navigation/native';
 
 [vw, vh, vmin, vmax] = dimensions
 
 const UserInfo = (props) => {
     const {name, country, job, pic, isLastMember} = props;
+    const navigation = useNavigation();
 
     return (
-    <View style={styles.memberContainer} borderBottomWidth={isLastMember ? 0 : 1}>
+    <TouchableOpacity style={styles.memberContainer} borderBottomWidth={isLastMember ? 0 : 1}
+    onPress={() => navigation.navigate('UserInfo')}>
         {pic == null
         ? <Text style={styles.emptyProfilePic}>{name[0]}</Text>
         : <Image source={pic} style={styles.profilePic} />
@@ -16,7 +19,7 @@ const UserInfo = (props) => {
             <Text style={styles.memberName}>{name}</Text>
             <Text style={styles.memberJob}>{country} - {job}</Text>
         </View>
-    </View>
+    </TouchableOpacity>
     )
 }
 
