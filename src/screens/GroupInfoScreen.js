@@ -3,12 +3,79 @@ import { palette, dimensions } from "../style";
 
 [vw, vh, vmin, vmax] = dimensions
 
-export default GroupInfoScreen = ({ navigation }) => {
-    //TODO: get number of members from chat screen/ backend
-    const numMembers = 5;
+const UserInfo = (props) => {
+    const {name, country, job, pic, isLastMember} = props;
 
-    //TODO: get members description and public data from chat screen/ backend
-    const members = null;
+    return (
+    <View style={styles.memberContainer} borderBottomWidth={isLastMember ? 0 : 1}>
+        {pic == null
+        ? <Text style={styles.emptyProfilePic}>{name[0]}</Text>
+        : <Image source={pic} style={styles.profilePic} />
+        }
+        <View style={styles.memberInfo}>
+            <Text style={styles.memberName}>{name}</Text>
+            <Text style={styles.memberJob}>{country} - {job}</Text>
+        </View>
+    </View>
+    )
+}
+
+
+export default GroupInfoScreen = ({ navigation }) => {
+    //TODO: get members data from chatscreen / backend
+    const currentUserId = "2";
+    const members = [
+        {
+            id: "1",
+            name: 'Jane',
+            countryOfOrigin: 'USA',
+            job: 'Product Manager @ Apple',
+            profilePic: require('../../assets/images/profilePics/1.jpg'),
+        },
+        {
+            id: "2",
+            name: 'Gunpei',
+            countryOfOrigin: 'UK',
+            job: 'Brand Designer @ Meta',
+            profilePic: require('../../assets/images/profilePics/2.jpg'),
+        },
+        {
+            id: "3",
+            name: 'Peter',
+            countryOfOrigin: 'France',
+            job: 'Backend Engineer @ Uber',
+            profilePic: require('../../assets/images/profilePics/3.jpg'),
+        },
+        {
+            id: "4",
+            name: 'Summer',
+            countryOfOrigin: 'Canada',
+            job: 'Game Developer @ EA Sports',
+            profilePic: require('../../assets/images/profilePics/4.jpg'),
+        },
+        {
+            id: "5",
+            name: 'Miryam',
+            countryOfOrigin: 'USA',
+            job: 'Recruiter @ Microsoft',
+            profilePic: require('../../assets/images/profilePics/5.jpg'),
+        },
+        {
+            id: "6",
+            name: 'Ambuj',
+            countryOfOrigin: 'UK',
+            job: 'Game Developer @ Rockstar',
+            profilePic: require('../../assets/images/profilePics/6.jpg'),
+        },
+        {
+            id: "7",
+            name: 'Craig',
+            countryOfOrigin: 'Scotland',
+            job: 'Front Developer @ DayOff',
+            profilePic: null
+        },
+
+    ]
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -22,7 +89,7 @@ export default GroupInfoScreen = ({ navigation }) => {
 
                     <View style={styles.headerCenter}>
                         <Text style={styles.header1}>Group Info</Text>
-                        <Text style={styles.header2}>{numMembers} Members</Text>
+                        <Text style={styles.header2}>{members.length} Members</Text>
                     </View>
 
                     {/*TODO: add in function to remove user from group*/}
@@ -31,6 +98,24 @@ export default GroupInfoScreen = ({ navigation }) => {
                         <Image style={styles.exitButton}
                         source={require("../../assets/icons/exit.png")} />
                     </TouchableOpacity>
+                </View>
+                <ScrollView width='100%'>
+                    <TouchableWithoutFeedback width='100%'>
+                        <View style={styles.members}>
+                            {members.map((member) =>
+                            <UserInfo name={member.name} country={member.countryOfOrigin}
+                            job={member.job} pic={member.profilePic}
+                            isLastMember={member.id == members.length}/>
+                            )}
+                        </View>
+                    </TouchableWithoutFeedback>
+                </ScrollView>
+
+                <View style={styles.footer}>
+                    <Text style={styles.message}>
+                    Share trip with anyone interested to join directly:{' '}
+                    <Text style={styles.link} onPress={() => {}}>dayoff.space/br101</Text>
+                    </Text>
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -42,7 +127,7 @@ const styles = StyleSheet.create({
         paddingTop: 3 * vh,
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         backgroundColor: palette.white
     },
     header: {
@@ -82,5 +167,71 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         height: 4 * vh,
         tintColor: palette.lightRed,
+    },
+
+    members: {
+        width: '80%',
+        alignSelf: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+
+    memberContainer: {
+        borderBottomWidth: 1,
+        borderColor: palette.lightGrey,
+        display: 'flex',
+        flexDirection: 'row',
+        paddingVertical: 2 * vh,
+    },
+    memberInfo: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        textAlignVertical: 'center',
+        marginHorizontal: 2 * vmin,
+    },
+    memberName: {
+        fontSize: 4.2 * vmin,
+        fontFamily: 'Montserrat-Bold',
+    },
+    memberJob: {
+        fontSize: 3.2 * vmin,
+        fontFamily: 'Montserrat-SemiBold',
+        color: palette.grey,
+    },
+
+    profilePic: {
+        resizeMode: 'contain',
+        width: 12.5 * vmin,
+        height: 12.5 * vmin,
+        borderRadius: 10 * vmin,
+    },
+    emptyProfilePic: {
+        width: 12.5 * vmin,
+        height: 12.5 * vmin,
+        borderRadius: 10 * vmin,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        backgroundColor: palette.purple,
+        color: palette.white,
+        fontSize: 4.5 * vmin,
+    },
+
+    footer: {
+        width: '80%',
+        borderTopWidth: 1,
+        borderColor: palette.lightGrey,
+        paddingTop: 2 * vh,
+        paddingBottom: 8 * vh,
+    },
+    message: {
+        fontSize: 3.5 * vmin,
+        fontFamily: 'Montserrat-SemiBold',
+    },
+    link: {
+        fontSize: 3.5 * vmin,
+        fontFamily: 'Montserrat-SemiBold',
+        color: palette.purple,
+        textDecorationLine: 'underline',
     },
 })
