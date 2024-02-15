@@ -12,3 +12,4 @@ export {default as TripsScreen} from './TripsScreen'
 export {default as MyCreatedTripsScreen} from './MyCreatedTripsScreen'
 export {default as EditTripScreen} from './EditTripScreen'
 export {default as GroupInfoScreen} from "./GroupInfoScreen"
+export {default as UserInfoScreen} from "./UserInfoScreen"
