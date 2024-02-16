@@ -1,6 +1,6 @@
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, TouchableOpacity, View, Image, ScrollView, Text } from "react-native";
 import { VisitedCountries, VolunteerBadges } from "../components";
-import { palette, dimensions } from "../style";
+import { palette, dimensions, flags } from "../style";
 
 [vw, vh, vmin, vmax] = dimensions
 
@@ -8,7 +8,7 @@ export default UserInfoScreen = ({ navigation }) => {
     //TODO: get users data from previous screen / backend
     const user = {
         name: 'Sarah Noah',
-        countryOfOrigin: 'United Kingdom',
+        countryOfOrigin: ['UK', 'United Kingdom'],
         job: 'Brand Designer @ Meta',
         image: require('../../assets/images/profilePics/2.jpg'),
         countriesVisited: [
@@ -30,19 +30,20 @@ export default UserInfoScreen = ({ navigation }) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Image source={require("../../assets/icons/chevron_left.png")} />
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.header}>
+                    <Image source={require("../../assets/icons/chevron_left.png")}
+                    style={styles.returnButton} />
                 </TouchableOpacity>
 
-                <View>
-                    <Image source={user.image} style={{width: 5 * vmin, height: 5 * vmin}}/>
-                    <Text>{user.name}</Text>
-                    <Text>From: {user.countryOfOrigin}</Text>
-                    <Text>{user.job}</Text>
-                </View>
+                <View style={styles.infoContainer}>
+                    <Image source={user.image} style={styles.image}/>
+                    <Text style={styles.header1}>{user.name}</Text>
+                    <Text style={styles.header2}>From: {user.countryOfOrigin[1]}</Text>
+                    <Text style={styles.message}>{user.job}</Text>
 
-                <VisitedCountries />
-                <VolunteerBadges />
+                    <VisitedCountries />
+                    <VolunteerBadges />
+                </View>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -63,10 +64,19 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 2 * vmin,
     },
-    headerMain: {
-        alignSelf: 'center',
+    infoContainer: {
+        position: 'absolute',
+        width: 100 * vmin,
         display: 'flex',
         flexDirection: 'column',
+        marginVertical: 2 * vh,
+        alignItems: 'center',
+    },
+    image: {
+        resizeMode: 'contain',
+        width: 50 * vmin,
+        height: 50 * vmin,
+        borderRadius: 25 * vmin,
     },
 
     header1: {
@@ -77,12 +87,21 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     header2: {
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 2 * vh,
         paddingBottom: 0.5 * vh,
         letterSpacing: -0.2 * vh,
         textAlign: 'center',
         color: palette.grey,
+    },
+    message: {
+        fontSize: 3.5 * vmin,
+        fontFamily: 'Montserrat-SemiBold',
+        textAlign: 'center',
+        width: 90 * vmin,
+        paddingVertical: 3 * vh,
+        borderBottomWidth: 1,
+        borderColor: palette.lightGrey
     },
 
     returnButton: {
@@ -149,15 +168,5 @@ const styles = StyleSheet.create({
         borderColor: palette.lightGrey,
         paddingTop: 2 * vh,
         paddingBottom: 8 * vh,
-    },
-    message: {
-        fontSize: 3.5 * vmin,
-        fontFamily: 'Montserrat-SemiBold',
-    },
-    link: {
-        fontSize: 3.5 * vmin,
-        fontFamily: 'Montserrat-SemiBold',
-        color: palette.purple,
-        textDecorationLine: 'underline',
     },
 })

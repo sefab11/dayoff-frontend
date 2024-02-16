@@ -51,12 +51,12 @@ const VolunteerBadges = () => {
             achievement='Tour Guide'
             points={50}
         />
-        <Badge
+        {/*<Badge
             flag={require("../../../assets/images/profileScreen/JapanFlag.png")}
             badge={require("../../../assets/images/profileScreen/badge.png")}
             achievement='Visited Japan'
             points={10}
-        />
+        />*/}
     </View>
 
     </>
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   VolunteerBadgesContainer: {
     marginBottom: 50,
-    marginLeft: 20,
+    marginLeft: 10,
     marginRight: 10,
     display: 'flex',
     flexDirection: 'row',
