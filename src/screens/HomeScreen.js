@@ -4,14 +4,25 @@ import Modal from "react-native-modal";
 import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
+import UserService from "../services/UserService";
+const { filterTrips, getUserData } = UserService;
 
 [vw, vh, vmin, vmax] = dimensions;
 
 const ForYouScreen = (props) => {
     const { navigation } = props;
 
+    //TODO: add in when backend is working
+    //call backend function to get list of specified trips to join
+    //--trips/filter
+    //get the date and country to filter by from the database
+    //in getmatched, the users preferences should be updated into the db
+    //const userData = getUserData(emailAddress);
+    //const matched = filterTrips(userData.prefDate, userData.prefCounty);
+
     function seeMoreTrips(){
-        //TODO: pull more trips from backend and add to array
+        /*TODO: limit the amount that the user can see at first e.g. 10
+          when button pressed, the limit should increase by 10 more and render the rest*/
         console.log("see more trips");
     }
 
@@ -132,6 +143,11 @@ const ForYouScreen = (props) => {
 const ExploreScreen = (props) => {
     const { navigation } = props;
 
+    //TODO: add in when backend is working
+    //call backend function to get all trips with no filter
+    //--filter but with 0 filter
+    //const trips = filterTrips(null, null);
+
     const trips = [
         {
             id: 0,
@@ -196,7 +212,8 @@ const ExploreScreen = (props) => {
             <Text style={styles.message}>Find or create trips that match your style</Text>
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
-                { trips.map(trip => <TripView key={trip.id} trip={trip} navigation={navigation} />) }
+                {!trips ? null
+                 :trips.map(trip => <TripView key={trip.id} trip={trip} navigation={navigation} />) }
             </ScrollView>
         </View>
     )
