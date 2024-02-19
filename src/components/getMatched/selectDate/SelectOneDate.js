@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import Checkbox from 'expo-checkbox';
 import { palette, themes } from "../../../style";
@@ -7,13 +7,28 @@ import CalenderModal from "./CalenderModal";
 
 
 const DateLabel = (props) => {
-    const { date, isChecked, removeDate } = props;
+    const { startDate, endDate, isChecked, removeDate } = props;
+
+    function formatDate(startDate, endDate){
+        var start = startDate.toString().split(" ");
+        var startDay = start[2];
+        var startMonth = start[1];
+
+        var end = endDate.toString().split(" ");
+        var endDay = end[2];
+        var endMonth = end[1];
+
+        if (startMonth == endMonth){
+            return (startDay + " - " + endDay + " " + startMonth);
+        }
+        else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
+    }
 
     return (
     <View style={styles.dateContainer}
     backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}>
         <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
-            {date}
+            {formatDate(startDate, endDate)}
         </Text>
 
         <TouchableOpacity onPress={() => removeDate()}>
@@ -37,21 +52,23 @@ const SelectOneDate = (props) => {
 
     const [isModalVisible, setModalVisible] = useState(false);
 
+    useEffect(() => {
+        props.onSelectDate(dates);
+    }, [dates])
+
     function updateDates(newDate){
         if (dates.includes(newDate) || newDate.includes("undefined")) return;
         //reassign dates to a 1-length arr
         setDates(newDate);
         setStartDate('');
         setEndDate('');
-        //update prop in parent, only send value, not array
-        props.onSelectDate(newDate);
     }
 
     //only 1 date allowed, so reassign dates to an empty arr
     function removeDate(){
         if (isChecked) return;
 
-        setDates('');
+        setDates([]);
     }
 
     const toggleModal = () => {
@@ -60,23 +77,7 @@ const SelectOneDate = (props) => {
         setModalVisible(!isModalVisible);
         if (!isModalVisible) return;
         //add a new formatted date when disabling the calender
-        const newDate = formatDate(startDate, endDate);
-        updateDates(newDate);
-    }
-
-    function formatDate(startDate, endDate){
-        var start = startDate.toString().split(" ");
-        var startDay = start[2];
-        var startMonth = start[1];
-
-        var end = endDate.toString().split(" ");
-        var endDay = end[2];
-        var endMonth = end[1];
-
-        if (startMonth == endMonth){
-            return (startDay + " - " + endDay + " " + startMonth);
-        }
-        else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
+        updateDates([startDate, endDate]);
     }
 
     //params dateSelected: date, dateType: 'START_DATE'/'END_DATE'
@@ -102,8 +103,8 @@ const SelectOneDate = (props) => {
             <View style={styles.calenderIconContainer} width={boxWidth}>
                 {dates == '' ? null
                 :
-                <DateLabel date={dates} isChecked={isChecked}
-                removeDate={removeDate} />}
+                <DateLabel startDate={dates[0]} endDate={dates[1]}
+                isChecked={isChecked} removeDate={removeDate} />}
 
                 {/*marginLeft keeps it as the last component in the flexbox, padding makes it
                   slightly bigger so that flexbox doesn't expand on a new date on a new row

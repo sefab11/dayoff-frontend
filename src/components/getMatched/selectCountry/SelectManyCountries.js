@@ -46,12 +46,15 @@ const SelectManyCountries = (props) => {
 
     const toggleModal = () => setModalVisible(!isModalVisible);
 
+    //update data in parent whenever countries are updated
+    useEffect(() => {
+        props.onSelectCountry(selectedCountries.map(country => country));
+    }, [selectedCountries])
+
     function updateCountries(selected){
         if (!selected) return;
 
         setSelectedCountries(selected);
-        //update data in parent
-        props.onSelectCountry(selected.map(country => country.name));
     }
 
     function removeCountry(countryCode){

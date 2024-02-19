@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import Checkbox from 'expo-checkbox';
 import { palette, themes } from "../../../style";
@@ -7,14 +7,30 @@ import CalenderModal from "./CalenderModal";
 
 
 const DateLabel = (props) => {
-    const { date, index, isChecked, removeDate } = props;
+    const { startDate, endDate, index, isChecked, removeDate } = props;
+
+    //for formatting the string in the Text components
+    function formatDate(startDate, endDate){
+        var start = startDate.toString().split(" ");
+        var startDay = start[2];
+        var startMonth = start[1];
+
+        var end = endDate.toString().split(" ");
+        var endDay = end[2];
+        var endMonth = end[1];
+
+        if (startMonth == endMonth){
+            return (startDay + " - " + endDay + " " + startMonth);
+        }
+        else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
+    };
 
     return (
     <View style={styles.dateContainer}
     backgroundColor={!isChecked ? palette.lightPurple : palette.lightGrey2}
     key={index}>
         <Text style={!isChecked ? styles.dateTextActive : styles.dateTextInactive}>
-            {date}
+            {formatDate(startDate, endDate)}
         </Text>
 
         <TouchableOpacity onPress={() => removeDate(date)}>
@@ -40,6 +56,11 @@ const SelectManyDates = (props) => {
 
     const [isModalVisible, setModalVisible] = useState(false);
 
+    //update dates in parent
+    useEffect(() => {
+        props.onSelectDate(dates);
+    }, [dates])
+
     function updateDates(newDate){
         //makes sure no repeat dates are added
         if (dates.includes(newDate) || newDate.includes("undefined")) return;
@@ -47,8 +68,6 @@ const SelectManyDates = (props) => {
         //push new date to array, and update react component
         dates.push(newDate);
         setDates(dates);
-
-        props.onSelectDate(dates);
     }
 
     //remove the date from dates and update state
@@ -69,7 +88,7 @@ const SelectManyDates = (props) => {
         if (!isModalVisible) return;
 
         //add new data when calender is closed
-        const newDate = formatDate(startDate, endDate);
+        const newDate = [startDate, endDate];
         updateDates(newDate);
     }
 
@@ -81,23 +100,6 @@ const SelectManyDates = (props) => {
 
         if (dateType == "START_DATE") setStartDate(dateSelected);
         else if (dateType == "END_DATE") setEndDate(dateSelected);
-    };
-
-
-    //for formatting the string in the Text components
-    function formatDate(startDate, endDate){
-        var start = startDate.toString().split(" ");
-        var startDay = start[2];
-        var startMonth = start[1];
-
-        var end = endDate.toString().split(" ");
-        var endDay = end[2];
-        var endMonth = end[1];
-
-        if (startMonth == endMonth){
-            return (startDay + " - " + endDay + " " + startMonth);
-        }
-        else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
     };
 
 
@@ -117,8 +119,8 @@ const SelectManyDates = (props) => {
                 {dates == null ? null
                 : dates.map((date, index) =>
                 <DateLabel
-                date={date} index={index}
-                isChecked={isChecked}
+                startDate={date[0]} endDate={date[1]}
+                index={index} isChecked={isChecked}
                 removeDate={removeDate} />
                 )}
 

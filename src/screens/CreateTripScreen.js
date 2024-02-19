@@ -6,12 +6,17 @@ import { React, useState } from "react";
 import { palette, themes } from "../style";
 import { SelectOneDate, SelectOneCountry } from "../components";
 import { CreateTripValidationService } from "../services/ValidationService";
+import UserService from "../services/UserService";
 
 const { isDateValid, isCountryValid, isNumPeopleValid } = CreateTripValidationService;
+const { createNewTrip, test } = UserService;
 
 //SCREEN TO CREATE A TRIP
 
 export default CreateTripScreen = ({ navigation }) => {
+    //TODO: set global email and fetch here
+    const emailAddress = "sepehr@gmail.com";
+
     const [date, setDate] = useState({
         'value': '',
         'valid': null,
@@ -44,11 +49,10 @@ export default CreateTripScreen = ({ navigation }) => {
         //check num people is valid
         numPeople.valid = isNumPeopleValid(numPeople.value);
 
-        //for testing
-        console.log(date);
-        console.log(country);
-        console.log(numPeople);
-        console.log(desc);
+        console.log(date.value);
+        console.log(country.value);
+        console.log(numPeople.value);
+        console.log(desc.value);
 
         return (
            (date.valid      || !date.required)
@@ -57,12 +61,15 @@ export default CreateTripScreen = ({ navigation }) => {
         )
     }
 
-    function createTrip(){
-        if (areFieldsValid()) navigation.replace('Home');
-        else {
-            console.log("some fields are invalid.");
-            toggleDialog();
+    const createTrip = async () => {
+        if (areFieldsValid()){
+            await createNewTrip(emailAddress, date.value, country.value, Number(numPeople.value), desc.value)
+            .then(status => {
+                if (status === 200) navigation.navigate('Home');
+                else toggleDialog();
+            })
         }
+        else toggleDialog();
     }
 
     const toggleDialog = () => {
@@ -108,7 +115,7 @@ export default CreateTripScreen = ({ navigation }) => {
                             boxWidth={80 * vmin}
 
                             onSelectCountry={(selectedCountry) =>
-                            setCountry(country => updatedState(country, selectedCountry.name))}
+                            setCountry(country => updatedState(country, selectedCountry))}
                         />
 
                         <Text style={styles.invalidMessage}>
@@ -147,10 +154,10 @@ export default CreateTripScreen = ({ navigation }) => {
 
                 </View>
                 <Button
-                    onPress={() => createTrip()}
                     mode='contained'
                     theme={themes.button}
                     style={styles.button}
+                    onPress={() => createTrip()}
                 >
                     Create a trip
                 </Button>

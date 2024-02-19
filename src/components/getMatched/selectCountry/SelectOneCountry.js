@@ -41,12 +41,18 @@ const SelectOneCountry = (props) => {
 
     const toggleModal = () => setModalVisible(!isModalVisible);
 
+    //updates the parent state every time selectedCountries is updated
+    /*required as useState is asynchronous on its own so updating parent state
+        without useEffect caused a delay and the previous state was updated.
+    */
+    useEffect(() => {
+       props.onSelectCountry(selectedCountries);
+    }, [selectedCountries])
+
     function updateCountries(selected){
         if (!selected) return;
 
         setSelectedCountries(selected[0]);
-        //update data in parent
-        props.onSelectCountry(selectedCountries);
     }
 
     function removeCountry(){
