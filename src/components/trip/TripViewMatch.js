@@ -6,11 +6,13 @@ import { themes, flags } from '../../style';
 import { dimensions } from '../../style';
 import { palette } from '../../style';
 import { createNavigationContainerRef } from '@react-navigation/native';
+import UserService from "../../services/UserService";
 
+const { joinTrip } = UserService;
 [vw, vh, vmin, vmax] = dimensions
 
 const TripViewMatch = (props) => {
-    const {style, label, trip, children, ...rest} = props;
+    const {style, key, label, trip, children, ...rest} = props;
     const navigation = props.navigation;
 
     country = CountryCodes.filter(c => c.code == trip.country)[0];    
@@ -74,7 +76,12 @@ const TripViewMatch = (props) => {
                     labelStyle={{marginHorizontal: 0}}
                     style={styles.joinButton}
                     theme={themes.button}
-                    onPress={() => navigation.navigate('Verification')}
+                    onPress={() => {
+                        await joinTrip(key, emailAddress)
+                        .then(status => {
+                            if (status === 200) navigation.navigate('Verification');
+                        })
+                    }}
                 >
                     Join the trip
                 </Button>

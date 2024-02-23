@@ -1,8 +1,13 @@
 const loginURL = process.env.EXPO_PUBLIC_API_URL + "/login";
 const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
+
 const createTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/create";
 const filterTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/filter";
+const joinTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/join";
+const leaveTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/leave";
+const inviteTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/invite";
 
+//LOGGING IN / REGISTERING
 
 export const _loginUser = (email, password) => {
     return fetch(loginURL, {
@@ -57,6 +62,8 @@ export const _registerUser = (username, email, password) => {
     })
 }
 
+//TRIP HANDLING
+
 export const _createNewTrip = (creatorEmail, date, country, numPeople, desc) => {
     const startDate = String(date[0]);
     const endDate = String(date[1]);
@@ -110,6 +117,75 @@ export const _getFilteredTrips = (dates, country) => {
     })
 }
 
+export const _joinTrip = (tripID, userEmail) => {
+    return fetch(joinTripURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "trip_id": tripID,
+            "email": userEmail,
+        }),
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
+export const _leaveTrip = (tripID, userEmail) => {
+    return fetch(leaveTripURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "trip_id": tripID,
+            "email": userEmail,
+        }),
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
+export const _inviteTrip = (tripID, invitedUserEmail) => {
+    return fetch(inviteTripURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "invited_user_email": invitedUserEmail,
+            "trip_id" = tripID,
+        }),
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
 const UserService = {
     loginUser: _loginUser,
     logoutUser: _logoutUser,
@@ -117,6 +193,9 @@ const UserService = {
 
     createNewTrip: _createNewTrip,
     filterTrips: _getFilteredTrips,
+    joinTrip: _joinTrip,
+    leaveTrip: _leaveTrip,
+    inviteTrip: _inviteTrip,
 }
 
 export default UserService;
