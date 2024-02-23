@@ -12,8 +12,12 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useEffect } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
+const UserService = "../services/UserService";
 
-const EditProfile = ({ navigation }) => {
+const { logout } = UserService;
+const navigation = useNavigation();
+
+const EditProfile = () => {
 
     return (<>
     <ScrollView>
@@ -38,7 +42,9 @@ const EditProfile = ({ navigation }) => {
 };
 
 
-const Settings = () => {
+const Settings = (props) => {
+    const { email } = props;
+
     return (
         <View style={styles.page}>
             <View style={styles.logoContainer}>
@@ -88,7 +94,19 @@ const Settings = () => {
             </View>
 
             <View style={styles.logoutContainer}>
-                <TouchableOpacity onPress={() => {}}
+                <TouchableOpacity onPress={() => {
+                    await logout(email)
+                    .then(status => {
+                        if (status === 200){
+                            navigation.reset({
+                                index: 0,
+                                routes: [{name: 'Events'}],
+                            });
+
+                            navigation.replace('Welcome');
+                        }
+                    })
+                }}
                 style={{display: 'flex', flexDirection: 'row', columnGap: -10}}>
                     <Image
                     source={require("../../assets/icons/exit.png")}
@@ -122,7 +140,7 @@ export default MyProfileScreen = ({ navigation }) => {
             })}
         >
             <Tab.Screen name="My Profile" component={EditProfile} />
-            <Tab.Screen name="Settings" component={Settings} />
+            <Tab.Screen name="Settings" component={Settings} email="name@workmail.com" />
         </Tab.Navigator>
         <BottomNav active='MyProfile' />
     </>);

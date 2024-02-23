@@ -1,5 +1,7 @@
 const loginURL = process.env.EXPO_PUBLIC_API_URL + "/login";
+const logoutURL = process.env.EXPO_PUBLIC_API_URL + "/logout";
 const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
+const getUserDataURL = process.env.EXPO_PUBLIC_API_URL + "/getUserData";
 
 const createTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/create";
 const filterTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/filter";
@@ -34,8 +36,30 @@ export const _loginUser = (email, password) => {
     })
 }
 
-export const _logoutUser = () => {
-    
+export const _logoutUser = (email) => {
+    //TODO: get token from db based on email
+    const token = "xxx";
+
+    return fetch(logoutURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "email": email,
+            "token": token,
+        })
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
 }
 
 export const _registerUser = (username, email, password) => {
@@ -58,6 +82,28 @@ export const _registerUser = (username, email, password) => {
     })
     .catch((error) => {
         console.log(error)
+        return 400;
+    })
+}
+
+export const _getUserData = (email) => {
+    return fetch(getUserDataURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "email": email,
+        })
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status, data: response.user_data};
+    })
+    .then((response) => {
+        return response.data;
+    })
+    .catch((error) => {
+        console.log(error);
         return 400;
     })
 }

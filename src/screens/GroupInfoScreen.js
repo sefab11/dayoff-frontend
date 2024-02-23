@@ -1,7 +1,9 @@
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, TouchableOpacity, View, Image, ScrollView, Text } from "react-native";
 import { palette, dimensions } from "../style";
 import { useNavigation } from '@react-navigation/native';
+import UserService from "../services/UserService";
 
+const { leaveTrip } = UserService;
 [vw, vh, vmin, vmax] = dimensions
 
 const UserInfo = (props) => {
@@ -25,6 +27,12 @@ const UserInfo = (props) => {
 
 
 export default GroupInfoScreen = ({ navigation }) => {
+    //TODO: get user email from global variable
+    const emailAddress = "name@workmail.com";
+    //TODO: get trip id of this group/chat
+    const tripID = 114543675;
+
+
     //TODO: get members data from chatscreen / backend
     const currentUserId = "2";
     const members = [
@@ -84,8 +92,13 @@ export default GroupInfoScreen = ({ navigation }) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}
-                    style={{justifyContent: 'center'}}>
+                    <TouchableOpacity style={{justifyContent: 'center'}}
+                    onPress={() => {
+                        await leaveTrip(tripID, emailAddress)
+                        .then(status => {
+                            if (status === 200) navigation.goBack();
+                        })
+                    }}>
                         <Image style={styles.returnButton}
                         source={require("../../assets/icons/chevron_left.png")} />
                     </TouchableOpacity>
@@ -117,7 +130,10 @@ export default GroupInfoScreen = ({ navigation }) => {
                 <View style={styles.footer}>
                     <Text style={styles.message}>
                     Share trip with anyone interested to join directly:{' '}
-                    <Text style={styles.link} onPress={() => {}}>dayoff.space/br101</Text>
+                    <Text style={styles.link}
+                    onPress={() => {}}>
+                        dayoff.space/br101
+                    </Text>
                     </Text>
                 </View>
             </View>
