@@ -12,7 +12,10 @@ const { joinTrip } = UserService;
 [vw, vh, vmin, vmax] = dimensions
 
 const TripViewMatch = (props) => {
-    const {style, key, label, trip, children, ...rest} = props;
+    //TODO: get email from global var
+    const emailAddress = "name@workmail.com";
+
+    const {style, label, trip, children, ...rest} = props;
     const navigation = props.navigation;
 
     country = CountryCodes.filter(c => c.code == trip.country)[0];    
@@ -77,7 +80,7 @@ const TripViewMatch = (props) => {
                     style={styles.joinButton}
                     theme={themes.button}
                     onPress={() => {
-                        await joinTrip(key, emailAddress)
+                        joinTrip(trip.id, emailAddress)
                         .then(status => {
                             if (status === 200) navigation.navigate('Verification');
                         })

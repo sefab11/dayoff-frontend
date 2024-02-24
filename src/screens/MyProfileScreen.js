@@ -14,10 +14,10 @@ import { useNavigation, useNavigationState } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 const UserService = "../services/UserService";
 
-const { logout } = UserService;
-const navigation = useNavigation();
+const { logoutUser } = UserService;
 
 const EditProfile = () => {
+    const navigation = useNavigation();
 
     return (<>
     <ScrollView>
@@ -43,6 +43,7 @@ const EditProfile = () => {
 
 
 const Settings = (props) => {
+    const navigation = useNavigation();
     const { email } = props;
 
     return (
@@ -94,19 +95,7 @@ const Settings = (props) => {
             </View>
 
             <View style={styles.logoutContainer}>
-                <TouchableOpacity onPress={() => {
-                    await logout(email)
-                    .then(status => {
-                        if (status === 200){
-                            navigation.reset({
-                                index: 0,
-                                routes: [{name: 'Events'}],
-                            });
-
-                            navigation.replace('Welcome');
-                        }
-                    })
-                }}
+                <TouchableOpacity onPress={() => {}}
                 style={{display: 'flex', flexDirection: 'row', columnGap: -10}}>
                     <Image
                     source={require("../../assets/icons/exit.png")}

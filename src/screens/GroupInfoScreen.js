@@ -93,12 +93,7 @@ export default GroupInfoScreen = ({ navigation }) => {
             <View style={styles.page}>
                 <View style={styles.header}>
                     <TouchableOpacity style={{justifyContent: 'center'}}
-                    onPress={() => {
-                        await leaveTrip(tripID, emailAddress)
-                        .then(status => {
-                            if (status === 200) navigation.goBack();
-                        })
-                    }}>
+                    onPress={() => {}}>
                         <Image style={styles.returnButton}
                         source={require("../../assets/icons/chevron_left.png")} />
                     </TouchableOpacity>

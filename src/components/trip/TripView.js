@@ -15,8 +15,7 @@ const TripView = (props) => {
     //TODO: get user email from global variable
     const emailAddress = "name@workmail.com";
 
-    //key = trip id
-    const {style, key, label, children, trip, ...rest} = props;
+    const {style, children, trip, ...rest} = props;
     const navigation = props.navigation;
 
     country = CountryCodes.filter(c => c.code == trip.country)[0];    
@@ -74,7 +73,7 @@ const TripView = (props) => {
                     style={styles.joinButton}
                     theme={themes.button}
                     onPress={() => {
-                        await joinTrip(key, emailAddress)
+                        joinTrip(trip.id, emailAddress)
                         .then(status => {
                             if (status === 200) navigation.navigate('Verification');
                         })

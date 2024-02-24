@@ -9,7 +9,7 @@ import { CreateTripValidationService } from "../services/ValidationService";
 import UserService from "../services/UserService";
 
 const { isDateValid, isCountryValid, isNumPeopleValid } = CreateTripValidationService;
-const { createNewTrip, test } = UserService;
+const { createNewTrip } = UserService;
 
 //SCREEN TO CREATE A TRIP
 
