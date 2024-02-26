@@ -12,8 +12,6 @@ const inviteTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/invite";
 //LOGGING IN / REGISTERING
 
 export const _loginUser = (email, password) => {
-    console.log("login func");
-
     return fetch(loginURL, {
         method: "POST",
         headers: {
@@ -142,7 +140,7 @@ export const _createNewTrip = (creatorEmail, date, country, numPeople, desc) => 
     })
 }
 
-export const _getFilteredTrips = (dates, country) => {
+export const _getFilteredTrips = (startDate, endDate, country) => {
     return fetch(filterTripURL, {
         method: "POST",
         headers: {
@@ -150,14 +148,18 @@ export const _getFilteredTrips = (dates, country) => {
         },
         body: JSON.stringify({
             "location": country,
-            "date": dates,
+            "start_date": startDate,
+            "end_date": endDate,
         }),
     })
     .then(response => {
-        return {response: response.text(), status: response.status, trips: response.trips};
+        return {response: response.json(), status: response.status};
     })
     .then((response) => {
-        return response.trips;
+        return response.response;
+    })
+    .then((response) => {
+        return response.body;
     })
     .catch((error) => {
         console.log(error);

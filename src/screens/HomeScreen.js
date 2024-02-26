@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../components";
@@ -8,6 +8,7 @@ import UserService from "../services/UserService";
 const { filterTrips, getUserData } = UserService;
 
 [vw, vh, vmin, vmax] = dimensions;
+
 
 const ForYouScreen = (props) => {
     const { navigation } = props;
@@ -146,66 +147,17 @@ const ExploreScreen = (props) => {
     //TODO: add in when backend is working
     //call backend function to get all trips with no filter
     //--filter but with 0 filter
-    //const trips = filterTrips(null, null);
 
-    const trips = [
-        {
-            id: 0,
-            country: 'EG',
-            limit: 9,
-            details: 'Let’s explore the tombs of the pharaohs, pyramids and cruise on the nile river. We will also take an hour to volunteer :)',
-            going: [
-                {
-                    name: 'Sefa',
-                    profilePic: null
-                },
-                {
-                    name: 'Puspita',
-                    profilePic: null
-                },
-                {
-                    name: 'Nandini',
-                    profilePic: null
-                },
-                {
-                    name: 'Devarshi',
-                    profilePic: null
-                },
-                {
-                    name: 'Lee',
-                    profilePic: null
-                },
-                {
-                    name: 'Bruno',
-                    profilePic: null
-                },
-                {
-                    name: 'Craig',
-                    profilePic: null
-                },
-                {
-                    name: 'Mary',
-                    profilePic: null
-                }
-            ]
-        },
-        {
-            id: 1,
-            country: 'NL',
-            limit: 6,
-            details: 'Join me and lets go experience the culture and arty vibe of Amsterdam.',
-            going: [
-                {
-                    name: 'John',
-                    profilePic: null
-                },
-                {
-                    name: 'Amy',
-                    profilePic: null
-                }
-            ]
-        },
-    ]
+    const [trips, setTrips] = useState([]);
+
+    const exploreTrips = async () => {
+        await filterTrips(null, null, null)
+        .then(response => {
+            setTrips(JSON.parse(response)['trips'])
+        })
+    }
+
+    exploreTrips();
 
     return (
         <View style={styles.page}>
