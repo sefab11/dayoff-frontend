@@ -11,6 +11,46 @@ import UserService from "../../services/UserService";
 const { joinTrip } = UserService;
 [vw, vh, vmin, vmax] = dimensions
 
+const formatDate = (startDate, endDate) => {
+    const monthNames = {
+        0: 'Jan', 1: 'Feb',
+        2: 'Mar', 3: 'Apr',
+        4: 'May', 5: 'Jun',
+        6: 'Jul', 7: 'Aug',
+        8: 'Sep', 9: 'Oct',
+        10: 'Nov', 11: 'Dec'
+    };
+
+    //parse the details of each string date inputs
+    //convert to date then get date, month, year of each
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+
+    const dateDetails = {
+        startDate: parsedStartDate.getDate(),
+        startMonth: monthNames[parsedStartDate.getMonth()],
+        endDate: parsedEndDate.getDate(),
+        endMonth: monthNames[parsedEndDate.getMonth()],
+    }
+
+    var dateString = "";
+    //check if months are the same
+    if (dateDetails.startMonth == dateDetails.endMonth){
+        //change the string as day1 - day2 month
+        dateString = dateDetails.startDate + " - " + dateDetails.endDate
+        + " " + dateDetails.startMonth;
+    }
+    else{
+        //change the string as day1 month1 - day2 month2
+        dateString = dateDetails.startDate + " " + dateDetails.startMonth + " - "
+        + dateDetails.endDate + " " + dateDetails.endMonth;
+    }
+
+    return dateString;
+}
+
+
+
 const TripView = (props) => {
     //TODO: get user email from global variable
     const emailAddress = "name@workmail.com";
@@ -18,7 +58,8 @@ const TripView = (props) => {
     const {style, children, trip, ...rest} = props;
     const navigation = props.navigation;
 
-    country = CountryCodes.filter(c => c.code == trip.country)[0];    
+    country = trip.location;//CountryCodes.filter(c => c.code == trip.location.code)[0];
+    console.log(trip);
     
     return (
         <View style={styles.trip}>
@@ -31,7 +72,7 @@ const TripView = (props) => {
                     }
                     <Text style={styles.countryText}>{country.name}</Text>
                 </View>
-                <Text style={styles.dateText}>11 - 18 Aug</Text>
+                <Text style={styles.dateText}>{formatDate(trip['start_date'], trip['end_date'])}</Text>
             </View>
             <Text style={styles.details}>
                 {trip.details}

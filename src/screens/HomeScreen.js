@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../components";
@@ -19,7 +19,7 @@ const ForYouScreen = (props) => {
     //get the date and country to filter by from the database
     //in getmatched, the users preferences should be updated into the db
     //const userData = getUserData(emailAddress);
-    //const matched = filterTrips(userData.prefDate, userData.prefCounty);
+
 
     function seeMoreTrips(){
         /*TODO: limit the amount that the user can see at first e.g. 10
@@ -27,109 +27,26 @@ const ForYouScreen = (props) => {
         console.log("see more trips");
     }
 
-    const matched = [
-        {
-            id: 0,
-            country: 'AU',
-            limit: 9,
-            matched: [
-                {
-                    name: 'Jane',
-                    profilePic: require('../../assets/images/profilePics/1.jpg'),
-                },
-                {
-                    name: 'Gunpei',
-                    profilePic: require('../../assets/images/profilePics/2.jpg'),
-                },
-                {
-                    name: 'Peter',
-                    profilePic: require('../../assets/images/profilePics/3.jpg'),
-                },
-                {
-                    name: 'Summer',
-                    profilePic: require('../../assets/images/profilePics/4.jpg'),
-                },
-                {
-                    name: 'Miryam',
-                    profilePic: require('../../assets/images/profilePics/5.jpg'),
-                },
-                {
-                    name: 'Ambuj',
-                    profilePic: require('../../assets/images/profilePics/6.jpg'),
-                },
-                {
-                    name: 'Craig',
-                    profilePic: null
-                },
-                {
-                    name: 'Mary',
-                    profilePic: null
-                }
-            ],
-            going: [
-                {
-                    name: 'Jane',
-                    profilePic: require('../../assets/images/profilePics/1.jpg'),
-                },
-                {
-                    name: 'Gunpei',
-                    profilePic: require('../../assets/images/profilePics/2.jpg'),
-                },
-                {
-                    name: 'Peter',
-                    profilePic: require('../../assets/images/profilePics/3.jpg'),
-                },
-                {
-                    name: 'Summer',
-                    profilePic: require('../../assets/images/profilePics/4.jpg'),
-                },
-                {
-                    name: 'Miryam',
-                    profilePic: require('../../assets/images/profilePics/5.jpg'),
-                },
-                {
-                    name: 'Ambuj',
-                    profilePic: require('../../assets/images/profilePics/6.jpg'),
-                },
-                {
-                    name: 'Craig',
-                    profilePic: null
-                },
-                {
-                    name: 'Mary',
-                    profilePic: null
-                }
-            ]
-        },
-        {
-            id: 1,
-            country: 'BR',
-            limit: 6,
-            matched: [
-                {
-                    name: 'John',
-                    profilePic: null
-                }
-            ],
-            going: [
-                {
-                    name: 'John',
-                    profilePic: null
-                },
-                {
-                    name: 'Amy',
-                    profilePic: null
-                }
-            ]
-        },
-    ]
+    const [trips, setTrips] = useState([]);
+
+    const matchTrips = async () => {
+        await filterTrips(null, null, null)
+        .then(response => {
+            setTrips(JSON.parse(response)['trips'])
+        })
+    }
+
+    //use effect used to call this method only once
+    useEffect(() => {
+        matchTrips();
+    }, []);
 
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
-                { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} navigation={navigation}/>) }
-
+                {!trips ? null
+                 :trips.map(trip => <TripViewMatch key={trip.id} trip={trip} navigation={navigation} />) }
                 {/*TODO: add more trips on press*/}
                 <View marginTop={3 * vh}>
                     <TouchableOpacity onPress={() => seeMoreTrips()}>
@@ -147,17 +64,18 @@ const ExploreScreen = (props) => {
     //TODO: add in when backend is working
     //call backend function to get all trips with no filter
     //--filter but with 0 filter
-
     const [trips, setTrips] = useState([]);
 
     const exploreTrips = async () => {
         await filterTrips(null, null, null)
         .then(response => {
-            setTrips(JSON.parse(response)['trips'])
+            setTrips(JSON.parse(response)['trips']);
         })
     }
 
-    exploreTrips();
+    useEffect(() => {
+        exploreTrips();
+    }, [])
 
     return (
         <View style={styles.page}>
