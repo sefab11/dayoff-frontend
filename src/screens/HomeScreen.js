@@ -18,7 +18,18 @@ const ForYouScreen = (props) => {
     //--trips/filter
     //get the date and country to filter by from the database
     //in getmatched, the users preferences should be updated into the db
-    //const userData = getUserData(emailAddress);
+    //get users preferences from db
+    const prefDates = [
+        ["2024-02-01", "2024-02-02"],
+        ["2024-02-02", "2024-02-09"],
+        null,
+    ]
+    const prefCountries = [
+        {'AU': 'Australia'},
+        {'CA': 'Canada'},
+        null,
+    ]
+
 
 
     function seeMoreTrips(){
@@ -29,16 +40,25 @@ const ForYouScreen = (props) => {
 
     const [trips, setTrips] = useState([]);
 
-    const matchTrips = async () => {
-        await filterTrips(null, null, null)
+    const matchTrips = async (date, country) => {
+        await filterTrips(null, null, date[0], date[1], country)
         .then(response => {
-            setTrips(JSON.parse(response)['trips'])
+            setTrips([...trips, JSON.parse(response)['trips']]);
+            console.log(trips);
         })
     }
 
+
     //use effect used to call this method only once
     useEffect(() => {
-        matchTrips();
+        //loop through every set of [startDate, endDate] and country then add to trips
+        prefDates.forEach(date => {
+            prefCountries.forEach(country => {
+                console.log("getting new trips");
+                matchTrips(date, country);
+            })
+        })
+        console.log("done");
     }, []);
 
     return (
@@ -67,7 +87,7 @@ const ExploreScreen = (props) => {
     const [trips, setTrips] = useState([]);
 
     const exploreTrips = async () => {
-        await filterTrips(null, null, null)
+        await filterTrips(null, null, null, null, null)
         .then(response => {
             setTrips(JSON.parse(response)['trips']);
         })

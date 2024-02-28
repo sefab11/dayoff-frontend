@@ -140,13 +140,15 @@ export const _createNewTrip = (creatorEmail, date, country, numPeople, desc) => 
     })
 }
 
-export const _getFilteredTrips = (startDate, endDate, country) => {
+export const _getFilteredTrips = (creatorEmail, userEmail, startDate, endDate, country) => {
     return fetch(filterTripURL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
+            "creator_email": creatorEmail,
+            "user_email": userEmail,
             "location": country,
             "start_date": startDate,
             "end_date": endDate,

@@ -74,10 +74,10 @@ const TripViewMatch = (props) => {
             </View>
             <Text style={styles.groupText}>
                 {
-                    trip.matched && trip.matched.length > 0 ?
+                    trip.participants.length > 0 ?
                     (
-                        trip.matched.length > 1 ? 
-                        `Matched with ${trip.matched.length} people:` :
+                        trip.participants.length > 1 ?
+                        `Matched with ${trip.participants.length} people:` :
                         'Matched with 1 person:'
                     ) :
                     null
@@ -99,14 +99,14 @@ const TripViewMatch = (props) => {
                     })()}
                 </View>
                 {
-                    trip.matched && trip.matched.length > 6 ?
+                    trip.participants.length > 6 ?
                     <Button
                         mode="text"
                         labelStyle={{marginHorizontal: 0}}
                         style={styles.showGroupButton}
                         theme={themes.button}
                     >
-                        +{trip.matched.length - 6}
+                        +{trip.participants.length - 6}
                     </Button> :
                     null
                 }
@@ -129,7 +129,7 @@ const TripViewMatch = (props) => {
                 </Button>
                 <View style={styles.goingGroup}>
                     <Image style={styles.goingIcon} source={require('../../../assets/icons/people.png')} />
-                    <Text style={styles.goingText}>{trip.going ? trip.going.length : 0} going</Text>
+                    <Text style={styles.goingText}>{trip.participants ? trip.participants.length : 0} going</Text>
                 </View>
             </View>
         </View>

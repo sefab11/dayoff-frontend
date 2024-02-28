@@ -8,19 +8,61 @@ import { themes, flags } from '../../style';
 import { dimensions } from '../../style';
 import { palette } from '../../style';
 import { createNavigationContainerRef } from '@react-navigation/native';
+import UserService from "../../services/UserService";
+const { joinTrip } = UserService;
 
 [vw, vh, vmin, vmax] = dimensions
+
+
+const formatDate = (startDate, endDate) => {
+    const monthNames = {
+        0: 'Jan', 1: 'Feb',
+        2: 'Mar', 3: 'Apr',
+        4: 'May', 5: 'Jun',
+        6: 'Jul', 7: 'Aug',
+        8: 'Sep', 9: 'Oct',
+        10: 'Nov', 11: 'Dec'
+    };
+
+    //parse the details of each string date inputs
+    //convert to date then get date, month, year of each
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+
+    const dateDetails = {
+        startDate: parsedStartDate.getDate(),
+        startMonth: monthNames[parsedStartDate.getMonth()],
+        endDate: parsedEndDate.getDate(),
+        endMonth: monthNames[parsedEndDate.getMonth()],
+    }
+
+    var dateString = "";
+    //check if months are the same
+    if (dateDetails.startMonth == dateDetails.endMonth){
+        //change the string as day1 - day2 month
+        dateString = dateDetails.startDate + " - " + dateDetails.endDate
+        + " " + dateDetails.startMonth;
+    }
+    else{
+        //change the string as day1 month1 - day2 month2
+        dateString = dateDetails.startDate + " " + dateDetails.startMonth + " - "
+        + dateDetails.endDate + " " + dateDetails.endMonth;
+    }
+
+    return dateString;
+}
+
 
 const UserCreatedTripView = (props) => {
     const {style, label, children, trip, ...rest} = props;
     const navigation = props.navigation;
 
 
-    const country = CountryCodes.filter(c => c.code == trip.country)[0];
+    const country = trip.location;//CountryCodes.filter(c => c.code == trip.country)[0];
 
     function deleteTrip(){
         //don't delete trip if theres more than 1 person going
-        if (trip.going.length > 1) return;
+        if (trip.participants.length > 1) return;
 
         console.log("delete");
         //TODO: remove trip from array on CreatedTripsScreen.
@@ -37,10 +79,10 @@ const UserCreatedTripView = (props) => {
                     }
                     <Text style={styles.countryText}>{country.name}</Text>
                 </View>
-                <Text style={styles.dateText}>{trip.date}</Text>
+                <Text style={styles.dateText}>{formatDate(trip['start_date'], trip['end_date'])}</Text>
             </View>
             <Text style={styles.details}>
-                {trip.details}
+                {trip.description}
             </Text>
             <Text style={styles.groupText}>Going:</Text>
             <View style={styles.middleGroup}>
@@ -59,14 +101,14 @@ const UserCreatedTripView = (props) => {
                     })()}
                 </View>
                 {
-                    trip.going && trip.going.length > 6 ?
+                    trip.participants.length > 6 ?
                     <Button
                         mode="text"
                         labelStyle={{marginHorizontal: 0}}
                         style={styles.showGroupButton}
                         theme={themes.button}
                     >
-                        +{trip.going.length - 6}
+                        +{trip.participants.length - 6}
                     </Button> :
                     null
                 }
@@ -85,24 +127,27 @@ const UserCreatedTripView = (props) => {
                     iconColor={palette.white}
                     size={2 * vh}
                     onPress={() => navigation.navigate('EditTrip', {
-                        date: trip.date,
+                        date: [trip.start_date, trip.end_date],
                         country: {'code': country['code'], 'name': country['name']},
-                        numPeople: trip['limit'],
-                        description: trip['details']
+                        numPeople: trip.participants.length,
+                        description: trip.description,
                     })}
                 />
+
                 <IconButton
                     style={styles.deleteButton}
-                    backgroundColor={trip.going.length <= 1 ? palette.lightRed : palette.lightGrey}
+                    backgroundColor={trip.participants.length <= 1 ? palette.lightRed : palette.lightGrey}
                     icon={require('../../../assets/icons/trash.png')}
-                    iconColor={trip.going.length <= 1 ? palette.white : palette.grey}
+                    iconColor={trip.participants.length <= 1 ? palette.white : palette.grey}
                     size={2 * vh}
                     onPress={() => deleteTrip(trip.id)}
                 />
 
                 <View style={styles.goingGroup}>
-                    <Image style={styles.goingIcon} source={require('../../../assets/icons/people.png')} />
-                    <Text style={styles.goingText}>{trip.going ? trip.going.length : 0}/{trip.limit}</Text>
+                    <Image style={styles.goingIcon} source={require("../../../assets/icons/people.png")} />
+                    <Text style={styles.goingText}>
+                        {trip.participants.length}/{trip.participants.length}
+                    </Text>
                 </View>
             </View>
         </View>
