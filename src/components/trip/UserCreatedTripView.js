@@ -54,11 +54,11 @@ const formatDate = (startDate, endDate) => {
 
 
 const UserCreatedTripView = (props) => {
-    const {style, label, children, trip, ...rest} = props;
+    const {email, style, label, children, trip, ...rest} = props;
     const navigation = props.navigation;
 
 
-    const country = trip.location;//CountryCodes.filter(c => c.code == trip.country)[0];
+    const country = trip.location;
 
     function deleteTrip(){
         //don't delete trip if theres more than 1 person going
@@ -127,10 +127,8 @@ const UserCreatedTripView = (props) => {
                     iconColor={palette.white}
                     size={2 * vh}
                     onPress={() => navigation.navigate('EditTrip', {
-                        date: [trip.start_date, trip.end_date],
-                        country: {'code': country['code'], 'name': country['name']},
-                        numPeople: trip.participants.length,
-                        description: trip.description,
+                        email: email,
+                        trip: trip,
                     })}
                 />
 

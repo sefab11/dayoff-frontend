@@ -12,8 +12,8 @@ const { filterTrips, getUserData } = UserService;
 
 const ForYouScreen = (props) => {
     const { navigation } = props;
+    const email = "name@workmail.com";
 
-    //TODO: add in when backend is working
     //call backend function to get list of specified trips to join
     //--trips/filter
     //get the date and country to filter by from the database
@@ -22,12 +22,10 @@ const ForYouScreen = (props) => {
     const prefDates = [
         ["2024-02-01", "2024-02-02"],
         ["2024-02-02", "2024-02-09"],
-        null,
     ]
     const prefCountries = [
         {'AU': 'Australia'},
         {'CA': 'Canada'},
-        null,
     ]
 
 
@@ -40,25 +38,17 @@ const ForYouScreen = (props) => {
 
     const [trips, setTrips] = useState([]);
 
-    const matchTrips = async (date, country) => {
-        await filterTrips(null, null, date[0], date[1], country)
+    const matchTrips = async () => {
+        await filterTrips(null, null, prefDates.map((date) => date[0]), prefDates.map((date) => date[1]), prefCountries)
         .then(response => {
-            setTrips([...trips, JSON.parse(response)['trips']]);
-            console.log(trips);
+            setTrips(JSON.parse(response)['trips']);
         })
     }
-
 
     //use effect used to call this method only once
     useEffect(() => {
         //loop through every set of [startDate, endDate] and country then add to trips
-        prefDates.forEach(date => {
-            prefCountries.forEach(country => {
-                console.log("getting new trips");
-                matchTrips(date, country);
-            })
-        })
-        console.log("done");
+        matchTrips();
     }, []);
 
     return (
@@ -66,7 +56,7 @@ const ForYouScreen = (props) => {
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
                 {!trips ? null
-                 :trips.map(trip => <TripViewMatch key={trip.id} trip={trip} navigation={navigation} />) }
+                 :trips.map(trip => <TripViewMatch key={trip.id} trip={trip} email={email} navigation={navigation} />) }
                 {/*TODO: add more trips on press*/}
                 <View marginTop={3 * vh}>
                     <TouchableOpacity onPress={() => seeMoreTrips()}>
@@ -80,8 +70,8 @@ const ForYouScreen = (props) => {
 
 const ExploreScreen = (props) => {
     const { navigation } = props;
+    const email = "name@workmail.com";
 
-    //TODO: add in when backend is working
     //call backend function to get all trips with no filter
     //--filter but with 0 filter
     const [trips, setTrips] = useState([]);
@@ -103,7 +93,7 @@ const ExploreScreen = (props) => {
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
                 {!trips ? null
-                 :trips.map(trip => <TripView key={trip.id} trip={trip} navigation={navigation} />) }
+                 :trips.map(trip => <TripView key={trip.id} trip={trip} email={email} navigation={navigation} />) }
             </ScrollView>
         </View>
     )

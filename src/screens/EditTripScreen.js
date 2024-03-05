@@ -8,11 +8,13 @@ import { ShowSelectedDate, ShowSelectedCountry } from "../components";
 
 
 export default EditTripScreen = ({ route, navigation }) => {
-    const { date, country } = route.params;
+    const {email, trip} = route.params;
 
+    const date = [trip.start_date, trip.end_date];
+    const country = [trip.location];
     //enables editable people and description in the sub components
-    const [numPeople, setNumPeople] = useState(route.params.numPeople);
-    const [description, setDescription] = useState(route.params.description);
+    const [numPeople, setNumPeople] = useState(trip.participants.length);
+    const [description, setDescription] = useState(trip.description);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -39,7 +41,6 @@ export default EditTripScreen = ({ route, navigation }) => {
                         initialCountries={[country]}
                     />
 
-                    {/*TODO: return changed data to UserCreatedTripView?*/}
                     <TextInput style={styles.textInput} theme={themes.textInput}
                     mode='outlined' label="Number of participants"
                     value={numPeople.toString()} onChangeText={text => setNumPeople(Number(text))} />
@@ -49,6 +50,7 @@ export default EditTripScreen = ({ route, navigation }) => {
                     value={description} onChangeText={text => setDescription(text)} />
 
                 </View>
+                {/*TODO: update new data in the db*/}
                 <Button
                     onPress={() => navigation.navigate('Home')}
                     mode='contained'

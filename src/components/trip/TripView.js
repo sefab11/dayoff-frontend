@@ -52,14 +52,10 @@ const formatDate = (startDate, endDate) => {
 
 
 const TripView = (props) => {
-    //TODO: get user email from global variable
-    const emailAddress = "name@workmail.com";
-
-    const {style, children, trip, ...rest} = props;
+    const {email, style, children, trip, ...rest} = props;
     const navigation = props.navigation;
 
-    country = trip.location;//CountryCodes.filter(c => c.code == trip.location.code)[0];
-    console.log(trip);
+    country = trip.location;
     
     return (
         <View style={styles.trip}>
@@ -115,10 +111,10 @@ const TripView = (props) => {
                     style={styles.joinButton}
                     theme={themes.button}
                     onPress={() => {
-                        joinTrip(trip.id, emailAddress)
-                        .then(status => {
-                            if (status === 200) navigation.navigate('Verification');
-                        })
+                        navigation.navigate('Verification', {
+                        email: email,
+                        trip: trip,
+                        });
                     }}
                 >
                     Join the trip

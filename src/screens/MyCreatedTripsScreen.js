@@ -7,9 +7,8 @@ const { filterTrips } = UserService;
 
 //SCREEN FOR THE USERS CREATED TRIPS
 
-export default MyCreatedTrips = ({navigation}) => {
-    //TODO: get email from global variable
-    const emailAddress = "sepehr@gmail.com";
+export default MyCreatedTrips = ({route, navigation}) => {
+    const {email} = route.params;
 
     const [trips, setTrips] = useState([]);
 
@@ -34,7 +33,7 @@ export default MyCreatedTrips = ({navigation}) => {
 
             <ScrollView contentContainerStyle={styles.scroll}>
                 {!trips ? null
-                 :trips.map(trip => <UserCreatedTripView key={trip.id} trip={trip} navigation={navigation} />) }
+                 :trips.map(trip => <UserCreatedTripView key={trip.id} trip={trip} email={email} navigation={navigation} />) }
             </ScrollView>
         </View>
     )

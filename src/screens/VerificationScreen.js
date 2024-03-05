@@ -45,7 +45,7 @@ const CheckBox = (props) => {
 
 
 
-export default VerificationScreen = ({ navigation }) => {
+export default VerificationScreen = ({route, navigation }) => {
     photoData = getPhoto();
     const [photo, setPhoto] = useState({
         'value': photoData,
@@ -64,8 +64,7 @@ export default VerificationScreen = ({ navigation }) => {
         'required': true,
     });
 
-    //TODO: save email to be global variable accessible by any screen
-    const emailAddress = 'name@workmail.com';
+    const {email, trip} = route.params;
 
     const updatedState = (stateDict, newVal) => {
         return Object.assign({}, stateDict, {'value': newVal});
@@ -92,8 +91,10 @@ export default VerificationScreen = ({ navigation }) => {
         if (areInputsValid()) {
             toggleDialog();
 
-            const result = await verifyUser(emailAddress).then(status === 200);
-            if (result) navigation.replace('Home');
+            await joinTrip(trip.id, email)
+            .then(status => {
+                if (status === 200) navigation.navigate('Home');
+            })
         }
     }
 
