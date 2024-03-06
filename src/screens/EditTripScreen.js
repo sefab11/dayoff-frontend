@@ -8,7 +8,8 @@ import { ShowSelectedDate, ShowSelectedCountry } from "../components";
 
 
 export default EditTripScreen = ({ route, navigation }) => {
-    const {email, trip} = route.params;
+    const email = global.emailAddress;
+    const {trip} = route.params;
 
     const date = [trip.start_date, trip.end_date];
     const country = [trip.location];

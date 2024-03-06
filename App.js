@@ -21,6 +21,10 @@ export default function App() {
     return null;
   }
 
+  // global variables
+  global.emailAddress = "";
+
+
   //for disabling the warning signs that show up, so that the user doesn't see warnings
   //LogBox.ignoreAllLogs();
 

@@ -64,7 +64,8 @@ export default VerificationScreen = ({route, navigation }) => {
         'required': true,
     });
 
-    const {email, trip} = route.params;
+    const {trip} = route.params;
+    const email = global.emailAddress;
 
     const updatedState = (stateDict, newVal) => {
         return Object.assign({}, stateDict, {'value': newVal});

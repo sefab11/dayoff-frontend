@@ -50,7 +50,8 @@ const formatDate = (startDate, endDate) => {
 }
 
 const TripViewMatch = (props) => {
-    const {email, style, label, trip, children, ...rest} = props;
+    const {style, label, trip, children, ...rest} = props;
+    const email = global.emailAddress;
     const navigation = props.navigation;
 
     country = trip.location;
