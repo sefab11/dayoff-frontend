@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../components";
@@ -9,16 +9,26 @@ const { filterTrips, getUserData } = UserService;
 
 [vw, vh, vmin, vmax] = dimensions;
 
+
 const ForYouScreen = (props) => {
     const { navigation } = props;
+    const email = "name@workmail.com";
 
-    //TODO: add in when backend is working
     //call backend function to get list of specified trips to join
     //--trips/filter
     //get the date and country to filter by from the database
     //in getmatched, the users preferences should be updated into the db
-    //const userData = getUserData(emailAddress);
-    //const matched = filterTrips(userData.prefDate, userData.prefCounty);
+    //get users preferences from db
+    const prefDates = [
+        ["2024-02-01", "2024-02-02"],
+        ["2024-02-02", "2024-02-09"],
+    ]
+    const prefCountries = [
+        {'AU': 'Australia'},
+        {'CA': 'Canada'},
+    ]
+
+
 
     function seeMoreTrips(){
         /*TODO: limit the amount that the user can see at first e.g. 10
@@ -26,109 +36,27 @@ const ForYouScreen = (props) => {
         console.log("see more trips");
     }
 
-    const matched = [
-        {
-            id: 0,
-            country: 'AU',
-            limit: 9,
-            matched: [
-                {
-                    name: 'Jane',
-                    profilePic: require('../../assets/images/profilePics/1.jpg'),
-                },
-                {
-                    name: 'Gunpei',
-                    profilePic: require('../../assets/images/profilePics/2.jpg'),
-                },
-                {
-                    name: 'Peter',
-                    profilePic: require('../../assets/images/profilePics/3.jpg'),
-                },
-                {
-                    name: 'Summer',
-                    profilePic: require('../../assets/images/profilePics/4.jpg'),
-                },
-                {
-                    name: 'Miryam',
-                    profilePic: require('../../assets/images/profilePics/5.jpg'),
-                },
-                {
-                    name: 'Ambuj',
-                    profilePic: require('../../assets/images/profilePics/6.jpg'),
-                },
-                {
-                    name: 'Craig',
-                    profilePic: null
-                },
-                {
-                    name: 'Mary',
-                    profilePic: null
-                }
-            ],
-            going: [
-                {
-                    name: 'Jane',
-                    profilePic: require('../../assets/images/profilePics/1.jpg'),
-                },
-                {
-                    name: 'Gunpei',
-                    profilePic: require('../../assets/images/profilePics/2.jpg'),
-                },
-                {
-                    name: 'Peter',
-                    profilePic: require('../../assets/images/profilePics/3.jpg'),
-                },
-                {
-                    name: 'Summer',
-                    profilePic: require('../../assets/images/profilePics/4.jpg'),
-                },
-                {
-                    name: 'Miryam',
-                    profilePic: require('../../assets/images/profilePics/5.jpg'),
-                },
-                {
-                    name: 'Ambuj',
-                    profilePic: require('../../assets/images/profilePics/6.jpg'),
-                },
-                {
-                    name: 'Craig',
-                    profilePic: null
-                },
-                {
-                    name: 'Mary',
-                    profilePic: null
-                }
-            ]
-        },
-        {
-            id: 1,
-            country: 'BR',
-            limit: 6,
-            matched: [
-                {
-                    name: 'John',
-                    profilePic: null
-                }
-            ],
-            going: [
-                {
-                    name: 'John',
-                    profilePic: null
-                },
-                {
-                    name: 'Amy',
-                    profilePic: null
-                }
-            ]
-        },
-    ]
+    const [trips, setTrips] = useState([]);
+
+    const matchTrips = async () => {
+        await filterTrips(null, null, prefDates.map((date) => date[0]), prefDates.map((date) => date[1]), prefCountries)
+        .then(response => {
+            setTrips(JSON.parse(response)['trips']);
+        })
+    }
+
+    //use effect used to call this method only once
+    useEffect(() => {
+        //loop through every set of [startDate, endDate] and country then add to trips
+        matchTrips();
+    }, []);
 
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
-                { matched.map(trip => <TripViewMatch key={trip.id} trip={trip} navigation={navigation}/>) }
-
+                {!trips ? null
+                 :trips.map(trip => <TripViewMatch key={trip.trip_id} trip={trip} navigation={navigation} />) }
                 {/*TODO: add more trips on press*/}
                 <View marginTop={3 * vh}>
                     <TouchableOpacity onPress={() => seeMoreTrips()}>
@@ -142,70 +70,22 @@ const ForYouScreen = (props) => {
 
 const ExploreScreen = (props) => {
     const { navigation } = props;
+    const email = "name@workmail.com";
 
-    //TODO: add in when backend is working
     //call backend function to get all trips with no filter
     //--filter but with 0 filter
-    //const trips = filterTrips(null, null);
+    const [trips, setTrips] = useState([]);
 
-    const trips = [
-        {
-            id: 0,
-            country: 'EG',
-            limit: 9,
-            details: 'Let’s explore the tombs of the pharaohs, pyramids and cruise on the nile river. We will also take an hour to volunteer :)',
-            going: [
-                {
-                    name: 'Sefa',
-                    profilePic: null
-                },
-                {
-                    name: 'Puspita',
-                    profilePic: null
-                },
-                {
-                    name: 'Nandini',
-                    profilePic: null
-                },
-                {
-                    name: 'Devarshi',
-                    profilePic: null
-                },
-                {
-                    name: 'Lee',
-                    profilePic: null
-                },
-                {
-                    name: 'Bruno',
-                    profilePic: null
-                },
-                {
-                    name: 'Craig',
-                    profilePic: null
-                },
-                {
-                    name: 'Mary',
-                    profilePic: null
-                }
-            ]
-        },
-        {
-            id: 1,
-            country: 'NL',
-            limit: 6,
-            details: 'Join me and lets go experience the culture and arty vibe of Amsterdam.',
-            going: [
-                {
-                    name: 'John',
-                    profilePic: null
-                },
-                {
-                    name: 'Amy',
-                    profilePic: null
-                }
-            ]
-        },
-    ]
+    const exploreTrips = async () => {
+        await filterTrips(null, null, null, null, null)
+        .then(response => {
+            setTrips(JSON.parse(response)['trips']);
+        })
+    }
+
+    useEffect(() => {
+        exploreTrips();
+    }, [])
 
     return (
         <View style={styles.page}>
@@ -213,7 +93,7 @@ const ExploreScreen = (props) => {
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
                 {!trips ? null
-                 :trips.map(trip => <TripView key={trip.id} trip={trip} navigation={navigation} />) }
+                 :trips.map(trip => <TripView key={trip.trip_id} trip={trip} navigation={navigation} />) }
             </ScrollView>
         </View>
     )

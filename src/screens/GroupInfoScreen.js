@@ -1,7 +1,9 @@
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, TouchableOpacity, View, Image, ScrollView, Text } from "react-native";
 import { palette, dimensions } from "../style";
 import { useNavigation } from '@react-navigation/native';
+import UserService from "../services/UserService";
 
+const { leaveTrip } = UserService;
 [vw, vh, vmin, vmax] = dimensions
 
 const UserInfo = (props) => {
@@ -25,6 +27,10 @@ const UserInfo = (props) => {
 
 
 export default GroupInfoScreen = ({ navigation }) => {
+    const emailAddress = global.emailAddress;
+    const trip = global.currentTrip;
+
+
     //TODO: get members data from chatscreen / backend
     const currentUserId = "2";
     const members = [
@@ -80,12 +86,19 @@ export default GroupInfoScreen = ({ navigation }) => {
 
     ]
 
+    const leaveFromTrip = async () => {
+        await leaveTrip(trip.trip_id, emailAddress)
+        .then(status => {
+            if (status === 200) navigation.replace('Home');
+        })
+    }
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}
-                    style={{justifyContent: 'center'}}>
+                    <TouchableOpacity style={{justifyContent: 'center'}}
+                    onPress={() => navigation.goBack()}>
                         <Image style={styles.returnButton}
                         source={require("../../assets/icons/chevron_left.png")} />
                     </TouchableOpacity>
@@ -95,8 +108,7 @@ export default GroupInfoScreen = ({ navigation }) => {
                         <Text style={styles.header2}>{members.length} Members</Text>
                     </View>
 
-                    {/*TODO: add in function to remove user from group*/}
-                    <TouchableOpacity onPress={() => {}}
+                    <TouchableOpacity onPress={() => leaveFromTrip()}
                     style={{justifyContent: 'center'}}>
                         <Image style={styles.exitButton}
                         source={require("../../assets/icons/exit.png")} />
@@ -117,7 +129,10 @@ export default GroupInfoScreen = ({ navigation }) => {
                 <View style={styles.footer}>
                     <Text style={styles.message}>
                     Share trip with anyone interested to join directly:{' '}
-                    <Text style={styles.link} onPress={() => {}}>dayoff.space/br101</Text>
+                    <Text style={styles.link}
+                    onPress={() => {}}>
+                        dayoff.space/br101
+                    </Text>
                     </Text>
                 </View>
             </View>

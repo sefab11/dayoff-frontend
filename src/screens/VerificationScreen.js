@@ -7,8 +7,10 @@ import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
 import { VerificationValidationService } from "../services/ValidationService";
+import UserService from "../services/UserService";
 
 const { isCodeCorrect, handlePhoto, handleLinkedin, getLinkedin, getPhoto } = VerificationValidationService;
+const { joinTrip } = UserService;
 
 const VerifySection = (props) => {
     const {title, valid} = props;
@@ -23,6 +25,7 @@ const VerifySection = (props) => {
     </View>
     )
 }
+
 
 const CheckBox = (props) => {
     const {label, style} = props;
@@ -64,14 +67,15 @@ export default VerificationScreen = ({ navigation }) => {
         'required': true,
     });
 
-    //TODO: save email to be global variable accessible by any screen
-    const emailAddress = 'name@workmail.com';
+    const trip = global.currentTrip;
+    const email = global.emailAddress;
 
     const updatedState = (stateDict, newVal) => {
         return Object.assign({}, stateDict, {'value': newVal});
     }
 
     function areFieldsValid(){
+        return true;
         //check if any required fields have been inputted/handled
         //handlePhoto/handleLinkedin should update the database
         photo.required = getPhoto() == null;
@@ -89,11 +93,14 @@ export default VerificationScreen = ({ navigation }) => {
     }
 
     const verify = async () => {
-        if (areInputsValid()) {
-            toggleDialog();
-
-            const result = await verifyUser(emailAddress).then(status === 200);
-            if (result) navigation.replace('Home');
+        if (areFieldsValid()) {
+            await joinTrip(trip.trip_id, email)
+            .then(status => {
+                if (status === 200) navigation.replace('Chat', {
+                    trip: trip,
+                })
+                else navigation.replace('Home');
+            })
         }
     }
 
@@ -255,7 +262,8 @@ export default VerificationScreen = ({ navigation }) => {
                         ?   <SuccessModal
                             transparent={true}
                             isVisible={dialogVisible}
-                            onBackdropPress={toggleDialog} />
+                            onBackdropPress={toggleDialog}
+                            />
                         :   <ReviewModal
                             transparent={true}
                             isVisible={dialogVisible}

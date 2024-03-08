@@ -8,6 +8,8 @@ export const _isNameValid = (name) => {
 
 //TODO:check if email isn't already in use
 export const _isEmailValid = (email) => {
+    return email != '';
+
     return fetch(emailExistsURL, {
         method: "POST",
         headers: {
@@ -29,7 +31,6 @@ export const _isEmailValid = (email) => {
     .catch((error) => {
         return {statusCode: 400};
     })
-    return email != '';
 }
 
 const _hasNumber = (myString) => /\d/.test(myString);
@@ -76,7 +77,6 @@ export const _handleLinkedin = (completed) => {
 
 //VERIFICATION SCREEN METHODS
 const codeURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
-const verifyURL = process.env.EXPO_PUBLIC_API_URL + "/verify-user";
 
 export const _isCodeCorrect = (code) => {
     return fetch(codeURL, {
@@ -87,30 +87,6 @@ export const _isCodeCorrect = (code) => {
         body: JSON.stringify({
             'email': email,
             'code': JSON.stringify(code),
-        })
-    })
-    .then((response) => response.json())
-    .then((data) => {
-        try {
-            let token = JSON.parse(data.body).session_token;
-            return {statusCode: data.statusCode, sessionToken: token};
-        }
-        catch {}
-        return {statusCode: data.statusCode};
-    })
-    .catch((error) => {
-        return {statusCode: 400};
-    })
-}
-
-export const _verifyUser = (email) => {
-    return fetch(verifyURL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            'email': email
         })
     })
     .then((response) => response.json())
@@ -180,7 +156,6 @@ const FinishProfileValidationService = {
 
 const VerificationValidationService = {
     isCodeCorrect: _isCodeCorrect,
-    verifyUser: _verifyUser,
     handlePhoto: _handlePhoto,
     handleLinkedin: _handleLinkedin,
     getPhoto: _getPhoto,
@@ -202,7 +177,6 @@ const FullValidationService = {
     handlePhoto: _handlePhoto,
     handleLinkedin: _handleLinkedin,
     isCodeCorrect: _isCodeCorrect,
-    verifyUser: _verifyUser,
     getPhoto: _getPhoto,
     getLinkedin: _getLinkedin,
     isDateValid: _isDateValid,

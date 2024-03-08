@@ -1,11 +1,16 @@
 import { ChatFooter, ChatHeader, JoinedMessage, UserMessage, Message } from "../components";
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, View, Image, ScrollView } from "react-native";
 import { palette, dimensions, flags } from "../style";
+import UserService from "../services/UserService";
 
+const { getMessages, sendMessage } = UserService;
 [vw, vh, vmin, vmax] = dimensions
 
 export default ChatScreen = ({ navigation }) => {
+    const trip = global.currentTrip;
+
     const currentUserId = "2";
+
 
     const members = [
         {
@@ -68,7 +73,6 @@ export default ChatScreen = ({ navigation }) => {
             joined: true
         },
     ]
-
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

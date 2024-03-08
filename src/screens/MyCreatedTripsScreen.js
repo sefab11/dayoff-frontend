@@ -1,140 +1,26 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { UserCreatedTripView, HeaderBack } from "../components";
 import { palette, themes, dimensions, flags } from "../style";
+import UserService from "../services/UserService";
+const { filterTrips } = UserService;
 
 //SCREEN FOR THE USERS CREATED TRIPS
 
 export default MyCreatedTrips = ({navigation}) => {
+    const [trips, setTrips] = useState([]);
 
-    const matched = [
-        {
-            id: 0,
-            country: 'AU',
-            limit: 9,
-            details: 'Join me for a workcation and lets go experience the culture of Australia.',
-            date: '11 - 19 Aug',
-            matched: [
-                {
-                    name: 'Sefa',
-                    profilePic: null
-                },
-                {
-                    name: 'Puspita',
-                    profilePic: null
-                },
-                {
-                    name: 'Nandini',
-                    profilePic: null
-                },
-                {
-                    name: 'Devarshi',
-                    profilePic: null
-                },
-                {
-                    name: 'Lee',
-                    profilePic: null
-                },
-                {
-                    name: 'Bruno',
-                    profilePic: null
-                },
-                {
-                    name: 'Craig',
-                    profilePic: null
-                },
-                {
-                    name: 'Mary',
-                    profilePic: null
-                }
-            ],
-            going: [
-                {
-                    name: 'Sefa',
-                    profilePic: null
-                },
-                {
-                    name: 'Puspita',
-                    profilePic: null
-                },
-                {
-                    name: 'Nandini',
-                    profilePic: null
-                },
-                {
-                    name: 'Devarshi',
-                    profilePic: null
-                },
-                {
-                    name: 'Lee',
-                    profilePic: null
-                },
-                {
-                    name: 'Bruno',
-                    profilePic: null
-                },
-                {
-                    name: 'Craig',
-                    profilePic: null
-                },
-                {
-                    name: 'Mary',
-                    profilePic: null
-                }
-            ]
-        },
-        {
-            id: 1,
-            country: 'BR',
-            limit: 6,
-            details: 'Join me for a workcation and lets go experience the culture of Brazil.',
-            date: '02 - 10 Oct',
-            matched: [
-                {
-                    name: 'John',
-                    profilePic: null
-                }
-            ],
-            going: [
-                {
-                    name: 'John',
-                    profilePic: null
-                },
-            ]
-        },
-        {
-            id: 2,
-            country: 'NL',
-            limit: 7,
-            details: 'Join me for a workcation and lets go experience the culture of the Netherlands.',
-            date: '15 - 22 Jun',
-            matched: [
-                {
-                    name: 'Sepehr',
-                    profilePic: null
-                },
-                {
-                    name: 'Gary',
-                    profilePic: null
-                }
-            ],
-            going: [
-                {
-                    name: 'Sepehr',
-                    profilePic: null
-                },
-                {
-                    name: 'Francis',
-                    profilePic: null
-                },
-                {
-                    name: 'Gary',
-                    profilePic: null
-                }
-            ]
-        },
-    ];
+    const matchTrips = async () => {
+        await filterTrips(emailAddress, null, null, null, null)
+        .then(response => {
+            setTrips(JSON.parse(response)['trips'])
+        })
+    }
 
+    //use effect used to call this method only once
+    useEffect(() => {
+        matchTrips();
+    }, []);
 
 
     return (
@@ -144,7 +30,8 @@ export default MyCreatedTrips = ({navigation}) => {
             </View>
 
             <ScrollView contentContainerStyle={styles.scroll}>
-                { matched.map(trip => <UserCreatedTripView key={trip.id} trip={trip} navigation={navigation} />) }
+                {!trips ? null
+                 :trips.map(trip => <UserCreatedTripView key={trip.trip_id} trip={trip} navigation={navigation} />) }
             </ScrollView>
         </View>
     )

@@ -12,8 +12,12 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useEffect } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
+const UserService = "../services/UserService";
 
-const EditProfile = ({ navigation }) => {
+const { logoutUser } = UserService;
+
+const EditProfile = () => {
+    const navigation = useNavigation();
 
     return (<>
     <ScrollView>
@@ -38,7 +42,10 @@ const EditProfile = ({ navigation }) => {
 };
 
 
-const Settings = () => {
+const Settings = (props) => {
+    const navigation = useNavigation();
+    const { email } = props;
+
     return (
         <View style={styles.page}>
             <View style={styles.logoContainer}>
@@ -122,7 +129,7 @@ export default MyProfileScreen = ({ navigation }) => {
             })}
         >
             <Tab.Screen name="My Profile" component={EditProfile} />
-            <Tab.Screen name="Settings" component={Settings} />
+            <Tab.Screen name="Settings" component={Settings} email="name@workmail.com" />
         </Tab.Navigator>
         <BottomNav active='MyProfile' />
     </>);

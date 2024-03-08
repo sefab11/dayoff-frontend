@@ -6,14 +6,57 @@ import { themes, flags } from '../../style';
 import { dimensions } from '../../style';
 import { palette } from '../../style';
 import { createNavigationContainerRef } from '@react-navigation/native';
+import UserService from "../../services/UserService";
 
+const { joinTrip } = UserService;
 [vw, vh, vmin, vmax] = dimensions
 
+const formatDate = (startDate, endDate) => {
+    const monthNames = {
+        0: 'Jan', 1: 'Feb',
+        2: 'Mar', 3: 'Apr',
+        4: 'May', 5: 'Jun',
+        6: 'Jul', 7: 'Aug',
+        8: 'Sep', 9: 'Oct',
+        10: 'Nov', 11: 'Dec'
+    };
+
+    //parse the details of each string date inputs
+    //convert to date then get date, month, year of each
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+
+    const dateDetails = {
+        startDate: parsedStartDate.getDate(),
+        startMonth: monthNames[parsedStartDate.getMonth()],
+        endDate: parsedEndDate.getDate(),
+        endMonth: monthNames[parsedEndDate.getMonth()],
+    }
+
+    var dateString = "";
+    //check if months are the same
+    if (dateDetails.startMonth == dateDetails.endMonth){
+        //change the string as day1 - day2 month
+        dateString = dateDetails.startDate + " - " + dateDetails.endDate
+        + " " + dateDetails.startMonth;
+    }
+    else{
+        //change the string as day1 month1 - day2 month2
+        dateString = dateDetails.startDate + " " + dateDetails.startMonth + " - "
+        + dateDetails.endDate + " " + dateDetails.endMonth;
+    }
+
+    return dateString;
+}
+
+
+
 const TripView = (props) => {
-    const {style, label, children, trip, ...rest} = props;
+    const {style, children, trip, ...rest} = props;
+    const email = global.emailAddress;
     const navigation = props.navigation;
 
-    country = CountryCodes.filter(c => c.code == trip.country)[0];    
+    country = trip.location;
     
     return (
         <View style={styles.trip}>
@@ -26,16 +69,17 @@ const TripView = (props) => {
                     }
                     <Text style={styles.countryText}>{country.name}</Text>
                 </View>
-                <Text style={styles.dateText}>11 - 18 Aug</Text>
+                <Text style={styles.dateText}>{formatDate(trip['start_date'], trip['end_date'])}</Text>
             </View>
             <Text style={styles.details}>
-                {trip.details}
+                {trip.description}
             </Text>
             <Text style={styles.groupText}>Going:</Text>
             <View style={styles.middleGroup}>
                 <View style={styles.profilePicsGroup}>
                     {(() => {
                         const profilePics = [];
+
                         for(let i = 0; trip.going && i < trip.going.length; i++) {
                             if(i == 6) break;
 
@@ -48,14 +92,14 @@ const TripView = (props) => {
                     })()}
                 </View>
                 {
-                    trip.going && trip.going.length > 6 ?
+                    trip.participants.length > 6 ?
                     <Button
                         mode="text"
                         labelStyle={{marginHorizontal: 0}}
                         style={styles.showGroupButton}
                         theme={themes.button}
                     >
-                        +{trip.going.length - 6}
+                        +{trip.participants.length - 6}
                     </Button> :
                     null
                 }
@@ -67,13 +111,16 @@ const TripView = (props) => {
                     labelStyle={{marginHorizontal: 0}}
                     style={styles.joinButton}
                     theme={themes.button}
-                    onPress={() => navigation.navigate('Verification')}
+                    onPress={() => {
+                        navigation.navigate('Verification');
+                        global.currentTrip = trip;
+                    }}
                 >
                     Join the trip
                 </Button>
                 <View style={styles.goingGroup}>
                     <Image style={styles.goingIcon} source={require('../../../assets/icons/people.png')} />
-                    <Text style={styles.goingText}>{trip.going ? trip.going.length : 0}/{trip.limit}</Text>
+                    <Text style={styles.goingText}>{trip.participants ? trip.participants.length : 0}/{trip.participants.length}</Text>
                 </View>
             </View>
         </View>

@@ -30,6 +30,10 @@ export default LoginScreen = ({ navigation }) => {
         .then(data => {
             if(data && data.statusCode === 200 && data.sessionToken) {
                 setSessionToken(data.sessionToken);
+
+                //update the global email address
+                global.emailAddress = username;
+
                 navigation.navigate('Home');
             }
             else {
