@@ -31,7 +31,7 @@ export default MyCreatedTrips = ({navigation}) => {
 
             <ScrollView contentContainerStyle={styles.scroll}>
                 {!trips ? null
-                 :trips.map(trip => <UserCreatedTripView key={trip.id} trip={trip} navigation={navigation} />) }
+                 :trips.map(trip => <UserCreatedTripView key={trip.trip_id} trip={trip} navigation={navigation} />) }
             </ScrollView>
         </View>
     )

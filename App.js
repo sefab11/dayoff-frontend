@@ -23,6 +23,7 @@ export default function App() {
 
   // global variables
   global.emailAddress = "";
+  global.currentTrip = null;
 
 
   //for disabling the warning signs that show up, so that the user doesn't see warnings

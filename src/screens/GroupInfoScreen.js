@@ -27,10 +27,8 @@ const UserInfo = (props) => {
 
 
 export default GroupInfoScreen = ({ navigation }) => {
-    //TODO: get user email from global variable
-    const emailAddress = "name@workmail.com";
-    //TODO: get trip id of this group/chat
-    const tripID = 114543675;
+    const emailAddress = global.emailAddress;
+    const trip = global.currentTrip;
 
 
     //TODO: get members data from chatscreen / backend
@@ -88,12 +86,19 @@ export default GroupInfoScreen = ({ navigation }) => {
 
     ]
 
+    const leaveFromTrip = async () => {
+        await leaveTrip(trip.trip_id, emailAddress)
+        .then(status => {
+            if (status === 200) navigation.replace('Home');
+        })
+    }
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.page}>
                 <View style={styles.header}>
                     <TouchableOpacity style={{justifyContent: 'center'}}
-                    onPress={() => {}}>
+                    onPress={() => navigation.goBack()}>
                         <Image style={styles.returnButton}
                         source={require("../../assets/icons/chevron_left.png")} />
                     </TouchableOpacity>
@@ -103,8 +108,7 @@ export default GroupInfoScreen = ({ navigation }) => {
                         <Text style={styles.header2}>{members.length} Members</Text>
                     </View>
 
-                    {/*TODO: add in function to remove user from group*/}
-                    <TouchableOpacity onPress={() => {}}
+                    <TouchableOpacity onPress={() => leaveFromTrip()}
                     style={{justifyContent: 'center'}}>
                         <Image style={styles.exitButton}
                         source={require("../../assets/icons/exit.png")} />

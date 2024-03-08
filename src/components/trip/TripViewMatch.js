@@ -55,7 +55,7 @@ const TripViewMatch = (props) => {
     const navigation = props.navigation;
 
     country = trip.location;
-    
+
     return (
         <View style={styles.trip}>
             <View style={styles.topGroup}>
@@ -116,10 +116,8 @@ const TripViewMatch = (props) => {
                     style={styles.joinButton}
                     theme={themes.button}
                     onPress={() => {
-                        navigation.navigate('Verification', {
-                        email: email,
-                        trip: trip,
-                        });
+                        navigation.navigate('Verification');
+                        global.currentTrip = trip;
                     }}
                 >
                     Join the trip

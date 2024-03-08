@@ -7,9 +7,9 @@ import { useState } from "react";
 import { ShowSelectedDate, ShowSelectedCountry } from "../components";
 
 
-export default EditTripScreen = ({ route, navigation }) => {
+export default EditTripScreen = ({ navigation }) => {
     const email = global.emailAddress;
-    const {trip} = route.params;
+    const trip = global.currentTrip;
 
     const date = [trip.start_date, trip.end_date];
     const country = [trip.location];

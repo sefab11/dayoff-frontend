@@ -7,8 +7,10 @@ import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
 import { VerificationValidationService } from "../services/ValidationService";
+import UserService from "../services/UserService";
 
 const { isCodeCorrect, handlePhoto, handleLinkedin, getLinkedin, getPhoto } = VerificationValidationService;
+const { joinTrip } = UserService;
 
 const VerifySection = (props) => {
     const {title, valid} = props;
@@ -23,6 +25,7 @@ const VerifySection = (props) => {
     </View>
     )
 }
+
 
 const CheckBox = (props) => {
     const {label, style} = props;
@@ -45,7 +48,7 @@ const CheckBox = (props) => {
 
 
 
-export default VerificationScreen = ({route, navigation }) => {
+export default VerificationScreen = ({ navigation }) => {
     photoData = getPhoto();
     const [photo, setPhoto] = useState({
         'value': photoData,
@@ -64,7 +67,7 @@ export default VerificationScreen = ({route, navigation }) => {
         'required': true,
     });
 
-    const {trip} = route.params;
+    const trip = global.currentTrip;
     const email = global.emailAddress;
 
     const updatedState = (stateDict, newVal) => {
@@ -72,6 +75,7 @@ export default VerificationScreen = ({route, navigation }) => {
     }
 
     function areFieldsValid(){
+        return true;
         //check if any required fields have been inputted/handled
         //handlePhoto/handleLinkedin should update the database
         photo.required = getPhoto() == null;
@@ -89,12 +93,13 @@ export default VerificationScreen = ({route, navigation }) => {
     }
 
     const verify = async () => {
-        if (areInputsValid()) {
-            toggleDialog();
-
-            await joinTrip(trip.id, email)
+        if (areFieldsValid()) {
+            await joinTrip(trip.trip_id, email)
             .then(status => {
-                if (status === 200) navigation.navigate('Home');
+                if (status === 200) navigation.replace('Chat', {
+                    trip: trip,
+                })
+                else navigation.replace('Home');
             })
         }
     }
@@ -257,7 +262,8 @@ export default VerificationScreen = ({route, navigation }) => {
                         ?   <SuccessModal
                             transparent={true}
                             isVisible={dialogVisible}
-                            onBackdropPress={toggleDialog} />
+                            onBackdropPress={toggleDialog}
+                            />
                         :   <ReviewModal
                             transparent={true}
                             isVisible={dialogVisible}

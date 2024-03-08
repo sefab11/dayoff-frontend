@@ -112,10 +112,8 @@ const TripView = (props) => {
                     style={styles.joinButton}
                     theme={themes.button}
                     onPress={() => {
-                        navigation.navigate('Verification', {
-                        email: email,
-                        trip: trip,
-                        });
+                        navigation.navigate('Verification');
+                        global.currentTrip = trip;
                     }}
                 >
                     Join the trip

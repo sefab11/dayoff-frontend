@@ -56,7 +56,7 @@ const ForYouScreen = (props) => {
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
                 {!trips ? null
-                 :trips.map(trip => <TripViewMatch key={trip.id} trip={trip} navigation={navigation} />) }
+                 :trips.map(trip => <TripViewMatch key={trip.trip_id} trip={trip} navigation={navigation} />) }
                 {/*TODO: add more trips on press*/}
                 <View marginTop={3 * vh}>
                     <TouchableOpacity onPress={() => seeMoreTrips()}>
@@ -93,7 +93,7 @@ const ExploreScreen = (props) => {
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
                 {!trips ? null
-                 :trips.map(trip => <TripView key={trip.id} trip={trip} navigation={navigation} />) }
+                 :trips.map(trip => <TripView key={trip.trip_id} trip={trip} navigation={navigation} />) }
             </ScrollView>
         </View>
     )

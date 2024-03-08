@@ -9,6 +9,9 @@ const joinTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/join";
 const leaveTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/leave";
 const inviteTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/invite";
 
+const getMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/retrieve";
+const sendMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/send";
+
 //LOGGING IN / REGISTERING
 
 export const _loginUser = (email, password) => {
@@ -238,6 +241,52 @@ export const _inviteTrip = (tripID, invitedUserEmail) => {
     })
 }
 
+export const _getMessages = (tripID) => {
+    return fetch(getMsgURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "trip_id": tripID,
+        })
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
+export const _sendMessage = (tripID, userEmail, msg) => {
+    return fetch(sendMsgURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "trip_id": tripID,
+            "user_email": userEmail,
+            "message": msg,
+        })
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
 const UserService = {
     loginUser: _loginUser,
     logoutUser: _logoutUser,
@@ -249,6 +298,9 @@ const UserService = {
     joinTrip: _joinTrip,
     leaveTrip: _leaveTrip,
     inviteTrip: _inviteTrip,
+
+    getMessages: _getMessages,
+    sendMessage: _sendMessage,
 }
 
 export default UserService;

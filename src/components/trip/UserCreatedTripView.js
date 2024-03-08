@@ -58,7 +58,6 @@ const UserCreatedTripView = (props) => {
     const email = global.emailAddress;
     const navigation = props.navigation;
 
-
     const country = trip.location;
 
     function deleteTrip(){
@@ -127,10 +126,10 @@ const UserCreatedTripView = (props) => {
                     icon={require('../../../assets/icons/pencil.png')}
                     iconColor={palette.white}
                     size={2 * vh}
-                    onPress={() => navigation.navigate('EditTrip', {
-                        email: email,
-                        trip: trip,
-                    })}
+                    onPress={() => {
+                        navigation.navigate('EditTrip');
+                        global.currentTrip = trip;
+                    }}
                 />
 
                 <IconButton
@@ -139,7 +138,7 @@ const UserCreatedTripView = (props) => {
                     icon={require('../../../assets/icons/trash.png')}
                     iconColor={trip.participants.length <= 1 ? palette.white : palette.grey}
                     size={2 * vh}
-                    onPress={() => deleteTrip(trip.id)}
+                    onPress={() => deleteTrip(trip.trip_id)}
                 />
 
                 <View style={styles.goingGroup}>
