@@ -12,51 +12,111 @@ const { filterTrips, getUserData } = UserService;
 
 const ForYouScreen = (props) => {
     const { navigation } = props;
-    const email = "name@workmail.com";
+    const email = global.emailAddress;
 
     //call backend function to get list of specified trips to join
     //--trips/filter
     //get the date and country to filter by from the database
     //in getmatched, the users preferences should be updated into the db
     //get users preferences from db
+    //const [prefDates, setPrefDates] = useState([]);
+    //const [prefCountries, setPrefCountries] = useState([]);
+
+    //const getPreferred = async () => {
+    //    await getUserData(email)
+    //    .then(response => {
+    //        setPrefDates(JSON.parse(response)['dates']);
+    //        setPrefCountries(JSON.parse(response)['countries']);
+    //    })
+    //}
+
+    //useEffect(() => {
+    //    getPreferred();
+    //}, []);
+
     const prefDates = [
-        ["2024-02-01", "2024-02-02"],
+        ["2024-01-10", "2024-01-14"],
         ["2024-02-02", "2024-02-09"],
+        [null, null]
     ]
     const prefCountries = [
-        {'AU': 'Australia'},
-        {'CA': 'Canada'},
+        {'code': 'AU', 'name': 'Australia'},
+        {'code': 'CA', 'name': 'Canada'},
+        null
     ]
 
 
 
     function seeMoreTrips(){
         /*TODO: limit the amount that the user can see at first e.g. 10
+          increase the number to render, render when items index less than number
           when button pressed, the limit should increase by 10 more and render the rest*/
         console.log("see more trips");
     }
 
-    const [trips, setTrips] = useState([]);
+    var tempTrips = []; //used to get the trips and update easily, NOT RENDERED
 
-    const matchTrips = async () => {
-        await filterTrips(null, null, prefDates.map((date) => date[0]), prefDates.map((date) => date[1]), prefCountries)
+    const getTrip = async (startDate, endDate, country) => {
+        if (startDate === null && endDate === null && country === null) return;
+
+        await filterTrips(null, null, startDate, endDate, country)
         .then(response => {
-            setTrips(JSON.parse(response)['trips']);
+            response = JSON.parse(response)['trips'];
+            // break out if the trips are empty
+            if (response === []) return;
+
+            response.forEach(async newTrip => {
+                await tempTrips.push(newTrip);
+            })
         })
     }
 
-    //use effect used to call this method only once
+    const forLoop = async (dates, countries) => {
+        console.log("start");
+        for (let i = 0; i < dates.length; i++){
+            for (let j = 0; j < countries.length; j++){
+                await getTrip(dates[i][0], dates[i][1], countries[j]);
+            }
+        }
+        removeDuplicates();
+        setTrips(tempTrips);
+    }
+
+    // each element is an object so compare each trip id to remove duplicates
+    const removeDuplicates = () => {
+        for (let i = 0; i < tempTrips.length; i++){
+            for (let j = i + 1; j < tempTrips.length; j++){
+                const tripA = tempTrips[i];
+                const tripB = tempTrips[j];
+
+                if (tripA.trip_id == tripB.trip_id){
+                    tempTrips.splice(j, 1);
+                    j--;
+                }
+            }
+        }
+    }
+
+    const [renderTrips, setRenderTrips] = useState(false);
+    const [trips, setTrips] = useState([]); //fill trips with temptrips, IS RENDERED
+
+    // makes the loop occur only once
     useEffect(() => {
-        //loop through every set of [startDate, endDate] and country then add to trips
-        matchTrips();
-    }, []);
+        forLoop(prefDates, prefCountries);
+        setRenderTrips(true);
+    }, [])
+
 
     return (
         <View style={styles.page}>
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
-                {!trips ? null
-                 :trips.map(trip => <TripViewMatch key={trip.trip_id} trip={trip} navigation={navigation} />) }
+                {renderTrips ?
+                trips.map((trip) => {
+                    return (<TripViewMatch key={trip.trip_id} trip={trip} navigation={navigation} />)
+                })
+                : null
+                }
                 {/*TODO: add more trips on press*/}
                 <View marginTop={3 * vh}>
                     <TouchableOpacity onPress={() => seeMoreTrips()}>
