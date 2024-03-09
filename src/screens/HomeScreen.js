@@ -46,13 +46,10 @@ const ForYouScreen = (props) => {
     ]
 
 
+    const [maxTrips, setMaxTrips] = useState(5);
 
-    function seeMoreTrips(){
-        /*TODO: limit the amount that the user can see at first e.g. 10
-          increase the number to render, render when items index less than number
-          when button pressed, the limit should increase by 10 more and render the rest*/
-        console.log("see more trips");
-    }
+    const seeMoreTrips = () => setMaxTrips(maxTrips + 5);
+
 
     var tempTrips = []; //used to get the trips and update easily, NOT RENDERED
 
@@ -112,12 +109,12 @@ const ForYouScreen = (props) => {
             <Text style={styles.message}>Shows trips happening in the same dates and countries you selected</Text>
             <ScrollView contentContainerStyle={styles.scroll}>
                 {renderTrips ?
-                trips.map((trip) => {
+                trips.map((trip, index) => {
+                    if (index >= maxTrips) return null;
                     return (<TripViewMatch key={trip.trip_id} trip={trip} navigation={navigation} />)
                 })
                 : null
                 }
-                {/*TODO: add more trips on press*/}
                 <View marginTop={3 * vh}>
                     <TouchableOpacity onPress={() => seeMoreTrips()}>
                         <Text style={styles.seeMoreText}>See More</Text>
@@ -134,6 +131,10 @@ const ExploreScreen = (props) => {
 
     //call backend function to get all trips with no filter
     //--filter but with 0 filter
+
+    const [maxTrips, setMaxTrips] = useState(5);
+    const seeMoreTrips = () => setMaxTrips(maxTrips + 5);
+
     const [trips, setTrips] = useState([]);
 
     const exploreTrips = async () => {
@@ -153,8 +154,18 @@ const ExploreScreen = (props) => {
             <Button mode='contained' theme={themes.buttonBlack} style={styles.createTripButton} labelStyle={{marginHorizontal: 0}} onPress={() => navigation.navigate('CreateTrip')}>Create a trip</Button>
             <ScrollView contentContainerStyle={styles.scroll}>
                 {!trips ? null
-                 :trips.map(trip => <TripView key={trip.trip_id} trip={trip} navigation={navigation} />) }
+                 :trips.map((trip, index) => {
+                    if (index >= maxTrips) return null;
+                    return (<TripView key={trip.trip_id} trip={trip} navigation={navigation} />);
+                 })
+                 }
+                <View marginTop={3 * vh}>
+                    <TouchableOpacity onPress={() => seeMoreTrips()}>
+                        <Text style={styles.seeMoreText}>See More</Text>
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
+
         </View>
     )
 }
