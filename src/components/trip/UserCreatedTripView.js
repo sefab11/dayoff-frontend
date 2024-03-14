@@ -117,7 +117,10 @@ const UserCreatedTripView = (props) => {
             <View style={styles.bottomGroup}>
                 <TouchableOpacity
                 style={styles.chatButton}
-                onPress={() => console.log("open chat")}>
+                onPress={() => {
+                    global.currentTrip = trip;
+                    navigation.navigate('Chat');
+                }}>
                     <Text style={styles.chatText}>Open chat</Text>
                 </TouchableOpacity>
                 <IconButton

@@ -1,7 +1,10 @@
 const loginURL = process.env.EXPO_PUBLIC_API_URL + "/login";
 const logoutURL = process.env.EXPO_PUBLIC_API_URL + "/logout";
 const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
+
 const getUserDataURL = process.env.EXPO_PUBLIC_API_URL + "/getUserData";
+const putPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/putPref";
+const getPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/getPref";
 
 const createTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/create";
 const filterTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/filter";
@@ -104,6 +107,54 @@ export const _getUserData = (email) => {
     })
     .then((response) => {
         return response.data;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
+export const _putUserPreferences = (email, dates, countries) => {
+    console.log(putPreferencesURL);
+    return fetch(putPreferencesURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            'email': email,
+            'dates': dates,
+            'countries': countries,
+        })
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
+export const _getUserPreferences = (email) => {
+    console.log("called2");
+    return fetch(getPreferencesURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            'email': email,
+        })
+    })
+    .then(response => {
+        return {response: response.json(), status: response.status};
+    })
+    .then((response) => {
+        return response.response;
     })
     .catch((error) => {
         console.log(error);
@@ -290,8 +341,11 @@ export const _sendMessage = (tripID, userEmail, msg) => {
 const UserService = {
     loginUser: _loginUser,
     logoutUser: _logoutUser,
+
     registerUser: _registerUser,
     getUserData: _getUserData,
+    putUserPref: _putUserPreferences,
+    getUserPref: _getUserPreferences,
 
     createNewTrip: _createNewTrip,
     filterTrips: _getFilteredTrips,

@@ -5,7 +5,7 @@ import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../component
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import UserService from "../services/UserService";
-const { filterTrips, getUserData } = UserService;
+const { filterTrips, getUserPref } = UserService;
 
 [vw, vh, vmin, vmax] = dimensions;
 
@@ -19,90 +19,72 @@ const ForYouScreen = (props) => {
     //get the date and country to filter by from the database
     //in getmatched, the users preferences should be updated into the db
     //get users preferences from db
-    //const [prefDates, setPrefDates] = useState([]);
-    //const [prefCountries, setPrefCountries] = useState([]);
+    async function getMatchedTrips(){
+        // get list of preferred dates and preferred countries
+        var prefDates = [];
+        var prefCountries = [];
+        var tempTrips = [];
+        await getUserPref('sepehrc@gmail.com')
+        .then(response => {
+            prefDates = response['preferred_dates'];
+            prefDates.push([null, null]);
+            prefCountries = response['preferred_countries'];
+            prefCountries.push(null);
 
-    //const getPreferred = async () => {
-    //    await getUserData(email)
-    //    .then(response => {
-    //        setPrefDates(JSON.parse(response)['dates']);
-    //        setPrefCountries(JSON.parse(response)['countries']);
-    //    })
-    //}
+            console.log("a" + prefDates);
+            console.log("a" + prefCountries);
+        })
+        console.log("a" + prefDates);
+        console.log("a" + prefCountries);
 
-    //useEffect(() => {
-    //    getPreferred();
-    //}, []);
+        // then loop through each dates and countries then get filtered trips
+        for (let i = 0; i < prefDates.length; i++){
+            let date = prefDates[i];
+            for (let j = 0; j < prefCountries.length; j++){
+                let country = prefCountries[j];
 
-    const prefDates = [
-        ["2024-01-10", "2024-01-14"],
-        ["2024-02-02", "2024-02-09"],
-        [null, null]
-    ]
-    const prefCountries = [
-        {'code': 'AU', 'name': 'Australia'},
-        {'code': 'CA', 'name': 'Canada'},
-        null
-    ]
+                if (date[0] === null && date[1] === null && country === null){
+                    continue;
+                }
 
+                await filterTrips(null, null, date[0], date[1], country)
+                .then(response => {
+                    response = JSON.parse(response)['trips'];
+                    if (response === []) return;
+
+                    response.forEach(newTrip => {
+                        tempTrips.push(newTrip);
+                    })
+                })
+            }
+        }
+        console.log("trips pushed");
+        console.log("b" + tempTrips);
+
+        tempTrips = tempTrips.filter(function compare(item, index){
+            return tempTrips.indexOf(item) == index;
+        })
+        console.log("trips filtered");
+        console.log("c" + tempTrips);
+
+        setTrips(tempTrips);
+        console.log("d set trips");
+        console.log(trips);
+    }
 
     const [maxTrips, setMaxTrips] = useState(5);
-
     const seeMoreTrips = () => setMaxTrips(maxTrips + 5);
-
-
-    var tempTrips = []; //used to get the trips and update easily, NOT RENDERED
-
-    const getTrip = async (startDate, endDate, country) => {
-        if (startDate === null && endDate === null && country === null) return;
-
-        await filterTrips(null, null, startDate, endDate, country)
-        .then(response => {
-            response = JSON.parse(response)['trips'];
-            // break out if the trips are empty
-            if (response === []) return;
-
-            response.forEach(async newTrip => {
-                await tempTrips.push(newTrip);
-            })
-        })
-    }
-
-    const forLoop = async (dates, countries) => {
-        console.log("start");
-        for (let i = 0; i < dates.length; i++){
-            for (let j = 0; j < countries.length; j++){
-                await getTrip(dates[i][0], dates[i][1], countries[j]);
-            }
-        }
-        removeDuplicates();
-        setTrips(tempTrips);
-    }
-
-    // each element is an object so compare each trip id to remove duplicates
-    const removeDuplicates = () => {
-        for (let i = 0; i < tempTrips.length; i++){
-            for (let j = i + 1; j < tempTrips.length; j++){
-                const tripA = tempTrips[i];
-                const tripB = tempTrips[j];
-
-                if (tripA.trip_id == tripB.trip_id){
-                    tempTrips.splice(j, 1);
-                    j--;
-                }
-            }
-        }
-    }
 
     const [renderTrips, setRenderTrips] = useState(false);
     const [trips, setTrips] = useState([]); //fill trips with temptrips, IS RENDERED
 
     // makes the loop occur only once
     useEffect(() => {
-        forLoop(prefDates, prefCountries);
+        //getPreferences()
+        //forLoop(prefDates, prefCountries);
+        getMatchedTrips();
         setRenderTrips(true);
-    }, [])
-
+    }, []);
 
     return (
         <View style={styles.page}>
@@ -127,7 +109,7 @@ const ForYouScreen = (props) => {
 
 const ExploreScreen = (props) => {
     const { navigation } = props;
-    const email = "name@workmail.com";
+    const email = global.emailAddress;
 
     //call backend function to get all trips with no filter
     //--filter but with 0 filter
