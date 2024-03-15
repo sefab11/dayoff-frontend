@@ -6,23 +6,38 @@ import { StyleSheet } from "react-native";
 import CalenderModal from "./CalenderModal";
 
 
+const monthsIndices = {
+    1: 'Jan', 2: 'Feb', 3: 'Mar',
+    4: 'Apr', 5: 'May', 6: 'Jun',
+    7: 'Jul', 8: 'Aug', 9: 'Sep',
+    10: 'Oct', 11: 'Nov', 12: 'Dec',
+}
+
+
 const DateLabel = (props) => {
-    const { startDate, endDate, index, isChecked, removeDate } = props;
+    const { date, index, isChecked, removeDate } = props;
+    const startDate = date[0];
+    const endDate = date[1];
 
     //for formatting the string in the Text components
     function formatDate(startDate, endDate){
-        var start = startDate.toString().split(" ");
-        var startDay = start[2];
-        var startMonth = start[1];
+        var parsedStartDate = new Date(startDate);
+        let sDate = parsedStartDate.getDate();
+        if (sDate < 10) sDate = "0" + sDate.toString();
+        let sMonth = monthsIndices[parsedStartDate.getMonth()];
+        let sYear = parsedStartDate.getYear();
 
-        var end = endDate.toString().split(" ");
-        var endDay = end[2];
-        var endMonth = end[1];
 
-        if (startMonth == endMonth){
-            return (startDay + " - " + endDay + " " + startMonth);
+        var parsedEndDate = new Date(endDate);
+        let eDate = parsedEndDate.getDate();
+        if (eDate < 10) eDate = "0" + eDate.toString();
+        let eMonth = monthsIndices[parsedEndDate.getMonth()];
+        let eYear = parsedEndDate.getYear();
+
+        if (sMonth == eMonth){
+            return (sDate + " - " + eDate + " " + sMonth);
         }
-        else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
+        else return (sDate + " " + sMonth + " - " + eDate + " " + eMonth);
     };
 
     return (
@@ -40,6 +55,7 @@ const DateLabel = (props) => {
         </TouchableOpacity>
     </View>
     )
+
 }
 
 
@@ -49,7 +65,10 @@ const SelectManyDates = (props) => {
 
     //track the array of dates that are added
     //called array but more like list as items are added dynamically
-    const [dates, setDates] = useState([]);
+    const [dates, setDates] = useState(props.init);
+
+    console.log(dates);
+
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [isChecked, setChecked] = useState(false);
@@ -119,7 +138,7 @@ const SelectManyDates = (props) => {
                 {dates == null ? null
                 : dates.map((date, index) =>
                 <DateLabel
-                startDate={date[0]} endDate={date[1]}
+                date={date}
                 index={index} isChecked={isChecked}
                 removeDate={removeDate} />
                 )}

@@ -24,15 +24,13 @@ const ForYouScreen = (props) => {
         var prefDates = [];
         var prefCountries = [];
         var tempTrips = [];
+
         await getUserPref('sepehrc@gmail.com')
         .then(response => {
             prefDates = response['preferred_dates'];
             prefDates.push([null, null]);
             prefCountries = response['preferred_countries'];
             prefCountries.push(null);
-
-            console.log("a" + prefDates);
-            console.log("a" + prefCountries);
         })
         console.log("a" + prefDates);
         console.log("a" + prefCountries);
@@ -61,15 +59,19 @@ const ForYouScreen = (props) => {
         console.log("trips pushed");
         console.log("b" + tempTrips);
 
+        // filter out duplicate trips
         tempTrips = tempTrips.filter(function compare(item, index){
             return tempTrips.indexOf(item) == index;
         })
         console.log("trips filtered");
         console.log("c" + tempTrips);
 
+        // set trips to temp trips
         setTrips(tempTrips);
         console.log("d set trips");
         console.log(trips);
+
+        setRenderTrips(true);
     }
 
     const [maxTrips, setMaxTrips] = useState(5);
@@ -80,10 +82,7 @@ const ForYouScreen = (props) => {
 
     // makes the loop occur only once
     useEffect(() => {
-        //getPreferences()
-        //forLoop(prefDates, prefCountries);
         getMatchedTrips();
-        setRenderTrips(true);
     }, []);
 
     return (

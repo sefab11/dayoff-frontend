@@ -21,7 +21,7 @@ const CountryLabel = (props) => {
             {country.name}
         </Text>
 
-        <TouchableOpacity onPress={() => removeCountry(country.code)}>
+        <TouchableOpacity onPress={() => removeCountry(country)}>
             <Image style={styles.xIcon}
             tintColor={isChecked ? palette.grey : palette.black}
             source={require("../../../../assets/icons/x.png")} />
@@ -37,12 +37,13 @@ const SelectManyCountries = (props) => {
     const [isModalVisible, setModalVisible] = useState(false);
 
     // keeping track of the value of the dropdown selector
-    const [value, setValue] = useState(null);
+    // init the value values to the codes of each country
+    const [value, setValue] = useState(props.init.map(country => country.code));
     const [isChecked, setChecked] = useState(false);
 
     //for keeping track of which countries the user has added
     //each element should be a dictionary in format {'code': x, 'name': y}
-    const [selectedCountries, setSelectedCountries] = useState([]);
+    const [selectedCountries, setSelectedCountries] = useState(props.init);
 
     const toggleModal = () => setModalVisible(!isModalVisible);
 
@@ -60,9 +61,15 @@ const SelectManyCountries = (props) => {
     function removeCountry(countryCode){
         if (isChecked) return;
 
-        setSelectedCountries(selectedCountries.filter(country => country['code'] !== countryCode));
-        setValue(value.filter(code => code !== countryCode));
+        selectedCountries.splice(selectedCountries.indexOf(countryCode), 1);
+
+        setSelectedCountries(countries => [...countries]);
+        setValue(value.filter(select => select != countryCode.code));
     }
+
+    useEffect(() => {
+        console.log("values:" + value);
+    }, [value])
 
 
     return (
@@ -77,7 +84,10 @@ const SelectManyCountries = (props) => {
         <View style={styles.countriesContainer} width={boxWidth}>
             {selectedCountries == null ? null
             : selectedCountries.map((country) =>
-            <CountryLabel country={country} removeCountry={removeCountry} isChecked={isChecked}/>)}
+            <CountryLabel country={country}
+            removeCountry={removeCountry} isChecked={isChecked}
+            />)
+            }
 
             <TouchableOpacity onPress={toggleModal} style={styles.globeIcon}>
                 <Image style={styles.icon}

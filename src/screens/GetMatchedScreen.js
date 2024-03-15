@@ -4,11 +4,49 @@ import { Button, CountryMultiSelector, Header, TextInput, StatusBar } from '../c
 import { SelectManyDates, SelectManyCountries } from '../components';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
+import UserService from "../services/UserService";
+
+const { putUserPref, getUserPref } = UserService;
 
 
 const GetMatchedScreen = ({ navigation }) => {
+    const email = global.emailAddress;
+
+    //TODO: init the initial dates and countries to values from getUserPref
+    async function getPrefs(){
+        var tempDates;
+        var tempCountries;
+
+        await getUserPref('sepehrc@gmail.com')
+        .then(response => {
+            tempDates = response['preferred_dates'];
+            tempCountries = response['preferred_countries'];
+        })
+
+        for (let i = 0; i < tempDates.length; i++){
+            let newDate = tempDates[i];
+            dates.push(newDate);
+        }
+        for (let i = 0; i < tempCountries.length; i++){
+            let newCountry = tempCountries[i];
+            countries.push(newCountry);
+        }
+
+        setDates(dates);
+        setCountries(countries);
+
+        console.log("aa" + tempDates);
+        console.log("aa" + tempCountries);
+        console.log("bb" + dates);
+        console.log("bb" + countries);
+
+        setRenderData(true);
+    }
+
+
     const [dates, setDates] = useState([]);
     const [countries, setCountries] = useState([]);
+    const [renderData, setRenderData] = useState(false);
 
     const handleDates = (data) => {
         console.log(data);
@@ -20,9 +58,18 @@ const GetMatchedScreen = ({ navigation }) => {
         setCountries(data);
     }
 
-    function getMatched(){
-        if (true) navigation.navigate('Home');
+    async function getMatched(){
+        if (dates.length > 0 || countries.length > 0){
+            await putUserPref('sepehrc@gmail.com', dates, countries)
+            .then(status => {
+                if (status === 200) navigation.replace('Home');
+            })
+        }
     }
+
+    useEffect(() => {
+        getPrefs();
+    }, [])
 
 
     return (
@@ -35,6 +82,8 @@ const GetMatchedScreen = ({ navigation }) => {
                             <Header>Get Teamed Up</Header>
                             <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
                         </View>
+                        {renderData ?
+                        <>
                         <SelectManyDates
                         title={"Select the dates of your leisure trip(s)"}
                         titleStyle={styles.selectTitle}
@@ -43,6 +92,7 @@ const GetMatchedScreen = ({ navigation }) => {
                         isFlexible={true}
                         boxWidth={85 * vmin}
 
+                        init={dates}
                         onSelectDate={(data) => handleDates(data)}
                         />
 
@@ -54,15 +104,18 @@ const GetMatchedScreen = ({ navigation }) => {
                         isFlexible={true}
                         boxWidth={85 * vmin}
 
+                        init={countries}
                         onSelectCountry={(data) => handleCountries(data)}
                         />
-
+                        </>
+                        : null
+                        }
                     </View>
                 </TouchableWithoutFeedback>
             </ScrollView>
 
             <View style={styles.buttonGroup}>
-                <Button onPress={() => getMatched()} mode='contained'
+                <Button onPress={async () => getMatched()} mode='contained'
                 theme={themes.button} style={styles.button}>
                     Done
                 </Button>

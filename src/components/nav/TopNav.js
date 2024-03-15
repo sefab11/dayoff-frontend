@@ -23,8 +23,8 @@ const TopNav = (props) => {
     }
 
     const iconUpdate = () => {
-        if (currentScreenName == 'ForYou') navigation.navigate('GetMatched');
-        else navigation.navigate('MyCreatedTrips');
+        if (currentScreenName == 'ForYou') navigation.replace('GetMatched');
+        else navigation.replace('MyCreatedTrips');
     }
 
     return (
