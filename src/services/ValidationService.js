@@ -6,33 +6,6 @@ export const _isNameValid = (name) => {
     return name != '';
 }
 
-//TODO:check if email isn't already in use
-export const _isEmailValid = (email) => {
-    return email != '';
-
-    return fetch(emailExistsURL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            'email': email
-        })
-    })
-    .then((response) => response.json())
-    .then((data) => {
-        try {
-            let token = JSON.parse(data.body).session_token;
-            return {statusCode: data.statusCode, sessionToken: token};
-        }
-        catch {}
-        return {statusCode: data.statusCode};
-    })
-    .catch((error) => {
-        return {statusCode: 400};
-    })
-}
-
 const _hasNumber = (myString) => /\d/.test(myString);
 
 //check if password meets requirements
@@ -63,18 +36,6 @@ export const _isProfessionValid = (job) => {
     return job != '';
 }
 
-//TODO: update users photo in database
-export const _handlePhoto = (photo) => {
-    if (photo) console.log("photo has been added");
-    else console.log("no photo added");
-}
-
-//TODO: update users linkedin url in database
-export const _handleLinkedin = (completed) => {
-    if (completed) console.log("linkedin has been added");
-    else console.log("linkedin failed to add");
-}
-
 //VERIFICATION SCREEN METHODS
 const codeURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
 
@@ -103,21 +64,6 @@ export const _isCodeCorrect = (code) => {
     })
 }
 
-//TODO: get users linkedin url from database
-export const _getLinkedin = (email) => {
-    //using random gen to show different returns
-    choice = Math.floor(Math.random() * 2);
-    if (choice == 0) return 'linkedin.com/name-2253'; //return the link if exists
-    else return null; //return null if not
-}
-
-//TODO: get users photo from database
-export const _getPhoto = (email) => {
-    choice = Math.floor(Math.random() * 2);
-    if (choice == 0) return require("../../assets/images/profilePics/1.jpg"); //return pic if exists
-    else return null; //return null if not
-}
-
 //CREATE TRIP SCREEN METHODS
 
 //check if there is a date
@@ -143,23 +89,16 @@ export const _isNumPeopleValid = (num) => {
 
 const RegisterValidationService = {
     isNameValid: _isNameValid,
-    isEmailValid: _isEmailValid,
     isPasswordValid: _isPasswordValid,
 };
 
 const FinishProfileValidationService = {
     isCountryValid: _isCountryOfOriginValid,
     isProfessionValid: _isProfessionValid,
-    handlePhoto: _handlePhoto,
-    handleLinkedin: _handleLinkedin,
 };
 
 const VerificationValidationService = {
     isCodeCorrect: _isCodeCorrect,
-    handlePhoto: _handlePhoto,
-    handleLinkedin: _handleLinkedin,
-    getPhoto: _getPhoto,
-    getLinkedin: _getLinkedin,
 };
 
 const CreateTripValidationService = {
@@ -170,15 +109,10 @@ const CreateTripValidationService = {
 
 const FullValidationService = {
     isNameValid: _isNameValid,
-    isEmailValid: _isEmailValid,
     isPasswordValid: _isPasswordValid,
     isCountryValid: _isCountryOfOriginValid,
     isProfessionValid: _isProfessionValid,
-    handlePhoto: _handlePhoto,
-    handleLinkedin: _handleLinkedin,
     isCodeCorrect: _isCodeCorrect,
-    getPhoto: _getPhoto,
-    getLinkedin: _getLinkedin,
     isDateValid: _isDateValid,
     isCountryValid: _isCountryValid,
     isNumPeopleValid: _isNumPeopleValid,

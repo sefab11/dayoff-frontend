@@ -9,7 +9,7 @@ import { palette, themes } from "../style";
 import { VerificationValidationService } from "../services/ValidationService";
 import UserService from "../services/UserService";
 
-const { isCodeCorrect, handlePhoto, handleLinkedin, getLinkedin, getPhoto } = VerificationValidationService;
+const { isCodeCorrect } = VerificationValidationService;
 const { joinTrip } = UserService;
 
 const VerifySection = (props) => {
@@ -49,14 +49,14 @@ const CheckBox = (props) => {
 
 
 export default VerificationScreen = ({ navigation }) => {
-    photoData = getPhoto();
+    // TODO: call getUserData and get its photo and linkedin values, and email values
+
     const [photo, setPhoto] = useState({
-        'value': photoData,
+        'value': null,
         'required': photoData == null,
     });
-    linkedinURL = getLinkedin();
     const [linkedin, setLinkedin] = useState({
-        'value': linkedinURL,
+        'value': null,
         'required': linkedinURL == null,
     });
     const [emailChecked, setEmailChecked] = useState(true);
@@ -78,8 +78,8 @@ export default VerificationScreen = ({ navigation }) => {
         return true;
         //check if any required fields have been inputted/handled
         //handlePhoto/handleLinkedin should update the database
-        photo.required = getPhoto() == null;
-        linkedin.required = getLinkedin() == null;
+        photo.required = photo.value == null;
+        linkedin.required = linkedin.value == null;
         //check if code is correct
         code.required = isCodeCorrect(code.value);
 
@@ -129,7 +129,7 @@ export default VerificationScreen = ({ navigation }) => {
                             title='1. Add Profile Photo*'
                             valid={!photo.required} />
                             <PhotoInput width={12 * vh} camRatio={'40%'}
-                            onPhotoSelected={(data) => handlePhoto(data)} />
+                            onPhotoSelected={(data) => updatedState(photo, data)} />
                         </View>
 
                         <View style={styles.border} />
@@ -140,7 +140,7 @@ export default VerificationScreen = ({ navigation }) => {
                             title='2. Add Linkedin Profile*'
                             valid={!linkedin.required} />
                             <LinkedinInput horMargin={10} verMargin={10}
-                            onComponentPress={(data) => handleLinkedin(data)} />
+                            onComponentPress={(data) => updatedState(linkedin, data)} />
                         </View>
 
 

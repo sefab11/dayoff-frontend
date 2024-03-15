@@ -8,7 +8,7 @@ import UserService from "../services/UserService";
 import { RegisterValidationService } from "../services/ValidationService";
 
 const { registerUser } = UserService;
-const { isNameValid, isEmailValid, isPasswordValid } = RegisterValidationService;
+const { isNameValid, isPasswordValid } = RegisterValidationService;
 
 export default RegisterScreen = ({ navigation }) => {
     //TODO: for release, turn 'required' values to true for required field
@@ -19,7 +19,6 @@ export default RegisterScreen = ({ navigation }) => {
     });
     const [email, setEmail] = useState({
         'value': '',
-        'valid': null,
         'required': false //true,
     });
     const [password, setPassword] = useState({
@@ -39,8 +38,6 @@ export default RegisterScreen = ({ navigation }) => {
     function areInputsValid(){
         //if name valid
         name.valid = isNameValid(name.value);
-        //if email valid
-        email.valid = isEmailValid(email.value);
         //if password meets requirements
         password.valid = isPasswordValid(password.value);
         //if passwords match or not
@@ -51,7 +48,7 @@ export default RegisterScreen = ({ navigation }) => {
 
         return (
            (name.valid         || !name.required)
-        && (email.valid        || !email.required)
+        && (!email.required)
         && (password.valid     || !password.required)
         && (confPassword.valid || !confPassword.required)
         );
@@ -64,7 +61,7 @@ export default RegisterScreen = ({ navigation }) => {
     const register = async () => {
         if (areInputsValid()) {
             //TODO: remove this navigation here for release
-            navigation.navigate("VerifyEmail");
+            //navigation.navigate("VerifyEmail");
 
             await registerUser(name.value, email.value, password.value)
             .then(status => {

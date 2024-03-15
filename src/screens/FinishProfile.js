@@ -6,10 +6,13 @@ import { palette, themes } from '../style';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import Modal from "react-native-modal";
+import UserService from "../services/UserService";
+
+const { putExtraData } = UserService;
+
 import { FinishProfileValidationService } from "../services/ValidationService";
 
-const { isCountryValid, isProfessionValid, handlePhoto,
-        handleLinkedin } = FinishProfileValidationService;
+const { isCountryValid, isProfessionValid } = FinishProfileValidationService;
 
 const FinishProfile = ({ navigation }) => {
     //TODO: change 'required' values to true for required fields ( for release )
@@ -54,11 +57,15 @@ const FinishProfile = ({ navigation }) => {
     }
 
 
-    function finishProfile(){
-        if (areInputsValid()) navigation.navigate('GetMatched');
-        else {
-            toggleDialog();
+    async function finishProfile(){
+        if (areInputsValid()) {
+            await putExtraData(global.emailAddress, photo.value, country.value, job.value)
+            .then(status => {
+                if (status === 200) navigation.navigate('GetMatched');
+                else toggleDialog();
+            })
         }
+        else toggleDialog();
     }
 
     const toggleDialog = () => {
@@ -76,7 +83,7 @@ const FinishProfile = ({ navigation }) => {
                 <Text style={styles.headingMessage}>Your profile helps us verify you and also builds trust among other DayOff members.</Text>
             </View>
             <PhotoInput width={40 * vmin} camRatio={'30%'}
-                onPhotoSelected={(data) => handlePhoto(data)}
+                onPhotoSelected={(data) => updatedState(photo, data)}
             >
                 <Text style={styles.addPhotoText}>Add Photo</Text>
             </PhotoInput>

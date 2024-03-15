@@ -1,6 +1,8 @@
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { palette, themes } from "../../style";
 
+// README: old component, not used anymore
+
 
 const EmailModal = ({exitFunc}) => {
 
