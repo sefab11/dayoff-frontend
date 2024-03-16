@@ -1,6 +1,8 @@
 const loginURL = process.env.EXPO_PUBLIC_API_URL + "/login";
 const logoutURL = process.env.EXPO_PUBLIC_API_URL + "/logout";
+
 const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
+const extraDataURL = process.env.EXPO_PUBLIC_API_URL + "/user/putExtra";
 
 const getUserDataURL = process.env.EXPO_PUBLIC_API_URL + "/getUserData";
 const putPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/putPref";
@@ -11,6 +13,8 @@ const filterTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/filter";
 const joinTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/join";
 const leaveTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/leave";
 const inviteTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/invite";
+const deleteTripURl = process.env.EXPO_PUBLIC_API_URL + "/trips/delete";
+const updateTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/update";
 
 const getMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/retrieve";
 const sendMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/send";
@@ -92,6 +96,31 @@ export const _registerUser = (username, email, password) => {
     })
 }
 
+export const _putAdditionalUserData = (email, photo, countryOfResidence, jobTitle) => {
+    return fetch(extraDataURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "email": email,
+            "photo_data": photo ? photo : null,
+            "country": countryOfResidence ? countryOfResidence : null,
+            "job": jobTitle ? jobTitle : null,
+        })
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
 export const _getUserData = (email) => {
     return fetch(getUserDataURL, {
         method: "POST",
@@ -140,7 +169,6 @@ export const _putUserPreferences = (email, dates, countries) => {
 }
 
 export const _getUserPreferences = (email) => {
-    console.log("called2");
     return fetch(getPreferencesURL, {
         method: "POST",
         headers: {
@@ -269,6 +297,53 @@ export const _leaveTrip = (tripID, userEmail) => {
     })
 }
 
+export const _updateTrip = (tripID, numPeople, desc) => {
+    return fetch(updateTripURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "trip_id": tripID,
+            "num_people": numPeople,
+            "description": desc,
+        })
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
+export const _deleteTrip = (tripID, numUsers) => {
+    return fetch(deleteTripURl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "trip_id": tripID,
+            "num_people": numUsers,
+        })
+    })
+    .then(response => {
+        return {response: response.text(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
 export const _inviteTrip = (tripID, invitedUserEmail) => {
     return fetch(inviteTripURL, {
         method: "POST",
@@ -343,6 +418,7 @@ const UserService = {
     logoutUser: _logoutUser,
 
     registerUser: _registerUser,
+    putExtraData: _putAdditionalUserData,
     getUserData: _getUserData,
     putUserPref: _putUserPreferences,
     getUserPref: _getUserPreferences,
@@ -352,6 +428,8 @@ const UserService = {
     joinTrip: _joinTrip,
     leaveTrip: _leaveTrip,
     inviteTrip: _inviteTrip,
+    updateTrip: _updateTrip,
+    deleteTrip: _deleteTrip,
 
     getMessages: _getMessages,
     sendMessage: _sendMessage,

@@ -6,6 +6,9 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useEffect } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 
+import UserService from "../services/UserService";
+const { filterTrips } = UserService;
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -43,6 +46,13 @@ const PastScreen = (props) => {
 }
 
 export default TripsScreen = ({ navigation }) => {
+    /* TODO:
+        get all users joined trips and loop through each trip
+        if enddate has passed then add trip to past trips
+        else add to current trips
+        pass past trips to pastscreen and current trips to mytripsscreen
+    */
+
 
     return (<>
         <StatusBar></StatusBar>

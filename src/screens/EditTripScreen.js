@@ -3,17 +3,21 @@ import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput } from "..
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 import { useState } from "react";
-
 import { ShowSelectedDate, ShowSelectedCountry } from "../components";
+
+import UserService from "../services/UserService";
+const { updateTrip } = UserService;
 
 
 export default EditTripScreen = ({ navigation }) => {
     const email = global.emailAddress;
     const trip = global.currentTrip;
 
+    // fixed values
     const date = [trip.start_date, trip.end_date];
     const country = [trip.location];
     //enables editable people and description in the sub components
+    // variables
     const [numPeople, setNumPeople] = useState(trip.participants.length);
     const [description, setDescription] = useState(trip.description);
 
@@ -53,7 +57,13 @@ export default EditTripScreen = ({ navigation }) => {
                 </View>
                 {/*TODO: update new data in the db*/}
                 <Button
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={async () => {
+                        await updateTrip(trip.trip_id, numPeople, description)
+                        .then(status => {
+                            if (status === 200) navigation.replace('Home');
+                            else console.log("error occurred updating a trip");
+                        })
+                    }}
                     mode='contained'
                     theme={themes.button}
                     style={styles.button}

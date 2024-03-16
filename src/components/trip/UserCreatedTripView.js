@@ -9,7 +9,7 @@ import { dimensions } from '../../style';
 import { palette } from '../../style';
 import { createNavigationContainerRef } from '@react-navigation/native';
 import UserService from "../../services/UserService";
-const { joinTrip } = UserService;
+const { joinTrip, deleteTrip } = UserService;
 
 [vw, vh, vmin, vmax] = dimensions
 
@@ -59,14 +59,6 @@ const UserCreatedTripView = (props) => {
     const navigation = props.navigation;
 
     const country = trip.location;
-
-    function deleteTrip(){
-        //don't delete trip if theres more than 1 person going
-        if (trip.participants.length > 1) return;
-
-        console.log("delete");
-        //TODO: remove trip from array on CreatedTripsScreen.
-    }
 
     return (
         <View style={styles.trip}>
@@ -141,7 +133,14 @@ const UserCreatedTripView = (props) => {
                     icon={require('../../../assets/icons/trash.png')}
                     iconColor={trip.participants.length <= 1 ? palette.white : palette.grey}
                     size={2 * vh}
-                    onPress={() => deleteTrip(trip.trip_id)}
+                    onPress={async() => {
+                        await deleteTrip(trip.trip_id, trip.participants.length)
+                        .then(status => {
+                            // if deleted then renavigate to screen to reload data
+                            if (status === 200) navigation.replace('MyCreatedTrips');
+                            else console.log("not possible to remove");
+                        })
+                    }}
                 />
 
                 <View style={styles.goingGroup}>
