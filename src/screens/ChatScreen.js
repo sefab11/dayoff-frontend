@@ -1,17 +1,55 @@
 import { ChatFooter, ChatHeader, JoinedMessage, UserMessage, Message } from "../components";
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, View, Image, ScrollView } from "react-native";
 import { palette, dimensions, flags } from "../style";
+import React, { useState, useEffect } from "react";
 import UserService from "../services/UserService";
 
-const { getMessages, sendMessage } = UserService;
+const { getMessages, sendMessage, getTripInfo } = UserService;
 [vw, vh, vmin, vmax] = dimensions
+
+const formatTime = (time) => {
+    // if theres no time then return null
+    if (!time) return null;
+
+    // if theres a date then parse it and format it into hh:mm am/pm
+    var parsedTime = new Date(time);
+
+    var hours = parsedTime.getHours();
+    var mins = parsedTime.getMinutes();
+
+    if (hours < 12){
+        return ("0" + hours + ":" + mins + " AM");
+    }
+    else return ("0" + (hours-12) + ":" + mins + " PM");
+}
+
 
 export default ChatScreen = ({ navigation }) => {
     const trip = global.currentTrip;
+    // TODO: change to global.emailAddress
+    const currentUserId = 'sepehr@gmail.com';
 
-    const currentUserId = "2";
+    // get messages based on current trip id
+    async function getChatMessages(){
+        var tempMessages = [];
+        // get messages from backend
+        await getMessages(trip.trip_id)
+        .then(response => {
+            response = JSON.parse(response).messages;
 
+            // set tempMessages to all the messages;
+            tempMessages = response;
+        })
+        .then(() => {
+            // set messages to temp messages
+            setMessages(tempMessages);
+        })
+    }
 
+    /* TODO:
+        get participants based on trip id -> loop through each user email to get
+        their user_name and profilePic from user db
+    */
     const members = [
         {
             id: "1",
@@ -34,12 +72,12 @@ export default ChatScreen = ({ navigation }) => {
             profilePic: require('../../assets/images/profilePics/4.jpg'),
         },
         {
-            id: "5",
+            id: "sepehrb@gmail.com",
             name: 'Miryam',
             profilePic: require('../../assets/images/profilePics/5.jpg'),
         },
         {
-            id: "6",
+            id: "sepehr@gmail.com",
             name: 'Ambuj',
             profilePic: require('../../assets/images/profilePics/6.jpg'),
         },
@@ -55,24 +93,12 @@ export default ChatScreen = ({ navigation }) => {
         }
     ]
 
-    const messages = [
-        {
-            authorId: "1",
-            message: "I found this group accommodation in Rio de Janeiro, check it out"
-        },
-        {
-            authorId: "2",
-            message: "looks great 😍"
-        },
-        {
-            authorId: "3",
-            message: "I love it, it’s so close to the beach and other attractions 🏝🎡"
-        },
-        {
-            authorId: "7",
-            joined: true
-        },
-    ]
+    const [messages, setMessages] = useState(null);
+
+    useEffect(() => {
+        getChatMessages();
+    }, [])
+
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -89,27 +115,29 @@ export default ChatScreen = ({ navigation }) => {
                 <ScrollView>
                     <TouchableWithoutFeedback>
                         <View style={styles.messagesGroup}>
-                            {
+                            {messages ?
                                 messages.map((m) => {
+                                    // TODO: add joined boolean variable to message object in db
                                     if(m.joined)
                                         return (<JoinedMessage>{members.find((u) => u.id === m.authorId).name}</JoinedMessage>)
-                                    else if(m.authorId === currentUserId)
+                                    else if(m.author === currentUserId)
                                         return(
                                         <UserMessage
-                                        time={'9:50AM'}>
+                                        time={formatTime(m.time)}>
                                             {m.message}
                                         </UserMessage>
                                         )
                                     else
                                         return(
                                         <Message
-                                        imageSrc={members.find((u) => u.id === m.authorId).profilePic}
-                                        name={members.find((u) => u.id === m.authorId).name}
-                                        time={'9:22AM'}>
+                                        imageSrc={members.find((u) => u.id === m.author).profilePic}
+                                        name={members.find((u) => u.id === m.author).name}
+                                        time={formatTime(m.time)}>
                                             {m.message}
                                         </Message>
                                         )
                                 })
+                            : null
                             }
                         </View>
                     </TouchableWithoutFeedback>

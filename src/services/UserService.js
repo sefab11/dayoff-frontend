@@ -15,6 +15,7 @@ const leaveTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/leave";
 const inviteTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/invite";
 const deleteTripURl = process.env.EXPO_PUBLIC_API_URL + "/trips/delete";
 const updateTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/update";
+const getTripInfoURL = process.env.EXPO_PUBLIC_API_URL + "/trips/details";
 
 const getMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/retrieve";
 const sendMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/send";
@@ -367,6 +368,32 @@ export const _inviteTrip = (tripID, invitedUserEmail) => {
     })
 }
 
+export const _getTripInfo = (tripID, userEmail) => {
+    return fetch(getTripInfoURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "trip_id": tripID,
+            "user_email": userEmail,
+        }),
+    })
+    .then(response => {
+        return {response: response.json(), status: response.status};
+    })
+    .then((response) => {
+        return response.response;
+    })
+    .then((response) => {
+        return response.body;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
 export const _getMessages = (tripID) => {
     return fetch(getMsgURL, {
         method: "POST",
@@ -433,6 +460,7 @@ const UserService = {
     inviteTrip: _inviteTrip,
     updateTrip: _updateTrip,
     deleteTrip: _deleteTrip,
+    getTripInfo: _getTripInfo,
 
     getMessages: _getMessages,
     sendMessage: _sendMessage,
