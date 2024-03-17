@@ -4,6 +4,45 @@ import { palette, themes } from "../../../style";
 import { StyleSheet } from "react-native";
 
 
+const formatDate = (startDate, endDate) => {
+    const monthNames = {
+        0: 'Jan', 1: 'Feb',
+        2: 'Mar', 3: 'Apr',
+        4: 'May', 5: 'Jun',
+        6: 'Jul', 7: 'Aug',
+        8: 'Sep', 9: 'Oct',
+        10: 'Nov', 11: 'Dec'
+    };
+
+    //parse the details of each string date inputs
+    //convert to date then get date, month, year of each
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+
+    const dateDetails = {
+        startDate: parsedStartDate.getDate(),
+        startMonth: monthNames[parsedStartDate.getMonth()],
+        endDate: parsedEndDate.getDate(),
+        endMonth: monthNames[parsedEndDate.getMonth()],
+    }
+
+    var dateString = "";
+    //check if months are the same
+    if (dateDetails.startMonth == dateDetails.endMonth){
+        //change the string as day1 - day2 month
+        dateString = dateDetails.startDate + " - " + dateDetails.endDate
+        + " " + dateDetails.startMonth;
+    }
+    else{
+        //change the string as day1 month1 - day2 month2
+        dateString = dateDetails.startDate + " " + dateDetails.startMonth + " - "
+        + dateDetails.endDate + " " + dateDetails.endMonth;
+    }
+
+    return dateString;
+}
+
+
 const DateLabel = (props) => {
     const { date, index } = props;
 
@@ -11,7 +50,7 @@ const DateLabel = (props) => {
     <View style={styles.dateContainer}
     backgroundColor={palette.lightGrey2}
     key={index}>
-        <Text style={styles.dateTextInactive}>{date}</Text>
+        <Text style={styles.dateTextInactive}>{formatDate(date[0], date[1])}</Text>
     </View>
     )
 }

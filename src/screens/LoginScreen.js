@@ -55,6 +55,7 @@ export default LoginScreen = ({ navigation }) => {
                         style={styles.textInput} theme={themes.textInput} mode='outlined'
                         label="Password" />
                         <Button
+                            // TODO: add in functionality to reset password
                             onPress={() => {}}
                             mode='text'
                             theme={themes.button}

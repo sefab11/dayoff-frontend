@@ -141,6 +141,8 @@ const UserCreatedTripView = (props) => {
                             else console.log("not possible to remove");
                         })
                     }}
+                    // disable the onpress function based on if theres too many people
+                    disabled={trip.participants.length > 1}
                 />
 
                 <View style={styles.goingGroup}>

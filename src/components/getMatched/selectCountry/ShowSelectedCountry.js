@@ -29,7 +29,6 @@ const ShowSelectedCountry = (props) => {
     //each element should be a dictionary in format {'code': x, 'name': y}
     const [selectedCountries, setSelectedCountries] = useState(initialCountries);
 
-
     return (
     <View style={styles.selectCountryWrap}>
         <View>

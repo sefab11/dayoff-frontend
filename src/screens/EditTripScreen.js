@@ -16,6 +16,7 @@ export default EditTripScreen = ({ navigation }) => {
     // fixed values
     const date = [trip.start_date, trip.end_date];
     const country = [trip.location];
+
     //enables editable people and description in the sub components
     // variables
     const [numPeople, setNumPeople] = useState(trip.participants.length);
@@ -43,7 +44,7 @@ export default EditTripScreen = ({ navigation }) => {
                         label={"Select country"}
                         labelStyle={styles.selectLabel}
                         boxWidth={80 * vmin}
-                        initialCountries={[country]}
+                        initialCountries={country}
                     />
 
                     <TextInput style={styles.textInput} theme={themes.textInput}
