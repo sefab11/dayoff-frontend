@@ -378,10 +378,13 @@ export const _getMessages = (tripID) => {
         })
     })
     .then(response => {
-        return {response: response.text(), status: response.status};
+        return {response: response.json(), status: response.status};
     })
     .then((response) => {
-        return response.status;
+        return response.response;
+    })
+    .then((response) => {
+        return response.body;
     })
     .catch((error) => {
         console.log(error);

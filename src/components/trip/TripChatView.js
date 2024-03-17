@@ -9,24 +9,86 @@ import { createNavigationContainerRef, useNavigation } from '@react-navigation/n
 
 [vw, vh, vmin, vmax] = dimensions
 
+
+const formatDate = (startDate, endDate) => {
+    const monthNames = {
+        0: 'Jan', 1: 'Feb',
+        2: 'Mar', 3: 'Apr',
+        4: 'May', 5: 'Jun',
+        6: 'Jul', 7: 'Aug',
+        8: 'Sep', 9: 'Oct',
+        10: 'Nov', 11: 'Dec'
+    };
+
+    //parse the details of each string date inputs
+    //convert to date then get date, month, year of each
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+
+    const dateDetails = {
+        startDate: parsedStartDate.getDate(),
+        startMonth: monthNames[parsedStartDate.getMonth()],
+        endDate: parsedEndDate.getDate(),
+        endMonth: monthNames[parsedEndDate.getMonth()],
+    }
+
+    var dateString = "";
+    //check if months are the same
+    if (dateDetails.startMonth == dateDetails.endMonth){
+        //change the string as day1 - day2 month
+        dateString = dateDetails.startDate + " - " + dateDetails.endDate
+        + " " + dateDetails.startMonth;
+    }
+    else{
+        //change the string as day1 month1 - day2 month2
+        dateString = dateDetails.startDate + " " + dateDetails.startMonth + " - "
+        + dateDetails.endDate + " " + dateDetails.endMonth;
+    }
+
+    return dateString;
+}
+
+const formatTime = (time) => {
+    // if theres no time then return null
+    if (!time) return null;
+
+    // if theres a date then parse it and format it into hh:mm am/pm
+    var parsedTime = new Date(time);
+
+    var hours = parsedTime.getHours();
+    var mins = parsedTime.getMinutes();
+
+    if (hours < 12){
+        return ("0" + hours + ":" + mins + " AM");
+    }
+    else return ("0" + (hours-12) + ":" + mins + " PM");
+}
+
+
 const TripChatView = (props) => {
     const {style, label, children, ...rest} = props;
+    const {trip, messages} = props;
 
-    tripchat = {}
-    tripchat.country = 'KE'
-    tripchat.lastMessage = {
-        author: 'Bruno',
-        message: "Let's stay in touch",
-        time: '9:39 AM',
-    }
-    tripchat.unread = 11
+    const country = trip.location;
+    const date = formatDate(trip.start_date, trip.end_date);
 
-    country = CountryCodes.filter(c => c.code == tripchat.country)[0];    
+
+    console.log(messages);
+    console.log(messages.length);
+    var lastMessage = {};
+    if (messages.length > 0) lastMessage = messages[messages.length-1];
+
+    // TODO: work out how to get number of unread messages?
+    const unread = 11
 
     const navigation = useNavigation();
     
     return (
-        <TouchableWithoutFeedback onPress={() => navigation.navigate("Chat")}>
+        <TouchableWithoutFeedback onPress={() => {
+            // update the current trip and navigate to chat screen
+            global.currentTrip = trip;
+            navigation.navigate('Chat');
+        }}>
             <View style={{...styles.chat, ...style}}>
                 {
                     flags[country.code] ?
@@ -34,16 +96,16 @@ const TripChatView = (props) => {
                     <Text style={styles.countryText}>{country.code}</Text>
                 }
                 <View style={styles.middleGroup}>
-                    <Text style={styles.countryText}>{country.name} | 14 - 21 Jul</Text>
+                    <Text style={styles.countryText}>{country.name} | {date}</Text>
                     {
-                        tripchat.lastMessage ?
+                        lastMessage.message ?
                         <View style={styles.messageGroup}>
-                            <Text style={styles.authorText}>{tripchat.lastMessage.author}: </Text>
+                            <Text style={styles.authorText}>{lastMessage.author}: </Text>
                             <Text style={styles.messageText}>
                                 {
-                                    tripchat.lastMessage.message.length > 26 ?
-                                    tripchat.lastMessage.message.substring(0, 26) + '...' :
-                                    tripchat.lastMessage.message
+                                    lastMessage.message.length > 24 ?
+                                    lastMessage.message.substring(0, 24) + '...' :
+                                    lastMessage.message
                                 }
                             </Text>
                         </View> :
@@ -52,11 +114,11 @@ const TripChatView = (props) => {
                 </View>
                 {
                     <View style={styles.rightGroup}>
-                        <Text style={styles.timeText}>{tripchat.lastMessage.time}</Text>
+                        <Text style={styles.timeText}>{formatTime(lastMessage.time)}</Text>
                         <Text style={styles.notification}>
                         {
-                            tripchat.unread > 0 ?
-                            (tripchat.unread > 9 ? '9+' : tripchat.unread) :
+                            unread > 0 ?
+                            (unread > 9 ? '9+' : unread) :
                             null
                         }
                         </Text>

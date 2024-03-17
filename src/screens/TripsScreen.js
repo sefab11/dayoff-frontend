@@ -1,45 +1,96 @@
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView } from "react-native";
-import { Button, TripViewMatch, TripView, BottomNav, TripChatView } from "../components";
+import { Button, BottomNav, TripChatView, TripsTopNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 
 import UserService from "../services/UserService";
-const { filterTrips } = UserService;
-
+const { filterTrips, getMessages } = UserService;
 
 const Tab = createMaterialTopTabNavigator();
 
 [vw, vh, vmin, vmax] = dimensions;
 
+async function getTrips(setTripsState, specificTrips){
+    var messages = [];
+    var pastTrips = [];
+    var currentTrips = [];
+    // get the current date
+    let currentDate = new Date();
 
-const MyTripsScreen = (navigation) => {
+    // get all trips that the user has joined
+    await filterTrips(null, 'sepehr@gmail.com', null, null, null)
+    .then(async response => {
+        // parse response to get array of trips
+        response = JSON.parse(response)['trips'];
+        if (response === []) return;
 
-    const chats = Array(5).fill(0)
+        // loop through each trip
+        for (let i = 0; i < response.length; i++) {
+            const trip = response[i];
+            // get the messages of the group based on the trip id
+            await getMessages(trip.trip_id)
+            .then(response => {
+                messages = JSON.parse(response).messages;
+            })
+
+            // get the current trip end date and compare with the current date
+            // if end date < current date then add to past trips
+            // else add to current trips
+            let tripEndDate = new Date(trip.end_date);
+            if (tripEndDate < currentDate) pastTrips.push([trip, messages]);
+            else currentTrips.push([trip, messages]);
+        }
+    })
+    .then(() => {
+        if (specificTrips === 'past') setTripsState(pastTrips);
+        else if (specificTrips === 'current') setTripsState(currentTrips);
+    })
+}
+
+
+const MyTripsScreen = (props) => {
+    const { navigation } = props;
+
+    const [trips, setTrips] = useState(null);
+
+    useEffect(() => {
+        getTrips(setTrips, 'current');
+        console.log("aa" + trips);
+    }, [])
 
     return (
         <View style={styles.page}>
             <ScrollView contentContainerStyle={styles.scroll}>
-                {
-                    chats.length > 0 ?
-                    <TripChatView style={{borderTopWidth: 0}} /> :
-                    null
+                { trips
+                ? trips.map((trip, index) => <TripChatView key={index} trip={trip[0]} messages={trip[1]} />)
+                : null
                 }
-                { chats.slice(1).map((chat, i) => <TripChatView key={i} />) }
             </ScrollView>
         </View>
     )
 }
 
+
 const PastScreen = (props) => {
     const { navigation } = props;
+
+    const [trips, setTrips] = useState(null);
+
+    useEffect(() => {
+        getTrips(setTrips, 'past');
+        console.log("bb" + trips);
+    }, [])
 
     return (
         <View style={styles.page}>
             <ScrollView contentContainerStyle={styles.scroll}>
-
+                { trips
+                ? trips.map((trip, index) => <TripChatView key={index} trip={trip[0]} messages={trip[1]} />)
+                : null
+                }
             </ScrollView>
         </View>
     )
@@ -53,35 +104,13 @@ export default TripsScreen = ({ navigation }) => {
         pass past trips to pastscreen and current trips to mytripsscreen
     */
 
-
     return (<>
         <StatusBar></StatusBar>
-        <Tab.Navigator
-            screenOptions={({ route }) => ({
-                tabBarScrollEnabled: true,
-                tabBarGap: 5 * vmin,
-                tabBarLabel: ({ tintColor, focused, item }) => {
-                    return focused
-                        ? (<Text style={styles.tabLabelActive}>{route.name}</Text>)
-                        : (<Text style={styles.tabLabelInactive}>{route.name}</Text>)
-                },
-                tabBarItemStyle: styles.tab,
-                tabBarStyle: styles.tabBar,
-                tabBarIndicatorStyle: styles.tabIndicator,
-            })}
-        >
-            <Tab.Screen name='My Trips' component={MyTripsScreen}
-                listeners={{
-                    tabPress: e => {}
-                }}
+            <TripsTopNav
+                screen1={<MyTripsScreen navigation={navigation} />}
+                screen2={<PastScreen navigation={navigation} />}
             />
-            <Tab.Screen name='Past' children={() => <PastScreen navigation={navigation} />}
-                listeners={{
-                    tabPress: e => {}
-                }}
-            />
-        </Tab.Navigator>
-        <BottomNav active={"Trips"}/>
+        <BottomNav active={"Trips"} />
     </>);  
 }
 
