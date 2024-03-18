@@ -420,6 +420,8 @@ export const _getMessages = (tripID) => {
 }
 
 export const _sendMessage = (tripID, userEmail, msg) => {
+    console.log(tripID + userEmail + msg);
+
     return fetch(sendMsgURL, {
         method: "POST",
         headers: {

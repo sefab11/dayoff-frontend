@@ -4,7 +4,7 @@ import { palette, dimensions, flags } from "../style";
 import React, { useState, useEffect } from "react";
 import UserService from "../services/UserService";
 
-const { getMessages, sendMessage, getTripInfo } = UserService;
+const { getMessages, sendMessage, getTripInfo, getUserData } = UserService;
 [vw, vh, vmin, vmax] = dimensions
 
 const formatTime = (time) => {
@@ -43,6 +43,14 @@ export default ChatScreen = ({ navigation }) => {
         .then(() => {
             // set messages to temp messages
             setMessages(tempMessages);
+        })
+    }
+
+    async function sendChatMessage(){
+        await sendMessage(trip.trip_id, 'sepehr@gmail.com', sentMessage)
+        .then(status => {
+            if (status === 200) console.log("message sent");
+            else console.log("an error occurred");
         })
     }
 
@@ -94,10 +102,13 @@ export default ChatScreen = ({ navigation }) => {
     ]
 
     const [messages, setMessages] = useState(null);
+    const [sentMessage, setSentMessage] = useState("");
 
     useEffect(() => {
+    // everytime sent message is updated then send message to db and refresh messages
         getChatMessages();
-    }, [])
+        if (sentMessage != "") sendChatMessage();
+    }, [sentMessage])
 
 
     return (
@@ -119,20 +130,20 @@ export default ChatScreen = ({ navigation }) => {
                                 messages.map((m) => {
                                     // TODO: add joined boolean variable to message object in db
                                     if(m.joined)
-                                        return (<JoinedMessage>{members.find((u) => u.id === m.authorId).name}</JoinedMessage>)
-                                    else if(m.author === currentUserId)
+                                        return (<JoinedMessage>{members.find((u) => u.id === m.sender).name}</JoinedMessage>)
+                                    else if(m.sender === currentUserId)
                                         return(
                                         <UserMessage
-                                        time={formatTime(m.time)}>
+                                        time={formatTime(m.timestamp)}>
                                             {m.message}
                                         </UserMessage>
                                         )
                                     else
                                         return(
                                         <Message
-                                        imageSrc={members.find((u) => u.id === m.author).profilePic}
-                                        name={members.find((u) => u.id === m.author).name}
-                                        time={formatTime(m.time)}>
+                                        imageSrc={members.find((u) => u.id === m.sender).profilePic}
+                                        name={members.find((u) => u.id === m.sender).name}
+                                        time={formatTime(m.timestamp)}>
                                             {m.message}
                                         </Message>
                                         )
@@ -142,7 +153,9 @@ export default ChatScreen = ({ navigation }) => {
                         </View>
                     </TouchableWithoutFeedback>
                 </ScrollView>
-                <ChatFooter />
+                <ChatFooter
+                    setSentMessage={setSentMessage}
+                />
             </View>
         </TouchableWithoutFeedback>
     );

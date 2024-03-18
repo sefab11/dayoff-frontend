@@ -73,10 +73,12 @@ const TripChatView = (props) => {
     const date = formatDate(trip.start_date, trip.end_date);
 
 
+    console.log(trip);
     console.log(messages);
-    console.log(messages.length);
     var lastMessage = {};
-    if (messages.length > 0) lastMessage = messages[messages.length-1];
+    try{
+        if (messages.length > 0) lastMessage = messages[messages.length-1];
+    } catch (e){}
 
     // TODO: work out how to get number of unread messages?
     const unread = 11
@@ -98,13 +100,13 @@ const TripChatView = (props) => {
                 <View style={styles.middleGroup}>
                     <Text style={styles.countryText}>{country.name} | {date}</Text>
                     {
-                        lastMessage.message ?
+                        lastMessage.sender && lastMessage.message ?
                         <View style={styles.messageGroup}>
-                            <Text style={styles.authorText}>{lastMessage.author}: </Text>
+                            <Text style={styles.authorText}>{lastMessage.sender}: </Text>
                             <Text style={styles.messageText}>
                                 {
-                                    lastMessage.message.length > 24 ?
-                                    lastMessage.message.substring(0, 24) + '...' :
+                                    (lastMessage.sender.length + lastMessage.message.length) > 24 ?
+                                    lastMessage.message.substring(0, 24 - lastMessage.sender.length) + '...' :
                                     lastMessage.message
                                 }
                             </Text>
@@ -114,7 +116,7 @@ const TripChatView = (props) => {
                 </View>
                 {
                     <View style={styles.rightGroup}>
-                        <Text style={styles.timeText}>{formatTime(lastMessage.time)}</Text>
+                        <Text style={styles.timeText}>{formatTime(lastMessage.timestamp)}</Text>
                         <Text style={styles.notification}>
                         {
                             unread > 0 ?
