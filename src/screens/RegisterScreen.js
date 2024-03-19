@@ -67,8 +67,8 @@ export default RegisterScreen = ({ navigation }) => {
             await registerUser(name.value, email.value, password.value)
             .then(status => {
                 if(status === 200) {
-                    //update global email address
-                    global.emailAddress = name.value;
+                    //update global current user
+                    global.currentUser = {'email_id': email.value, 'user_name': name.value, 'profile_picture': null};
 
                     navigation.navigate('VerifyEmail');
                 }

@@ -66,7 +66,7 @@ export default VerificationScreen = ({ navigation }) => {
     });
 
     const trip = global.currentTrip;
-    const email = global.emailAddress;
+    const email = global.currentUser.email_id;
 
     const updatedState = (stateDict, newVal) => {
         return Object.assign({}, stateDict, {'value': newVal});

@@ -22,7 +22,7 @@ export default function App() {
   }
 
   // global variables
-  global.emailAddress = "";
+  global.currentUser = null;
   global.currentTrip = null;
 
 

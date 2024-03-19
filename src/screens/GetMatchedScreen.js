@@ -10,7 +10,7 @@ const { putUserPref, getUserPref } = UserService;
 
 
 const GetMatchedScreen = ({ navigation }) => {
-    const email = global.emailAddress;
+    const email = global.currentUser.email_id;
 
     //TODO: init the initial dates and countries to values from getUserPref
     async function getPrefs(){

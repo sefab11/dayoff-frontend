@@ -23,10 +23,10 @@ const formatTime = (time) => {
     var hours = parsedTime.getHours();
     var mins = parsedTime.getMinutes();
 
-    if (hours < 12){
+    if (hours < 10){
         return ("0" + hours + ":" + mins + " AM");
     }
-    else return ("0" + (hours-12) + ":" + mins + " PM");
+    else return ((hours-12) + ":" + mins + " PM");
 }
 
 
@@ -114,6 +114,7 @@ export default ChatScreen = ({ navigation }) => {
     // everytime sent message is updated then send message to db and refresh messages
         getChatMessages();
         if (sentMessage != "") sendChatMessage();
+        setSentMessage("");
     }, [sentMessage])
 
 

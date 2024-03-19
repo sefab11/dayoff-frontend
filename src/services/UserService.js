@@ -121,10 +121,13 @@ const _getUserData = (email) => {
         })
     })
     .then(response => {
-        return {response: response.text(), status: response.status, data: response.user_data};
+        return {response: response.json(), status: response.status};
     })
     .then((response) => {
-        return response.data;
+        return response.response;
+    })
+    .then((response) => {
+        return response.user_data;
     })
     .catch((error) => {
         console.log(error);

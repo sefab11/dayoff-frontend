@@ -28,7 +28,7 @@ const UserInfo = (props) => {
 
 
 export default GroupInfoScreen = ({ navigation }) => {
-    const emailAddress = global.emailAddress;
+    const emailAddress = global.currentUser.email_id;
     const trip = global.currentTrip;
 
 

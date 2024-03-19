@@ -10,7 +10,7 @@ const { updateTrip } = TripsService;
 
 
 export default EditTripScreen = ({ navigation }) => {
-    const email = global.emailAddress;
+    const email = global.currentUser.email_id;
     const trip = global.currentTrip;
 
     // fixed values

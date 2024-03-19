@@ -47,7 +47,7 @@ function formatDate(startDate, endDate){
 
 const TripView = (props) => {
     const {style, children, trip, ...rest} = props;
-    const email = global.emailAddress;
+    const email = global.currentUser.email_id;
     const navigation = props.navigation;
 
     country = trip.location;

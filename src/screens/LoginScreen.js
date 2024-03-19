@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import { useSessionContext } from "../contexts/SessionContext";
 
 import UserService from "../services/UserService";
-const { loginUser } = UserService;
+const { loginUser, getUserData } = UserService;
 
 
 export default LoginScreen = ({ navigation }) => {
@@ -28,12 +28,15 @@ export default LoginScreen = ({ navigation }) => {
         }
         
         await loginUser(username, password)
-        .then(data => {
+        .then(async data => {
             if(data && data.statusCode === 200 && data.sessionToken) {
                 setSessionToken(data.sessionToken);
 
                 //update the global email address
-                global.emailAddress = username;
+                await getUserData(username)
+                .then(response => {
+                    global.currentUser = response;
+                })
 
                 navigation.navigate('Home');
             }

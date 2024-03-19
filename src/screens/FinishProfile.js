@@ -57,7 +57,7 @@ const FinishProfile = ({ navigation }) => {
 
     async function finishProfile(){
         if (areInputsValid()) {
-            await putExtraData(global.emailAddress, photo.value, country.value, job.value)
+            await putExtraData(global.currentUser.email_id, photo.value, country.value, job.value)
             .then(status => {
                 if (status === 200) navigation.navigate('GetMatched');
                 else toggleDialog();

@@ -15,7 +15,7 @@ const { filterTrips } = TripsService;
 
 const ForYouScreen = (props) => {
     const { navigation } = props;
-    const email = global.emailAddress;
+    const email = global.currentUser.email_id;
 
     //call backend function to get list of specified trips to join
     //--trips/filter
@@ -113,7 +113,7 @@ const ForYouScreen = (props) => {
 
 const ExploreScreen = (props) => {
     const { navigation } = props;
-    const email = global.emailAddress;
+    const email = global.currentUser.email_id;
 
     //call backend function to get all trips with no filter
     //--filter but with 0 filter
