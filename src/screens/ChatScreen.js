@@ -120,8 +120,6 @@ export default ChatScreen = ({ navigation }) => {
                 ? <Image style={styles.profilePic} source={member.profilePic} />
                 : null
                 )}
-                location={{'flag': flags.BR, 'name': 'Brazil'}}
-                date={'02 - 10 Oct'}
                 />
                 <ScrollView>
                     <TouchableWithoutFeedback>

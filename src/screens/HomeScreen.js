@@ -97,9 +97,11 @@ const ForYouScreen = (props) => {
                 : null
                 }
                 <View marginTop={3 * vh}>
+                    {trips.length > maxTrips ?
                     <TouchableOpacity onPress={() => seeMoreTrips()}>
                         <Text style={styles.seeMoreText}>See More</Text>
                     </TouchableOpacity>
+                    : null}
                 </View>
             </ScrollView>
         </View>
@@ -141,9 +143,11 @@ const ExploreScreen = (props) => {
                  })
                  }
                 <View marginTop={3 * vh}>
+                    {trips.length > maxTrips ?
                     <TouchableOpacity onPress={() => seeMoreTrips()}>
                         <Text style={styles.seeMoreText}>See More</Text>
                     </TouchableOpacity>
+                    : null}
                 </View>
             </ScrollView>
 

@@ -4,43 +4,32 @@ import { palette, themes } from "../../../style";
 import { StyleSheet } from "react-native";
 
 
-const formatDate = (startDate, endDate) => {
-    const monthNames = {
-        0: 'Jan', 1: 'Feb',
-        2: 'Mar', 3: 'Apr',
-        4: 'May', 5: 'Jun',
-        6: 'Jul', 7: 'Aug',
-        8: 'Sep', 9: 'Oct',
-        10: 'Nov', 11: 'Dec'
-    };
-
-    //parse the details of each string date inputs
-    //convert to date then get date, month, year of each
-    const parsedStartDate = new Date(startDate);
-    const parsedEndDate = new Date(endDate);
-
-    const dateDetails = {
-        startDate: parsedStartDate.getDate(),
-        startMonth: monthNames[parsedStartDate.getMonth()],
-        endDate: parsedEndDate.getDate(),
-        endMonth: monthNames[parsedEndDate.getMonth()],
-    }
-
-    var dateString = "";
-    //check if months are the same
-    if (dateDetails.startMonth == dateDetails.endMonth){
-        //change the string as day1 - day2 month
-        dateString = dateDetails.startDate + " - " + dateDetails.endDate
-        + " " + dateDetails.startMonth;
-    }
-    else{
-        //change the string as day1 month1 - day2 month2
-        dateString = dateDetails.startDate + " " + dateDetails.startMonth + " - "
-        + dateDetails.endDate + " " + dateDetails.endMonth;
-    }
-
-    return dateString;
+const monthsIndices = {
+    1: 'Jan', 2: 'Feb', 3: 'Mar',
+    4: 'Apr', 5: 'May', 6: 'Jun',
+    7: 'Jul', 8: 'Aug', 9: 'Sep',
+    10: 'Oct', 11: 'Nov', 12: 'Dec',
 }
+
+function formatDate(startDate, endDate){
+    var parsedStartDate = new Date(startDate);
+    let sDate = parsedStartDate.getDate();
+    if (sDate < 10) sDate = "0" + sDate.toString();
+    let sMonth = monthsIndices[parsedStartDate.getMonth()+1];
+    let sYear = parsedStartDate.getYear();
+
+
+    var parsedEndDate = new Date(endDate);
+    let eDate = parsedEndDate.getDate();
+    if (eDate < 10) eDate = "0" + eDate.toString();
+    let eMonth = monthsIndices[parsedEndDate.getMonth()+1];
+    let eYear = parsedEndDate.getYear();
+
+    if (sMonth == eMonth){
+        return (sDate + " - " + eDate + " " + sMonth);
+    }
+    else return (sDate + " " + sMonth + " - " + eDate + " " + eMonth);
+};
 
 
 const DateLabel = (props) => {

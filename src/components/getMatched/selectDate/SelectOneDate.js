@@ -8,21 +8,32 @@ import CalenderModal from "./CalenderModal";
 
 const DateLabel = (props) => {
     const { startDate, endDate, isChecked, removeDate } = props;
+    const monthsIndices = {
+        1: 'Jan', 2: 'Feb', 3: 'Mar',
+        4: 'Apr', 5: 'May', 6: 'Jun',
+        7: 'Jul', 8: 'Aug', 9: 'Sep',
+        10: 'Oct', 11: 'Nov', 12: 'Dec',
+    }
 
     function formatDate(startDate, endDate){
-        var start = startDate.toString().split(" ");
-        var startDay = start[2];
-        var startMonth = start[1];
+        var parsedStartDate = new Date(startDate);
+        let sDate = parsedStartDate.getDate();
+        if (sDate < 10) sDate = "0" + sDate.toString();
+        let sMonth = monthsIndices[parsedStartDate.getMonth()+1];
+        let sYear = parsedStartDate.getYear();
 
-        var end = endDate.toString().split(" ");
-        var endDay = end[2];
-        var endMonth = end[1];
 
-        if (startMonth == endMonth){
-            return (startDay + " - " + endDay + " " + startMonth);
+        var parsedEndDate = new Date(endDate);
+        let eDate = parsedEndDate.getDate();
+        if (eDate < 10) eDate = "0" + eDate.toString();
+        let eMonth = monthsIndices[parsedEndDate.getMonth()+1];
+        let eYear = parsedEndDate.getYear();
+
+        if (sMonth == eMonth){
+            return (sDate + " - " + eDate + " " + sMonth);
         }
-        else return (startDay + " " + startMonth + " - " + endDay + " " + endMonth);
-    }
+        else return (sDate + " " + sMonth + " - " + eDate + " " + eMonth);
+    };
 
     return (
     <View style={styles.dateContainer}

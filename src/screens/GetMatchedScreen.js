@@ -39,14 +39,11 @@ const GetMatchedScreen = ({ navigation }) => {
         console.log("aa" + tempCountries);
         console.log("bb" + dates);
         console.log("bb" + countries);
-
-        setRenderData(true);
     }
 
 
     const [dates, setDates] = useState([]);
     const [countries, setCountries] = useState([]);
-    const [renderData, setRenderData] = useState(false);
 
     const handleDates = (data) => {
         console.log(data);
@@ -82,8 +79,7 @@ const GetMatchedScreen = ({ navigation }) => {
                             <Header>Get Teamed Up</Header>
                             <Text style={styles.message}>This enables us to match you with others going to the same country at the same dates as you.</Text>
                         </View>
-                        {renderData ?
-                        <>
+
                         <SelectManyDates
                         title={"Select the dates of your leisure trip(s)"}
                         titleStyle={styles.selectTitle}
@@ -107,9 +103,6 @@ const GetMatchedScreen = ({ navigation }) => {
                         init={countries}
                         onSelectCountry={(data) => handleCountries(data)}
                         />
-                        </>
-                        : null
-                        }
                     </View>
                 </TouchableWithoutFeedback>
             </ScrollView>
