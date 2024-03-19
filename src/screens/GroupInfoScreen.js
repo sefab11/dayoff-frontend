@@ -1,7 +1,9 @@
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, TouchableOpacity, View, Image, ScrollView, Text } from "react-native";
 import { palette, dimensions } from "../style";
 import { useNavigation } from '@react-navigation/native';
-import { leaveTrip } from "../services/UserService";
+
+import TripsService from "../services/TripsService";
+const { leaveTrip } = TripsService;
 
 [vw, vh, vmin, vmax] = dimensions
 

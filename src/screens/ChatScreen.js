@@ -3,9 +3,12 @@ import { StyleSheet, Keyboard, TouchableWithoutFeedback, View, Image, ScrollView
 import { palette, dimensions, flags } from "../style";
 import React, { useState, useEffect } from "react";
 
-import { getUserData } from "../services/UserService";
-import { getTripInfo } from "../services/TripsService";
-import { getMessages, sendMessage } from "../services/MessageService";
+import UserService from "../services/UserService";
+const { getUserData } = UserService;
+import TripsService from "../services/TripsService";
+const { getTripInfo } = TripsService;
+import MessageService from "../services/MessageService";
+const { getMessages, sendMessage } = MessageService;
 
 
 [vw, vh, vmin, vmax] = dimensions

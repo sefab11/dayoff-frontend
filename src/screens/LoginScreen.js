@@ -4,8 +4,10 @@ import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 import { useState } from "react";
 import Modal from "react-native-modal";
-import { loginUser } from "../services/UserService";
 import { useSessionContext } from "../contexts/SessionContext";
+
+import UserService from "../services/UserService";
+const { loginUser } = UserService;
 
 
 export default LoginScreen = ({ navigation }) => {

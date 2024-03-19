@@ -13,7 +13,8 @@ import { useEffect } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 
-import { logoutUser } from "../services/UserService";
+import UserService from "../services/UserService";
+const { logoutUser } = UserService;
 
 
 const EditProfile = () => {

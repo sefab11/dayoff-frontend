@@ -6,8 +6,10 @@ import { React, useState } from "react";
 import { palette, themes } from "../style";
 import { SelectOneDate, SelectOneCountry } from "../components";
 
-import { isDateValid, isCountryValid, isNumPeopleValid } from "../services/ValidationService";
-import { createNewTrip } from "../services/UserService";
+import FullValidationService from "../services/ValidationService";
+const { isDateValid, isCountryValid, isNumPeopleValid } = FullValidationService;
+import TripsService from "../services/TripsService";
+const { createNewTrip } = TripsService;
 
 
 //SCREEN TO CREATE A TRIP

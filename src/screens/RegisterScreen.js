@@ -4,8 +4,11 @@ import Modal from "react-native-modal";
 import { Button, HeaderBack, PasswordInput, TextInput, EmailModal, Dialog } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
-import { registerUser } from "../services/UserService";
-import { isNameValid, isPasswordValid } from "../services/ValidationService";
+
+import UserService from "../services/UserService";
+const { registerUser } = UserService;
+import FullValidationService from "../services/ValidationService";
+const { isNameValid, isPasswordValid } = FullValidationService;
 
 
 export default RegisterScreen = ({ navigation }) => {

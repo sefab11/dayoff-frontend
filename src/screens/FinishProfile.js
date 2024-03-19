@@ -7,8 +7,10 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import Modal from "react-native-modal";
 
-import { putExtraData } from "../services/UserService";
-import { isCountryValid, isProfessionValid } from "../services/ValidationService";
+import UserService from "../services/UserService";
+const { putExtraData } = UserService;
+import FullValidationService from "../services/ValidationService";
+const { isCountryValid, isProfessionValid } = FullValidationService;
 
 const FinishProfile = ({ navigation }) => {
     //TODO: change 'required' values to true for required fields ( for release )

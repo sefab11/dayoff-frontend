@@ -10,7 +10,7 @@ const getPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/getPref";
 
 //LOGGING IN / REGISTERING
 
-export const _loginUser = (email, password) => {
+const _loginUser = (email, password) => {
     return fetch(loginURL, {
         method: "POST",
         headers: {
@@ -35,7 +35,7 @@ export const _loginUser = (email, password) => {
     })
 }
 
-export const _logoutUser = (email) => {
+const _logoutUser = (email) => {
     //TODO: get token from db based on email
     const token = "xxx";
 
@@ -61,7 +61,7 @@ export const _logoutUser = (email) => {
     })
 }
 
-export const _registerUser = (username, email, password) => {
+const _registerUser = (username, email, password) => {
     return fetch(registerURL, {
         method: "POST",
         headers: {
@@ -85,7 +85,7 @@ export const _registerUser = (username, email, password) => {
     })
 }
 
-export const _putAdditionalUserData = (email, photo, countryOfResidence, jobTitle) => {
+const _putAdditionalUserData = (email, photo, countryOfResidence, jobTitle) => {
     return fetch(extraDataURL, {
         method: "POST",
         headers: {
@@ -110,7 +110,7 @@ export const _putAdditionalUserData = (email, photo, countryOfResidence, jobTitl
     })
 }
 
-export const _getUserData = (email) => {
+const _getUserData = (email) => {
     return fetch(getUserDataURL, {
         method: "POST",
         headers: {
@@ -132,7 +132,7 @@ export const _getUserData = (email) => {
     })
 }
 
-export const _putUserPreferences = (email, dates, countries) => {
+const _putUserPreferences = (email, dates, countries) => {
     console.log(putPreferencesURL);
     return fetch(putPreferencesURL, {
         method: "POST",
@@ -157,7 +157,7 @@ export const _putUserPreferences = (email, dates, countries) => {
     })
 }
 
-export const _getUserPreferences = (email) => {
+const _getUserPreferences = (email) => {
     return fetch(getPreferencesURL, {
         method: "POST",
         headers: {
@@ -180,7 +180,7 @@ export const _getUserPreferences = (email) => {
 }
 
 
-const UserService = {
+export default UserService = {
     loginUser: _loginUser,
     logoutUser: _logoutUser,
 
@@ -189,6 +189,4 @@ const UserService = {
     getUserData: _getUserData,
     putUserPref: _putUserPreferences,
     getUserPref: _getUserPreferences,
-}
-
-export default UserService;
+};

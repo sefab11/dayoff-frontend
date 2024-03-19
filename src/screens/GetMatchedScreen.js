@@ -5,7 +5,8 @@ import { SelectManyDates, SelectManyCountries } from '../components';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
 
-import { putUserPref, getUserPref } from "../services/UserService";
+import UserService from "../services/UserService";
+const { putUserPref, getUserPref } = UserService;
 
 
 const GetMatchedScreen = ({ navigation }) => {

@@ -2,7 +2,7 @@ const getMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/retrieve";
 const sendMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/send";
 
 
-export const _getMessages = (tripID) => {
+const _getMessages = (tripID) => {
     return fetch(getMsgURL, {
         method: "POST",
         headers: {
@@ -27,7 +27,7 @@ export const _getMessages = (tripID) => {
     })
 }
 
-export const _sendMessage = (tripID, userEmail, msg) => {
+const _sendMessage = (tripID, userEmail, msg) => {
     console.log(tripID + userEmail + msg);
 
     return fetch(sendMsgURL, {
@@ -54,9 +54,7 @@ export const _sendMessage = (tripID, userEmail, msg) => {
 }
 
 
-const MessageService = {
+export default MessageService = {
     getMessages: _getMessages,
     sendMessage: _sendMessage,
-}
-
-export default MessageService;
+};

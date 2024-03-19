@@ -16,14 +16,14 @@ function formatDate(startDate, endDate){
     var parsedStartDate = new Date(startDate);
     let sDate = parsedStartDate.getDate();
     if (sDate < 10) sDate = "0" + sDate.toString();
-    let sMonth = monthsIndices[parsedStartDate.getMonth()];
+    let sMonth = monthsIndices[parsedStartDate.getMonth()+1];
     let sYear = parsedStartDate.getYear();
 
 
     var parsedEndDate = new Date(endDate);
     let eDate = parsedEndDate.getDate();
     if (eDate < 10) eDate = "0" + eDate.toString();
-    let eMonth = monthsIndices[parsedEndDate.getMonth()];
+    let eMonth = monthsIndices[parsedEndDate.getMonth()+1];
     let eYear = parsedEndDate.getYear();
 
     if (sMonth == eMonth){

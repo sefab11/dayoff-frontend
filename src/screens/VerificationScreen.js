@@ -6,7 +6,9 @@ import { SuccessModal, ReviewModal } from "../components";
 import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
-import { joinTrip } from "../services/UserService";
+
+import UserService from "../services/UserService";
+const { joinTrip } = UserService;
 
 const VerifySection = (props) => {
     const {title, valid} = props;

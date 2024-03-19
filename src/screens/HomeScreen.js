@@ -5,8 +5,10 @@ import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../component
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
 
-import { getUserPref } from "../services/UserService";
-import { filterTrips } from "../services/TripsService";
+import UserService from "../services/UserService";
+const { getUserPref } = UserService;
+import TripsService from "../services/TripsService";
+const { filterTrips } = TripsService;
 
 [vw, vh, vmin, vmax] = dimensions;
 

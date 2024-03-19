@@ -10,7 +10,7 @@ const getTripInfoURL = process.env.EXPO_PUBLIC_API_URL + "/trips/details";
 
 //TRIP HANDLING
 
-export const _createNewTrip = (creatorEmail, date, country, numPeople, desc) => {
+const _createNewTrip = (creatorEmail, date, country, numPeople, desc) => {
     const startDate = String(date[0]);
     const endDate = String(date[1]);
 
@@ -40,7 +40,7 @@ export const _createNewTrip = (creatorEmail, date, country, numPeople, desc) => 
     })
 }
 
-export const _getFilteredTrips = (creatorEmail, userEmail, startDate, endDate, country) => {
+const _getFilteredTrips = (creatorEmail, userEmail, startDate, endDate, country) => {
     return fetch(filterTripURL, {
         method: "POST",
         headers: {
@@ -69,7 +69,7 @@ export const _getFilteredTrips = (creatorEmail, userEmail, startDate, endDate, c
     })
 }
 
-export const _joinTrip = (tripID, userEmail) => {
+const _joinTrip = (tripID, userEmail) => {
     return fetch(joinTripURL, {
         method: "POST",
         headers: {
@@ -92,7 +92,7 @@ export const _joinTrip = (tripID, userEmail) => {
     })
 }
 
-export const _leaveTrip = (tripID, userEmail) => {
+const _leaveTrip = (tripID, userEmail) => {
     return fetch(leaveTripURL, {
         method: "POST",
         headers: {
@@ -115,7 +115,7 @@ export const _leaveTrip = (tripID, userEmail) => {
     })
 }
 
-export const _updateTrip = (tripID, numPeople, desc) => {
+const _updateTrip = (tripID, numPeople, desc) => {
     return fetch(updateTripURL, {
         method: "POST",
         headers: {
@@ -139,7 +139,7 @@ export const _updateTrip = (tripID, numPeople, desc) => {
     })
 }
 
-export const _deleteTrip = (tripID, numUsers) => {
+const _deleteTrip = (tripID, numUsers) => {
     return fetch(deleteTripURl, {
         method: "POST",
         headers: {
@@ -162,7 +162,7 @@ export const _deleteTrip = (tripID, numUsers) => {
     })
 }
 
-export const _inviteTrip = (tripID, invitedUserEmail) => {
+const _inviteTrip = (tripID, invitedUserEmail) => {
     return fetch(inviteTripURL, {
         method: "POST",
         headers: {
@@ -185,7 +185,7 @@ export const _inviteTrip = (tripID, invitedUserEmail) => {
     })
 }
 
-export const _getTripInfo = (tripID, userEmail) => {
+const _getTripInfo = (tripID, userEmail) => {
     return fetch(getTripInfoURL, {
         method: "POST",
         headers: {
@@ -213,7 +213,7 @@ export const _getTripInfo = (tripID, userEmail) => {
 
 
 
-const TripsService = {
+export default TripsService = {
     createNewTrip: _createNewTrip,
     filterTrips: _getFilteredTrips,
     joinTrip: _joinTrip,
@@ -222,6 +222,4 @@ const TripsService = {
     updateTrip: _updateTrip,
     deleteTrip: _deleteTrip,
     getTripInfo: _getTripInfo,
-}
-
-export default TripsService;
+};
