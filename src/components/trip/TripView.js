@@ -6,9 +6,9 @@ import { themes, flags } from '../../style';
 import { dimensions } from '../../style';
 import { palette } from '../../style';
 import { createNavigationContainerRef } from '@react-navigation/native';
-import UserService from "../../services/UserService";
 
-const { joinTrip } = UserService;
+import { joinTrip } from "../../services/TripsService";
+
 [vw, vh, vmin, vmax] = dimensions
 
 function formatDate(startDate, endDate){

@@ -6,8 +6,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import React, { useEffect, useState } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 
-import UserService from "../services/UserService";
-const { filterTrips, getMessages } = UserService;
+import { filterTrips } from "../services/TripsService";
+import { getMessages } from "../services/MessageService";
 
 const Tab = createMaterialTopTabNavigator();
 

@@ -2,8 +2,7 @@ import { React, useState, useEffect } from "react";
 import { View, Text, Keyboard, TouchableWithoutFeedback, StatusBar, ScrollView, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { UserCreatedTripView, HeaderBack } from "../components";
 import { palette, themes, dimensions, flags } from "../style";
-import UserService from "../services/UserService";
-const { filterTrips } = UserService;
+import { filterTrips } from "../services/UserService";
 
 //SCREEN FOR THE USERS CREATED TRIPS
 

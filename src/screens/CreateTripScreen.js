@@ -5,11 +5,10 @@ import Modal from "react-native-modal";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
 import { SelectOneDate, SelectOneCountry } from "../components";
-import { CreateTripValidationService } from "../services/ValidationService";
-import UserService from "../services/UserService";
 
-const { isDateValid, isCountryValid, isNumPeopleValid } = CreateTripValidationService;
-const { createNewTrip } = UserService;
+import { isDateValid, isCountryValid, isNumPeopleValid } from "../services/ValidationService";
+import { createNewTrip } from "../services/UserService";
+
 
 //SCREEN TO CREATE A TRIP
 

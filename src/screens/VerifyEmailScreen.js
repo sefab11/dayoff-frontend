@@ -4,8 +4,8 @@ import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
 
-import { VerificationValidationService } from "../services/ValidationService";
-const { isCodeCorrect, verifyUser } = VerificationValidationService;
+//TODO: add in sending otp message and verifying otp message
+
 
 export default VerifyEmailScreen = ({ navigation }) => {
     //TODO: get email from global stored variable
@@ -32,13 +32,13 @@ export default VerifyEmailScreen = ({ navigation }) => {
             //TODO: remove for release
             navigation.replace('FinishProfile');
 
-            const result = await verifyUser(emailAddress).then(status === 200)
-            if (result){
-                navigation.replace('FinishProfile');
-            }
-            else{
-                toggleDialog();
-            }
+            //const result = await verifyUser(emailAddress).then(status === 200)
+            //if (result){
+            //    navigation.replace('FinishProfile');
+            //}
+            //else{
+            //    toggleDialog();
+            //}
         }
         else{
             toggleDialog();

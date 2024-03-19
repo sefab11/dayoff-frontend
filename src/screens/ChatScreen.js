@@ -2,9 +2,12 @@ import { ChatFooter, ChatHeader, JoinedMessage, UserMessage, Message } from "../
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, View, Image, ScrollView } from "react-native";
 import { palette, dimensions, flags } from "../style";
 import React, { useState, useEffect } from "react";
-import UserService from "../services/UserService";
 
-const { getMessages, sendMessage, getTripInfo, getUserData } = UserService;
+import { getUserData } from "../services/UserService";
+import { getTripInfo } from "../services/TripsService";
+import { getMessages, sendMessage } from "../services/MessageService";
+
+
 [vw, vh, vmin, vmax] = dimensions
 
 const formatTime = (time) => {

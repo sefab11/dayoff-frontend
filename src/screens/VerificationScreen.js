@@ -6,11 +6,7 @@ import { SuccessModal, ReviewModal } from "../components";
 import { StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { palette, themes } from "../style";
-import { VerificationValidationService } from "../services/ValidationService";
-import UserService from "../services/UserService";
-
-const { isCodeCorrect } = VerificationValidationService;
-const { joinTrip } = UserService;
+import { joinTrip } from "../services/UserService";
 
 const VerifySection = (props) => {
     const {title, valid} = props;
@@ -81,7 +77,7 @@ export default VerificationScreen = ({ navigation }) => {
         photo.required = photo.value == null;
         linkedin.required = linkedin.value == null;
         //check if code is correct
-        code.required = isCodeCorrect(code.value);
+        code.required = false//isCodeCorrect(code.value);
 
 
         //for testing

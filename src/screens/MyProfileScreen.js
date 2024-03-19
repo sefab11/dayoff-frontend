@@ -12,9 +12,9 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useEffect } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
-const UserService = "../services/UserService";
 
-const { logoutUser } = UserService;
+import { logoutUser } from "../services/UserService";
+
 
 const EditProfile = () => {
     const navigation = useNavigation();

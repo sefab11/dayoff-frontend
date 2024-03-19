@@ -4,8 +4,9 @@ import Modal from "react-native-modal";
 import { Button, TripViewMatch, TripView, BottomNav, TopNav } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes, dimensions, flags } from "../style";
-import UserService from "../services/UserService";
-const { filterTrips, getUserPref } = UserService;
+
+import { getUserPref } from "../services/UserService";
+import { filterTrips } from "../services/TripsService";
 
 [vw, vh, vmin, vmax] = dimensions;
 

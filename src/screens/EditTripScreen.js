@@ -5,8 +5,7 @@ import { palette, themes } from "../style";
 import { useState } from "react";
 import { ShowSelectedDate, ShowSelectedCountry } from "../components";
 
-import UserService from "../services/UserService";
-const { updateTrip } = UserService;
+import { updateTrip } from "../services/UserService";
 
 
 export default EditTripScreen = ({ navigation }) => {

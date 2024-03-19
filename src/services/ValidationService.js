@@ -1,4 +1,4 @@
-//REGISTER SCREEN METHODS
+// REGISTER SCREEN METHODS
 const emailExistsURL = process.env.EXPO_PUBLIC_API_URL + "/email-exists"
 
 //checks if name isnt empty
@@ -16,7 +16,7 @@ export const _isPasswordValid = (password) => {
     return true;
 }
 
-//FINISH PROFILE SCREEN METHODS
+// FINISH PROFILE SCREEN METHODS
 
 //checks if country is in list of all countries
 export const _isCountryOfOriginValid = (country) => {
@@ -36,35 +36,7 @@ export const _isProfessionValid = (job) => {
     return job != '';
 }
 
-//VERIFICATION SCREEN METHODS
-const codeURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
-
-export const _isCodeCorrect = (code) => {
-    return fetch(codeURL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            'email': email,
-            'code': JSON.stringify(code),
-        })
-    })
-    .then((response) => response.json())
-    .then((data) => {
-        try {
-            let token = JSON.parse(data.body).session_token;
-            return {statusCode: data.statusCode, sessionToken: token};
-        }
-        catch {}
-        return {statusCode: data.statusCode};
-    })
-    .catch((error) => {
-        return {statusCode: 400};
-    })
-}
-
-//CREATE TRIP SCREEN METHODS
+// CREATE TRIP SCREEN METHODS
 
 //check if there is a date
 export const _isDateValid = (date) => {
@@ -85,34 +57,11 @@ export const _isNumPeopleValid = (num) => {
     return true;
 }
 
-//VALIDATION SERVICES
-
-const RegisterValidationService = {
-    isNameValid: _isNameValid,
-    isPasswordValid: _isPasswordValid,
-};
-
-const FinishProfileValidationService = {
-    isCountryValid: _isCountryOfOriginValid,
-    isProfessionValid: _isProfessionValid,
-};
-
-const VerificationValidationService = {
-    isCodeCorrect: _isCodeCorrect,
-};
-
-const CreateTripValidationService = {
-    isDateValid: _isDateValid,
-    isCountryValid: _isCountryValid,
-    isNumPeopleValid: _isNumPeopleValid,
-};
-
 const FullValidationService = {
     isNameValid: _isNameValid,
     isPasswordValid: _isPasswordValid,
     isCountryValid: _isCountryOfOriginValid,
     isProfessionValid: _isProfessionValid,
-    isCodeCorrect: _isCodeCorrect,
     isDateValid: _isDateValid,
     isCountryValid: _isCountryValid,
     isNumPeopleValid: _isNumPeopleValid,
@@ -120,9 +69,3 @@ const FullValidationService = {
 
 
 export default FullValidationService;
-export {
-    RegisterValidationService,
-    FinishProfileValidationService,
-    VerificationValidationService,
-    CreateTripValidationService,
-};

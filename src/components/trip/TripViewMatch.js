@@ -6,9 +6,10 @@ import { themes, flags } from '../../style';
 import { dimensions } from '../../style';
 import { palette } from '../../style';
 import { createNavigationContainerRef } from '@react-navigation/native';
-import UserService from "../../services/UserService";
 
-const { joinTrip } = UserService;
+import { joinTrip } from "../../services/UserService";
+
+
 [vw, vh, vmin, vmax] = dimensions
 
 

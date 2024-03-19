@@ -4,11 +4,9 @@ import Modal from "react-native-modal";
 import { Button, HeaderBack, PasswordInput, TextInput, EmailModal, Dialog } from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
-import UserService from "../services/UserService";
-import { RegisterValidationService } from "../services/ValidationService";
+import { registerUser } from "../services/UserService";
+import { isNameValid, isPasswordValid } from "../services/ValidationService";
 
-const { registerUser } = UserService;
-const { isNameValid, isPasswordValid } = RegisterValidationService;
 
 export default RegisterScreen = ({ navigation }) => {
     //TODO: for release, turn 'required' values to true for required field

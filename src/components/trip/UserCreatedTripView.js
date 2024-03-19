@@ -8,8 +8,7 @@ import { themes, flags } from '../../style';
 import { dimensions } from '../../style';
 import { palette } from '../../style';
 import { createNavigationContainerRef } from '@react-navigation/native';
-import UserService from "../../services/UserService";
-const { joinTrip, deleteTrip } = UserService;
+import { joinTrip, deleteTrip } from "../../services/UserService";
 
 [vw, vh, vmin, vmax] = dimensions
 

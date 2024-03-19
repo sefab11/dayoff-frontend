@@ -4,9 +4,8 @@ import { Button, CountryMultiSelector, Header, TextInput, StatusBar } from '../c
 import { SelectManyDates, SelectManyCountries } from '../components';
 import { StyleSheet } from 'react-native';
 import { palette, themes } from '../style';
-import UserService from "../services/UserService";
 
-const { putUserPref, getUserPref } = UserService;
+import { putUserPref, getUserPref } from "../services/UserService";
 
 
 const GetMatchedScreen = ({ navigation }) => {

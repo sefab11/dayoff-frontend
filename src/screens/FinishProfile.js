@@ -6,13 +6,9 @@ import { palette, themes } from '../style';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import Modal from "react-native-modal";
-import UserService from "../services/UserService";
 
-const { putExtraData } = UserService;
-
-import { FinishProfileValidationService } from "../services/ValidationService";
-
-const { isCountryValid, isProfessionValid } = FinishProfileValidationService;
+import { putExtraData } from "../services/UserService";
+import { isCountryValid, isProfessionValid } from "../services/ValidationService";
 
 const FinishProfile = ({ navigation }) => {
     //TODO: change 'required' values to true for required fields ( for release )
