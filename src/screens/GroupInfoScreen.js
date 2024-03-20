@@ -88,7 +88,7 @@ export default GroupInfoScreen = ({ navigation }) => {
     ]
 
     const leaveFromTrip = async () => {
-        await leaveTrip(trip.trip_id, global.currentUser)
+        await leaveTrip(trip.trip_id, emailAddress)
         .then(status => {
             if (status === 200) navigation.replace('Home');
         })

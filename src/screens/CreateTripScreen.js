@@ -15,6 +15,9 @@ const { createNewTrip } = TripsService;
 //SCREEN TO CREATE A TRIP
 
 export default CreateTripScreen = ({ navigation }) => {
+    //TODO: set global email and fetch here
+    const emailAddress = "sepehr@gmail.com";
+
     const [date, setDate] = useState({
         'value': '',
         'valid': null,
@@ -61,7 +64,7 @@ export default CreateTripScreen = ({ navigation }) => {
 
     const createTrip = async () => {
         if (areFieldsValid()){
-            await createNewTrip(global.currentUser, date.value, country.value, Number(numPeople.value), desc.value)
+            await createNewTrip(emailAddress, date.value, country.value, Number(numPeople.value), desc.value)
             .then(status => {
                 if (status === 200) navigation.navigate('Home');
                 else toggleDialog();

@@ -92,12 +92,11 @@ export default VerificationScreen = ({ navigation }) => {
 
     const verify = async () => {
         if (areFieldsValid()) {
-            await joinTrip(trip.trip_id, global.currentUser)
+            await joinTrip(trip.trip_id, email)
             .then(status => {
-                if (status === 200){
-                    global.currentTrip = trip;
-                    navigation.replace('Chat');
-                }
+                if (status === 200) navigation.replace('Chat', {
+                    trip: trip,
+                })
                 else navigation.replace('Home');
             })
         }

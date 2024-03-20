@@ -142,7 +142,7 @@ const UserCreatedTripView = (props) => {
                 <View style={styles.goingGroup}>
                     <Image style={styles.goingIcon} source={require("../../../assets/icons/people.png")} />
                     <Text style={styles.goingText}>
-                        {trip.participants.length}/{trip.max_people}
+                        {trip.participants.length}/{trip.participants.length}
                     </Text>
                 </View>
             </View>

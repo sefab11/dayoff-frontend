@@ -96,20 +96,7 @@ const Settings = (props) => {
             </View>
 
             <View style={styles.logoutContainer}>
-                <TouchableOpacity onPress={async () => {
-                    console.log("logging out");
-
-                    await logoutUser(global.currentUser.email_id)
-                    .then(status => {
-                        if (status === 200){
-                            // nullify global variables
-                            global.currentUser = null;
-                            global.currentTrip = null;
-
-                            navigation.replace('Welcome');
-                        }
-                    })
-                }}
+                <TouchableOpacity onPress={() => {}}
                 style={{display: 'flex', flexDirection: 'row', columnGap: -10}}>
                     <Image
                     source={require("../../assets/icons/exit.png")}

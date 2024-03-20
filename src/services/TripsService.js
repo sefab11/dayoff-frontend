@@ -10,7 +10,7 @@ const getTripInfoURL = process.env.EXPO_PUBLIC_API_URL + "/trips/details";
 
 //TRIP HANDLING
 
-const _createNewTrip = (creator, date, country, numPeople, desc) => {
+const _createNewTrip = (creatorEmail, date, country, numPeople, desc) => {
     const startDate = String(date[0]);
     const endDate = String(date[1]);
 
@@ -20,7 +20,7 @@ const _createNewTrip = (creator, date, country, numPeople, desc) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "creator": creator,
+            "creator_email": creatorEmail,
             "start_date": startDate,
             "end_date": endDate,
             "location": country,
@@ -69,7 +69,7 @@ const _getFilteredTrips = (creatorEmail, userEmail, startDate, endDate, country)
     })
 }
 
-const _joinTrip = (tripID, user) => {
+const _joinTrip = (tripID, userEmail) => {
     return fetch(joinTripURL, {
         method: "POST",
         headers: {
@@ -77,7 +77,7 @@ const _joinTrip = (tripID, user) => {
         },
         body: JSON.stringify({
             "trip_id": tripID,
-            "user": user,
+            "email": userEmail,
         }),
     })
     .then(response => {
@@ -92,7 +92,7 @@ const _joinTrip = (tripID, user) => {
     })
 }
 
-const _leaveTrip = (tripID, user) => {
+const _leaveTrip = (tripID, userEmail) => {
     return fetch(leaveTripURL, {
         method: "POST",
         headers: {
@@ -100,7 +100,7 @@ const _leaveTrip = (tripID, user) => {
         },
         body: JSON.stringify({
             "trip_id": tripID,
-            "user": user,
+            "email": userEmail,
         }),
     })
     .then(response => {
