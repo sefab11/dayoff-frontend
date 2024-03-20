@@ -56,7 +56,10 @@ const ChatHeader = (props) => {
                 </View>
                 <View style={styles.mainText}>
                     <Image source={location.flag} style={styles.mainImg}/>
-                    <Text style={styles.title}>{location.name} | {date}</Text>
+                    {/* shorten location name if too long */}
+                    <Text style={styles.title}>
+                        {location.name.length > 10 ? location.name.substring(0, 10): location.name} | {date}
+                        </Text>
                 </View>
             </View>
 

@@ -48,14 +48,13 @@ const formatTime = (time) => {
 
     // if theres a date then parse it and format it into hh:mm am/pm
     var parsedTime = new Date(time);
+    var formattedTime = "";
+    const hours = parsedTime.getHours();
+    if (hours < 10 || (hours > 12 && hours < 22)) formattedTime += "0";
 
-    var hours = parsedTime.getHours();
-    var mins = parsedTime.getMinutes();
+    formattedTime += parsedTime.toLocaleTimeString().replace(/([\d]:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
 
-    if (hours < 12){
-        return ("0" + hours + ":" + mins + " AM");
-    }
-    else return ("0" + (hours-12) + ":" + mins + " PM");
+    return formattedTime;
 }
 
 
@@ -92,7 +91,7 @@ const TripChatView = (props) => {
                     <Text style={styles.countryText}>{country.code}</Text>
                 }
                 <View style={styles.middleGroup}>
-                    <Text style={styles.countryText}>{country.name} | {date}</Text>
+                    <Text style={styles.countryText}>{country.name.length > 10 ? country.name.substring(0, 10) : country.name} | {date}</Text>
                     {
                         lastMessage.sender && lastMessage.message ?
                         <View style={styles.messageGroup}>

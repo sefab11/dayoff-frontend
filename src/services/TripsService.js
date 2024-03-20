@@ -203,7 +203,7 @@ const _getTripInfo = (tripID, userEmail) => {
         return response.response;
     })
     .then((response) => {
-        return response.body;
+        return response.participants;
     })
     .catch((error) => {
         console.log(error);

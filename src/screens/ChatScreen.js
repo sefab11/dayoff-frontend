@@ -5,8 +5,6 @@ import React, { useState, useEffect } from "react";
 
 import UserService from "../services/UserService";
 const { getUserData } = UserService;
-import TripsService from "../services/TripsService";
-const { getTripInfo } = TripsService;
 import MessageService from "../services/MessageService";
 const { getMessages, sendMessage } = MessageService;
 
@@ -19,19 +17,19 @@ const formatTime = (time) => {
 
     // if theres a date then parse it and format it into hh:mm am/pm
     var parsedTime = new Date(time);
+    var formattedTime = "";
+    const hours = parsedTime.getHours();
+    if (hours < 10 || (hours > 12 && hours < 22)) formattedTime += "0";
 
-    var hours = parsedTime.getHours();
-    var mins = parsedTime.getMinutes();
+    formattedTime += parsedTime.toLocaleTimeString().replace(/([\d]:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
 
-    if (hours < 10){
-        return ("0" + hours + ":" + mins + " AM");
-    }
-    else return ((hours-12) + ":" + mins + " PM");
+    return formattedTime;
 }
 
 
 export default ChatScreen = ({ navigation }) => {
     const trip = global.currentTrip;
+    console.log(trip);
     // TODO: change to global.emailAddress
     const currentUserId = 'sepehr@gmail.com';
 
@@ -64,54 +62,30 @@ export default ChatScreen = ({ navigation }) => {
         get participants based on trip id -> loop through each user email to get
         their user_name and profilePic from user db
     */
-    const members = [
-        {
-            id: "1",
-            name: 'Jane',
-            profilePic: require('../../assets/images/profilePics/1.jpg'),
-        },
-        {
-            id: "2",
-            name: 'Gunpei',
-            profilePic: require('../../assets/images/profilePics/2.jpg'),
-        },
-        {
-            id: "3",
-            name: 'Peter',
-            profilePic: require('../../assets/images/profilePics/3.jpg'),
-        },
-        {
-            id: "4",
-            name: 'Summer',
-            profilePic: require('../../assets/images/profilePics/4.jpg'),
-        },
-        {
-            id: "sepehrb@gmail.com",
-            name: 'Miryam',
-            profilePic: require('../../assets/images/profilePics/5.jpg'),
-        },
-        {
-            id: "sepehr@gmail.com",
-            name: 'Ambuj',
-            profilePic: require('../../assets/images/profilePics/6.jpg'),
-        },
-        {
-            id: "7",
-            name: 'Craig',
-            profilePic: null
-        },
-        {
-            id: "8",
-            name: 'Mary',
-            profilePic: null
-        }
-    ]
 
+    async function getMembers(){
+        for (let i = 0; i < trip.participants.length; i++){
+            const member = trip.participants[i];
+            await getUserData(member)
+            .then(data => {
+                members.push(data);
+            })
+        }
+
+        setMembers(members);
+        console.log("b" + JSON.stringify(members));
+    }
+
+    const [members, setMembers] = useState([]);
     const [messages, setMessages] = useState(null);
     const [sentMessage, setSentMessage] = useState("");
 
     useEffect(() => {
-    // everytime sent message is updated then send message to db and refresh messages
+        getMembers();
+    }, [members == []])
+
+    useEffect(() => {
+        // everytime sent message is updated then send message to db and refresh messages
         getChatMessages();
         if (sentMessage != "") sendChatMessage();
         setSentMessage("");
@@ -123,19 +97,21 @@ export default ChatScreen = ({ navigation }) => {
             <View style={styles.page}>
                 <ChatHeader
                 images={members.map((member) =>
-                member.profilePic != null
-                ? <Image style={styles.profilePic} source={member.profilePic} />
+                member.profile_picture != null
+                ? <Image style={styles.profilePic} source={member.profile_picture} />
                 : null
                 )}
                 />
                 <ScrollView>
                     <TouchableWithoutFeedback>
                         <View style={styles.messagesGroup}>
-                            {messages ?
+                            {messages && members.length > 0 ?
                                 messages.map((m) => {
+                                    console.log("a" + JSON.stringify(m));
+                                    if (!m) return;
                                     // TODO: add joined boolean variable to message object in db
-                                    if(m.joined)
-                                        return (<JoinedMessage>{members.find((u) => u.id === m.sender).name}</JoinedMessage>)
+                                    else if(m.joined)
+                                        return (<JoinedMessage>{members.find((u) => u.email_id === m.sender).user_name}</JoinedMessage>)
                                     else if(m.sender === currentUserId)
                                         return(
                                         <UserMessage
@@ -144,17 +120,17 @@ export default ChatScreen = ({ navigation }) => {
                                         </UserMessage>
                                         )
                                     else
+                                        console.log("b" + members.length);
                                         return(
                                         <Message
-                                        imageSrc={members.find((u) => u.id === m.sender).profilePic}
-                                        name={members.find((u) => u.id === m.sender).name}
+                                        imageSrc={members.find((u) => u.email_id === m.sender).profile_picture}
+                                        name={members.find((u) => u.email_id === m.sender).user_name}
                                         time={formatTime(m.timestamp)}>
                                             {m.message}
                                         </Message>
                                         )
                                 })
-                            : null
-                            }
+                            : null}
                         </View>
                     </TouchableWithoutFeedback>
                 </ScrollView>
