@@ -44,13 +44,14 @@ function formatDate(startDate, endDate){
 };
 
 
-
 const TripView = (props) => {
     const {style, children, trip, ...rest} = props;
     const email = global.currentUser.email_id;
     const navigation = props.navigation;
 
     country = trip.location;
+
+    console.log(trip);
     
     return (
         <View style={styles.trip}>
@@ -114,7 +115,7 @@ const TripView = (props) => {
                 </Button>
                 <View style={styles.goingGroup}>
                     <Image style={styles.goingIcon} source={require('../../../assets/icons/people.png')} />
-                    <Text style={styles.goingText}>{trip.participants ? trip.participants.length : 0}/{trip.participants.length}</Text>
+                    <Text style={styles.goingText}>{trip.participants ? trip.participants.length : 0}/{trip.max_people}</Text>
                 </View>
             </View>
         </View>
