@@ -23,7 +23,7 @@ async function getTrips(setTripsState, specificTrips){
     let currentDate = new Date();
 
     // get all trips that the user has joined
-    await filterTrips(null, 'sepehr@gmail.com', null, null, null)
+    await filterTrips(null, 'sepehr@gmail.com', null, null)
     .then(async response => {
         // parse response to get array of trips
         response = JSON.parse(response)['trips'];

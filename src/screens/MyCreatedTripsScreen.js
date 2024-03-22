@@ -12,7 +12,7 @@ export default MyCreatedTrips = ({navigation}) => {
     const [trips, setTrips] = useState([]);
 
     const matchTrips = async () => {
-        await filterTrips(global.currentUser.email_id, null, null, null, null)
+        await filterTrips(global.currentUser.email_id, null, null, null)
         .then(response => {
             setTrips(JSON.parse(response)['trips'])
         })

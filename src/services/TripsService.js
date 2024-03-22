@@ -40,7 +40,7 @@ const _createNewTrip = (creatorEmail, date, country, numPeople, desc) => {
     })
 }
 
-const _getFilteredTrips = (creatorEmail, userEmail, startDate, endDate, country) => {
+const _getFilteredTrips = (creatorEmail, userEmail, dates, countries) => {
     return fetch(filterTripURL, {
         method: "POST",
         headers: {
@@ -49,9 +49,8 @@ const _getFilteredTrips = (creatorEmail, userEmail, startDate, endDate, country)
         body: JSON.stringify({
             "creator_email": creatorEmail,
             "user_email": userEmail,
-            "location": country,
-            "start_date": startDate,
-            "end_date": endDate,
+            "locations": countries,
+            "dates": dates,
         }),
     })
     .then(response => {

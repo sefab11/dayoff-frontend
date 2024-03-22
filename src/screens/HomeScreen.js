@@ -38,36 +38,20 @@ const ForYouScreen = (props) => {
         console.log("a" + prefDates);
         console.log("a" + prefCountries);
 
-        // then loop through each dates and countries then get filtered trips
-        for (let i = 0; i < prefDates.length; i++){
-            let date = prefDates[i];
-            for (let j = 0; j < prefCountries.length; j++){
-                let country = prefCountries[j];
+        // TODO: check that returned trips are correct
 
-                if (date[0] === null && date[1] === null && country === null){
-                    continue;
-                }
+        // then pass the [[], []] dates and [{}, {}] countries arrays to filtertrips
+        await filterTrips(null, null, prefDates, prefCountries)
+        .then(response => {
+            response = JSON.parse(response)['trips'];
+            if (response === []) return;
 
-                await filterTrips(null, null, date[0], date[1], country)
-                .then(response => {
-                    response = JSON.parse(response)['trips'];
-                    if (response === []) return;
-
-                    response.forEach(newTrip => {
-                        tempTrips.push(newTrip);
-                    })
-                })
-            }
-        }
+            response.forEach(newTrip => {
+                tempTrips.push(newTrip);
+            })
+        })
         console.log("trips pushed");
         console.log("b" + tempTrips);
-
-        // filter out duplicate trips
-        tempTrips = tempTrips.filter(function compare(item, index){
-            return tempTrips.indexOf(item) == index;
-        })
-        console.log("trips filtered");
-        console.log("c" + tempTrips);
 
         // set trips to temp trips
         setTrips(tempTrips);
@@ -124,7 +108,7 @@ const ExploreScreen = (props) => {
     const [trips, setTrips] = useState([]);
 
     const exploreTrips = async () => {
-        await filterTrips(null, null, null, null, null)
+        await filterTrips(null, null, null, null)
         .then(response => {
             setTrips(JSON.parse(response)['trips']);
         })
