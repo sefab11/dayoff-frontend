@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     },
     message: {
         alignSelf: 'center',
-        width: 80 * vmin,
+        width: 85 * vmin,
         fontFamily: 'Lato-Regular',
         fontSize: 3.6 * vmin,
         color: palette.grey,
@@ -93,10 +93,12 @@ const styles = StyleSheet.create({
 
 
     segmentedInput: {
-        width: 80 * vmin,
+        width: 85 * vmin,
+        alignItems: 'flex-start',
     },
     segment: {
         height: 17 * vmin,
+        marginHorizontal: 1,
         backgroundColor: palette.white,
         fontSize: 7 * vmin,
         textAlign: 'left',

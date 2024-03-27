@@ -4,7 +4,7 @@ import { LinkedinInput, PhotoInput, Dialog } from "../components";
 import Modal from "react-native-modal";
 import { SuccessModal, ReviewModal } from "../components";
 import { StyleSheet } from "react-native";
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { palette, themes } from "../style";
 
 import UserService from "../services/UserService";
@@ -49,56 +49,42 @@ const CheckBox = (props) => {
 
 
 export default VerificationScreen = ({ navigation }) => {
-    // TODO: call getUserData and get its photo and linkedin values, and email values
+    useEffect(() => {
+        sendOtp(global.currentUser.email_id, global.currentUser.user_name);
+        getUserData(global.currentUser.email_id)
+        .then(response => {
+            setPhoto(response.profile_picture);
+            setLinkedin(response.linkedin);
+        })
+    }, [])
 
-    const [photo, setPhoto] = useState({
-        'value': null,
-        'required': global.currentUser.profile_photo == null,
-    });
-    const [linkedin, setLinkedin] = useState({
-        'value': null,
-        'required': linkedinURL == null,
-    });
+    const [photo, setPhoto] = useState(null);
+    const [linkedin, setLinkedin] = useState(null);
+
     const [emailChecked, setEmailChecked] = useState(true);
     const [idChecked, setIdChecked] = useState(false);
 
-    const [code, setCode] = useState({
-        'value': '',
-        'required': true,
-    });
+    const [code, setCode] = useState('');
+    const [codeValid, setCodeValid] = useState(false);
 
     const trip = global.currentTrip;
-    const email = global.currentUser.email_id;
+    const [email, setEmail] = useState(global.currentUser.email_id);
 
-    const updatedState = (stateDict, newVal) => {
-        return Object.assign({}, stateDict, {'value': newVal});
-    }
+    async function areFieldsValid(){
+        await verifyOtp(email)
+        .then(status => {
+            if (status === 200) setCodeValid(true);
+            else toggleDialog();
+        })
 
-    function areFieldsValid(){
-        return true;
-        //check if any required fields have been inputted/handled
-        //handlePhoto/handleLinkedin should update the database
-        photo.required = photo.value == null;
-        linkedin.required = linkedin.value == null;
-        //check if code is correct
-        code.required = false//isCodeCorrect(code.value);
-
-
-        //for testing
-        console.log(photo);
-        console.log(linkedin);
-        console.log(code);
-
-        return !photo.required && !linkedin.required && !code.required;
+        return photo != null && linkedin != null && codeValid;
     }
 
     const verify = async () => {
         if (areFieldsValid()) {
             await joinTrip(trip.trip_id, email)
             .then(status => {
-                if (status === 200) navigation.replace('Chat', {
-                    trip: trip,
-                })
+                if (status === 200) navigation.replace('Chat');
                 else navigation.replace('Home');
             })
         }
@@ -127,9 +113,9 @@ export default VerificationScreen = ({ navigation }) => {
                         <View style={styles.section} borderBottomWidth={0}>
                             <VerifySection
                             title='1. Add Profile Photo*'
-                            valid={!photo.required} />
+                            valid={photo != null} />
                             <PhotoInput width={12 * vh} camRatio={'40%'}
-                            onPhotoSelected={(data) => updatedState(photo, data)} />
+                            onPhotoSelected={(data) => setPhoto(data)} />
                         </View>
 
                         <View style={styles.border} />
@@ -138,9 +124,9 @@ export default VerificationScreen = ({ navigation }) => {
                         <View style={styles.section}>
                             <VerifySection
                             title='2. Add Linkedin Profile*'
-                            valid={!linkedin.required} />
+                            valid={linkedin != null} />
                             <LinkedinInput horMargin={10} verMargin={10}
-                            onComponentPress={(data) => updatedState(linkedin, data)} />
+                            onComponentPress={(data) => setLinkedin(data)} />
                         </View>
 
 
@@ -149,7 +135,7 @@ export default VerificationScreen = ({ navigation }) => {
                         <View style={styles.section}>
                             <VerifySection
                             title='3. Verify With Your:'
-                            valid={!code.required} />
+                            valid={codeValid} />
 
                             <View marginBottom={5 * vh}>
                                 <CheckBox
@@ -188,18 +174,22 @@ export default VerificationScreen = ({ navigation }) => {
                                 <View marginBottom={5 * vh} >
                                     <TextInput style={styles.textInput} theme={themes.textInput}
                                     mode='outlined' label="Work Email or School/Institution Email*" placeholder='name@organisation.com'
-                                    />
+                                    onChangeText={(data) => setEmail(data)} />
 
                                     <View style={{display: 'flex', flexDirection: 'row', marginVertical: 10}} >
                                         <Button style={{backgroundColor: palette.purple, paddingHorizontal: 10}}
                                         //TODO: add function here to send code
-                                        onPress={() => {}}>
+                                        onPress={async () => {
+                                            await sendOtp(email, global.currentUser.user_name);
+                                        }}>
                                             <Text style={{color: palette.white}}>Get Code</Text>
                                         </Button>
 
                                         <Button style={{marginLeft: 'auto'}}
                                         //TODO: add function here to send code
-                                        onPress={() => {}}>
+                                        onPress={async () => {
+                                            await sendOtp(email, global.currentUser.user_name);
+                                        }}>
                                             <Text style={{color: palette.purple}}>Resend Code</Text>
                                         </Button>
                                     </View>
@@ -207,7 +197,7 @@ export default VerificationScreen = ({ navigation }) => {
 
                                 <View marginBottom={5 * vh}>
                                     <SegmentedInput
-                                    length={5}
+                                    length={6}
                                     style={styles.segmentedInput}
                                     segmentStyle={styles.segment}
                                     theme={themes.textInput}
@@ -215,7 +205,7 @@ export default VerificationScreen = ({ navigation }) => {
                                     label='Enter verification code sent to your email here*'
                                     labelStyle={styles.message}
                                     keyboardType='numeric'
-                                    onCodeChange={(data) => setCode(code => updatedState(code, data))} />
+                                    onCodeChange={(data) => setCode(data)} />
                                 </View>
 
                             </View>
@@ -297,10 +287,13 @@ const styles = StyleSheet.create({
 
 
     segmentedInput: {
-        width: 80 * vmin,
+        width: 85 * vmin,
+        alignItems: 'flex-start',
     },
     segment: {
         height: 17 * vmin,
+        width: 13 * vmin,
+        marginHorizontal: 1,
         backgroundColor: palette.white,
         fontSize: 7 * vmin,
         textAlign: 'left',
