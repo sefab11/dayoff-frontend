@@ -8,7 +8,8 @@ const getUserDataURL = process.env.EXPO_PUBLIC_API_URL + "/getUserData";
 const putPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/putPref";
 const getPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/getPref";
 
-//LOGGING IN / REGISTERING
+const sendOtpURL = process.env.EXPO_PUBLIC_API_URL + "/send-otp";
+const verifyOtpURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
 
 const _loginUser = (email, password) => {
     return fetch(loginURL, {
@@ -182,6 +183,52 @@ const _getUserPreferences = (email) => {
     })
 }
 
+const _sendOtpMessage = (email, username) => {
+    return fetch(sendOtpURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            'email': email,
+            'user_name': username
+        })
+    })
+    .then(response => {
+        return {response: response.json(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
+const _verifyOtpMessage = (email, otp) => {
+    return fetch(verifyOtpURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            'email': email,
+            'otp': otp,
+        })
+    })
+    .then(response => {
+        return {response: response.json(), status: response.status};
+    })
+    .then((response) => {
+        return response.status;
+    })
+    .catch((error) => {
+        console.log(error);
+        return 400;
+    })
+}
+
 
 export default UserService = {
     loginUser: _loginUser,
@@ -192,4 +239,7 @@ export default UserService = {
     getUserData: _getUserData,
     putUserPref: _putUserPreferences,
     getUserPref: _getUserPreferences,
+
+    sendOtp: _sendOtpMessage,
+    verifyOtp: _verifyOtpMessage,
 };

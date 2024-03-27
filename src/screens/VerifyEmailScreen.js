@@ -1,59 +1,41 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView } from "react-native";
 import { Button, Header, SegmentedInput, HeaderBack, Image } from "../components";
 import { StyleSheet } from "react-native";
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { palette, themes } from "../style";
 
-//TODO: add in sending otp message and verifying otp message
+
+import UserService from "../services/UserService";
+const { sendOtp, verifyOtp } = UserService;
 
 
 export default VerifyEmailScreen = ({ navigation }) => {
-    //TODO: get email from global stored variable
-    const emailAddress = 'name@workmail.com';
-
-    //TODO: reset the required to proper values
-    const [code, setCode] = useState({
-        'value': '',
-        'valid': null,
-        'required': false //true,
-    });
+    const [code, setCode] = useState('');
 
     const updatedState = (stateDict, newVal) => {
         return Object.assign({}, stateDict, {'value': newVal});
     }
 
-    function areInputsValid(){
-        return true;
-        //return (isCodeCorrect(code.value) || !code.required);
-    }
-
     async function verify(){
-        if (areInputsValid()){
-            //TODO: remove for release
-            navigation.replace('FinishProfile');
-
-            //const result = await verifyUser(emailAddress).then(status === 200)
-            //if (result){
-            //    navigation.replace('FinishProfile');
-            //}
-            //else{
-            //    toggleDialog();
-            //}
-        }
-        else{
-            toggleDialog();
-        }
+        await verifyOtp(global.currentUser.email_id, code.value)
+        .then(status => {
+            if (status === 200) navigation.navigate('FinishProfile');
+        })
     }
+
+    useEffect(() => {
+        sendOtp(global.currentUser.email_id, global.currentUser.user_name);
+    }, [])
 
     return (
         <TouchableWithoutFeedback>
                 <View style={styles.page}>
                     <HeaderBack>Verify Email</HeaderBack>
-                    <Text style={styles.message}>We’ve sent a verification code to  {emailAddress}</Text>
+                    <Text style={styles.message}>We’ve sent a verification code to  {global.currentUser.email_id}</Text>
 
                     <View style={styles.section}>
                         <SegmentedInput
-                            length={5}
+                            length={6}
                             style={styles.segmentedInput}
                             segmentStyle={styles.segment}
                             theme={themes.textInput}
@@ -61,14 +43,13 @@ export default VerifyEmailScreen = ({ navigation }) => {
                             label={'Enter code'}
                             labelStyle={styles.title}
                             keyboardType='numeric'
-                            onCodeChange={(data) => setCode(code => updatedState(code, data))}
+                            onCodeChange={(data) => setCode(code => code + data)}
                         />
                     </View>
 
                     <View style={styles.resendContainer}>
                         <TouchableOpacity
-                            //TODO: call otp function on press
-                            onPress={() => console.log("TBA otp on press")}
+                            onPress={() => sendOtp(global.currentUser.email_id, global.currentUser.user_name)}
                         >
                             <Text style={styles.resendText}>
                                 Resend Verification Code

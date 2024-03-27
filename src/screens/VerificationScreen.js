@@ -8,7 +8,9 @@ import { React, useState } from "react";
 import { palette, themes } from "../style";
 
 import UserService from "../services/UserService";
-const { joinTrip } = UserService;
+import TripsService from "../services/TripsService";
+const { getUserData, sendOtp, verifyOtp } = UserService;
+const { joinTrip } = TripsService;
 
 const VerifySection = (props) => {
     const {title, valid} = props;
@@ -51,7 +53,7 @@ export default VerificationScreen = ({ navigation }) => {
 
     const [photo, setPhoto] = useState({
         'value': null,
-        'required': photoData == null,
+        'required': global.currentUser.profile_photo == null,
     });
     const [linkedin, setLinkedin] = useState({
         'value': null,
