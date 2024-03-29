@@ -69,6 +69,7 @@ const SelectOneDate = (props) => {
 
     function updateDates(newDate){
         if (dates.includes(newDate) || newDate.includes("undefined")) return;
+
         //reassign dates to a 1-length arr
         setDates(newDate);
         setStartDate('');
@@ -87,6 +88,9 @@ const SelectOneDate = (props) => {
 
         setModalVisible(!isModalVisible);
         if (!isModalVisible) return;
+
+        if (startDate == "" || endDate == "") return;
+
         //add a new formatted date when disabling the calender
         updateDates([startDate, endDate]);
     }

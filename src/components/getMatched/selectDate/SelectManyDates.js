@@ -106,6 +106,8 @@ const SelectManyDates = (props) => {
         setModalVisible(!isModalVisible);
         if (!isModalVisible) return;
 
+        if (startDate == "" || endDate == "") return;
+
         //add new data when calender is closed
         const newDate = [startDate, endDate];
         updateDates(newDate);
