@@ -38,8 +38,6 @@ const ForYouScreen = (props) => {
         console.log("a" + prefDates);
         console.log("a" + prefCountries);
 
-        // TODO: check that returned trips are correct
-
         // then pass the [[], []] dates and [{}, {}] countries arrays to filtertrips
         await filterTrips(null, null, prefDates, prefCountries)
         .then(response => {
@@ -47,6 +45,10 @@ const ForYouScreen = (props) => {
             if (response === []) return;
 
             response.forEach(newTrip => {
+                // check if user email is in participants and if so then dont push
+                if (newTrip.participants.includes(global.currentUser.email_id)){
+                    return;
+                }
                 tempTrips.push(newTrip);
             })
         })
@@ -110,7 +112,20 @@ const ExploreScreen = (props) => {
     const exploreTrips = async () => {
         await filterTrips(null, null, null, null)
         .then(response => {
-            setTrips(JSON.parse(response)['trips']);
+            var fetchedTrips = JSON.parse(response)['trips'];
+            var temp = [];
+
+            fetchedTrips.forEach(newTrip => {
+                // check if user email is in participants and if so then dont push
+                if (newTrip.participants.includes(global.currentUser.email_id)){
+                    return;
+                }
+
+                temp.push(newTrip);
+            })
+
+
+            setTrips(temp);
         })
     }
 
