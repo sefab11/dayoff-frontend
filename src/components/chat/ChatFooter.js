@@ -38,6 +38,7 @@ const ChatFooter = (props) => {
             <EmojiPicker onEmojiSelected={(e) => {
                 // TODO: update message on emoji selected
                 console.log(e);
+                setMessage(msg => msg + e.emoji);
                 toggleShowEmojis();
             }}
             open={showEmojis}
@@ -60,6 +61,7 @@ const ChatFooter = (props) => {
 
                         if (!result.canceled){
                             setImage(result.assets[0].uri);
+                            console.log(result.assets[0].uri);
                         }
                     }}
                 />
