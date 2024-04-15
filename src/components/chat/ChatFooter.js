@@ -19,15 +19,11 @@ const ChatFooter = (props) => {
 
     const sendMessage = () => {
         // send message to chat screen
-        props.setSentMessage(message);
+        props.setSentMessage({'msg': message, 'attachments': image != null ? image : null});
 
         setMessage("");
+        setImage(null);
     }
-
-    useEffect(() => {
-        //TODO: whenever image is updated then prepend it to the message
-        console.log(image)
-    }, [image])
 
 
 
@@ -36,8 +32,7 @@ const ChatFooter = (props) => {
             {// dont show regular footer when emojis selected
             showEmojis ?
             <EmojiPicker onEmojiSelected={(e) => {
-                // TODO: update message on emoji selected
-                console.log(e);
+                //console.log(e);
                 setMessage(msg => msg + e.emoji);
                 toggleShowEmojis();
             }}
@@ -61,7 +56,7 @@ const ChatFooter = (props) => {
 
                         if (!result.canceled){
                             setImage(result.assets[0].uri);
-                            console.log(result.assets[0].uri);
+                            //console.log(result.assets[0].uri);
                         }
                     }}
                 />

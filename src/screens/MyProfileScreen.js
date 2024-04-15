@@ -9,16 +9,19 @@ import VisitedCountries from "../components/myProfile/VisitedCountries";
 import VolunteerBadges from "../components/myProfile/VolunteerBadges";
 import { BottomNav, PhotoInput } from "../components";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 
 import UserService from "../services/UserService";
-const { logoutUser } = UserService;
+const { logoutUser, putExtraData } = UserService;
 
 
 const EditProfile = () => {
     const navigation = useNavigation();
+
+    // updated by the photo input
+    const [image, setImage] = useState(null);
 
     return (<>
     <ScrollView>
@@ -26,8 +29,9 @@ const EditProfile = () => {
             <View style={styles.profilePicContainer}>
                 <PhotoInput
                     width={20 * vh}
-                    image={require("../../assets/images/welcome_screen/profile-pic.png")}
+                    image={null}
                     camRatio='25%'
+                    onPhotoSelected={setImage}
                 />
                 <View style={styles.profileTextContainer}>
                     <Text style={styles.profileName}>Jessica Wang</Text>
@@ -96,7 +100,16 @@ const Settings = (props) => {
             </View>
 
             <View style={styles.logoutContainer}>
-                <TouchableOpacity onPress={() => {}}
+                <TouchableOpacity onPress={async () => {
+                    await logoutUser(global.currentUser.email_id)
+                    .then(status => {
+                        // if managed to log out then nullify global variables
+                        // and navigate back to welcome screen
+                        global.currentUser = null;
+                        global.currentTrip = null;
+                        navigation.replace('Welcome');
+                    })
+                }}
                 style={{display: 'flex', flexDirection: 'row', columnGap: -10}}>
                     <Image
                     source={require("../../assets/icons/exit.png")}

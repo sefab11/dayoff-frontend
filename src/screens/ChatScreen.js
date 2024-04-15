@@ -1,4 +1,4 @@
-import { ChatFooter, ChatHeader, JoinedMessage, UserMessage, Message } from "../components";
+import { ChatFooter, ChatHeader, JoinedMessage, UserMessage, Message, ImageMessage, UserImageMessage } from "../components";
 import { StyleSheet, Keyboard, TouchableWithoutFeedback, View, Image, ScrollView } from "react-native";
 import { palette, dimensions, flags } from "../style";
 import React, { useState, useEffect } from "react";
@@ -29,9 +29,8 @@ const formatTime = (time) => {
 
 export default ChatScreen = ({ navigation }) => {
     const trip = global.currentTrip;
-    console.log(trip);
-    // TODO: change to global.emailAddress
-    const currentUserId = 'sepehr@gmail.com';
+    //console.log(trip);
+    const currentUserId = global.currentUser.email_id;
 
     // get messages based on current trip id
     async function getChatMessages(){
@@ -51,7 +50,7 @@ export default ChatScreen = ({ navigation }) => {
     }
 
     async function sendChatMessage(){
-        await sendMessage(trip.trip_id, 'sepehr@gmail.com', sentMessage)
+        await sendMessage(trip.trip_id, currentUserId, sentMessage.msg)
         .then(status => {
             if (status === 200) console.log("message sent");
             else console.log("an error occurred");
@@ -68,12 +67,12 @@ export default ChatScreen = ({ navigation }) => {
             const member = trip.participants[i];
             await getUserData(member)
             .then(data => {
-                members.push(data);
+                setMembers(m => [...m, data]);
             })
         }
 
-        setMembers(members);
-        console.log("b" + JSON.stringify(members));
+        //setMembers(members);
+        //console.log("b" + JSON.stringify(members));
     }
 
     const [members, setMembers] = useState([]);
@@ -87,6 +86,8 @@ export default ChatScreen = ({ navigation }) => {
     useEffect(() => {
         // everytime sent message is updated then send message to db and refresh messages
         getChatMessages();
+        console.log(sentMessage);
+
         if (sentMessage != "") sendChatMessage();
         setSentMessage("");
     }, [sentMessage])
@@ -107,23 +108,24 @@ export default ChatScreen = ({ navigation }) => {
                         <View style={styles.messagesGroup}>
                             {messages && members.length > 0 ?
                                 messages.map((m) => {
-                                    console.log("a" + JSON.stringify(m));
+                                    //console.log("a" + JSON.stringify(m));
                                     if (!m) return;
-                                    // TODO: add joined boolean variable to message object in db
+                                    // TODO: add joined/left boolean variable to message object in db
                                     else if(m.joined)
                                         return (<JoinedMessage>{members.find((u) => u.email_id === m.sender).user_name}</JoinedMessage>)
                                     else if(m.sender === currentUserId)
                                         return(
-                                        <UserMessage
-                                        time={formatTime(m.timestamp)}>
+                                        <UserImageMessage
+                                        time={formatTime(m.timestamp)}
+                                        photo={require("../../assets/images/welcome_screen/photo2.png")}>
                                             {m.message}
-                                        </UserMessage>
+                                        </UserImageMessage>
                                         )
                                     else
-                                        console.log("b" + members.length);
+                                        //console.log("b" + members.length);
                                         return(
                                         <Message
-                                        imageSrc={members.find((u) => u.email_id === m.sender).profile_picture}
+                                        profilePicSrc={members.find((u) => u.email_id === m.sender).profile_picture}
                                         name={members.find((u) => u.email_id === m.sender).user_name}
                                         time={formatTime(m.timestamp)}>
                                             {m.message}

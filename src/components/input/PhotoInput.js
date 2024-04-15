@@ -1,37 +1,31 @@
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, ScrollView, Image } from "react-native";
-import { StyleSheet, ImageBackground } from "react-native";
-import { React, useState } from "react";
+import { StyleSheet, ImageBackground, Platform } from "react-native";
+import { React, useState, useEffect } from "react";
 import { palette, themes } from "../../style";
 import * as ImagePicker from 'expo-image-picker';
 
 const PhotoInput = (props) => {
     const circleWidth = props.width;
-    const initialImage = props.image ? props.image : null;
-    const cameraRatio = (Number(props.camRatio.slice(0, -1)) * 1.25).toString().concat("%");
+    const [img, setImg] = useState(props.image ? props.image : null);
     const children = props.children;
+    const cameraRatio = (Number(props.camRatio.slice(0, -1)) * 1.25).toString().concat("%");
 
-    //TODO: update image on new image selected
-    const [image, setImage] = useState(null);
     const openImagePicker = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-        height: 256,
-        width: 256
-        });
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-            props.onPhotoSelected(false);
-            return;
-        }
-
-        props.onPhotoSelected(image);
+        await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+            height: 256,
+            width: 256
+        })
+        .then((result) => {
+            if (!result.canceled){
+                props.onPhotoSelected(result.assets[0].uri);
+                setImg(result.assets[0].uri);
+            }
+        })
     };
-
-
 
     return (
     <>
@@ -45,10 +39,12 @@ const PhotoInput = (props) => {
             onPress={() => openImagePicker()}
         >
             {
-            initialImage != null ?
+            img != null ?
             <ImageBackground
-                source={initialImage}
+                source={{ uri: !!img }}
+                alt={require("../../../assets/icons/camera.png")}
                 style={styles.imageBackground}
+                imageStyle={{ borderRadius: 100}}
             >
                 <View
                     style={styles.outerCameraContainer}

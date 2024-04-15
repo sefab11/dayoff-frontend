@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
         borderRadius: 5 * vmin,
     },
     nameText: {
-        fontWeight: 'normal',
-        fontSize: 4.5 * vmin,
+        fontWeight: 'bold',
+        fontSize: 3.8 * vmin,
     },
     messageBubble: {
         alignSelf: 'flex-start',
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     },
     timeText: {
         color: palette.grey,
+        fontWeight: 'bold',
         fontSize: 3.8 * vmin,
         paddingTop: 1 * vh,
     },
