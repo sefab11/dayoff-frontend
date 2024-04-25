@@ -15,8 +15,7 @@ const { createNewTrip } = TripsService;
 //SCREEN TO CREATE A TRIP
 
 export default CreateTripScreen = ({ navigation }) => {
-    //TODO: set global email and fetch here
-    const emailAddress = "sepehr@gmail.com";
+    const emailAddress = global.currentUser.email_id;
 
     const [date, setDate] = useState({
         'value': '',

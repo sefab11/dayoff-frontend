@@ -28,7 +28,7 @@ const ForYouScreen = (props) => {
         var prefCountries = [];
         var tempTrips = [];
 
-        await getUserPref('sepehrc@gmail.com')
+        await getUserPref(global.currentUser.email_id)
         .then(response => {
             prefDates = response['preferred_dates'];
             prefDates.push([null, null]);

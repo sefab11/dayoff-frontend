@@ -17,7 +17,7 @@ const GetMatchedScreen = ({ navigation }) => {
         var tempDates;
         var tempCountries;
 
-        await getUserPref('sepehrc@gmail.com')
+        await getUserPref(global.currentUser.email_id)
         .then(response => {
             tempDates = response['preferred_dates'];
             tempCountries = response['preferred_countries'];
@@ -57,7 +57,7 @@ const GetMatchedScreen = ({ navigation }) => {
 
     async function getMatched(){
         if (dates.length > 0 || countries.length > 0){
-            await putUserPref('sepehrc@gmail.com', dates, countries)
+            await putUserPref(global.currentUser.email_id, dates, countries)
             .then(status => {
                 if (status === 200) navigation.replace('Home');
             })
