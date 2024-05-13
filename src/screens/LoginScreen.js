@@ -1,5 +1,11 @@
 import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { Button, Dialog, HeaderBack, PasswordInput, TextInput } from "../components";
+import {
+  Button,
+  Dialog,
+  HeaderBack,
+  PasswordInput,
+  TextInput,
+} from "../components";
 import { StyleSheet } from "react-native";
 import { palette, themes } from "../style";
 import { useState } from "react";
@@ -9,116 +15,133 @@ import { useSessionContext } from "../contexts/SessionContext";
 import UserService from "../services/UserService";
 const { loginUser, getUserData } = UserService;
 
-
 export default LoginScreen = ({ navigation }) => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const {setSessionToken} = useSessionContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { setSessionToken } = useSessionContext();
 
-    const [dialogVisible, setDialogVisible] = useState(false);
+  const [dialogVisible, setDialogVisible] = useState(false);
 
-    const toggleDialog = () => {
-        setDialogVisible(!dialogVisible);
+  const toggleDialog = () => {
+    setDialogVisible(!dialogVisible);
+  };
+
+  const login = async () => {
+    if (!(email && password)) {
+      toggleDialog();
+      return;
     }
 
-    const login = async () => {
-        if(!(username && password)) {
-            toggleDialog();
-            return;
-        }
-        
-        await loginUser(username, password)
-        .then(async data => {
-            if(data && data.statusCode === 200 && data.sessionToken) {
-                setSessionToken(data.sessionToken);
+    await loginUser(email, password).then(async (data) => {
+      if (data && data.statusCode === 200 && data.sessionToken) {
+        setSessionToken(data.sessionToken);
+        console.log("Session Token:", data.sessionToken);
 
-                //update the global email address
-                await getUserData(username)
-                .then(response => {
-                    global.currentUser = response;
-                })
-
-                navigation.navigate('Home');
-            }
-            else {
-                toggleDialog();
-            }
+        //update the global email address
+        await getUserData(email).then((response) => {
+          global.currentUser = response;
         });
-    }
 
-    return (<>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={styles.page}>
-                <HeaderBack>Sign in</HeaderBack>
-                <View style={styles.inputGroup}>
-                    <TextInput value={username} onChangeText={text => setUsername(text)}
-                    style={styles.textInput} theme={themes.textInput} mode='outlined'
-                    label="Email Address" placeholder='name@workmail.com' />
-                    <View>
-                        <PasswordInput value={password} onChangeText={text => setPassword(text)}
-                        style={styles.textInput} theme={themes.textInput} mode='outlined'
-                        label="Password" />
-                        <Button
-                            // TODO: add in functionality to reset password
-                            onPress={() => {}}
-                            mode='text'
-                            theme={themes.button}
-                            style={styles.forgotButton}
-                        >
-                            Forgot your password?
-                        </Button>
-                    </View>
-                    
-                </View>
-                <Button
-                    onPress={async () => login()}
-                    mode='contained'
-                    theme={themes.button}
-                    style={styles.button}
-                    labelStyle={{ marginHorizontal: 0 }}
-                >
-                    Sign in
-                </Button>
+        navigation.navigate("Home");
+      } else {
+        toggleDialog();
+      }
+    });
+  };
+
+  return (
+    <>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.page}>
+          <HeaderBack>Sign in</HeaderBack>
+          <View style={styles.inputGroup}>
+            <TextInput
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              style={styles.textInput}
+              theme={themes.textInput}
+              mode="outlined"
+              label="Email Address"
+              placeholder="name@workmail.com"
+            />
+            <View>
+              <PasswordInput
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                style={styles.textInput}
+                theme={themes.textInput}
+                mode="outlined"
+                label="Password"
+              />
+              <Button
+                // TODO: add in functionality to reset password
+                onPress={() => {}}
+                mode="text"
+                theme={themes.button}
+                style={styles.forgotButton}
+              >
+                Forgot your password?
+              </Button>
             </View>
-        </TouchableWithoutFeedback>
-        <View style={{position: "fixed"}}>
-            <Modal
-                transparent={true}
-                isVisible={dialogVisible}
-                onBackdropPress={toggleDialog}
-            >
-                <Dialog title={"Error"} details={"An error occurred."} buttonLabel={"OK"} onButtonPress={toggleDialog} />
-            </Modal>
+          </View>
+          <Button
+            onPress={async () => login()}
+            mode="contained"
+            theme={themes.button}
+            style={styles.button}
+            labelStyle={{ marginHorizontal: 0 }}
+          >
+            Sign in
+          </Button>
         </View>
-    </>);
-}
+      </TouchableWithoutFeedback>
+      <View style={{ position: "fixed" }}>
+        <Modal
+          transparent={true}
+          isVisible={dialogVisible}
+          onBackdropPress={toggleDialog}
+        >
+          <Dialog
+            title={"Error"}
+            details={"An error occurred."}
+            buttonLabel={"OK"}
+            onButtonPress={toggleDialog}
+          />
+        </Modal>
+      </View>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
-    page: {
-        paddingTop: 3 * vh,
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: palette.white
-    },
-    inputGroup: {
-        gap: 3.5 * vh
-    },
-    textInput: {
-        width: 80 * vmin,
-        height: 12 * vmin,
-        backgroundColor: palette.white
-    },
-    forgotButton: {
-        alignSelf: 'flex-end',
-        margin: 0, padding: 0, borderWidth: 0, borderRadius: 0,
-    },
-    button: {
-        width: 70 * vmin,
-        height: 14 * vmin,
-        justifyContent: 'center',
-        paddingBottom: 0.5 * vmin,
-        marginTop: 5 * vh,
-        marginBottom: 5 * vh
-    }
-})
+  page: {
+    paddingTop: 3 * vh,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: palette.white,
+  },
+  inputGroup: {
+    gap: 3.5 * vh,
+  },
+  textInput: {
+    width: 80 * vmin,
+    height: 12 * vmin,
+    backgroundColor: palette.white,
+  },
+  forgotButton: {
+    alignSelf: "flex-end",
+    margin: 0,
+    padding: 0,
+    borderWidth: 0,
+    borderRadius: 0,
+  },
+  button: {
+    width: 70 * vmin,
+    height: 14 * vmin,
+    justifyContent: "center",
+    paddingBottom: 0.5 * vmin,
+    marginTop: 5 * vh,
+    marginBottom: 5 * vh,
+  },
+});

@@ -1,4 +1,13 @@
-import { View, StyleSheet, Text, Image, ScrollView, ImageBackground, StatusBar, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  ScrollView,
+  ImageBackground,
+  StatusBar,
+  TouchableOpacity,
+} from "react-native";
 import { palette } from "../style";
 import { themes } from "../style";
 import { dimensions } from "../style";
@@ -8,7 +17,7 @@ import SelectCountries from "../components/getMatched/SelectCountries";
 import VisitedCountries from "../components/myProfile/VisitedCountries";
 import VolunteerBadges from "../components/myProfile/VolunteerBadges";
 import { BottomNav, PhotoInput } from "../components";
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React, { useEffect, useState } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
@@ -16,137 +25,148 @@ const Tab = createMaterialTopTabNavigator();
 import UserService from "../services/UserService";
 const { logoutUser, putExtraData } = UserService;
 
-
 const EditProfile = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    // updated by the photo input
-    const [image, setImage] = useState(null);
+  // updated by the photo input
+  const [image, setImage] = useState(null);
 
-    return (<>
-    <ScrollView>
+  return (
+    <>
+      <ScrollView>
         <View style={styles.page}>
-            <View style={styles.profilePicContainer}>
-                <PhotoInput
-                    width={20 * vh}
-                    image={null}
-                    camRatio='25%'
-                    onPhotoSelected={setImage}
-                />
-                <View style={styles.profileTextContainer}>
-                    <Text style={styles.profileName}>Jessica Wang</Text>
-                    <Text style={styles.profileEmail}>jessica@facebook.com</Text>
-                </View>
+          <View style={styles.profilePicContainer}>
+            <PhotoInput
+              width={20 * vh}
+              image={null}
+              camRatio="25%"
+              onPhotoSelected={setImage}
+            />
+            <View style={styles.profileTextContainer}>
+              <Text style={styles.profileName}>
+                {global.currentUser.user_name}
+              </Text>
+              <Text style={styles.profileEmail}>
+                {global.currentUser.email_id}
+              </Text>
             </View>
-            <ProfileInfo />
-            <VisitedCountries />
-            <VolunteerBadges />
+          </View>
+          <ProfileInfo />
+          <VisitedCountries />
+          <VolunteerBadges />
         </View>
-    </ScrollView>
-  </>);
+      </ScrollView>
+    </>
+  );
 };
 
-
 const Settings = (props) => {
-    const navigation = useNavigation();
-    const { email } = props;
+  const navigation = useNavigation();
+  const { email } = props;
 
-    return (
-        <View style={styles.page}>
-            <View style={styles.logoContainer}>
-                <Image
-                source={require("../../assets/logo_umbrella.png")}
-                style={styles.logo}
-                />
-                <Text style={styles.message} marginTop={-3.5 * vh}>
-                    Version 1.0
-                </Text>
-            </View>
+  return (
+    <View style={styles.page}>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../../assets/logo_umbrella.png")}
+          style={styles.logo}
+        />
+        <Text style={styles.message} marginTop={-3.5 * vh}>
+          Version 1.0
+        </Text>
+      </View>
 
-            <View style={styles.border} />
+      <View style={styles.border} />
 
-            <View style={styles.infoContainer}>
-                <View>
-                    <Text style={styles.headingText}>Change Email Address</Text>
-                </View>
-
-                <View style={styles.countryContainer}>
-                    <Text style={styles.message}>jessica@facebook.com</Text>
-                </View>
-            </View>
-
-            <View style={styles.infoContainer}>
-                <View>
-                    <Text style={styles.headingText}>Change password</Text>
-                </View>
-            </View>
-
-            <View style={styles.infoContainer}>
-                <View>
-                    <Text style={styles.headingText}>Send Feedback or Report Bug</Text>
-                </View>
-            </View>
-
-            <View style={styles.infoContainer}>
-                <View>
-                    <Text style={styles.headingText}>
-                        Share App with Coworkers or Friends
-                    </Text>
-                </View>
-
-                <View style={styles.countryContainer}>
-                    <Text style={styles.link}>dayoff.space/mylink</Text>
-                </View>
-            </View>
-
-            <View style={styles.logoutContainer}>
-                <TouchableOpacity onPress={async () => {
-                    await logoutUser(global.currentUser.email_id)
-                    .then(status => {
-                        // if managed to log out then nullify global variables
-                        // and navigate back to welcome screen
-                        global.currentUser = null;
-                        global.currentTrip = null;
-                        navigation.replace('Welcome');
-                    })
-                }}
-                style={{display: 'flex', flexDirection: 'row', columnGap: -10}}>
-                    <Image
-                    source={require("../../assets/icons/exit.png")}
-                    tintColor={palette.lightRed}
-                    style={styles.exitLogo} />
-                    <Text style={styles.exitText}>Logout</Text>
-                </TouchableOpacity>
-            </View>
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.headingText}>Change Email Address</Text>
         </View>
-    );
+
+        <View style={styles.countryContainer}>
+          <Text style={styles.message}>{global.currentUser.email_id}</Text>
+        </View>
+      </View>
+
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.headingText}>Change password</Text>
+        </View>
+      </View>
+
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.headingText}>Send Feedback or Report Bug</Text>
+        </View>
+      </View>
+
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.headingText}>
+            Share App with Coworkers or Friends
+          </Text>
+        </View>
+
+        <View style={styles.countryContainer}>
+          <Text style={styles.link}>dayoff.space/mylink</Text>
+        </View>
+      </View>
+
+      <View style={styles.logoutContainer}>
+        <TouchableOpacity
+          onPress={async () => {
+            await logoutUser(global.currentUser.email_id).then((status) => {
+              // if managed to log out then nullify global variables
+              // and navigate back to welcome screen
+              global.currentUser = null;
+              global.currentTrip = null;
+              navigation.replace("Welcome");
+            });
+          }}
+          style={{ display: "flex", flexDirection: "row", columnGap: -10 }}
+        >
+          <Image
+            source={require("../../assets/icons/exit.png")}
+            tintColor={palette.lightRed}
+            style={styles.exitLogo}
+          />
+          <Text style={styles.exitText}>Logout</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 };
 
 export default MyProfileScreen = ({ navigation }) => {
-    return (
+  return (
     <>
-        <StatusBar></StatusBar>
-        <Tab.Navigator
-            screenOptions={({ route }) => ({
-            tabBarScrollEnabled: true,
-            tabBarGap: 5 * vmin,
-            tabBarLabel: ({ tintColor, focused, item }) => {
-                return focused ? (
-                    <Text style={styles.tabLabelActive}>{route.name}</Text>
-                ) : (
-                    <Text style={styles.tabLabelInactive}>{route.name}</Text>
-                );
-            },
-            tabBarItemStyle: styles.tab,
-            tabBarStyle: styles.tabBar,
-            tabBarIndicatorStyle: styles.tabIndicator,
-            })}
-        >
-            <Tab.Screen name="My Profile" component={EditProfile} />
-            <Tab.Screen name="Settings" component={Settings} email="name@workmail.com" />
-        </Tab.Navigator>
-        <BottomNav active='MyProfile' />
-    </>);
+      <StatusBar></StatusBar>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarScrollEnabled: true,
+          tabBarGap: 5 * vmin,
+          tabBarLabel: ({ tintColor, focused, item }) => {
+            return focused ? (
+              <Text style={styles.tabLabelActive}>{route.name}</Text>
+            ) : (
+              <Text style={styles.tabLabelInactive}>{route.name}</Text>
+            );
+          },
+          tabBarItemStyle: styles.tab,
+          tabBarStyle: styles.tabBar,
+          tabBarIndicatorStyle: styles.tabIndicator,
+        })}
+      >
+        <Tab.Screen name="My Profile" component={EditProfile} />
+        <Tab.Screen
+          name="Settings"
+          component={Settings}
+          email="name@workmail.com"
+        />
+      </Tab.Navigator>
+      <BottomNav active="MyProfile" />
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -157,42 +177,42 @@ const styles = StyleSheet.create({
     backgroundColor: palette.white,
   },
   logo: {
-    resizeMode: 'contain',
+    resizeMode: "contain",
     width: 50 * vmin,
   },
   tabBar: {
-      elevation: 0,
-      paddingTop: 2 * vh,
-      paddingLeft: 6 * vmin,
-      backgroundColor: palette.white,
+    elevation: 0,
+    paddingTop: 2 * vh,
+    paddingLeft: 6 * vmin,
+    backgroundColor: palette.white,
   },
   tab: {
-      width: 'auto',
-      marginHorizontal: 0,
-      paddingHorizontal: 0,
-      overflow: 'visible'
+    width: "auto",
+    marginHorizontal: 0,
+    paddingHorizontal: 0,
+    overflow: "visible",
   },
   tabLabelInactive: {
-      width: 'auto',
-      marginHorizontal: 0,
-      paddingRight: 1.5 * vmin,
-      fontSize: 5.6 * vmin,
-      textTransform: 'none',
-      fontFamily: 'Montserrat-Medium',
-      color: palette.grey,
-      overflow: 'visible'
+    width: "auto",
+    marginHorizontal: 0,
+    paddingRight: 1.5 * vmin,
+    fontSize: 5.6 * vmin,
+    textTransform: "none",
+    fontFamily: "Montserrat-Medium",
+    color: palette.grey,
+    overflow: "visible",
   },
   tabLabelActive: {
-      fontSize: 5.6 * vmin,
-      textTransform: 'none',
-      fontFamily: 'Montserrat-SemiBold',
-      color: palette.black,
-      overflow: 'visible',
+    fontSize: 5.6 * vmin,
+    textTransform: "none",
+    fontFamily: "Montserrat-SemiBold",
+    color: palette.black,
+    overflow: "visible",
   },
   tabIndicator: {
-      marginLeft: 5.75  * vmin,
-      backgroundColor: palette.yellow,
-      height: 5,
+    marginLeft: 5.75 * vmin,
+    backgroundColor: palette.yellow,
+    height: 5,
   },
   profilePicContainer: {
     marginTop: 10 * vh,
@@ -206,8 +226,8 @@ const styles = StyleSheet.create({
     height: 140,
     borderRadius: 70,
 
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   profileChangeIcon: {
     opacity: 0.5,
@@ -234,9 +254,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  infoContainer: {
-
-  },
+  infoContainer: {},
   headingText: {
     alignSelf: "center",
     width: 85 * vmin,
@@ -248,13 +266,13 @@ const styles = StyleSheet.create({
   message: {
     marginTop: 1 * vh,
     color: palette.grey,
-    fontWeight: 'normal',
+    fontWeight: "normal",
     fontSize: 4.2 * vmin,
   },
   link: {
     marginTop: 1 * vh,
     color: palette.purple,
-    fontWeight: 'normal',
+    fontWeight: "normal",
     fontSize: 4.2 * vmin,
   },
   logoutContainer: {
@@ -264,18 +282,18 @@ const styles = StyleSheet.create({
     marginLeft: 4 * vmin,
   },
   border: {
-    width: '80%',
+    width: "80%",
     borderBottomWidth: 1,
     borderColor: palette.lightGrey,
   },
   exitLogo: {
-    resizeMode: 'contain',
+    resizeMode: "contain",
     height: 4 * vh,
   },
   exitText: {
     color: palette.lightRed,
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 2.5 * vh,
-    fontWeight: 'bold',
-  }
+    fontWeight: "bold",
+  },
 });
