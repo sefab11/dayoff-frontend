@@ -4,6 +4,8 @@
 const loginURL = "http://127.0.0.1:8000" + "/login";
 //const logoutURL = process.env.EXPO_PUBLIC_API_URL + "/logout";
 const logoutURL = "http://127.0.0.1:8000" + "/logout";
+const forgetpasswordURL = "http://127.0.0.1:8000" + "/forgot-password";
+const resetpasswordURL = "http://127.0.0.1:8000" + "/reset-password";
 
 //const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
 const registerURL = "http://127.0.0.1:8000" + "/putUserData";
@@ -74,6 +76,51 @@ const _logoutUser = (email) => {
     body: JSON.stringify({
       email: email,
       token: token,
+    }),
+  })
+    .then((response) => {
+      return { response: response.text(), status: response.status };
+    })
+    .then((response) => {
+      return response.status;
+    })
+    .catch((error) => {
+      console.log(error);
+      return 400;
+    });
+};
+const _forgotPassword = (email) => {
+  return fetch(forgetpasswordURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+    }),
+  })
+    .then((response) => {
+      return { response: response.text(), status: response.status };
+    })
+    .then((response) => {
+      return response.status;
+    })
+    .catch((error) => {
+      console.log(error);
+      return 400;
+    });
+};
+
+const _resetPassword = (email, otp, newPassword) => {
+  return fetch(resetpasswordURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      otp: otp,
+      new_password: newPassword,
     }),
   })
     .then((response) => {
@@ -375,6 +422,8 @@ const fetchMembers = async () => {
 export default UserService = {
   loginUser: _loginUser,
   logoutUser: _logoutUser,
+  forgotpassword: _forgotPassword,
+  resetpassword: _resetPassword,
 
   registerUser: _registerUser,
   putExtraData: _putAdditionalUserData,

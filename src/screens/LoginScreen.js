@@ -1,4 +1,4 @@
-import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { View, Keyboard, TouchableWithoutFeedback, Alert } from "react-native";
 import {
   Button,
   Dialog,
@@ -11,9 +11,10 @@ import { palette, themes } from "../style";
 import { useState } from "react";
 import Modal from "react-native-modal";
 import { useSessionContext } from "../contexts/SessionContext";
+// Importing ResetPassword from the screens directory
 
 import UserService from "../services/UserService";
-const { loginUser, getUserData } = UserService;
+const { loginUser, getUserData, forgotpassword } = UserService;
 
 export default LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -24,6 +25,32 @@ export default LoginScreen = ({ navigation }) => {
 
   const toggleDialog = () => {
     setDialogVisible(!dialogVisible);
+  };
+
+  const forgotPasswordHandler = async () => {
+    if (!email) {
+      Alert.alert("Error", "Email is empty");
+      return;
+    }
+
+    try {
+      const data = await forgotpassword(email);
+      console.log("Forgot password response:", data);
+      if (data || data.statusCode == 200) {
+        // Password reset email sent successfully
+        Alert.alert("Success", "OTP sent to reset password");
+        navigation.navigate("ResetPasswordScreen", { email });
+      } else {
+        // Error occurred while sending reset password email
+        Alert.alert("Error", "Error sending reset password OTP");
+      }
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      Alert.alert(
+        "Error",
+        "An error occurred while sending reset password OTP"
+      );
+    }
   };
 
   const login = async () => {
@@ -75,7 +102,7 @@ export default LoginScreen = ({ navigation }) => {
               />
               <Button
                 // TODO: add in functionality to reset password
-                onPress={() => {}}
+                onPress={async () => forgotPasswordHandler()}
                 mode="text"
                 theme={themes.button}
                 style={styles.forgotButton}

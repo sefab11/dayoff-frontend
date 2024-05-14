@@ -50,7 +50,7 @@ const ForYouScreen = (props) => {
     // });
     // console.log("a" + prefDates);
     // console.log("a" + prefCountries);
-    await getUserPref(global.currentUser.email_id).then((response) => {
+    await getUserPref(email).then((response) => {
       if (
         response &&
         response.preferred_dates &&
