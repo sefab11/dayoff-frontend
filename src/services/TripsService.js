@@ -84,14 +84,20 @@ const _createNewTrip = async (
         max_people: maxPeople, // Include max_people
       }),
     });
-
-    const response_1 = { response: response.text(), status: response.status };
-    return response_1.status;
+    return response; // Return the entire response object
   } catch (error) {
-    console.log(error);
-    return 400;
+    console.error(error);
+    return 400; // Return null in case of error
   }
 };
+
+//     const response_1 = { response: response.text(), status: response.status };
+//     return response_1.status;
+//   } catch (error) {
+//     console.log(error);
+//     return 400;
+//   }
+// };
 
 const _getFilteredTrips = async (creatorEmail, userEmail, dates, countries) => {
   try {

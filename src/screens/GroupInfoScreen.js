@@ -379,6 +379,7 @@ const GroupInfoScreen = ({ navigation }) => {
     trip.inviteduseremail
   );
   const [leftTrip, setLeftTrip] = useState(false);
+  // const [participantsEmail, setParticipantsEmail] = useState([]);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -396,6 +397,7 @@ const GroupInfoScreen = ({ navigation }) => {
         );
         const data = await response.json();
         setMembers(data.group_members);
+        // setParticipantsEmail(data.participants_email);
       } catch (error) {
         console.error("Error fetching group members:", error);
       }
@@ -405,6 +407,14 @@ const GroupInfoScreen = ({ navigation }) => {
     fetchMembers();
     // }
   }, [trip.trip_id]);
+
+  // const ParticipantEmail = ({ email }) => {
+  //   return (
+  //     <View style={styles.participantContainer}>
+  //       <Text style={styles.participantEmail}>{email}</Text>
+  //     </View>
+  //   );
+  // };
 
   const leaveFromTrip = async () => {
     try {
@@ -480,6 +490,17 @@ const GroupInfoScreen = ({ navigation }) => {
                     isLastMember={member.id == members.length}
                   />
                 ))}
+              {/* <View style={styles.participantsContainer}>
+                <Text style={styles.participantsHeader}>
+                  Participants Email:
+                </Text>
+                {participantsEmail &&
+                  participantsEmail.map((email, index) => (
+                    <Text key={index} style={styles.participantEmail}>
+                      {email}
+                    </Text>
+                  ))}
+              </View> */}
             </View>
           </TouchableWithoutFeedback>
         </ScrollView>
