@@ -25,11 +25,30 @@ const Tab = createMaterialTopTabNavigator();
 import UserService from "../services/UserService";
 const { logoutUser, putExtraData } = UserService;
 
+
 const EditProfile = () => {
   const navigation = useNavigation();
 
+  console.log(global.currentUser);
+
   // updated by the photo input
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(global.currentUser.profile_picture);
+  const [country, setCountry] = useState(global.currentUser.country);
+  const [job, setJob] = useState(global.currentUser.job);
+  const [url, setURL] = useState(global.currentUser.linkedin);
+
+
+  useEffect(() => {
+    console.log(image);
+    console.log(country);
+    console.log(job);
+    console.log(url);
+
+    putExtraData(global.currentUser.email_id, image, country, job, url)
+    .then((response) => {
+        console.log(response);
+    })
+  }, [country, job, url, image])
 
   return (
     <>
@@ -38,7 +57,7 @@ const EditProfile = () => {
           <View style={styles.profilePicContainer}>
             <PhotoInput
               width={20 * vh}
-              image={null}
+              image={image}
               camRatio="25%"
               onPhotoSelected={setImage}
             />
@@ -51,7 +70,14 @@ const EditProfile = () => {
               </Text>
             </View>
           </View>
-          <ProfileInfo />
+          <ProfileInfo
+            initCountry={country}
+            onChangeCountry={text => setCountry(text)}
+            initJob={job}
+            onChangeJob={text => setJob(text)}
+            initURL={url}
+            onChangeURL={text => setURL(text)}
+          />
           <VisitedCountries />
           <VolunteerBadges />
         </View>

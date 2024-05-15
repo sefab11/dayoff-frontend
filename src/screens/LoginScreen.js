@@ -54,11 +54,6 @@ export default LoginScreen = ({ navigation }) => {
   };
 
   const login = async () => {
-    if (!(email && password)) {
-      toggleDialog();
-      return;
-    }
-
     await loginUser(email, password).then(async (data) => {
       if (data && data.statusCode === 200 && data.sessionToken) {
         setSessionToken(data.sessionToken);
@@ -67,6 +62,7 @@ export default LoginScreen = ({ navigation }) => {
         //update the global email address
         await getUserData(email).then((response) => {
           global.currentUser = response;
+          console.log(global.currentUser);
         });
 
         navigation.navigate("Home");

@@ -6,9 +6,21 @@ import * as ImagePicker from 'expo-image-picker';
 
 const PhotoInput = (props) => {
     const circleWidth = props.width;
+
+//    var initImg = null;
+//    if (props.image){
+//        var reader = new FileReader();
+//        reader.readAsDataURL(props.image);
+//        reader.onloadend = function(){
+//            var base64data = reader.result;
+//            initImg = URL.createObjectURL(base64data);
+//        }
+//    }
+
     const [img, setImg] = useState(props.image ? props.image : null);
     const children = props.children;
     const cameraRatio = (Number(props.camRatio.slice(0, -1)) * 1.25).toString().concat("%");
+
 
     const openImagePicker = async () => {
         await ImagePicker.launchImageLibraryAsync({
@@ -16,11 +28,14 @@ const PhotoInput = (props) => {
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
-            height: 256,
-            width: 256
         })
-        .then((result) => {
+        .then(async (result) => {
             if (!result.canceled){
+                // Get the filename from the URI
+                const filename = result.assets[0].uri;
+                console.log("Selected file:", JSON.stringify(filename));
+                // Convert the image data URI to Blob
+                const blob = await fetch(result.assets[0].uri).then((res) => res.blob());
                 props.onPhotoSelected(result.assets[0].uri);
                 setImg(result.assets[0].uri);
             }
@@ -41,8 +56,7 @@ const PhotoInput = (props) => {
             {
             img != null ?
             <ImageBackground
-                source={{ uri: !!img }}
-                alt={require("../../../assets/icons/camera.png")}
+                source={{uri: img}}
                 style={styles.imageBackground}
                 imageStyle={{ borderRadius: 100}}
             >

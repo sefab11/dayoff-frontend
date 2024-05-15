@@ -2,7 +2,9 @@ import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, Scrol
 import { Button, Header, SegmentedInput, HeaderBack, Image } from "../components";
 import { StyleSheet } from "react-native";
 import { React, useState, useEffect } from "react";
-import { palette, themes } from "../style";
+import { palette, themes, dimensions } from "../style";
+
+[vw, vh, vmin, vmax] = dimensions;
 
 
 import UserService from "../services/UserService";
@@ -173,5 +175,5 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         flexWrap: 'wrap',
         width: 85 * vmin,
-    },
-})
+    }
+});

@@ -157,6 +157,7 @@ export default VerificationScreen = ({ navigation }) => {
                   title="2. Add Linkedin Profile*"
                   valid={linkedin != null}
                 />
+                // TODO: change to text input
                 <LinkedinInput
                   horMargin={10}
                   verMargin={10}
@@ -230,7 +231,6 @@ export default VerificationScreen = ({ navigation }) => {
                             backgroundColor: palette.purple,
                             paddingHorizontal: 10,
                           }}
-                          //TODO: add function here to send code
                           onPress={async () => {
                             await sendOtp(email, global.currentUser.user_name);
                             Alert.alert(
@@ -251,7 +251,6 @@ export default VerificationScreen = ({ navigation }) => {
 
                         <Button
                           style={{ marginLeft: "auto" }}
-                          //TODO: add function here to send code
                           onPress={async () => {
                             await sendOtp(email, global.currentUser.user_name);
                             Alert.alert(
@@ -267,9 +266,6 @@ export default VerificationScreen = ({ navigation }) => {
                             );
                           }}
                         >
-                          <Text style={{ color: palette.purple }}>
-                            Resend Code
-                          </Text>
                         </Button>
                       </View>
                     </View>
