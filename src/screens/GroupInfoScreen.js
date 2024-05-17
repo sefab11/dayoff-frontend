@@ -349,6 +349,7 @@ const { fetchMembers } = UserService;
 // Define UserInfo component
 const UserInfo = ({
   user_name,
+  email_id,
   country,
   job,
   profile_picture,
@@ -361,6 +362,7 @@ const UserInfo = ({
       <Image source={{ uri: profile_picture }} style={styles.profilePic} />
       <View style={styles.memberInfo}>
         <Text style={styles.memberName}>{user_name}</Text>
+        <Text style={styles.memberName}>{email_id}</Text>
         <Text style={styles.memberCountry}>{country}</Text>
         <Text style={styles.memberJob}>{job}</Text>
       </View>
@@ -429,19 +431,49 @@ const GroupInfoScreen = ({ navigation }) => {
     }
   };
 
+  // const sendInvitation = async () => {
+  //   try {
+  //     const status = await inviteTrip(trip.trip_id, invitedUserEmail);
+  //     if (status === 200) {
+  //       console.log("Invitation sent successfully");
+  //     } else if (status === 500) {
+  //       console.error("Failed to send invitation. Status:", status);
+  //       // Handle the 500 error accordingly
+  //     } else {
+  //       console.error("Unexpected status code:", status);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error sending invitation:", error.message);
+  //   }
+  // };
   const sendInvitation = async () => {
     try {
-      const status = await inviteTrip(trip.trip_id, invitedUserEmail);
+      const response = await inviteTrip(trip.trip_id, invitedUserEmail);
+      const responseBody = await response.json(); // Parse response body
+      console.log("Response Body:", responseBody);
+      const status = response.status;
+
+      console.log("Status Code:", status);
+
       if (status === 200) {
-        console.log("Invitation sent successfully");
-      } else if (status === 500) {
-        console.error("Failed to send invitation. Status:", status);
-        // Handle the 500 error accordingly
+        if (
+          responseBody.statusCode === 400 ||
+          responseBody.statusCode === 401
+        ) {
+          Alert.alert("Warning", responseBody.body.message);
+        } else {
+          Alert.alert("Success", responseBody.body.message);
+        }
       } else {
-        console.error("Unexpected status code:", status);
+        console.error("Failed to send invitation. Status:", status);
+        Alert.alert(
+          "Error",
+          "Failed to send invitation. Please try again later."
+        );
       }
     } catch (error) {
       console.error("Error sending invitation:", error.message);
+      Alert.alert("Error", "Error sending invitation. Please try again later.");
     }
   };
 
@@ -484,6 +516,7 @@ const GroupInfoScreen = ({ navigation }) => {
                   <UserInfo
                     key={member.id}
                     user_name={member.user_name}
+                    email_id={member.email_id}
                     country={member.country}
                     job={member.job}
                     profile_picture={member.profilePic}

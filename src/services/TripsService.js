@@ -225,47 +225,74 @@ const _deleteTrip = async (tripID, numUsers) => {
   }
 };
 
-const _inviteTrip = async (tripID, invitedUserEmail, authToken) => {
-  // try {
-  //   const email = global.currentUser.email_id;
-  //   const password = global.currentUser.password;
-  //   // Retrieve the authToken from the login process
-  //   // const { sessionToken } = await loginUser(email, password);
-  //   const loginResponse = await loginUser(email, password);
-  //   console.log("Login Response:", loginResponse);
+// const _inviteTrip = async (tripID, invitedUserEmail, authToken) => {
+//   // try {
+//   //   const email = global.currentUser.email_id;
+//   //   const password = global.currentUser.password;
+//   //   // Retrieve the authToken from the login process
+//   //   // const { sessionToken } = await loginUser(email, password);
+//   //   const loginResponse = await loginUser(email, password);
+//   //   console.log("Login Response:", loginResponse);
 
-  //   // Check if the sessionToken exists
-  //   if (!loginResponse.sessionToken) {
-  //     console.error("Session token not found.");
-  //     return 400;
-  //   }
+//   //   // Check if the sessionToken exists
+//   //   if (!loginResponse.sessionToken) {
+//   //     console.error("Session token not found.");
+//   //     return 400;
+//   //   }
 
-  const requestBody = {
-    invited_user_emails: Array.isArray(invitedUserEmail)
-      ? invitedUserEmail
-      : [invitedUserEmail],
-    trip_id: tripID,
-  };
+//   const requestBody = {
+//     invited_user_emails: Array.isArray(invitedUserEmail)
+//       ? invitedUserEmail
+//       : [invitedUserEmail],
+//     trip_id: tripID,
+//   };
 
-  console.log("Request Body:", JSON.stringify(requestBody));
+//   console.log("Request Body:", JSON.stringify(requestBody));
 
-  const response = await fetch(inviteTripURL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // Authorization: loginResponse.sessionToken, // Use the sessionToken as Authorization header
-    },
-    body: JSON.stringify(requestBody),
-  });
+//   const response = await fetch(inviteTripURL, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       // Authorization: loginResponse.sessionToken, // Use the sessionToken as Authorization header
+//     },
+//     body: JSON.stringify(requestBody),
+//   });
 
-  // console.log("Auth:", loginResponse.sessionToken);
+//   // console.log("Auth:", loginResponse.sessionToken);
 
-  const response_1 = { response: response.text(), status: response.status };
-  return response_1.status;
-  // } catch (error) {
-  //   console.log(error);
-  //   return 400;
-  // }
+//   const response_1 = { response: response.text(), status: response.status };
+//   return response_1.status;
+//   // } catch (error) {
+//   //   console.log(error);
+//   //   return 400;
+//   // }
+// };
+
+const _inviteTrip = async (tripID, invitedUserEmail) => {
+  try {
+    const requestBody = {
+      invited_user_emails: Array.isArray(invitedUserEmail)
+        ? invitedUserEmail
+        : [invitedUserEmail],
+      trip_id: tripID,
+    };
+
+    // console.log("Request Body:", JSON.stringify(requestBody));
+
+    const response = await fetch(inviteTripURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+    // console.log(response);
+    return response;
+    // Return the entire response object
+  } catch (error) {
+    console.error(error);
+    return null; // Return null in case of error
+  }
 };
 
 const _getTripInfo = async (tripID, userEmail) => {
