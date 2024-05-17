@@ -87,7 +87,7 @@ const FinishProfile = ({ navigation }) => {
 //      const formData = new FormData();
 //      formData.append("photo", photoFile);
 
-      await putExtraData(global.currentUser.email_id, photo, country, job).then((data) => {
+      await putExtraData(global.currentUser.email_id, photo, country, job, null).then((data) => {
         console.log(data);
 
         // if successfully updated in db then also update locally

@@ -4,7 +4,7 @@ import { dimensions, palette } from '../../style';
 [vw, vh, vmin, vmax] = dimensions
 
 const JoinedMessage = (props) => {
-    const {style, children, username ...rest} = props;
+    const {style, children, username, ...rest} = props;
 
     return(
         <View style={styles.messageBubble}>

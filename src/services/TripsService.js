@@ -1,19 +1,19 @@
-//const createTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/create";
-const createTripURL = "http://127.0.0.1:8000" + "/trips/create";
-//const filterTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/filter";
-const filterTripURL = "http://127.0.0.1:8000" + "/trips/filter";
-//const joinTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/join";
-const joinTripURL = "http://127.0.0.1:8000" + "/trips/join";
-//const leaveTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/leave";
-const leaveTripURL = "http://127.0.0.1:8000" + "/trips/leave";
-//const inviteTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/invite";
-const inviteTripURL = "http://127.0.0.1:8000" + "/trips/invite";
-//const deleteTripURl = process.env.EXPO_PUBLIC_API_URL + "/trips/delete";
-const deleteTripURl = "http://127.0.0.1:8000" + "/trips/delete";
-//const updateTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/update";
-const updateTripURL = "http://127.0.0.1:8000" + "/trips/update";
-//const getTripInfoURL = process.env.EXPO_PUBLIC_API_URL + "/trips/details";
-const getTripInfoURL = "http://127.0.0.1:8000" + "/trips/details";
+const createTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/create";
+//const createTripURL = "http://127.0.0.1:8000" + "/trips/create";
+const filterTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/filter";
+//const filterTripURL = "http://127.0.0.1:8000" + "/trips/filter";
+const joinTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/join";
+//const joinTripURL = "http://127.0.0.1:8000" + "/trips/join";
+const leaveTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/leave";
+//const leaveTripURL = "http://127.0.0.1:8000" + "/trips/leave";
+const inviteTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/invite";
+//const inviteTripURL = "http://127.0.0.1:8000" + "/trips/invite";
+const deleteTripURl = process.env.EXPO_PUBLIC_API_URL + "/trips/delete";
+//const deleteTripURl = "http://127.0.0.1:8000" + "/trips/delete";
+const updateTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/update";
+//const updateTripURL = "http://127.0.0.1:8000" + "/trips/update";
+const getTripInfoURL = process.env.EXPO_PUBLIC_API_URL + "/trips/details";
+//const getTripInfoURL = "http://127.0.0.1:8000" + "/trips/details";
 //import UserService from "./UserService";
 //const { loginUser } = UserService;
 
@@ -240,7 +240,7 @@ const _inviteTrip = async (tripID, invitedUserEmail, authToken) => {
   };
 
     // console.log("Request Body:", JSON.stringify(requestBody));
-
+  try{
     const response = await fetch(inviteTripURL, {
       method: "POST",
       headers: {
@@ -254,7 +254,7 @@ const _inviteTrip = async (tripID, invitedUserEmail, authToken) => {
   } catch (error) {
     console.error(error);
     return null; // Return null in case of error
-  }
+  };
 };
 
 const _getTripInfo = async (tripID, userEmail) => {
