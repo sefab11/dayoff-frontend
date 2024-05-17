@@ -37,30 +37,47 @@ const _loginUser = (email, password) => {
 }
 
 const _logoutUser = (email) => {
-    //TODO: get token from db based on email
-    const token = "xxx";
+  // Fetch token from the server based on the provided email
+  return fetch("http://127.0.0.1:8000/fetch_token_by_email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+    }),
+  })
+    .then((response) => {
+      return response.json(); // Parse response as JSON
+    })
+    .then((data) => {
+      // Extract token from the response
+      const token = JSON.parse(data.body).token;
 
-    return fetch(logoutURL, {
+      // Use the retrieved token to perform logout
+      return fetch(logoutURL, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "email": email,
-            "token": token,
+          email: email,
+          token: token,
+        }),
+      })
+        .then((response) => {
+          return response.status; // Return the status code
         })
-    })
-    .then(response => {
-        return {response: response.text(), status: response.status};
-    })
-    .then((response) => {
-        return response.status;
+        .catch((error) => {
+          console.log(error);
+          return 400;
+        });
     })
     .catch((error) => {
-        console.log(error);
-        return 400;
-    })
-}
+      console.log(error);
+      return 400;
+    });
+};
 
 const _registerUser = (username, email, password) => {
     return fetch(registerURL, {
