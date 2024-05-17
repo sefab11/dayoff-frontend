@@ -81,7 +81,7 @@ const CheckBox = (props) => {
 
 export default VerificationScreen = ({ navigation }) => {
   useEffect(() => {
-    sendOtp(global.currentUser.email_id, global.currentUser.user_name);
+    // sendOtp(global.currentUser.email_id, global.currentUser.user_name);
     getUserData(global.currentUser.email_id).then((response) => {
       setPhoto(response.profile_picture);
       setLinkedin(response.linkedin);
