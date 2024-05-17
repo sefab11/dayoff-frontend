@@ -183,7 +183,8 @@ export default ChatScreen = ({ navigation }) => {
 
                     if (!sender) return;
                     else if (m.joined) {
-                      return <JoinedMessage>{sender.username}</JoinedMessage>;
+                      // return <JoinedMessage>{sender.username}</JoinedMessage>;
+                      <JoinedMessage key={m.id} username={sender.user_name} />
                     } else if (m.sender === currentUserId) {
                       return (
                         <UserImageMessage

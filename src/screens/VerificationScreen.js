@@ -16,7 +16,6 @@ import {
   FileInput,
 } from "../components";
 import { LinkedinInput, PhotoInput, Dialog } from "../components";
-import { TextInput as CustomTextInput } from "../components";
 import Modal from "react-native-modal";
 import { SuccessModal, ReviewModal } from "../components";
 import { StyleSheet } from "react-native";
