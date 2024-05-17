@@ -104,8 +104,10 @@ export default RegisterScreen = ({ navigation }) => {
             global.currentUser = {
               email_id: email.value,
               user_name: name.value,
-              password: password.value,
               profile_picture: null,
+              country: null,
+              job: null,
+              linkedin: null,
             };
 
             navigation.navigate("VerifyEmail");

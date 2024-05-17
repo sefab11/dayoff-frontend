@@ -16,6 +16,7 @@ import {
   FileInput,
 } from "../components";
 import { LinkedinInput, PhotoInput, Dialog } from "../components";
+import { TextInput as CustomTextInput } from "../components";
 import Modal from "react-native-modal";
 import { SuccessModal, ReviewModal } from "../components";
 import { StyleSheet } from "react-native";
@@ -25,7 +26,7 @@ import { Alert } from "react-native";
 
 import UserService from "../services/UserService";
 import TripsService from "../services/TripsService";
-const { getUserData, sendOtp, verifyOtp } = UserService;
+const { getUserData, putExtraData, sendOtp, verifyOtp } = UserService;
 const { joinTrip } = TripsService;
 
 const VerifySection = (props) => {
@@ -80,16 +81,34 @@ const CheckBox = (props) => {
 };
 
 export default VerificationScreen = ({ navigation }) => {
-  useEffect(() => {
-    sendOtp(global.currentUser.email_id, global.currentUser.user_name);
-    getUserData(global.currentUser.email_id).then((response) => {
-      setPhoto(response.profile_picture);
-      setLinkedin(response.linkedin);
-    });
-  }, []);
+//  useEffect(() => {
+//    sendOtp(global.currentUser.email_id, global.currentUser.user_name);
+//    getUserData(global.currentUser.email_id).then((response) => {
+//      setPhoto(response.profile_picture);
+//      setLinkedin(response.linkedin);
+//    });
+//  }, []);
 
-  const [photo, setPhoto] = useState(null);
-  const [linkedin, setLinkedin] = useState(null);
+  useEffect(() => {
+    // whenever a photo or linkedin is added then update in the backend
+    (async function(){
+        await putExtraData(global.currentUser.email_id, photo, null, null, linkedin)
+        .then((response) => {
+            console.log(response);
+
+            // also update locally
+            global.currentUser.profile_picture = photo;
+            global.currentUser.linkedin = linkedin;
+
+            console.log(global.currentUser);
+        })
+    })();
+  }, [photo, linkedin])
+
+  console.log(global.currentUser);
+
+  const [photo, setPhoto] = useState(global.currentUser.profile_picture);
+  const [linkedin, setLinkedin] = useState(global.currentUser.linkedin);
 
   const [emailChecked, setEmailChecked] = useState(true);
   const [idChecked, setIdChecked] = useState(false);
@@ -106,7 +125,7 @@ export default VerificationScreen = ({ navigation }) => {
       else toggleDialog();
     });
 
-    return photo != null && linkedin != null && codeValid;
+    return !!photo && !!linkedin && codeValid;
   }
 
   const verify = async () => {
@@ -141,11 +160,12 @@ export default VerificationScreen = ({ navigation }) => {
               <View style={styles.section} borderBottomWidth={0}>
                 <VerifySection
                   title="1. Add Profile Photo*"
-                  valid={photo != null}
+                  valid={!!photo}
                 />
                 <PhotoInput
                   width={12 * vh}
                   camRatio={"40%"}
+                  image={photo}
                   onPhotoSelected={(data) => setPhoto(data)}
                 />
               </View>
@@ -155,13 +175,15 @@ export default VerificationScreen = ({ navigation }) => {
               <View style={styles.section}>
                 <VerifySection
                   title="2. Add Linkedin Profile*"
-                  valid={linkedin != null}
+                  valid={!!linkedin}
                 />
-                // TODO: change to text input
-                <LinkedinInput
-                  horMargin={10}
-                  verMargin={10}
-                  onComponentPress={(data) => setLinkedin(data)}
+                <TextInput
+                  style={styles.textInput}
+                  theme={themes.textInput}
+                  mode="outlined"
+                  placeholder="linked.com/name"
+                  value={linkedin}
+                  onChangeText={(data) => setLinkedin(data)}
                 />
               </View>
 
