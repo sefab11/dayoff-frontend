@@ -253,6 +253,15 @@ const _registerUser = (username, email, password) => {
 //   }
 // };
 
+function dataURItoBlob(dataURI) {
+    var binary = window.atob(dataURI.split(',')[1]);
+    var array = [];
+    for(var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+}
+
 const _putAdditionalUserData = (
   email = null,
   photoData = null,
@@ -261,28 +270,28 @@ const _putAdditionalUserData = (
   linkedin = null
 ) => {
 
+//   var url = `${extraDataURL}/email=${email}/country=${countryOfResidence}/job=${jobTitle}/linkedin=${linkedin}/photo=${photoData}`;
+//   url = encodeURI(url);
+//   console.log(url);
+
   // Create a new File object with the photo data
-//  const photoFile = new File([photoData], "photo", { type: "image/*" });
-//
-//  const formData = new FormData();
-//  formData.append("email", email);
-//  formData.append("country", countryOfResidence);
-//  formData.append("job", jobTitle);
-//  formData.append("linkedin", linkedin);
-//  formData.append("photo", photoFile);
+  const photoFile = new File([photoData], "photo", { type: "image/*" });//photoData.toBlob("image/jpeg", 0.8); //dataURItoBlob(photoData);
+
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("country", countryOfResidence);
+  formData.append("job", jobTitle);
+  formData.append("linkedin", linkedin);
+  formData.append("photo", photoFile);
 
   return fetch(extraDataURL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      "email": email,
-      "country": countryOfResidence,
-      "job": jobTitle,
-      "photo": photoData,
-      "linkedin": linkedin
-    })
+    body: JSON.stringify({formData}),
+//        "email": email,
+//        "country": countryOfResidence,
+//        "job": jobTitle,
+//        "linkedin": linkedin,
+//        "photo": photoFile,
   })
     .then((response) => {
       return { response: response.text(), status: response.status };
