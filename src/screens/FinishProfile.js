@@ -66,9 +66,10 @@ const FinishProfile = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [country, setCountry] = useState("");
   const [job, setJob] = useState("");
+  const [linkedin, setLinkedin] = useState("");
 
   const areInputsValid = () => {
-    return !!photo && country.trim() !== "" && job.trim() !== "";
+    return !!photo && country.trim() !== "" && job.trim() !== "" && linkedin.trim() !== "";
   };
 
   const finishProfile = async () => {
@@ -77,6 +78,7 @@ const FinishProfile = ({ navigation }) => {
       console.log("Country:", country);
       console.log("Job:", job);
       console.log("Photo:", photo);
+      console.log("Linkedin:", linkedin);
 
       if (!photo) {
         console.error("Photo is not set");
@@ -95,6 +97,7 @@ const FinishProfile = ({ navigation }) => {
         global.currentUser.profile_picture = photo;
         global.currentUser.country = country;
         global.currentUser.job = job;
+        global.currentUser.linkedin = linkedin;
 
         // navigate to next page
         navigation.navigate("GetMatched");
@@ -175,6 +178,18 @@ const FinishProfile = ({ navigation }) => {
             />
 
             {/* No need for validation message here */}
+          </View>
+
+          <View>
+            <TextInput
+              style={styles.textInput}
+              theme={themes.textInput}
+              mode="outlined"
+              label="Linkedin*"
+              placeholder="linkedin.com/name"
+              value={linkedin}
+              onChangeText={(text) => setLinkedin(text)}
+            />
           </View>
         </View>
         <View marginBottom={-6 * vh}>
