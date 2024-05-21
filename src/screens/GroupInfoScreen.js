@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
@@ -192,7 +191,7 @@ const GroupInfoScreen = ({ navigation }) => {
                     email_id={member.email_id}
                     country={member.country}
                     job={member.job}
-                    profile_picture={member.profilePic}
+                    profile_picture={member.profile_picture}
                     isLastMember={member.id == members.length}
                   />
                 ))}

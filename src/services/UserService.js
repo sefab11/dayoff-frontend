@@ -1,30 +1,30 @@
 // import { Storage } from "aws-amplify";
 
-const loginURL = process.env.EXPO_PUBLIC_API_URL + "/login";
-//const loginURL = "http://127.0.0.1:8000" + "/login";
-const logoutURL = process.env.EXPO_PUBLIC_API_URL + "/logout";
-//const logoutURL = "http://127.0.0.1:8000" + "/logout";
+// const loginURL = process.env.EXPO_PUBLIC_API_URL + "/login";
+const loginURL = "http://127.0.0.1:8000" + "/login";
+// const logoutURL = process.env.EXPO_PUBLIC_API_URL + "/logout";
+const logoutURL = "http://127.0.0.1:8000" + "/logout";
 const forgetpasswordURL = "http://127.0.0.1:8000" + "/forgot-password";
 //const forgotPasswordURL = process.env.EXPO_PUBLIC_API_URL + "/forgot-password";
 const resetpasswordURL = "http://127.0.0.1:8000" + "/reset-password";
 //const resetPasswordURL = process.env.EXPO_PUBLIC_API_URL + "/reset-password";
 
-const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
-//const registerURL = "http://127.0.0.1:8000" + "/putUserData";
-const extraDataURL = process.env.EXPO_PUBLIC_API_URL + "/user/putExtra";
-// const extraDataURL = "http://127.0.0.1:8000" + "/user/putExtra";
+// const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
+const registerURL = "http://127.0.0.1:8000" + "/putUserData";
+// const extraDataURL = process.env.EXPO_PUBLIC_API_URL + "/user/putExtra";
+const extraDataURL = "http://127.0.0.1:8000" + "/user/putExtra";
 
-const getUserDataURL = process.env.EXPO_PUBLIC_API_URL + "/getUserData";
-//const getUserDataURL = "http://127.0.0.1:8000" + "/getUserData";
-const putPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/putPref";
-//const putPreferencesURL = "http://127.0.0.1:8000" + "/user/putPref";
-const getPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/getPref";
-//const getPreferencesURL = "http://127.0.0.1:8000" + "/user/getPref";
+// const getUserDataURL = process.env.EXPO_PUBLIC_API_URL + "/getUserData";
+const getUserDataURL = "http://127.0.0.1:8000" + "/getUserData";
+// const putPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/putPref";
+const putPreferencesURL = "http://127.0.0.1:8000" + "/user/putPref";
+// const getPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/getPref";
+const getPreferencesURL = "http://127.0.0.1:8000" + "/user/getPref";
 
-const sendOtpURL = process.env.EXPO_PUBLIC_API_URL + "/send-otp";
-//const sendOtpURL = "http://127.0.0.1:8000" + "/send-otp";
-const verifyOtpURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
-//const verifyOtpURL = "http://127.0.0.1:8000" + "/validate-otp";
+// const sendOtpURL = process.env.EXPO_PUBLIC_API_URL + "/send-otp";
+const sendOtpURL = "http://127.0.0.1:8000" + "/send-otp";
+// const verifyOtpURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
+const verifyOtpURL = "http://127.0.0.1:8000" + "/validate-otp";
 
 // Add this function to handle uploading photo to S3
 const uploadPhotoToS3 = async (photoData) => {
@@ -39,58 +39,154 @@ const uploadPhotoToS3 = async (photoData) => {
   }
 };
 
+// const _loginUser = (email, password) => {
+//   return fetch(loginURL, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       email: email,
+//       password: password,
+//     }),
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       try {
+//         let token = JSON.parse(data.body).session_token;
+//         if (token) {
+//           return { statusCode: data.statusCode, sessionToken: token };
+//         }
+//         // return { statusCode: data.statusCode, sessionToken: token };
+//       } catch {}
+//       return { statusCode: data.statusCode };
+//     })
+//     .catch((error) => {
+//       return { statusCode: 400 };
+//     });
+// };
+
+// const _logoutUser = (email) => {
+//   // Fetch token from the server based on the provided email
+//   return fetch("http://127.0.0.1:8000/fetch_token_by_email", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       email: email,
+//     }),
+//   })
+//     .then((response) => {
+//       return response.json(); // Parse response as JSON
+//     })
+//     .then((data) => {
+//       // Extract token from the response
+//       const token = JSON.parse(data.body).token;
+
+//       // Use the retrieved token to perform logout
+//       return fetch(logoutURL, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//           email: email,
+//           token: token,
+//         }),
+//       })
+//         .then((response) => {
+//           return response.status; // Return the status code
+//         })
+//         .catch((error) => {
+//           console.log(error);
+//           return 400;
+//         });
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       return 400;
+//     });
+// };
 const _loginUser = (email, password) => {
   return fetch(loginURL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      email: email,
-      password: password,
-    }),
+    body: JSON.stringify({ email, password }),
   })
     .then((response) => response.json())
     .then((data) => {
       try {
-        let token = JSON.parse(data.body).session_token;
+        const parsedData = JSON.parse(data.body);
+        const token = parsedData.session_token;
         if (token) {
+          // Assuming the backend response includes user details
+          const userDetails = parsedData.user_details;
+          global.currentUser = {
+            email_id: email,
+            // country: country,
+            // job: job,
+
+            // Include all user details from the backend response
+          };
           return { statusCode: data.statusCode, sessionToken: token };
         }
-        // return { statusCode: data.statusCode, sessionToken: token };
-      } catch {}
+      } catch (error) {
+        console.error("Error parsing token data:", error);
+      }
       return { statusCode: data.statusCode };
     })
     .catch((error) => {
+      console.error("Login error:", error);
       return { statusCode: 400 };
     });
 };
 
 const _logoutUser = (email) => {
-  //TODO: get token from db based on email
-  const token = "xxx";
-
-  return fetch(logoutURL, {
+  return fetch("http://127.0.0.1:8000/fetch_token_by_email", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      email: email,
-      token: token,
-    }),
+    body: JSON.stringify({ email }),
   })
-    .then((response) => {
-      return { response: response.text(), status: response.status };
-    })
-    .then((response) => {
-      return response.status;
+    .then((response) => response.json())
+    .then((data) => {
+      try {
+        console.log(data);
+        const parsedData = JSON.parse(data.body);
+        const token = parsedData.token;
+
+        if (token) {
+          return fetch(logoutURL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, token }),
+          })
+            .then((response) => response.status)
+            .catch((error) => {
+              console.error("Logout error:", error);
+              return 400;
+            });
+        } else {
+          console.error("Token not found in response data");
+          return 400;
+        }
+      } catch (error) {
+        console.error("Error parsing token data:", error);
+        return 400;
+      }
     })
     .catch((error) => {
-      console.log(error);
+      console.error("Error fetching token by email:", error);
       return 400;
     });
 };
+
 const _forgotPassword = (email) => {
   return fetch(forgetpasswordURL, {
     method: "POST",
@@ -254,12 +350,12 @@ const _registerUser = (username, email, password) => {
 // };
 
 function dataURItoBlob(dataURI) {
-    var binary = window.atob(dataURI.split(',')[1]);
-    var array = [];
-    for(var i = 0; i < binary.length; i++) {
-        array.push(binary.charCodeAt(i));
-    }
-    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+  var binary = window.atob(dataURI.split(",")[1]);
+  var array = [];
+  for (var i = 0; i < binary.length; i++) {
+    array.push(binary.charCodeAt(i));
+  }
+  return new Blob([new Uint8Array(array)], { type: "image/jpeg" });
 }
 
 const _putAdditionalUserData = (
@@ -269,31 +365,31 @@ const _putAdditionalUserData = (
   jobTitle = null,
   linkedin = null
 ) => {
-
-//   var url = `${extraDataURL}/email=${email}/country=${countryOfResidence}/job=${jobTitle}/linkedin=${linkedin}/photo=${photoData}`;
-//   url = encodeURI(url);
-//   console.log(url);
+  //   var url = `${extraDataURL}/email=${email}/country=${countryOfResidence}/job=${jobTitle}/linkedin=${linkedin}/photo=${photoData}`;
+  //   url = encodeURI(url);
+  //   console.log(url);
 
   // Create a new File object with the photo data
-  const photoFile = new File([photoData], "photo", { type: "image/*" });//photoData.toBlob("image/jpeg", 0.8); //dataURItoBlob(photoData);
+  // const photoFile = new File([photoData], "photo", { type: "image/*" }); //photoData.toBlob("image/jpeg", 0.8); //dataURItoBlob(photoData);
 
   const formData = new FormData();
   formData.append("email", email);
   formData.append("country", countryOfResidence);
   formData.append("job", jobTitle);
   formData.append("linkedin", linkedin);
-  formData.append("photo", photoFile);
+  formData.append("photo", photoData);
 
   return fetch(extraDataURL, {
     method: "POST",
-    body: JSON.stringify({formData}),
-//        "email": email,
-//        "country": countryOfResidence,
-//        "job": jobTitle,
-//        "linkedin": linkedin,
-//        "photo": photoFile,
+    body: formData,
+    //        "email": email,
+    //        "country": countryOfResidence,
+    //        "job": jobTitle,
+    //        "linkedin": linkedin,
+    //        "photo": photoFile,
   })
     .then((response) => {
+      console.log(response.text());
       return { response: response.text(), status: response.status };
     })
     .catch((error) => {
@@ -301,20 +397,20 @@ const _putAdditionalUserData = (
       return 400;
     });
 
-//  try {
-//    const response = await fetch(extraDataURL, {
-//      method: "POST",
-//      body: formData,
-//    });
-//
-//    return {
-//      response: await response.text(),
-//      status: response.status,
-//    };
-//  } catch (error) {
-//    console.error("error occurred");
-//    return 400;
-//  }
+  //  try {
+  //    const response = await fetch(extraDataURL, {
+  //      method: "POST",
+  //      body: formData,
+  //    });
+  //
+  //    return {
+  //      response: await response.text(),
+  //      status: response.status,
+  //    };
+  //  } catch (error) {
+  //    console.error("error occurred");
+  //    return 400;
+  //  }
 };
 
 const _getUserData = (email) => {
@@ -340,6 +436,28 @@ const _getUserData = (email) => {
       console.log(error);
       return 400;
     });
+};
+
+const _uploadProfilePicture = async (email, file) => {
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("file", file);
+
+  try {
+    const response = await fetch("http://127.0.0.1:8000/user/putProfpic", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: formData,
+    });
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    return { message: "Error occurred while uploading profile picture" };
+  }
 };
 
 const _putUserPreferences = (email, dates, countries) => {
@@ -466,6 +584,7 @@ export default UserService = {
   getUserData: _getUserData,
   putUserPref: _putUserPreferences,
   getUserPref: _getUserPreferences,
+  uploadProfilePicture: _uploadProfilePicture,
 
   sendOtp: _sendOtpMessage,
   verifyOtp: _verifyOtpMessage,

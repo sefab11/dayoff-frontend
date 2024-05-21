@@ -23,8 +23,7 @@ import { useNavigation, useNavigationState } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 
 import UserService from "../services/UserService";
-const { logoutUser, putExtraData } = UserService;
-
+const { logoutUser, putExtraData, getUserData } = UserService;
 
 const EditProfile = () => {
   const navigation = useNavigation();
@@ -37,18 +36,22 @@ const EditProfile = () => {
   const [job, setJob] = useState(global.currentUser.job);
   const [url, setURL] = useState(global.currentUser.linkedin);
 
-
   useEffect(() => {
     console.log(image);
     console.log(country);
     console.log(job);
     console.log(url);
 
-    putExtraData(global.currentUser.email_id, image, country, job, url)
-    .then((response) => {
+    putExtraData(global.currentUser.email_id, image, country, job, url).then(
+      (response) => {
         console.log(response);
-    })
-  }, [country, job, url, image])
+      }
+    );
+  }, [country, job, url, image]);
+
+  // getUserData(global.currentUser.email_id).then((response) => {
+  //   console.log(response);
+  // }
 
   return (
     <>
@@ -72,11 +75,11 @@ const EditProfile = () => {
           </View>
           <ProfileInfo
             initCountry={country}
-            onChangeCountry={text => setCountry(text)}
+            onChangeCountry={(text) => setCountry(text)}
             initJob={job}
-            onChangeJob={text => setJob(text)}
+            onChangeJob={(text) => setJob(text)}
             initURL={url}
-            onChangeURL={text => setURL(text)}
+            onChangeURL={(text) => setURL(text)}
           />
           <VisitedCountries />
           <VolunteerBadges />

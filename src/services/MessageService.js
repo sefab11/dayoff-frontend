@@ -1,7 +1,7 @@
-const getMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/retrieve";
-//const getMsgURL = "http://127.0.0.1:8000" + "/messaging/retrieve";
-const sendMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/send";
-//const sendMsgURL = "http://127.0.0.1:8000" + "/messaging/send";
+// const getMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/retrieve";
+const getMsgURL = "http://127.0.0.1:8000" + "/messaging/retrieve";
+// const sendMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/send";
+const sendMsgURL = "http://127.0.0.1:8000" + "/messaging/send";
 
 const _getMessages = (tripID) => {
   return fetch(getMsgURL, {

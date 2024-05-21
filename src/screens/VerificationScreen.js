@@ -80,29 +80,34 @@ const CheckBox = (props) => {
 };
 
 export default VerificationScreen = ({ navigation }) => {
-//  useEffect(() => {
-//    sendOtp(global.currentUser.email_id, global.currentUser.user_name);
-//    getUserData(global.currentUser.email_id).then((response) => {
-//      setPhoto(response.profile_picture);
-//      setLinkedin(response.linkedin);
-//    });
-//  }, []);
+  //  useEffect(() => {
+  //    sendOtp(global.currentUser.email_id, global.currentUser.user_name);
+  //    getUserData(global.currentUser.email_id).then((response) => {
+  //      setPhoto(response.profile_picture);
+  //      setLinkedin(response.linkedin);
+  //    });
+  //  }, []);
 
   useEffect(() => {
     // whenever a photo or linkedin is added then update in the backend
-    (async function(){
-        await putExtraData(global.currentUser.email_id, photo, null, null, linkedin)
-        .then((response) => {
-            console.log(response);
+    (async function () {
+      await putExtraData(
+        global.currentUser.email_id,
+        global.currentUser.profile_picture,
+        global.currentUser.country,
+        global.currentUser.job,
+        linkedin
+      ).then((response) => {
+        console.log(response);
 
-            // also update locally
-            global.currentUser.profile_picture = photo;
-            global.currentUser.linkedin = linkedin;
+        // also update locally
+        global.currentUser.profile_picture = photo;
+        global.currentUser.linkedin = linkedin;
 
-            console.log(global.currentUser);
-        })
+        console.log(global.currentUser);
+      });
     })();
-  }, [photo, linkedin])
+  }, [photo, linkedin]);
 
   console.log(global.currentUser);
 
@@ -157,10 +162,7 @@ export default VerificationScreen = ({ navigation }) => {
               </Text>
 
               <View style={styles.section} borderBottomWidth={0}>
-                <VerifySection
-                  title="1. Add Profile Photo*"
-                  valid={!!photo}
-                />
+                <VerifySection title="1. Add Profile Photo*" valid={!!photo} />
                 <PhotoInput
                   width={12 * vh}
                   camRatio={"40%"}
@@ -286,8 +288,7 @@ export default VerificationScreen = ({ navigation }) => {
                               { cancelable: false }
                             );
                           }}
-                        >
-                        </Button>
+                        ></Button>
                       </View>
                     </View>
 

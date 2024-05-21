@@ -3,70 +3,25 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
 } from "react-native";
 import { Button, Header, TextInput, PhotoInput } from "../components";
 import { Dialog } from "../components";
 import { palette, themes } from "../style";
-import * as ImagePicker from "expo-image-picker";
 import Modal from "react-native-modal";
-
 import UserService from "../services/UserService";
 import FullValidationService from "../services/ValidationService";
+
 const { putExtraData } = UserService;
 const { isCountryValid, isProfessionValid } = FullValidationService;
-
-//const PhotoInput = ({ onPhotoSelected }) => {
-//  const selectPhoto = async () => {
-//    try {
-//      const permissionResult =
-//        await ImagePicker.requestMediaLibraryPermissionsAsync();
-//      if (permissionResult.granted === false) {
-//        alert("Permission to access camera roll is required!");
-//        return;
-//      }
-//
-//      const result = await ImagePicker.launchImageLibraryAsync({
-//        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-//        allowsEditing: true,
-//        aspect: [3, 3],
-//        quality: 1,
-//      });
-//
-//      if (!result.canceled) {
-//        // Get the filename from the URI
-//        const filename = result.uri.split("/").pop();
-//        console.log("Selected file:", JSON.stringify(filename));
-//        // Convert the image data URI to Blob
-//        const blob = await fetch(result.uri).then((res) => res.blob());
-//        onPhotoSelected(blob);
-//      }
-//    } catch (error) {
-//      console.error("Error selecting photo:", error);
-//    }
-//  };
-//
-//  return (
-//    <View>
-//      <Text>Upload Image: </Text>
-//      <TouchableOpacity onPress={selectPhoto} style={styles.container}>
-//        <Image
-//          source={{ uri: "https://via.placeholder.com/150" }}
-//          style={styles.addPhotoIcon}
-//        />
-//      </TouchableOpacity>
-//    </View>
-//  );
-//};
 
 const FinishProfile = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [country, setCountry] = useState("");
   const [job, setJob] = useState("");
   const [linkedin, setLinkedin] = useState("");
+  const [dialogVisible, setDialogVisible] = useState(false);
 
   const areInputsValid = () => {
     return (
@@ -114,23 +69,43 @@ const FinishProfile = ({ navigation }) => {
       console.log("Photo:", photo);
       console.log("Linkedin:", linkedin);
 
+      if (!areInputsValid()) {
+        console.error("Please fill in all required fields");
+        return;
+      }
+
       if (!photo) {
         console.error("Photo is not set");
         return;
       }
-      //      const photoFile = new File([photo], "photo", { type: "image/*" });
-      //
-      //      const formData = new FormData();
-      //      formData.append("photo", photoFile);
 
       const localFilePath = await uploadProfilePicture(
         global.currentUser.email_id,
         photo
       );
 
+      //       await putExtraData(
+      //         global.currentUser.email_id,
+      //         localFilePath,
+      //         country,
+      //         job,
+      //         linkedin
+      //       );
+
+      //       global.currentUser.profile_picture = localFilePath;
+      //       global.currentUser.country = country;
+      //       global.currentUser.job = job;
+      //       global.currentUser.linkedin = linkedin;
+
+      //       navigation.navigate("GetMatched");
+      //     } catch (error) {
+      //       console.error("Error updating profile:", error);
+      //       toggleDialog();
+      //     }
+      //   };
       await putExtraData(
         global.currentUser.email_id,
-        localFilePath,
+        photo,
         country,
         job,
         linkedin
@@ -139,7 +114,7 @@ const FinishProfile = ({ navigation }) => {
 
         // if successfully updated in db then also update locally
 
-        global.currentUser.profile_picture = photo;
+        global.currentUser.profile_picture = localFilePath;
         global.currentUser.country = country;
         global.currentUser.job = job;
         global.currentUser.linkedin = linkedin;
@@ -147,27 +122,6 @@ const FinishProfile = ({ navigation }) => {
         // navigate to next page
         navigation.navigate("GetMatched");
       });
-
-      //      const url = `http://127.0.0.1:8000/user/putExtra?email=${encodeURIComponent(
-      //        global.currentUser.email_id
-      //      )}&country=${encodeURIComponent(country)}&job=${encodeURIComponent(job)}`;
-      //
-      //      const response = await fetch(url, {
-      //        method: "POST",
-      //        body: formData,
-      //        headers: {
-      //          Accept: "application/json",
-      //          "Content-Type": "multipart/form-data",
-      //        },
-      //      });
-      //
-      //      const result = await response.json();
-      //
-      //      if (response.ok) {
-      //        navigation.navigate("GetMatched");
-      //      } else {
-      //        toggleDialog();
-      //      }
     } catch (error) {
       console.error("Error updating profile:", error);
       toggleDialog();
@@ -177,8 +131,6 @@ const FinishProfile = ({ navigation }) => {
   const toggleDialog = () => {
     setDialogVisible(!dialogVisible);
   };
-
-  const [dialogVisible, setDialogVisible] = useState(false);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -194,7 +146,10 @@ const FinishProfile = ({ navigation }) => {
           width={40 * vmin}
           camRatio={"30%"}
           image={null}
-          onPhotoSelected={(data) => setPhoto(data)}
+          onPhotoSelected={async (fileUri) => {
+            setPhoto(fileUri);
+            await uploadProfilePicture(global.currentUser.email_id, fileUri);
+          }}
         />
 
         <View style={styles.inputGroup}>
@@ -208,8 +163,6 @@ const FinishProfile = ({ navigation }) => {
               value={country}
               onChangeText={(text) => setCountry(text)}
             />
-
-            {/* No need for validation message here */}
           </View>
 
           <View>
@@ -222,8 +175,6 @@ const FinishProfile = ({ navigation }) => {
               value={job}
               onChangeText={(text) => setJob(text)}
             />
-
-            {/* No need for validation message here */}
           </View>
 
           <View>
@@ -283,15 +234,6 @@ const styles = StyleSheet.create({
     fontSize: 3.8 * vmin,
     color: palette.grey,
   },
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  addPhotoIcon: {
-    width: 150,
-    height: 150,
-    marginBottom: 10,
-  },
   inputGroup: {
     gap: 3.5 * vh,
   },
@@ -307,12 +249,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0.5 * vmin,
     marginTop: 5 * vh,
     marginBottom: 5 * vh,
-  },
-  invalidMessage: {
-    color: "red",
-    textAlign: "left",
-    flexWrap: "wrap",
-    width: 80 * vmin,
   },
 });
 
