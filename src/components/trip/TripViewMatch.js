@@ -349,7 +349,7 @@ const TripViewMatch = (props) => {
           <Text style={styles.groupText}>
             {`Matched with ${matchedUsersArray.length} ${
               matchedUsersArray.length > 1 ? "people" : "person"
-            }:`}
+            }`}
           </Text>
           <View style={styles.middleGroup}>
             <View style={styles.profilePicsGroup}>
