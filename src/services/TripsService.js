@@ -299,6 +299,25 @@ const _getMatchingUsers = async (preferredDate, preferredLocation) => {
   }
 };
 
+const _getParticipants = async (tripId) => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/trips/participants", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({ trip_id: tripId }),
+    });
+
+    const responseBody = await response.json();
+    return { data: responseBody, status: response.status };
+  } catch (error) {
+    console.error(error);
+    return { status: 400, data: null };
+  }
+};
+
 // const getUserPref = async (email) => {
 //   try {
 //     const response = await fetch("http://127.0.0.1:8000/user/getPref", {
@@ -326,6 +345,7 @@ export default TripsService = {
   updateTrip: _updateTrip,
   deleteTrip: _deleteTrip,
   getTripInfo: _getTripInfo,
-  getMatchingUsers: _getMatchingUsers
+  getMatchingUsers: _getMatchingUsers,
+  getParticipants: _getParticipants,
   // getUserPref: getUserPref,
 };
