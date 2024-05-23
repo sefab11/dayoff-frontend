@@ -353,8 +353,8 @@ const TripView = (props) => {
       </View>
       <Text style={styles.details}>{trip.description}</Text>
       <Text style={styles.groupText}>{` ${participantsArray.length} ${
-        participantsArray.length > 1 ? "Going" : "Going"
-      }:`}</Text>
+        participantsArray.length > 0 ? "Going" : "No one has joined yet"
+      }`}</Text>
       <View style={styles.middleGroup}>
         <View style={styles.profilePicsGroup}>
           {participantsArray.slice(0, 6).map((participant, index) =>
