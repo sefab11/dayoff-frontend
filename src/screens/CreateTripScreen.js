@@ -1,5 +1,5 @@
 import { View, Keyboard, TouchableWithoutFeedback, Text } from "react-native";
-import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput, Dialog } from "../components";
+import { Button, HeaderBack, MultilineInput, PasswordInput, TextInput, Dialog, PushNotification} from "../components";
 import { StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import { React, useState } from "react";
@@ -65,8 +65,12 @@ export default CreateTripScreen = ({ navigation }) => {
         if (areFieldsValid()){
             await createNewTrip(emailAddress, date.value, country.value, Number(numPeople.value), desc.value)
             .then(status => {
-                if (status === 200) navigation.navigate('Home');
-                else toggleDialog();
+                if (status === 200) {
+                    navigation.navigate('Home');
+                    async () => await PushNotification();
+                } else {
+                    toggleDialog();
+                }
             })
         }
         else toggleDialog();
