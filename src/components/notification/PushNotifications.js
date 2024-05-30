@@ -117,20 +117,3 @@ async function registerForPushNotificationsAsync() {
 
   return token;
 }
-
-// Send the token to your backend when built
-// fetch('tbu', {
-//     method: 'POST', 
-//     headers: {
-//         'Content-Type': 'application.json',
-//     }, 
-//     body: JSON.stringify({
-//         user_id: userId, 
-//         expo_push_token: token,
-//     }),
-// })
-// .then(response => response.json())
-// .then(data => console.log('Token registered:', data))
-// .catch((error) => {
-//     console.error('Error registering token:', error)
-// })
