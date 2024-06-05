@@ -19,8 +19,6 @@ import {
 } from "react-native";
 import { palette, dimensions, flags } from "../style";
 import React, { useState, useEffect } from "react";
-// import { StreamChat } from "stream-chat";
-// import { Chat } from "stream-chat-expo";
 
 import UserService from "../services/UserService";
 const { getUserData } = UserService;
@@ -57,47 +55,8 @@ const ChatScreen = ({ navigation }) => {
 
   useEffect(() => {
     getMembers();
-    // getStreamToken();
   }, []);
 
-  // useEffect(() => {
-  //   if (streamToken) {
-  //     const client = StreamChat.getInstance("9gz3ex6uev76");
-  //     client.connectUser(
-  //       {
-  //         id: currentUserId,
-  //         name: global.currentUser?.name,
-  //         image: global.currentUser?.profile_picture,
-  //       },
-  //       streamToken
-  //     );
-
-  //     const newChannel = client.channel("messaging", trip.trip_id);
-  //     newChannel.watch();
-
-  //     setChatClient(client);
-  //     setChannel(newChannel);
-
-  //     getChatMessages(newChannel);
-  //   }
-  // }, [streamToken]);
-
-  // async function getStreamToken() {
-  //   try {
-  //     const response = await fetch("http://127.0.0.1:8000/get-stream-token", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ user_id: currentUserId }),
-  //     });
-  //     const data = await response.json();
-  //     const { token } = data;
-  //     setStreamToken(token);
-  //   } catch (error) {
-  //     console.error("Error fetching Stream Chat token:", error);
-  //   }
-  // }
 
   useEffect(() => {
     getChatMessages();
@@ -119,13 +78,7 @@ const ChatScreen = ({ navigation }) => {
       setMessages(response);
     });
   }
-  // async function handleSend(message) {
-  //   if (channel) {
-  //     channel.sendMessage({
-  //       text: message,
-  //     });
-  //   }
-  // }
+  
   async function sendChatMessage() {
     await sendMessage(trip.trip_id, currentUserId, sentMessage.msg).then(
       (status) => {
