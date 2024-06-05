@@ -294,6 +294,12 @@ export default HomeScreen = ({ navigation }) => {
         screen2={<ExploreScreen navigation={navigation} />}
       />
       <BottomNav active={"Home"} />
+      {/* <TouchableOpacity
+        style={styles.chatroomButton}
+        onPress={() => navigation.navigate("ChatroomList")}
+      >
+        <Text style={styles.chatroomButtonText}>Chatrooms</Text>
+      </TouchableOpacity> */}
     </>
   );
 };

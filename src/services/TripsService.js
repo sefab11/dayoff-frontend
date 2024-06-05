@@ -1,21 +1,37 @@
-const createTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/create";
+// const createTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/create";
 // const createTripURL = "http://127.0.0.1:8000" + "/trips/create";
-const filterTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/filter";
+// // const filterTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/filter";
 // const filterTripURL = "http://127.0.0.1:8000" + "/trips/filter";
-const joinTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/join";
+// // const joinTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/join";
 // const joinTripURL = "http://127.0.0.1:8000" + "/trips/join";
-const leaveTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/leave";
+// // const leaveTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/leave";
 // const leaveTripURL = "http://127.0.0.1:8000" + "/trips/leave";
-const inviteTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/invite";
+// // const inviteTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/invite";
 // const inviteTripURL = "http://127.0.0.1:8000" + "/trips/invite";
-const deleteTripURl = process.env.EXPO_PUBLIC_API_URL + "/trips/delete";
+// // const deleteTripURl = process.env.EXPO_PUBLIC_API_URL + "/trips/delete";
 // const deleteTripURl = "http://127.0.0.1:8000" + "/trips/delete";
-const updateTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/update";
+// // const updateTripURL = process.env.EXPO_PUBLIC_API_URL + "/trips/update";
 // const updateTripURL = "http://127.0.0.1:8000" + "/trips/update";
-const getTripInfoURL = process.env.EXPO_PUBLIC_API_URL + "/trips/details";
+// // const getTripInfoURL = process.env.EXPO_PUBLIC_API_URL + "/trips/details";
 // const getTripInfoURL = "http://127.0.0.1:8000" + "/trips/details";
 //import UserService from "./UserService";
 //const { loginUser } = UserService;
+
+const API_URL = "http://0.0.0.0:8000";
+// const API_URL = "http://127.0.0.1:8000";
+// const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://0.0.0.0:8000";
+// const API_URL =
+//   process.env.EXPO_PUBLIC_API_URL ||
+//   "https://6218-143-58-193-134.ngrok-free.app";
+
+const createTripURL = `${API_URL}/trips/create`;
+const filterTripURL = `${API_URL}/trips/filter`;
+const joinTripURL = `${API_URL}/trips/join`;
+const leaveTripURL = `${API_URL}/trips/leave`;
+const inviteTripURL = `${API_URL}/trips/invite`;
+const deleteTripURL = `${API_URL}/trips/delete`;
+const updateTripURL = `${API_URL}/trips/update`;
+const getTripInfoURL = `${API_URL}/trips/details`;
 
 //TRIP HANDLING
 

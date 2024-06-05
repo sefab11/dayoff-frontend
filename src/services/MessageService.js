@@ -1,7 +1,17 @@
-const getMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/retrieve";
+// const getMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/retrieve";
 // const getMsgURL = "http://127.0.0.1:8000" + "/messaging/retrieve";
-const sendMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/send";
+// // const sendMsgURL = process.env.EXPO_PUBLIC_API_URL + "/messaging/send";
 // const sendMsgURL = "http://127.0.0.1:8000" + "/messaging/send";
+
+const API_URL = "http://0.0.0.0:8000";
+// const API_URL = "http://127.0.0.1:8000";
+// const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://0.0.0.0:8000";
+// const API_URL =
+//   process.env.EXPO_PUBLIC_API_URL ||
+//   "https://6218-143-58-193-134.ngrok-free.app";
+
+const getMsgURL = `${API_URL}/messaging/retrieve`;
+const sendMsgURL = `${API_URL}/messaging/send`;
 
 const _getMessages = (tripID) => {
   return fetch(getMsgURL, {

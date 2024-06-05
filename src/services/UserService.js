@@ -1,43 +1,49 @@
 // import { Storage } from "aws-amplify";
 
-const loginURL = process.env.EXPO_PUBLIC_API_URL + "/login";
+// const loginURL = process.env.EXPO_PUBLIC_API_URL + "/login";
 // const loginURL = "http://127.0.0.1:8000" + "/login";
-const logoutURL = process.env.EXPO_PUBLIC_API_URL + "/logout";
+// // const logoutURL = process.env.EXPO_PUBLIC_API_URL + "/logout";
 // const logoutURL = "http://127.0.0.1:8000" + "/logout";
 // const forgetpasswordURL = "http://127.0.0.1:8000" + "/forgot-password";
-const forgotPasswordURL = process.env.EXPO_PUBLIC_API_URL + "/forgot-password";
+// // const forgotPasswordURL = process.env.EXPO_PUBLIC_API_URL + "/forgot-password";
 // const resetpasswordURL = "http://127.0.0.1:8000" + "/reset-password";
-const resetPasswordURL = process.env.EXPO_PUBLIC_API_URL + "/reset-password";
+// // const resetPasswordURL = process.env.EXPO_PUBLIC_API_URL + "/reset-password";
 
-const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
+// // const registerURL = process.env.EXPO_PUBLIC_API_URL + "/putUserData";
 // const registerURL = "http://127.0.0.1:8000" + "/putUserData";
-const extraDataURL = process.env.EXPO_PUBLIC_API_URL + "/user/putExtra";
+// // const extraDataURL = process.env.EXPO_PUBLIC_API_URL + "/user/putExtra";
 // const extraDataURL = "http://127.0.0.1:8000" + "/user/putExtra";
 
-const getUserDataURL = process.env.EXPO_PUBLIC_API_URL + "/getUserData";
+// // const getUserDataURL = process.env.EXPO_PUBLIC_API_URL + "/getUserData";
 // const getUserDataURL = "http://127.0.0.1:8000" + "/getUserData";
-const putPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/putPref";
+// // const putPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/putPref";
 // const putPreferencesURL = "http://127.0.0.1:8000" + "/user/putPref";
-const getPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/getPref";
+// // const getPreferencesURL = process.env.EXPO_PUBLIC_API_URL + "/user/getPref";
 // const getPreferencesURL = "http://127.0.0.1:8000" + "/user/getPref";
 
-const sendOtpURL = process.env.EXPO_PUBLIC_API_URL + "/send-otp";
+// // const sendOtpURL = process.env.EXPO_PUBLIC_API_URL + "/send-otp";
 // const sendOtpURL = "http://127.0.0.1:8000" + "/send-otp";
-const verifyOtpURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
+// // const verifyOtpURL = process.env.EXPO_PUBLIC_API_URL + "/validate-otp";
 // const verifyOtpURL = "http://127.0.0.1:8000" + "/validate-otp";
 
-// Add this function to handle uploading photo to S3
-const uploadPhotoToS3 = async (photoData) => {
-  try {
-    const result = await Storage.put("profilePhoto.jpg", photoData, {
-      level: "public",
-    });
-    return result.key; // Return the S3 key for the uploaded photo
-  } catch (error) {
-    console.error("Error uploading photo:", error);
-    throw error;
-  }
-};
+const baseURL = "http://0.0.0.0:8000";
+// const baseURL = "http://127.0.0.1:8000";
+// const baseURL = process.env.EXPO_PUBLIC_API_URL || "http://0.0.0.0:8000";
+// const baseURL =
+//   process.env.EXPO_PUBLIC_API_URL ||
+//   "https://6218-143-58-193-134.ngrok-free.app";
+
+const loginURL = `${baseURL}/login`;
+const logoutURL = `${baseURL}/logout`;
+const forgetpasswordURL = `${baseURL}/forgot-password`;
+const resetpasswordURL = `${baseURL}/reset-password`;
+const registerURL = `${baseURL}/putUserData`;
+const extraDataURL = `${baseURL}/user/putExtra`;
+const getUserDataURL = `${baseURL}/getUserData`;
+const putPreferencesURL = `${baseURL}/user/putPref`;
+const getPreferencesURL = `${baseURL}/user/getPref`;
+const sendOtpURL = `${baseURL}/send-otp`;
+const verifyOtpURL = `${baseURL}/validate-otp`;
 
 // const _loginUser = (email, password) => {
 //   return fetch(loginURL, {
