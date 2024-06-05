@@ -70,7 +70,7 @@ EXPOSE 19001
 ENV EXPO_PUBLIC_API_URL=http://0.0.0.0:8000
 
 # Set ngrok authentication token as an environment variable
-ENV NGROK_AUTH_TOKEN=2hSh688SfspinEMldCDLa35Zw2e_J8GREVLwceqVLKSmDuWL
+ENV NGROK_AUTH_TOKEN=<your_ngrok_auth_token>
 
 # Start ngrok and then start Metro Bundler with Expo
 CMD ngrok http 19000 --authtoken $NGROK_AUTH_TOKEN & expo start --tunnel
