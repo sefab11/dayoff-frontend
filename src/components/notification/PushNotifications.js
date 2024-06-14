@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
 import { Platform } from 'react-native';
+import { NotificationList } from './NotificationList';
+
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
-import { NotificationList } from './NotificationList';
+
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -13,64 +14,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-function Notification() {
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [channels, setChannels] = useState([]);
-  const [notification, setNotification] = useState(undefined);
-  const notificationListener = useRef();
-  const responseListener = useRef();
-  
-  useEffect(() => {
-    registerForPushNotificationsAsync().then(
-      (token) => token && setExpoPushToken(token),
-    );
-
-    if (Platform.OS === 'android') {
-      Notifications.getNotificationChannelsAsync().then((value) =>
-        setChannels(value ?? []),
-      );
-    }
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
-      });
-
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
-      });
-
-    return () => {
-      notificationListener.current &&
-        Notifications.removeNotificationSubscription(
-          notificationListener.current,
-        );
-      responseListener.current &&
-        Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
-}
-
-
-export async function schedulePushNotification(state) {
-  let messageObject;
-
-  switch (state) {
-    case "MAIL":
-      messageObject = NotificationList[0]
-    break;
-    case "JOINED_TRIP":
-      messageObject = NotificationList[1]
-    break;
-    case "MATCHING_TRIP":
-      messageObject = NotificationList[2]
-    break;
-  }
-    
-  await Notifications.scheduleNotificationAsync(messageObject);
-}
-
-async function registerForPushNotificationsAsync() {
+export async function registerForPushNotificationsAsync() {
   let token;
 
   if (Platform.OS === 'android') {
@@ -106,14 +50,79 @@ async function registerForPushNotificationsAsync() {
           projectId,
         })
       ).data;
-      // console.log(token);
+      // console.log(`Current token is ${token}`);
     } catch (e) {
       token = `${e}`;
     }
   } else {
-    // for development
+    // For development
     // alert('Must use physical device for Push Notifications');
   }
 
   return token;
+}
+
+export async function schedulePushNotification(state) {
+  let messageObject;
+
+  switch (state) {
+    case "MAIL":
+      messageObject = NotificationList[0]
+    break;
+    case "JOINED_TRIP":
+      messageObject = NotificationList[1]
+    break;
+    case "MATCHING_TRIP":
+      messageObject = NotificationList[2]
+    break;
+  }
+    
+  await Notifications.scheduleNotificationAsync(messageObject);
+}
+
+export async function storeToken() {
+  global.expoPushToken = await Notifications.getExpoPushTokenAsync();
+  const ENDPOINT = process.env.EXPO_PUBLIC_API_URL + '/store-current-token'
+  try {
+    const response = await fetch(ENDPOINT, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json', 
+      }, 
+      body: JSON.stringify({ expoPushToken })
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json(); 
+    console.log('Token stored')
+  } catch (error) {
+    console.error(`Error storing the token`)
+  }
+  
+}
+
+export async function getRecipientToken(){
+  const ENDPOINT = process.env.EXPO_PUBLIC_API_URL + '/get-user-token'
+  try {
+    const response = await fetch(ENDPOINT, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    // Assuming the token is in the 'expoPushToken' field
+    const userToken = data.expoPushToken;
+    return userToken;
+  } catch (error) {
+    console.error('Error fetching user token:', error);
+  }
 }

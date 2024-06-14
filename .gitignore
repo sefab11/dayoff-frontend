@@ -33,3 +33,9 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# private key
+dayoff-4dc82-firebase-adminsdk-223ks-4853b65e78.json
+
+# google services 
+google-services.json

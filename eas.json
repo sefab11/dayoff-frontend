@@ -1,0 +1,22 @@
+{
+  "cli": {
+    "version": ">= 9.2.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://100.88.28.38:8090"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

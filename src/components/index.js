@@ -12,4 +12,4 @@ export * from "./input"
 export * from "./dialog"
 export * from "./verify"
 export * from "./myProfile"
-export * from "./notification"
+export * from './notification'

@@ -1,4 +1,7 @@
-export { default as schedulePushNotification } from './PushNotification'
-
-// to trigger notification  
-// schedulePushNotification()
+export { default as showAlert } from "./Alert"
+export { sendNotificationRequest } from "./NotificationServer"
+export { registerBackgroundFetchAsync } from "./NotificationServer"
+export { registerForPushNotificationsAsync } from "./PushNotifications"
+export { schedulePushNotification } from "./PushNotifications"
+export { storeToken } from "./PushNotifications"
+export { getRecipientToken } from "./PushNotifications"
