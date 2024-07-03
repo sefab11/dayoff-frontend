@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import UserService from "../services/UserService";
 const { getUserData } = UserService;
 import MessageService from "../services/MessageService";
+import UserVoiceMessage from "../components/chat/UserVoiceMessage";
 const { getMessages, sendMessage } = MessageService;
 
 
@@ -120,6 +121,14 @@ export default ChatScreen = ({ navigation }) => {
                                         photo={require("../../assets/images/welcome_screen/photo2.png")}>
                                             {m.message}
                                         </UserImageMessage>
+                                        )
+                                    else if (m.audio)
+                                        return(
+                                        <UserVoiceMessage
+                                        time={formatTime(m.timestamp)}
+                                        audioSource={m.audio}
+                                        >{" "} 
+                                        </UserVoiceMessage>
                                         )
                                     else
                                         //console.log("b" + members.length);

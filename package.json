@@ -21,10 +21,17 @@
     "color-convert": "^2.0.1",
     "date-fns": "^2.30.0",
     "expo": "~49.0.15",
+    "expo-background-fetch": "~11.3.0",
     "expo-checkbox": "~2.4.0",
+    "expo-device": "~5.4.0",
     "expo-font": "~11.4.0",
     "expo-image-picker": "~14.3.2",
+    "expo-notifications": "~0.20.1",
+    "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
+    "expo-task-manager": "~11.3.0",
+    "expo-av": "~13.4.1",
+    "expo-document-picker": "~11.5.4",
     "i18n-iso-countries": "^7.7.0",
     "moment": "^2.29.4",
     "react": "18.2.0",
@@ -43,12 +50,7 @@
     "react-native-sectioned-multi-select": "^0.10.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.0.3",
-    "rn-emoji-keyboard": "^1.6.1",
-    "expo-notifications": "~0.20.1",
-    "expo-task-manager": "~11.3.0",
-    "expo-background-fetch": "~11.3.0",
-    "expo-device": "~5.4.0",
-    "expo-splash-screen": "~0.20.5"
+    "rn-emoji-keyboard": "^1.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

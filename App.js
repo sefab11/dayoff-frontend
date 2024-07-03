@@ -70,18 +70,18 @@ export default function App() {
   global.expoPushToken = null;
 
   // Development testing 
-  // global.currentUser = {'email_id': 'dayoffclient@gmail.com', 'user_name': 'dayoff-admin', 'profile_picture': null};
-  // global.currentTrip = {'start_date': 10, 'end_date': 10, location: { flag: 1, name: "test-location"}};
-
+  global.currentUser = {'email_id': 'dayoffclient@gmail.com', 'user_name': 'dayoff-admin', 'profile_picture': null};
+  global.currentTrip = {'start_date': 10, 'end_date': 10, location: { flag: 1, name: "test-location"}};
+  // WelcomeScreen
 
   //for disabling the warning signs that show up, so that the user doesn't see warnings
   //LogBox.ignoreAllLogs();
 
   return (
-    <SessionContextProvider>
+    <SessionContextProvider> 
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false}}>
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen name="Welcome" component={ChatScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
@@ -92,7 +92,7 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="CreateTrip" component={CreateTripScreen} />
           <Stack.Screen name="Trips" component={TripsScreen} />
-          <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="Chat" component={WelcomeScreen} />
           <Stack.Screen name="GroupInfo" component={GroupInfoScreen} />
           <Stack.Screen name="UserInfo" component={UserInfoScreen} />
           <Stack.Screen name="MyCreatedTrips" component={MyCreatedTripsScreen} />

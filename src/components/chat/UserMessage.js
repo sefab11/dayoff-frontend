@@ -2,10 +2,10 @@ import { Text, View, StyleSheet } from "react-native";
 import { dimensions, palette } from '../../style';
 
 [vw, vh, vmin, vmax] = dimensions
-
+// Return a users message in the chatroom
 const UserMessage = (props) => {
-    const {style, children, ...rest} = props;
-    const {time} = props;
+    const { style, children, ...rest } = props;
+    const { time } = props;
 
     return(
         <View style={styles.messageContainer}>

@@ -20,10 +20,23 @@
         {
           "photosPermission": "The app accesses your photos to let you use a profile picture."
         }
+      ], 
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
+      ], 
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow Dayoff to access your microphone"
+        }
       ]
     ],
     "ios": {
       "supportsTablet": true,
+      "usesIcloudStorage": true,
       "infoPlist": {
         "UIBackgroundModes": [
           "location",

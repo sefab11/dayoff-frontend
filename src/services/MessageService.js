@@ -27,8 +27,12 @@ const _getMessages = (tripID) => {
     })
 }
 
-const _sendMessage = (tripID, userEmail, msg) => {
-    console.log(tripID + userEmail + msg);
+const _sendMessage = (tripID, userEmail, msg, audio=null) => {
+    console.log(tripID + userEmail + msg + audio);
+
+    if (audio != null) {
+        msg = null
+    }
 
     return fetch(sendMsgURL, {
         method: "POST",
@@ -39,6 +43,7 @@ const _sendMessage = (tripID, userEmail, msg) => {
             "trip_id": tripID,
             "user_email": userEmail,
             "message": msg,
+            "audio": audio,
         })
     })
     .then(response => {
